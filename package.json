@@ -29,7 +29,7 @@
     "build": "gatsby build",
     "dev": "gatsby develop -p 3000",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "yarn run",
+    "start": "yarn dev",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"

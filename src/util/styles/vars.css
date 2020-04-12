@@ -1,0 +1,19 @@
+/* Variables
+/* ---------------------------------------------------------- */
+
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+
+    /* Colours */
+    --color-primary: #333333;
+    --color-bg: #f8f8f8;
+
+    /* Fonts */
+    --font-sans-serif: 'Roboto', sans-serif;
+    --font-mono: 'IBM Plex Mono', Courier, monospace;
+    --font-normal: 400;
+    --font-bold: 700;
+
+}

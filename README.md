@@ -5,5 +5,5 @@ Started with https://github.com/gatsbyjs/gatsby-starter-default
     ```shell
     git clone git@github.com:samhatem/micro-rain.git
     cd micro-rain/
-    gatsby develop
+    yarn dev
     ```
