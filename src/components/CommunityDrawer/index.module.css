@@ -1,0 +1,22 @@
+
+.logoContainer {
+  margin-top: 10px;
+
+}
+
+.logo {
+  width: 20%;
+  margin-left: 40%;
+}
+
+.closeChevron {
+  float: right;
+}
+
+.openChevron.root {
+  margin-top: 10px;
+}
+
+.drawerContentContainer {
+  width: 25vw;
+}
