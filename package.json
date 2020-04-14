@@ -4,6 +4,17 @@
   "description": "A micro blog for self-governed online communities",
   "version": "0.1.0",
   "author": "samhatem",
+  "scripts": {
+    "build": "gatsby build",
+    "dev": "gatsby develop -p 3000",
+    "start": "yarn dev",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "lint": "yarn eslint src/",
+    "lint-fix": "yarn eslint src/ --fix",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+  },
   "dependencies": {
     "@material-ui/core": "^4.9.10",
     "@material-ui/icons": "^4.9.1",
@@ -21,21 +32,18 @@
     "react-helmet": "^5.2.1"
   },
   "devDependencies": {
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "prettier": "^1.19.1"
   },
   "keywords": [
     "gatsby"
   ],
   "license": "MIT",
-  "scripts": {
-    "build": "gatsby build",
-    "dev": "gatsby develop -p 3000",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "yarn dev",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/samhatem/micro-rain"

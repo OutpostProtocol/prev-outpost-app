@@ -9,9 +9,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
 import styles from './index.module.css'
 
-
 const CommunityDrawer = ({ title, img }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true)
 
   const handleDrawerOpen = () => {
     setOpen(true)

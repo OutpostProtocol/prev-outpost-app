@@ -5,7 +5,7 @@ import SEO from '../components/seo'
 import CommunityDrawer from '../components/CommunityDrawer'
 import { graphql } from 'gatsby'
 
-const IndexPage = ({data}) => (
+const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" />
     <CommunityDrawer img={data.logo.childImageSharp}/>
