@@ -7,15 +7,29 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
-import '../../utils/styles/global.css'
 import styles from './index.module.css'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#333333'
+    },
+    background: {
+      default: '#fafafa'
+    }
+  },
+  typography: {
+    fontFamily: 'Roboto'
+  }
+})
 
 const Layout = ({ children }) => {
   return (
-    <div className={styles.appContainer}>
+    <ThemeProvider theme={theme}>
       <main>{children}</main>
-    </div>
+    </ThemeProvider>
   )
 }
 
