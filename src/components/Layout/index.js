@@ -27,11 +27,13 @@ const theme = createMuiTheme({
 
 const Layout = ({ children }) => {
   return (
-    <StylesProvider injectFirst >
-      <ThemeProvider theme={theme}>
-        <main>{children}</main>
-      </ThemeProvider>
-    </StylesProvider>
+    <React.StrictMode>
+      <StylesProvider injectFirst >
+        <ThemeProvider theme={theme}>
+          <main>{children}</main>
+        </ThemeProvider>
+      </StylesProvider>
+    </React.StrictMode>
   )
 }
 

@@ -1,12 +1,12 @@
 import React from 'react'
-import Modal from '../Modal'
+import Web3Status from '../Web3Status'
 
 import styles from './index.module.css'
 
 const Sidebar = () => {
   return (
     <div className={styles.sidebarContainer}>
-      <Modal />
+      <Web3Status />
     </div>
   )
 }
