@@ -1,24 +1,56 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { Button } from '@material-ui/core'
+import Web3Modal from 'web3modal'
+import { ethers } from 'ethers'
+import { useSelector, useDispatch } from 'react-redux'
 import { SET_ETHERS } from '../../redux/actionTypes'
+import { shortenAddress } from '../../utils'
 
-import Modal from '../Modal'
+import modalOptions from './modalOptions'
+import styles from './index.module.css'
+
+const web3Modal = new Web3Modal(modalOptions)
 
 const Web3Status = (props) => {
-  // should display modal based on status of ethers
-  return (
-    <Modal setEthers={props.setEthers}/>
-  )
-}
+  const eth = useSelector(state => state.ethers)
+  const dispatch = useDispatch()
+  const account = eth.library && eth.library.provider.selectedAddress
 
-const mapStateToProps = (state) => ({
-  ethers: state.ethers
-})
+  const signIn = async () => {
+    const provider = await web3Modal.connect()
+    const library = new ethers.providers.Web3Provider(provider)
+    library.pollingInterval = 10000
+    dispatch({ type: SET_ETHERS, library })
+  }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setEthers: ethers => dispatch({ type: SET_ETHERS })
+  if (account) {
+    return (
+      <Button
+        disableElevation
+        color='primary'
+        variant='contained'
+        classes={{
+          root: styles.buttonRoot
+        }}
+      >
+        <div>{shortenAddress(account)}</div>
+      </Button>
+    )
+  } else {
+    return (
+      <Button
+        onClick={signIn}
+        variant='contained'
+        disableElevation
+        color='primary'
+        classes={{
+          root: styles.buttonRoot
+        }}
+      >
+        Sign In
+      </ Button>
+    )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Web3Status)
+export default Web3Status

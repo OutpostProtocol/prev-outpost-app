@@ -5,7 +5,7 @@ export default function ethers (state = {}, action) {
     case SET_ETHERS:
       return {
         ...state,
-        ethers: action.ethers
+        library: action.library
       }
     default:
       return state
