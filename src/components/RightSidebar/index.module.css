@@ -1,0 +1,10 @@
+
+.sidebarContainer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 25vw;
+  height: 100vh;
+  padding: 1em;
+  border-left: 1px solid #333333;
+}

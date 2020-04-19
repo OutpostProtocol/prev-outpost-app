@@ -7,7 +7,9 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { ThemeProvider, StylesProvider, createMuiTheme } from '@material-ui/core/styles'
+
+import '../../utils/global.css'
 
 const theme = createMuiTheme({
   palette: {
@@ -25,9 +27,11 @@ const theme = createMuiTheme({
 
 const Layout = ({ children }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <main>{children}</main>
-    </ThemeProvider>
+    <StylesProvider injectFirst >
+      <ThemeProvider theme={theme}>
+        <main>{children}</main>
+      </ThemeProvider>
+    </StylesProvider>
   )
 }
 

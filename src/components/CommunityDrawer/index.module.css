@@ -1,4 +1,12 @@
 
+.drawerPaper {
+  z-index: auto;
+}
+
+.drawerContentContainer {
+  width: 25vw;
+}
+
 .logoContainer {
   margin-top: 10px;
 }
@@ -14,8 +22,4 @@
 
 .openChevron.root {
   margin-top: 10px;
-}
-
-.drawerContentContainer {
-  width: 25vw;
 }

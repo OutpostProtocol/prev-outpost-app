@@ -49,7 +49,6 @@ const CommunityDrawer = ({ title, img }) => {
         edge="start"
         onClick={handleDrawerOpen}
         className={styles.openChevron}
-        classes={{ root: styles.root }}
       >
         <ChevronRightIcon />
       </IconButton>
@@ -58,6 +57,9 @@ const CommunityDrawer = ({ title, img }) => {
         variant="persistent"
         open={open}
         elevation={4}
+        classes={{
+          paper: styles.drawerPaper
+        }}
       >
         <DrawerContents img={img} />
       </Drawer>
