@@ -18,7 +18,7 @@ const providerOptions = {
 }
 
 export default {
-  network: 'mainnet',
+  network: 'ropsten',
   cacheProvider: false,
   providerOptions
 }

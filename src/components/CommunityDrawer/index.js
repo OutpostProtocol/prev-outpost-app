@@ -42,7 +42,7 @@ const CommunityDrawer = ({ title, img }) => {
   )
 
   return (
-    <nav className={styles.container}>
+    <div className={styles.container}>
       <IconButton
         color="inherit"
         aria-label="View Communities"
@@ -63,7 +63,7 @@ const CommunityDrawer = ({ title, img }) => {
       >
         <DrawerContents img={img} />
       </Drawer>
-    </nav>
+    </div>
   )
 }
 

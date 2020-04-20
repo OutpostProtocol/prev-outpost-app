@@ -32,7 +32,14 @@ const Layout = ({ children }) => {
       <Web3ReactProvider getLibrary={getLibrary}>
         <StylesProvider injectFirst >
           <ThemeProvider theme={theme}>
-            <main>{children}</main>
+            <main
+              style={{
+                height: '100vh',
+                width: '100vw'
+              }}
+            >
+              {children}
+            </main>
           </ThemeProvider>
         </StylesProvider>
       </Web3ReactProvider>
