@@ -11,10 +11,10 @@ import styles from './index.module.css'
 
 const web3Modal = new Web3Modal(modalOptions)
 
-const Web3Status = (props) => {
-  const eth = useSelector(state => state.ethers)
+const Web3Status = () => {
+  const web3 = useSelector(state => state.ethers)
   const dispatch = useDispatch()
-  const account = eth.library && eth.library.provider.selectedAddress
+  const account = web3.library && web3.library.provider.selectedAddress
 
   const signIn = async () => {
     const provider = await web3Modal.connect()
