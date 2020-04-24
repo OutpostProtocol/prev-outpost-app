@@ -21,7 +21,7 @@ const CommunityDrawer = ({ title, img }) => {
   }
 
   const DrawerContents = ({ img }) => (
-    <div className={styles.drawerContentContainer}>
+    <div>
       <div className={styles.logoContainer}>
         <Link to='/' className={styles.logo}>
           <Img fixed={img.fixed} />
@@ -42,7 +42,7 @@ const CommunityDrawer = ({ title, img }) => {
   )
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} >
       <IconButton
         color="inherit"
         aria-label="View Communities"

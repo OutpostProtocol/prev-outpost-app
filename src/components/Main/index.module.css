@@ -1,4 +1,4 @@
 .container {
-  display: block;
-  height: 100vh;
+  flex: 3;
+  padding: 1em;
 }

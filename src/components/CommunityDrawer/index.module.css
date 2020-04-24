@@ -5,10 +5,7 @@
 
 .container {
   height: 100vh;
-}
-
-.drawerContentContainer {
-  width: 22vw;
+  flex: 1;
 }
 
 .logoContainer {

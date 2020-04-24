@@ -11,19 +11,26 @@ const Main = ({ address, space }) => {
   const [thread, setThread] = useState(0)
 
   const createThread = async () => {
-    if (!space) {
-      alert('You need to authorize spaces!')
+    if (!address) {
+      alert('You must sign in to create a thread')
       return
     }
 
-    const curThread = await space.joinThread('myThread', {
+    console.log(space, 'SPACE BEFORE TRYING TO JOIN')
+
+    const curThread = await space.joinThread('rainThread', {
       firstModerator: address,
       members: true
     })
     setThread(curThread)
+    setOnUpdate()
 
     const curPosts = await thread.getPosts()
     setPosts(curPosts)
+  }
+
+  const setOnUpdate = () => {
+    thread.onUpdate(() => console.log('THREAD UPDATED'))
   }
 
   return (

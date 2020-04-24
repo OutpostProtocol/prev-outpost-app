@@ -11,12 +11,15 @@ const NewPost = ({ thread }) => {
     setPostText(event.target.value)
   }
 
-  const handlePost = () => {
+  const handlePost = async () => {
     if (postText === 'undefined' || postText === '') {
       alert('enter something!')
     }
 
-    thread.post(postText)
+    console.log(thread, 'THE TREAD')
+
+    await thread.post(postText)
+    console.log('THE THREAD WAS POSTED')
   }
 
   return (
@@ -32,6 +35,7 @@ const NewPost = ({ thread }) => {
       <Button
         variant='contained'
         onClick={handlePost}
+        className={styles.postBtn}
       >
         Post
       </Button>

@@ -23,7 +23,8 @@ const theme = createMuiTheme({
   },
   typography: {
     fontFamily: 'Roboto'
-  }
+  },
+  sidebarWidth: 22 // vw
 })
 
 const Layout = ({ children }) => {
@@ -35,7 +36,10 @@ const Layout = ({ children }) => {
             <main
               style={{
                 height: '100vh',
-                width: '100vw'
+                width: '100vw',
+                position: 'absolute',
+                top: '0',
+                left: '0'
               }}
             >
               {children}
