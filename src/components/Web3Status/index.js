@@ -5,7 +5,7 @@ import { ethers } from 'ethers'
 import { useSelector, useDispatch } from 'react-redux'
 import Box from '3box'
 
-import { SET_ETHERS, SET_BOX, SET_SPACE } from '../../redux/actionTypes'
+import { SET_ETHERS } from '../../redux/actionTypes'
 import { shortenAddress } from '../../utils'
 import modalOptions from './modalOptions'
 import styles from './index.module.css'
@@ -32,11 +32,10 @@ const Web3Status = () => {
     const spaces = ['rainCommunities']
     await box.auth(spaces, { address })
     const space = await box.openSpace('rainCommunities')
-    console.log(box, 'BOX AFTER CREATED')
+    console.log('BOX AUTHENTICATED')
 
-    dispatch({ type: SET_BOX, box })
-    dispatch({ type: SET_SPACE, space })
-    console.log('SPACE DISPATCHED')
+    window.box = box
+    window.space = space
   }
 
   if (account) {

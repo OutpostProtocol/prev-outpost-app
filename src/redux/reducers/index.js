@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_ETHERS, SET_BOX, SET_SPACE } from '../actionTypes'
+import { SET_ETHERS } from '../actionTypes'
 
 const ethers = (state = {}, action) => {
   switch (action.type) {
@@ -13,34 +13,8 @@ const ethers = (state = {}, action) => {
   }
 }
 
-const box = (state = {}, action) => {
-  switch (action.type) {
-    case SET_BOX:
-      return {
-        ...state,
-        ...action.box
-      }
-    default:
-      return state
-  }
-}
-
-const space = (state = {}, action) => {
-  switch (action.type) {
-    case SET_SPACE:
-      return {
-        ...state,
-        ...action.space
-      }
-    default:
-      return state
-  }
-}
-
 const app = combineReducers({
-  ethers,
-  box,
-  space
+  ethers
 })
 
 export default app

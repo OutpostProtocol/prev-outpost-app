@@ -6,7 +6,7 @@ import NewPost from '../NewPost'
 
 import styles from './index.module.css'
 
-const Main = ({ address, space }) => {
+const Main = ({ address }) => {
   const [posts, setPosts] = useState(0)
   const [thread, setThread] = useState(0)
 
@@ -16,21 +16,19 @@ const Main = ({ address, space }) => {
       return
     }
 
-    console.log(space, 'SPACE BEFORE TRYING TO JOIN')
-
-    const curThread = await space.joinThread('rainThread', {
+    const curThread = await window.space.joinThread('rainThread', {
       firstModerator: address,
       members: true
     })
-    setThread(curThread)
-    setOnUpdate()
+    setOnUpdate(curThread)
 
-    const curPosts = await thread.getPosts()
+    const curPosts = await curThread.getPosts()
+    setThread(curThread)
     setPosts(curPosts)
   }
 
-  const setOnUpdate = () => {
-    thread.onUpdate(() => console.log('THREAD UPDATED'))
+  const setOnUpdate = (curThread) => {
+    curThread.onUpdate(() => console.log('THREAD UPDATED'))
   }
 
   return (

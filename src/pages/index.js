@@ -12,7 +12,6 @@ import styles from './index.module.css'
 
 const IndexPage = ({ data }) => {
   const web3 = useSelector(state => state.ethers)
-  const space = useSelector(state => state.space)
 
   return (
     <Layout>
@@ -23,7 +22,6 @@ const IndexPage = ({ data }) => {
         />
         <Main
           address={web3.provider && web3.provider.selectedAddress}
-          space={space}
         />
         <RightSidebar/>
       </div>
