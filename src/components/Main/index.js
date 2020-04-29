@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Button from '@material-ui/core/Button'
+import { useSelector } from 'react-redux'
 
 import Feed from '../Feed'
 import NewPost from '../NewPost'
@@ -7,15 +8,11 @@ import NewPost from '../NewPost'
 import styles from './index.module.css'
 
 const Main = ({ address }) => {
-  const [posts, setPosts] = useState(0)
-  const [thread, setThread] = useState(0)
+  const isLoggedIn = useSelector(state => state.isLoggedIn)
+  const [posts, setPosts] = useState([])
+  const [thread, setThread] = useState({})
 
   const createThread = async () => {
-    if (!address) {
-      alert('You must sign in to create a thread')
-      return
-    }
-
     const curThread = await window.space.joinThread('rainThread', {
       firstModerator: address,
       members: true
@@ -28,18 +25,25 @@ const Main = ({ address }) => {
   }
 
   const setOnUpdate = (curThread) => {
-    curThread.onUpdate(() => console.log('THREAD UPDATED'))
+    curThread.onUpdate(async () => {
+      const curPosts = await curThread.getPosts()
+      setPosts(curPosts)
+    })
   }
 
   return (
     <div className={styles.container}>
-      <Button
-        variant='contained'
-        color='primary'
-        onClick={createThread}
-      >
-        Create Thread
-      </Button>
+      {isLoggedIn
+        ? <Button
+          variant='contained'
+          color='primary'
+          onClick={createThread}
+        >
+          Create Thread
+        </Button>
+        : null
+      }
+
       <NewPost
         thread={thread}
       />

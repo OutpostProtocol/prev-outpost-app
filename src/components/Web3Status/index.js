@@ -5,7 +5,7 @@ import { ethers } from 'ethers'
 import { useSelector, useDispatch } from 'react-redux'
 import Box from '3box'
 
-import { SET_ETHERS } from '../../redux/actionTypes'
+import { SET_ETHERS, SET_IS_LOGGED_IN } from '../../redux/actionTypes'
 import { shortenAddress } from '../../utils'
 import modalOptions from './modalOptions'
 import styles from './index.module.css'
@@ -36,6 +36,7 @@ const Web3Status = () => {
 
     window.box = box
     window.space = space
+    dispatch({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
   }
 
   if (account) {

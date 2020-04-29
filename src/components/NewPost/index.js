@@ -16,10 +16,7 @@ const NewPost = ({ thread }) => {
       alert('enter something!')
     }
 
-    console.log(thread, 'THE TREAD')
-
     await thread.post(postText)
-    console.log('THE THREAD WAS POSTED')
   }
 
   return (
