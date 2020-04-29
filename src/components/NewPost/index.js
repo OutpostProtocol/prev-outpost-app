@@ -25,7 +25,7 @@ const NewPost = ({ thread }) => {
         value={postText}
         onChange={handleChange}
         multiline
-        label='Post'
+        label='What is on your mind?'
         variant='outlined'
         className={styles.textField}
       />

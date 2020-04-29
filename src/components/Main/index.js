@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 
 import Feed from '../Feed'
 import NewPost from '../NewPost'
+import ThreadSelector from '../ThreadSelector'
 
 import styles from './index.module.css'
 
@@ -25,10 +26,7 @@ const Main = ({ address }) => {
   }
 
   const setOnUpdate = (curThread) => {
-    curThread.onUpdate(async () => {
-      const curPosts = await curThread.getPosts()
-      setPosts(curPosts)
-    })
+    curThread.onUpdate(() => curThread.getPosts().then(setPosts))
   }
 
   return (
@@ -43,6 +41,9 @@ const Main = ({ address }) => {
         </Button>
         : null
       }
+      <ThreadSelector
+        threads={['test', 'test']}>
+      </ThreadSelector>
 
       <NewPost
         thread={thread}

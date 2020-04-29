@@ -6,6 +6,7 @@ import Drawer from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import CommunityTile from '../CommunityTile'
 
 import styles from './index.module.css'
 
@@ -20,26 +21,42 @@ const CommunityDrawer = ({ title, img }) => {
     setOpen(false)
   }
 
-  const DrawerContents = ({ img }) => (
-    <div>
-      <div className={styles.logoContainer}>
-        <Link to='/' className={styles.logo}>
-          <Img fixed={img.fixed} />
-        </Link>
-        <IconButton
-          color="inherit"
-          aria-label="Close Sidebar"
-          edge="end"
-          onClick={handleDrawerClose}
-          className={styles.closeChevron}
-        >
-          <ChevronLeftIcon />
-        </IconButton>
+  const DrawerContents = ({ img }) => {
+    let communities
+    if (window.spaces === undefined) {
+      communities = ['Log in', 'to see', 'communities']
+    } else {
+      communities = window.spaces
+    }
+
+    return (
+      <div>
+        <div className={styles.logoContainer}>
+          <Link to='/' className={styles.logo}>
+            <Img fixed={img.fixed} />
+          </Link>
+          <IconButton
+            color="inherit"
+            aria-label="Close Sidebar"
+            edge="end"
+            onClick={handleDrawerClose}
+            className={styles.closeChevron}
+          >
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        {/* search for new communities */}
+        {communities.map((communityName, i) => {
+          return (
+            <CommunityTile
+              name ={communityName}
+              key={i}
+            />
+          )
+        })}
       </div>
-      {/* search for new communities */}
-      {/* list of existing communities */}
-    </div>
-  )
+    )
+  }
 
   return (
     <div className={styles.container} >

@@ -12,6 +12,8 @@ import styles from './index.module.css'
 
 const web3Modal = new Web3Modal(modalOptions)
 
+const DEFAULT_SPACE = 'rainCommunities'
+
 const Web3Status = () => {
   const web3 = useSelector(state => state.ethers)
   const dispatch = useDispatch()
@@ -29,10 +31,8 @@ const Web3Status = () => {
     const address = library.provider.selectedAddress
 
     const box = await Box.create(library.provider)
-    const spaces = ['rainCommunities']
-    await box.auth(spaces, { address })
-    const space = await box.openSpace('rainCommunities')
-    console.log('BOX AUTHENTICATED')
+    await box.auth(DEFAULT_SPACE, { address })
+    const space = await box.openSpace(DEFAULT_SPACE)
 
     window.box = box
     window.space = space

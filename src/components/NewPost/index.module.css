@@ -3,9 +3,10 @@
 }
 
 .textField {
-  width: 100%;
+  width: 90%;
 }
 
 .postBtn {
+  margin: 5px;
   float: right;
 }

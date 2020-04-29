@@ -1,10 +1,11 @@
 import React from 'react'
 import Post from '../Post'
+import styles from './index.module.css'
 
 const Feed = ({ posts }) => {
   if (posts.length) {
     return (
-      <div>
+      <div className={styles.feedContainer}>
         {posts.map((post, i) => {
           return (
             <Post
