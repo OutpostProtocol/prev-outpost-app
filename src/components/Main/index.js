@@ -1,40 +1,45 @@
 import React, { useState } from 'react'
 import Button from '@material-ui/core/Button'
+import { useSelector } from 'react-redux'
 
 import Feed from '../Feed'
 import NewPost from '../NewPost'
 
 import styles from './index.module.css'
 
-const Main = ({ address, space }) => {
-  const [posts, setPosts] = useState(0)
-  const [thread, setThread] = useState(0)
+const Main = ({ address }) => {
+  const isLoggedIn = useSelector(state => state.isLoggedIn)
+  const [posts, setPosts] = useState([])
+  const [thread, setThread] = useState({})
 
   const createThread = async () => {
-    if (!space) {
-      alert('You need to authorize spaces!')
-      return
-    }
-
-    const curThread = await space.joinThread('myThread', {
+    const curThread = await window.space.joinThread('rainThread', {
       firstModerator: address,
       members: true
     })
-    setThread(curThread)
+    setOnUpdate(curThread)
 
-    const curPosts = await thread.getPosts()
+    const curPosts = await curThread.getPosts()
+    setThread(curThread)
     setPosts(curPosts)
+  }
+
+  const setOnUpdate = (curThread) => {
+    curThread.onUpdate(() => curThread.getPosts().then(setPosts))
   }
 
   return (
     <div className={styles.container}>
-      <Button
-        variant='contained'
-        color='primary'
-        onClick={createThread}
-      >
-        Create Thread
-      </Button>
+      {isLoggedIn
+        ? <Button
+          variant='contained'
+          color='primary'
+          onClick={createThread}
+        >
+          Create Thread
+        </Button>
+        : null
+      }
       <NewPost
         thread={thread}
       />

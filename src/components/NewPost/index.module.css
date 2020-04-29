@@ -1,8 +1,12 @@
 .container {
-  margin: 1em;
+  margin: 0 0 3% 0;
 }
 
 .textField {
   width: 100%;
-  display: block;
+}
+
+.postBtn {
+  margin: 5px;
+  float: right;
 }

@@ -11,12 +11,12 @@ const NewPost = ({ thread }) => {
     setPostText(event.target.value)
   }
 
-  const handlePost = () => {
+  const handlePost = async () => {
     if (postText === 'undefined' || postText === '') {
       alert('enter something!')
     }
 
-    thread.post(postText)
+    await thread.post(postText)
   }
 
   return (
@@ -25,13 +25,14 @@ const NewPost = ({ thread }) => {
         value={postText}
         onChange={handleChange}
         multiline
-        label='Post'
+        label='What is on your mind?'
         variant='outlined'
         className={styles.textField}
       />
       <Button
         variant='contained'
         onClick={handlePost}
+        className={styles.postBtn}
       >
         Post
       </Button>

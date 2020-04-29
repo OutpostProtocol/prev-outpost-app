@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
+import { useTheme } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
@@ -10,6 +11,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import styles from './index.module.css'
 
 const CommunityDrawer = ({ title, img }) => {
+  const theme = useTheme()
   const [open, setOpen] = useState(true)
 
   const handleDrawerOpen = () => {
@@ -20,29 +22,40 @@ const CommunityDrawer = ({ title, img }) => {
     setOpen(false)
   }
 
-  const DrawerContents = ({ img }) => (
-    <div className={styles.drawerContentContainer}>
-      <div className={styles.logoContainer}>
-        <Link to='/' className={styles.logo}>
-          <Img fixed={img.fixed} />
-        </Link>
-        <IconButton
-          color="inherit"
-          aria-label="Close Sidebar"
-          edge="end"
-          onClick={handleDrawerClose}
-          className={styles.closeChevron}
-        >
-          <ChevronLeftIcon />
-        </IconButton>
+  const DrawerContents = ({ img }) => {
+    return (
+      <div
+        style={{
+          width: `${theme.sidebarWidth}vw`
+        }}
+      >
+        <div className={styles.logoContainer}>
+          <Link to='/' className={styles.logo}>
+            <Img fixed={img.fixed} />
+          </Link>
+          <IconButton
+            color="inherit"
+            aria-label="Close Sidebar"
+            edge="end"
+            onClick={handleDrawerClose}
+            className={styles.closeChevron}
+          >
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        {/* search for new communities */}
+        {/* community tiles */}
       </div>
-      {/* search for new communities */}
-      {/* list of existing communities */}
-    </div>
-  )
+    )
+  }
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        width: `${theme.sidebarWidth}vw`
+      }}
+    >
       <IconButton
         color="inherit"
         aria-label="View Communities"

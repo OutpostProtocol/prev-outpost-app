@@ -1,0 +1,23 @@
+.post {
+    padding: 10px;
+    margin-top: 10px;
+    border: solid;
+    border-radius: 20px;
+}
+
+.postHeading {
+    
+}
+
+.author {
+
+}
+
+.timestamp {
+    font-style: italic;
+    color: darkgrey;
+}
+
+.postContent {
+    margin-top: 5px;
+}
