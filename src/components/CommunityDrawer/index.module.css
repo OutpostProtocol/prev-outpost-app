@@ -5,7 +5,6 @@
 
 .container {
   height: 100vh;
-  flex: 1;
 }
 
 .logoContainer {
@@ -24,4 +23,3 @@
 .openChevron.root {
   margin-top: 10px;
 }
-

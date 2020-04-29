@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
+import { useTheme } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import CommunityTile from '../CommunityTile'
 
 import styles from './index.module.css'
 
 const CommunityDrawer = ({ title, img }) => {
+  const theme = useTheme()
   const [open, setOpen] = useState(true)
 
   const handleDrawerOpen = () => {
@@ -22,15 +23,12 @@ const CommunityDrawer = ({ title, img }) => {
   }
 
   const DrawerContents = ({ img }) => {
-    let communities
-    if (window.spaces === undefined) {
-      communities = ['Log in', 'to see', 'communities']
-    } else {
-      communities = window.spaces
-    }
-
     return (
-      <div>
+      <div
+        style={{
+          width: `${theme.sidebarWidth}vw`
+        }}
+      >
         <div className={styles.logoContainer}>
           <Link to='/' className={styles.logo}>
             <Img fixed={img.fixed} />
@@ -46,20 +44,18 @@ const CommunityDrawer = ({ title, img }) => {
           </IconButton>
         </div>
         {/* search for new communities */}
-        {communities.map((communityName, i) => {
-          return (
-            <CommunityTile
-              name ={communityName}
-              key={i}
-            />
-          )
-        })}
+        {/* community tiles */}
       </div>
     )
   }
 
   return (
-    <div className={styles.container} >
+    <div
+      className={styles.container}
+      style={{
+        width: `${theme.sidebarWidth}vw`
+      }}
+    >
       <IconButton
         color="inherit"
         aria-label="View Communities"
