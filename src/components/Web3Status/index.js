@@ -6,13 +6,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import Box from '3box'
 
 import { SET_ETHERS, SET_IS_LOGGED_IN } from '../../redux/actionTypes'
+import { DEFAULT_SPACE, COMMUNITIES } from '../../constants'
 import { shortenAddress } from '../../utils'
 import modalOptions from './modalOptions'
 import styles from './index.module.css'
 
 const web3Modal = new Web3Modal(modalOptions)
-
-const DEFAULT_SPACE = 'rainCommunities'
 
 const Web3Status = () => {
   const web3 = useSelector(state => state.ethers)
@@ -31,8 +30,13 @@ const Web3Status = () => {
     const address = library.provider.selectedAddress
 
     const box = await Box.create(library.provider)
-    await box.auth(DEFAULT_SPACE, { address })
+    console.log('DEFAULT_SPACE', DEFAULT_SPACE)
+    await box.auth([DEFAULT_SPACE], { address })
     const space = await box.openSpace(DEFAULT_SPACE)
+
+    const communities = await space.public.get(COMMUNITIES)
+
+    console.log(communities, 'GOT THE COMMUNITIES')
 
     window.box = box
     window.space = space
