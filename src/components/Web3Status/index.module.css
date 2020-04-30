@@ -3,3 +3,7 @@
   width: 80%;
   margin: 0 10%;
 }
+
+.backdrop {
+  z-index: 5;
+}

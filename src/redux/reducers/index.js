@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
-import { SET_ETHERS, SET_IS_LOGGED_IN } from '../actionTypes'
+import { SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY } from '../actionTypes'
+import { DEFAULT_COMMUNITY } from '../../constants'
 
 const ethers = (state = {}, action) => {
   switch (action.type) {
@@ -22,9 +23,23 @@ const isLoggedIn = (state = false, action) => {
   }
 }
 
+const communities = (state = [DEFAULT_COMMUNITY], action) => {
+  switch (action.type) {
+    case SET_COMMUNITIES:
+      return [
+        ...action.communities
+      ]
+    case ADD_COMMUNITY:
+      return state.push(action.community)
+    default:
+      return state
+  }
+}
+
 const app = combineReducers({
   ethers,
-  isLoggedIn
+  isLoggedIn,
+  communities
 })
 
 export default app

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
@@ -8,9 +9,13 @@ import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
+import CreateCommunity from '../CreateCommunity'
+import CommunityTile from '../CommunityTile'
 import styles from './index.module.css'
 
 const CommunityDrawer = ({ title, img }) => {
+  const isLoggedIn = useSelector(state => state.isLoggedIn)
+  const communities = useSelector(state => state.communities)
   const theme = useTheme()
   const [open, setOpen] = useState(true)
 
@@ -43,8 +48,19 @@ const CommunityDrawer = ({ title, img }) => {
             <ChevronLeftIcon />
           </IconButton>
         </div>
+        {isLoggedIn
+          ? <CreateCommunity />
+          : null
+        }
         {/* search for new communities */}
-        {/* community tiles */}
+        {communities.map((com, i) => {
+          return (
+            <CommunityTile
+              name={com.name}
+              key={i}
+            />
+          )
+        })}
       </div>
     )
   }

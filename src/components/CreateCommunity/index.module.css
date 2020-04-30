@@ -1,0 +1,13 @@
+.buttonRoot {
+  border-radius: 2em;
+  width: 80%;
+  margin: 0 10%;
+}
+
+.formContainer {
+  width: 50vw;
+  border-radius: 2em;
+  position: absolute;
+  top: 25vh;
+  left: 25vw;
+}
