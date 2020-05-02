@@ -30,7 +30,10 @@ const communities = (state = [DEFAULT_COMMUNITY], action) => {
         ...action.communities
       ]
     case ADD_COMMUNITY:
-      return state.push(action.community)
+      return [
+        ...state,
+        action.community
+      ]
     default:
       return state
   }

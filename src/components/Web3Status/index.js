@@ -39,18 +39,13 @@ const Web3Status = () => {
     window.box = box
     window.space = space
 
-    let communities = await space.public.get(COMMUNITIES)
-    communities = communities || await addDefault()
+    const communities = await space.public.get(COMMUNITIES)
 
     if (communities) dispatch({ type: SET_COMMUNITIES, communities })
+    else await window.space.public.set(COMMUNITIES, [DEFAULT_COMMUNITY])
 
     dispatch({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
     setIsLoading(false)
-  }
-
-  const addDefault = async () => {
-    await window.space.public.set(COMMUNITIES, [DEFAULT_COMMUNITY])
-    return [DEFAULT_COMMUNITY]
   }
 
   if (account && !isLoading) {
