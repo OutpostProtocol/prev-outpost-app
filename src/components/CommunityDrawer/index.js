@@ -57,6 +57,7 @@ const CommunityDrawer = ({ title, img }) => {
           return (
             <CommunityTile
               name={com.name}
+              abbr={com.abbr}
               key={i}
             />
           )

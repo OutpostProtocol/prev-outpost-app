@@ -1,16 +1,8 @@
 .communityTileContainer {
     width: 90%;
-    margin-left: 5%;
+    margin-top: 5px;
     padding: 5px 10px;
-    overflow-x: hidden;
-    cursor: pointer
-  }
-  
-  .communityTileContainer:hover {
-    width: 90%;
-    margin-left: 5%;
-    padding: 5px 10px;
-    overflow-x: hidden;
     cursor: pointer;
-    color: #afc3cc;
+    border: 1px solid black;
+    border-radius: 50px;
   }

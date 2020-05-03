@@ -18,6 +18,7 @@
 
 .closeChevron {
   float: right;
+  margin-right: auto;
 }
 
 .openChevron {
