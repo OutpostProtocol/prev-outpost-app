@@ -39,8 +39,8 @@ const CreateForm = ({ handleClose }) => {
       ])
     }
 
-    dispatch({ type: ADD_COMMUNITY, community })
     handleClose()
+    dispatch({ type: ADD_COMMUNITY, community })
   }
 
   const handleName = (event) => {
