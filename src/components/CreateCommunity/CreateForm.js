@@ -29,18 +29,20 @@ const CreateForm = ({ handleClose }) => {
     const communities = await window.space.public.get(COMMUNITIES)
 
     if (communities) {
-      window.space.public.set(COMMUNITIES, [
+      await window.space.public.set(COMMUNITIES, [
         ...communities,
         community
       ])
     } else {
-      window.space.public.set(COMMUNITIES, [
+      await window.space.public.set(COMMUNITIES, [
         community
       ])
     }
 
-    handleClose()
+    // TODO handle errors with requests
+
     dispatch({ type: ADD_COMMUNITY, community })
+    handleClose()
   }
 
   const handleName = (event) => {

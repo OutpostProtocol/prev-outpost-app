@@ -10,12 +10,11 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
 import CreateCommunity from '../CreateCommunity'
-import CommunityTile from '../CommunityTile'
+import CommunityView from '../CommunityView'
 import styles from './index.module.css'
 
 const CommunityDrawer = ({ title, img }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const communities = useSelector(state => state.communities)
   const theme = useTheme()
   const [open, setOpen] = useState(true)
 
@@ -53,15 +52,7 @@ const CommunityDrawer = ({ title, img }) => {
           : null
         }
         {/* search for new communities */}
-        {communities.map((com, i) => {
-          return (
-            <CommunityTile
-              name={com.name}
-              abbr={com.abbr}
-              key={i}
-            />
-          )
-        })}
+        <CommunityView />
       </div>
     )
   }
