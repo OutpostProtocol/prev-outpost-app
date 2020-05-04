@@ -1,8 +1,8 @@
-import { takeLatest, all, put } from 'redux-saga/effects'
-import { ADD_COMMUNITY_ASYNC, ADD_COMMUNITY } from './actionTypes'
-import { COMMUNITIES } from '../constants'
+import { takeLatest, put } from 'redux-saga/effects'
+import { ADD_COMMUNITY_ASYNC, ADD_COMMUNITY } from '../actionTypes'
+import { COMMUNITIES } from '../../constants'
 
-export function * tryAdd (action) {
+function * tryAdd (action) {
   try {
     const { name, moderatorAddress } = action.community
     const thread = yield window.space.joinThread(name, {
@@ -33,12 +33,6 @@ export function * tryAdd (action) {
   }
 }
 
-export function * addCommunity () {
+export default function * addCommunity () {
   yield takeLatest(ADD_COMMUNITY_ASYNC, tryAdd)
-}
-
-export default function * rootSaga () {
-  yield all([
-    addCommunity()
-  ])
 }

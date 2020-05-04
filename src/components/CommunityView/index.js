@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import CommunityTile from '../CommunityTile'
-import { REMOVE_COMMUNITY } from '../../redux/actionTypes'
+import { REMOVE_COMMUNITY_ASYNC } from '../../redux/actionTypes'
 import { COMMUNITIES } from '../../constants'
 import styles from './index.module.css'
 
@@ -16,7 +16,7 @@ const CommunityView = () => {
     boxCommunities = boxCommunities.filter(com => com.abbr !== abbr)
     await window.space.public.set(COMMUNITIES, boxCommunities)
 
-    dispatch({ type: REMOVE_COMMUNITY, abbr })
+    dispatch({ type: REMOVE_COMMUNITY_ASYNC, abbr })
   }
 
   return (

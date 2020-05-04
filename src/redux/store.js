@@ -14,4 +14,4 @@ export default preloadedState => {
   )
 }
 
-sagaMiddleWare.run(rootSaga)
+export const runSaga = () => sagaMiddleWare.run(rootSaga)
