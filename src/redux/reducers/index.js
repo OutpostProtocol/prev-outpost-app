@@ -1,5 +1,8 @@
 import { combineReducers } from 'redux'
-import { SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY } from '../actionTypes'
+import {
+  SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY,
+  REMOVE_COMMUNITY
+} from '../actionTypes'
 import { DEFAULT_COMMUNITY } from '../../constants'
 
 const ethers = (state = {}, action) => {
@@ -34,6 +37,8 @@ const communities = (state = [DEFAULT_COMMUNITY], action) => {
         ...state,
         action.community
       ]
+    case REMOVE_COMMUNITY:
+      return state.filter(com => com.abbr !== action.abbr)
     default:
       return state
   }

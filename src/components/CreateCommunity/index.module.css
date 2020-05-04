@@ -1,3 +1,9 @@
+.container {
+  height: 6em;
+  align-items: center;
+  display: flex;
+}
+
 .buttonRoot {
   border-radius: 2em;
   width: 80%;

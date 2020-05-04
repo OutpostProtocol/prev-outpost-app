@@ -50,6 +50,8 @@ const CreateForm = ({ handleClose }) => {
   }
 
   const handleAbbr = (event) => {
+    // eventually need to make sure abbr is unique (however ERC20 tokens do it)
+
     const abbr = event.target.value
     if (abbr && abbr.length > 3) {
       return
