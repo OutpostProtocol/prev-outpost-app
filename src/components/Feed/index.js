@@ -9,9 +9,7 @@ const Feed = ({ posts }) => {
         {posts.map((post, i) => {
           return (
             <Post
-              author={post.author}
-              message={post.message}
-              timestamp={post.timestamp}
+              post={post}
               key={i}
             />
           )

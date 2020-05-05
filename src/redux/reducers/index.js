@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY } from '../actionTypes'
+import { SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY, TOGGLE_VISIBILITY } from '../actionTypes'
 import { DEFAULT_COMMUNITY } from '../../constants'
 
 const ethers = (state = {}, action) => {
@@ -23,6 +23,22 @@ const isLoggedIn = (state = false, action) => {
   }
 }
 
+const toggleVisibility = (state, action) => {
+  return state.map((item, _) => {
+    if (item.address !== action.address) {
+      return item
+    } else {
+      const updatedCommunity = {
+        abbr: item.abbr,
+        address: item.address,
+        name: item.name,
+        visible: !item.visible
+      }
+      return updatedCommunity
+    }
+  })
+}
+
 const communities = (state = [DEFAULT_COMMUNITY], action) => {
   switch (action.type) {
     case SET_COMMUNITIES:
@@ -34,6 +50,8 @@ const communities = (state = [DEFAULT_COMMUNITY], action) => {
         ...state,
         action.community
       ]
+    case TOGGLE_VISIBILITY:
+      return toggleVisibility(state, action)
     default:
       return state
   }

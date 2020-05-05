@@ -23,7 +23,8 @@ const CreateForm = ({ handleClose }) => {
     const community = {
       name,
       abbr,
-      address: thread.address
+      address: thread.address,
+      visible: true
     }
 
     const communities = await window.space.public.get(COMMUNITIES)
@@ -40,6 +41,7 @@ const CreateForm = ({ handleClose }) => {
     }
 
     // TODO handle errors with requests
+    await window.space.subscribeThread(thread.address)
 
     dispatch({ type: ADD_COMMUNITY, community })
     handleClose()

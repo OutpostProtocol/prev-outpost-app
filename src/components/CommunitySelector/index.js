@@ -5,22 +5,22 @@ import MenuItem from '@material-ui/core/MenuItem'
 
 import styles from './index.module.css'
 
-const CommunitySelector = () => {
+const CommunitySelector = ({ handleSelection }) => {
   const communities = useSelector(state => state.communities)
   const [activeCommunity, setActiveCommunity] = useState(communities[0])
 
-  const handleCommunitySwitch = (event) => {
-    if (event) {
+  const switchActiveCommunity = (event) => {
+    if (event && event.target.value) {
       setActiveCommunity(event.target.value)
     }
+    handleSelection(event)
   }
 
   return (
     <Select
-      labelId='commuunity-selector'
       className={styles.selector}
       value={activeCommunity}
-      onChange={handleCommunitySwitch}
+      onChange={switchActiveCommunity}
     >
       {communities.map((com, i) => {
         return (

@@ -3,16 +3,18 @@ import Checkbox from '@material-ui/core/Checkbox'
 
 import styles from './index.module.css'
 
-const CommunityTile = ({ name, abbr }) => {
+const CommunityTile = ({ community, callback }) => {
   return (
     <div
       className={styles.communityTileContainer}
     >
       <Checkbox
-        checked={true}
+        checked={community.visible}
+        onChange={callback}
+        value={community.address}
         inputProps={{ 'aria-label': 'Display community in feed?' }}>
       </Checkbox>
-      {name} ({abbr})
+      {community.name} ({community.abbr})
     </div>
   )
 }

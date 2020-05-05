@@ -31,15 +31,36 @@ const Web3Status = () => {
   }
 
   const addBox = async (library) => {
-    const address = library.provider.selectedAddress
+    const createBox = async () => {
+      const box = await Box.create(library.provider)
+      return box
+    }
 
-    const box = await Box.create(library.provider)
-    await box.auth([DEFAULT_SPACE], { address })
-    const space = await box.openSpace(DEFAULT_SPACE)
+    const getDefaultSpace = async (box) => {
+      await box.auth([DEFAULT_SPACE], { address })
+      const space = await box.openSpace(DEFAULT_SPACE)
+      return space
+    }
+
+    const getCommunities = async (space) => {
+      const communities = await space.public.get(COMMUNITIES)
+      return communities
+    }
+
+    const addDefaultVisibilityToCommunities = (communities) => {
+      for (const community of communities) {
+        community.visible = true
+      }
+      return communities
+    }
+
+    const address = library.provider.selectedAddress
+    const box = await createBox()
+    const space = await getDefaultSpace(box)
+    let communities = await getCommunities(space)
+    communities = addDefaultVisibilityToCommunities(communities)
     window.box = box
     window.space = space
-
-    const communities = await space.public.get(COMMUNITIES)
 
     if (communities) dispatch({ type: SET_COMMUNITIES, communities })
     else await window.space.public.set(COMMUNITIES, [DEFAULT_COMMUNITY])
