@@ -1,6 +1,6 @@
 import {
   SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY,
-  REMOVE_COMMUNITY
+  REMOVE_COMMUNITY, TOGGLE_VISIBILITY
 } from './actionTypes'
 
 export const setEthers = library => ({
@@ -21,6 +21,11 @@ export const setCommunities = communities => ({
 export const addCommunity = community => ({
   type: ADD_COMMUNITY,
   community
+})
+
+export const toggleVisibility = address => ({
+  type: TOGGLE_VISIBILITY,
+  address
 })
 
 export const removeCommunity = abbr => ({
