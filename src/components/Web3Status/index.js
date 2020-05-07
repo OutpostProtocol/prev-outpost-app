@@ -5,10 +5,8 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Web3Modal from 'web3modal'
 import { ethers } from 'ethers'
 import { useSelector, useDispatch } from 'react-redux'
-import Box from '3box'
 
-import { SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES } from '../../redux/actionTypes'
-import { DEFAULT_SPACE, COMMUNITIES, DEFAULT_COMMUNITY } from '../../constants'
+import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import { shortenAddress } from '../../utils'
 import modalOptions from './modalOptions'
 import styles from './index.module.css'
@@ -18,6 +16,7 @@ const web3Modal = new Web3Modal(modalOptions)
 const Web3Status = () => {
   const [isLoading, setIsLoading] = useState(false)
   const web3 = useSelector(state => state.ethers)
+  const isLoggedIn = useSelector(state => state.isLoggedIn)
   const dispatch = useDispatch()
   const account = web3.provider && web3.provider.selectedAddress
 
@@ -26,50 +25,10 @@ const Web3Status = () => {
     setIsLoading(true)
     const library = new ethers.providers.Web3Provider(provider)
     library.pollingInterval = 10000
-    dispatch({ type: SET_ETHERS, library })
-    addBox(library)
+    dispatch({ type: LOGIN_ASYNC, library })
   }
 
-  const addBox = async (library) => {
-    const createBox = async () => {
-      const box = await Box.create(library.provider)
-      return box
-    }
-
-    const getDefaultSpace = async (box) => {
-      await box.auth([DEFAULT_SPACE], { address })
-      const space = await box.openSpace(DEFAULT_SPACE)
-      return space
-    }
-
-    const getCommunities = async (space) => {
-      const communities = await space.public.get(COMMUNITIES)
-      return communities
-    }
-
-    const addDefaultVisibilityToCommunities = (communities) => {
-      for (const community of communities) {
-        community.visible = true
-      }
-      return communities
-    }
-
-    const address = library.provider.selectedAddress
-    const box = await createBox()
-    const space = await getDefaultSpace(box)
-    let communities = await getCommunities(space)
-    communities = addDefaultVisibilityToCommunities(communities)
-    window.box = box
-    window.space = space
-
-    if (communities) dispatch({ type: SET_COMMUNITIES, communities })
-    else await window.space.public.set(COMMUNITIES, [DEFAULT_COMMUNITY])
-
-    dispatch({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
-    setIsLoading(false)
-  }
-
-  if (account && !isLoading) {
+  if (isLoggedIn) {
     return (
       <Button
         disableElevation
@@ -85,7 +44,7 @@ const Web3Status = () => {
   } else {
     return (
       <div>
-        <Backdrop className={styles.backdrop} open={isLoading}>
+        <Backdrop className={styles.backdrop} open={isLoading && !isLoggedIn}>
           <CircularProgress />
         </Backdrop>
         <Button

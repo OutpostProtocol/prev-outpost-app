@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
@@ -14,7 +13,6 @@ import CommunityView from '../CommunityView'
 import styles from './index.module.css'
 
 const CommunityDrawer = ({ title, img }) => {
-  const isLoggedIn = useSelector(state => state.isLoggedIn)
   const theme = useTheme()
   const [open, setOpen] = useState(true)
 
@@ -47,10 +45,7 @@ const CommunityDrawer = ({ title, img }) => {
             <ChevronLeftIcon />
           </IconButton>
         </div>
-        {isLoggedIn
-          ? <CreateCommunity />
-          : null
-        }
+        <CreateCommunity />
         {/* search for new communities */}
         <CommunityView />
       </div>

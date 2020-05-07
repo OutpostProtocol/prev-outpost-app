@@ -1,4 +1,7 @@
-import { SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY, TOGGLE_VISIBILITY } from './actionTypes'
+import {
+  SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY,
+  REMOVE_COMMUNITY, TOGGLE_VISIBILITY
+} from './actionTypes'
 
 export const setEthers = library => ({
   type: SET_ETHERS,
@@ -23,4 +26,9 @@ export const addCommunity = community => ({
 export const toggleVisibility = address => ({
   type: TOGGLE_VISIBILITY,
   address
+})
+
+export const removeCommunity = abbr => ({
+  type: REMOVE_COMMUNITY,
+  abbr
 })
