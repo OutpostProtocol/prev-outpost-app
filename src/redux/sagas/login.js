@@ -15,6 +15,10 @@ function * tryLogin (action) {
 
   const communities = yield space.public.get(COMMUNITIES)
 
+  for (const community of communities) {
+    community.visible = true
+  }
+
   if (communities) yield put({ type: SET_COMMUNITIES, communities })
   else yield window.space.public.set(COMMUNITIES, [DEFAULT_COMMUNITY])
 

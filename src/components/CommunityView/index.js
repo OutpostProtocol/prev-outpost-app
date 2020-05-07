@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import CommunityTile from '../CommunityTile'
 import { REMOVE_COMMUNITY_ASYNC, TOGGLE_VISIBILITY } from '../../redux/actionTypes'
 import { COMMUNITIES } from '../../constants'
-import styles from './index.module.css'
 
 const CommunityView = () => {
   const communities = useSelector(state => state.communities)
@@ -26,15 +25,14 @@ const CommunityView = () => {
   }
 
   return (
-    <div className={styles.viewContainer}>
+    <div>
       {communities && communities.map((com, i) => {
         return (
           <CommunityTile
             community={com}
             remove={removeCom}
+            handleToggle={handleCommunityToggle}
             key={i}
-            // TODO switch var name
-            callback={handleCommunityToggle}
           />
         )
       })}

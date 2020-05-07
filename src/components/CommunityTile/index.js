@@ -8,7 +8,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
 import styles from './index.module.css'
 
-const CommunityTile = ({ community, callback, remove }) => {
+const CommunityTile = ({ community, handleToggle, remove }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -29,7 +29,7 @@ const CommunityTile = ({ community, callback, remove }) => {
       <div className={styles.tileStatus}>
         <Checkbox
           checked={community.visible}
-          onChange={callback}
+          onChange={handleToggle}
           value={community.address}
           inputProps={{ 'aria-label': 'Display community in feed?' }}
         />

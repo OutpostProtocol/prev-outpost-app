@@ -33,7 +33,8 @@ const CreateForm = ({ handleClose }) => {
     const community = {
       name,
       abbr,
-      moderatorAddress: address
+      moderatorAddress: address,
+      visible: true
     }
 
     dispatch({ type: ADD_COMMUNITY_ASYNC, community })
