@@ -1,8 +1,14 @@
-.communityTileContainer {
-    width: 90%;
-    margin-top: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    border: 1px solid black;
-    border-radius: 50px;
-  }
+.tileContainer {
+  width: 80%;
+  padding: 0 5%;
+  margin: 0.5em auto;
+  display: flex;
+  justify-content: space-between;
+  height: 2em;
+  align-items: center;
+}
+
+.tileStatus {
+  display: flex;
+  align-items: center;
+}

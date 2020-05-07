@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux'
-import { SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY } from '../actionTypes'
+import {
+  SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY
+} from '../actionTypes'
 import { DEFAULT_COMMUNITY } from '../../constants'
 
 const ethers = (state = {}, action) => {

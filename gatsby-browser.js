@@ -1,7 +1,23 @@
-/**
- * Implement Gatsby's Browser APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/browser-apis/
- */
+import React from 'react'
+import { Provider } from 'react-redux'
+import createStore, { runSaga } from './src/redux/store'
+import { ELEMENT_ID, GLOBAL_KEY } from './src/constants'
 
-// You can delete this file if you're not using it
+export const wrapRootElement = ({ element }) => {
+  const store = createStore(window[GLOBAL_KEY])
+  runSaga()
+
+  return <Provider store={store}>{element}</Provider>
+}
+
+export const onInitialClientRender = () => {
+  if (process.env.BUILD_STAGE !== 'build-javascript') {
+    return
+  }
+
+  // Remove the server-side injected state.
+  const preloadedStateEl = document.getElementById(ELEMENT_ID)
+  if (preloadedStateEl) {
+    preloadedStateEl.parentNode.removeChild(preloadedStateEl)
+  }
+}
