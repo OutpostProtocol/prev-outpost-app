@@ -58,6 +58,7 @@ const CommunityDrawer = ({ title, img }) => {
       style={{
         width: `${theme.sidebarWidth}vw`
       }}
+      data-testid='communityDrawer'
     >
       <IconButton
         color="inherit"

@@ -32,8 +32,9 @@ const CommunityTile = ({ community, handleToggle, remove }) => {
           onChange={handleToggle}
           value={community.address}
           inputProps={{ 'aria-label': 'Display community in feed?' }}
+          data-testid='communityVisibility'
         />
-        <div>
+        <div data-testid='communityTitle'>
           {capitalize(community.name)} ({community.abbr.toUpperCase()})
         </div>
       </div>
