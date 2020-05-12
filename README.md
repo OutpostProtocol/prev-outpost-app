@@ -1,5 +1,3 @@
-Started with https://github.com/gatsbyjs/gatsby-starter-default
-
 **Start developing.**
 
 ```shell
