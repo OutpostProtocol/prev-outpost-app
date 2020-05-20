@@ -1,6 +1,5 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { useSelector } from 'react-redux'
 
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
@@ -11,8 +10,6 @@ import Main from '../components/Main'
 import styles from './index.module.css'
 
 const IndexPage = ({ data }) => {
-  const web3 = useSelector(state => state.ethers)
-
   return (
     <Layout>
       <SEO title="Home" />
@@ -21,7 +18,6 @@ const IndexPage = ({ data }) => {
           img={data.logo.childImageSharp}
         />
         <Main
-          address={web3.provider && web3.provider.selectedAddress}
         />
         <RightSidebar/>
       </div>

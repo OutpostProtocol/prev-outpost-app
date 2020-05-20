@@ -12,17 +12,9 @@ import CreateCommunity from '../CreateCommunity'
 import CommunityView from '../CommunityView'
 import styles from './index.module.css'
 
-const CommunityDrawer = ({ title, img }) => {
+const CommunityDrawer = ({ img }) => {
   const theme = useTheme()
   const [open, setOpen] = useState(true)
-
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
 
   const DrawerContents = ({ img }) => {
     return (
@@ -39,7 +31,7 @@ const CommunityDrawer = ({ title, img }) => {
             color="inherit"
             aria-label="Close Sidebar"
             edge="end"
-            onClick={handleDrawerClose}
+            onClick={() => setOpen(false)}
             className={styles.closeChevron}
           >
             <ChevronLeftIcon />
@@ -64,7 +56,7 @@ const CommunityDrawer = ({ title, img }) => {
         color="inherit"
         aria-label="View Communities"
         edge="start"
-        onClick={handleDrawerOpen}
+        onClick={() => setOpen(true)}
         className={styles.openChevron}
       >
         <ChevronRightIcon />

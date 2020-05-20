@@ -3,43 +3,50 @@ import { useSelector, useDispatch } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
-import styles from './index.module.css'
 import { ADD_COMMUNITY_ASYNC } from '../../redux/actionTypes'
+import styles from './index.module.css'
 
 const CreateForm = ({ handleClose }) => {
-  const address = useSelector(state => state.ethers.provider.selectedAddress)
-  const dispatch = useDispatch()
+  const address = useSelector(state => state.address)
   const [name, setName] = useState('')
   const [abbr, setAbbr] = useState('')
+  const dispatch = useDispatch()
+
+  const createCommunity = async () => {
+    const community = {
+      name: name,
+      abbr: abbr,
+      moderatorAddress: address
+    }
+    if (validateFields) {
+      dispatch({ type: ADD_COMMUNITY_ASYNC, community })
+      handleClose()
+    }
+  }
+
+  const validateFields = () => {
+    if (abbr === '') {
+      alert('enter an abbreviation')
+      return false
+    } else if (name === '') {
+      alert('enter a name')
+      return false
+    } else if (address === '') {
+      alert('address is undefined')
+      return false
+    }
+    return true
+  }
 
   const handleName = (event) => {
     setName(event.target.value)
   }
 
   const handleAbbr = (event) => {
-    // eventually need to make sure abbr is unique (however ERC20 tokens do it)
-
     const abbr = event.target.value
-    if (abbr && abbr.length > 3) {
-      return
+    if (abbr && abbr.length <= 3) {
+      setAbbr(event.target.value)
     }
-
-    setAbbr(event.target.value)
-  }
-
-  const createCom = async () => {
-    // validate fields
-
-    const community = {
-      name,
-      abbr,
-      moderatorAddress: address,
-      visible: true
-    }
-
-    dispatch({ type: ADD_COMMUNITY_ASYNC, community })
-
-    handleClose()
   }
 
   return (
@@ -57,7 +64,7 @@ const CreateForm = ({ handleClose }) => {
         variant='outlined'
       />
       <Button
-        onClick={createCom}
+        onClick={createCommunity}
         disableElevation
         color='primary'
         classes={{

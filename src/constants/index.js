@@ -1,11 +1,10 @@
-export const DEFAULT_SPACE = 'rain'
+export const DEFAULT_SPACE = 'rain-dev'
 export const COMMUNITIES = 'communities'
 
 export const DEFAULT_COMMUNITY = {
   abbr: 'rai',
-  address: '/orbitdb/zdpuAo2WBe8YxcS318LXMnGYesP2o3Vd96e7hJsrcWbq3kbrn/3box.thread.rain.rain',
-  name: 'rain',
-  visible: true
+  address: '/orbitdb/zdpuAxZZGrRihM5sQi9BwZasaCczLP32RmdLZM92jYo7wRosG/3box.thread.rain-dev.rain',
+  name: 'rain'
 }
 
 export const ELEMENT_ID = 'redux-ssr'
