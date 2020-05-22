@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CommunitySelector from '../CommunitySelector'
-
 import styles from './index.module.css'
 
 const NewPost = () => {
@@ -29,6 +28,7 @@ const NewPost = () => {
     }
     const thread = await window.space.joinThreadByAddress(communityAddress)
     await thread.post(postText)
+    setPostText('')
   }
 
   return (
@@ -37,7 +37,7 @@ const NewPost = () => {
         value={postText}
         onChange={handleChange}
         multiline
-        label='What is on your mind?'
+        label='Post text'
         variant='outlined'
         className={styles.textField}
       />

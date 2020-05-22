@@ -11,18 +11,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import CreateCommunity from '../CreateCommunity'
 import CommunityView from '../CommunityView'
 import styles from './index.module.css'
+import Web3Status from '../Web3Status'
 
-const CommunityDrawer = ({ title, img }) => {
+const CommunityDrawer = ({ img }) => {
   const theme = useTheme()
   const [open, setOpen] = useState(true)
-
-  const handleDrawerOpen = () => {
-    setOpen(true)
-  }
-
-  const handleDrawerClose = () => {
-    setOpen(false)
-  }
 
   const DrawerContents = ({ img }) => {
     return (
@@ -39,12 +32,13 @@ const CommunityDrawer = ({ title, img }) => {
             color="inherit"
             aria-label="Close Sidebar"
             edge="end"
-            onClick={handleDrawerClose}
+            onClick={() => setOpen(false)}
             className={styles.closeChevron}
           >
             <ChevronLeftIcon />
           </IconButton>
         </div>
+        <Web3Status />
         <CreateCommunity />
         {/* search for new communities */}
         <CommunityView />
@@ -64,7 +58,7 @@ const CommunityDrawer = ({ title, img }) => {
         color="inherit"
         aria-label="View Communities"
         edge="start"
-        onClick={handleDrawerOpen}
+        onClick={() => setOpen(true)}
         className={styles.openChevron}
       >
         <ChevronRightIcon />

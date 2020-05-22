@@ -1,23 +1,20 @@
 .post {
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid black;
-    border-radius: 50px;
+  padding: 10px;
+  margin-top: 15px;
 }
 
-.postHeading {
-    
+.postMetaData {
+  float: right;
+  color: darkgrey;
 }
 
-.author {
-
-}
-
-.timestamp {
-    font-style: italic;
-    color: darkgrey;
+.userProfile {
+  float: left;
 }
 
 .postContent {
-    margin-top: 5px;
+  margin-left: 60px;
+  position: relative;
+  clear: both;
+  display: block;
 }

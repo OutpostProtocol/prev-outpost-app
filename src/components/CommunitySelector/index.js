@@ -8,7 +8,6 @@ import styles from './index.module.css'
 const CommunitySelector = ({ handleSelection }) => {
   const communities = useSelector(state => state.communities)
   const [activeCommunity, setActiveCommunity] = useState(communities[0])
-
   const switchActiveCommunity = (event) => {
     if (event && event.target.value) {
       setActiveCommunity(event.target.value)

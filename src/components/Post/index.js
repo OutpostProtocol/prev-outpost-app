@@ -10,15 +10,19 @@ const Post = ({ post }) => {
 
   return (
     <div className={styles.post}>
-      <div className={styles.postHeading}>
-        <ProfileHover
-          address={post.author}
-          showName={true}
-          orientation='left'>
-        </ProfileHover>
-        <span className={styles.timestamp}> {time} {post.threadName} </span>
+      <div>
+        <div className={styles.postHeading}>
+          <span>
+            <ProfileHover
+              address={post.author}
+              showName={true}
+              orientation='left'>
+            </ProfileHover>
+          </span>
+          <span className={styles.postMetaData}>{post.threadName} {time}</span>
+          <span className={styles.postContent}>{post.message}</span>
+        </div>
       </div>
-      <div className={styles.postContent}>{post.message}</div>
     </div>
   )
 }

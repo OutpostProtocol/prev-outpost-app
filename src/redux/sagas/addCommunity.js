@@ -9,6 +9,7 @@ function * tryAdd (action) {
       firstModerator: moderatorAddress,
       members: true
     })
+    yield window.space.subscribeThread(thread.address)
 
     const community = {
       ...action.community,
@@ -25,11 +26,9 @@ function * tryAdd (action) {
       : window.space.public.set(COMMUNITIES, [
         community
       ])
-    // check return value and throw error if bad
-
     yield put({ type: ADD_COMMUNITY, community })
   } catch (e) {
-
+    console.error(e)
   }
 }
 

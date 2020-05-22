@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import Checkbox from '@material-ui/core/Checkbox'
+import { useSelector, useDispatch } from 'react-redux'
 import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
+import { REMOVE_COMMUNITY_ASYNC } from '../../redux/actionTypes'
 import styles from './index.module.css'
 
-const CommunityTile = ({ community, handleToggle, remove }) => {
+const CommunityTile = ({ community }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const [anchorEl, setAnchorEl] = useState(null)
+  const dispatch = useDispatch('')
 
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget)
@@ -20,6 +21,10 @@ const CommunityTile = ({ community, handleToggle, remove }) => {
     setAnchorEl(null)
   }
 
+  const removeCommunity = () => {
+    dispatch({ type: REMOVE_COMMUNITY_ASYNC, community })
+  }
+
   const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1)
 
   return (
@@ -27,14 +32,7 @@ const CommunityTile = ({ community, handleToggle, remove }) => {
       className={styles.tileContainer}
     >
       <div className={styles.tileStatus}>
-        <Checkbox
-          checked={community.visible}
-          onChange={handleToggle}
-          value={community.address}
-          inputProps={{ 'aria-label': 'Display community in feed?' }}
-          data-testid='communityVisibility'
-        />
-        <div data-testid='communityTitle'>
+        <div>
           {capitalize(community.name)} ({community.abbr.toUpperCase()})
         </div>
       </div>
@@ -62,7 +60,7 @@ const CommunityTile = ({ community, handleToggle, remove }) => {
               horizontal: 'center'
             }}
           >
-            <MenuItem onClick={() => remove(community.abbr)}>Remove</MenuItem>
+            <MenuItem onClick={removeCommunity}>Remove</MenuItem>
           </Menu>
         </div>
         : null

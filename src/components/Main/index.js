@@ -1,16 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import moment from 'moment'
+import Box from '3box'
+
+import { DEFAULT_COMMUNITY } from '../../constants'
 import Feed from '../Feed'
 import NewPost from '../NewPost'
-import moment from 'moment'
-
 import styles from './index.module.css'
 
-const Main = ({ address }) => {
+const Main = () => {
   const communities = useSelector(state => state.communities)
   const [allPosts, setPosts] = useState([])
 
   useEffect(() => {
+    const getPosts = async () => {
+      if (window.space && communities) {
+        setPosts(await fetchPosts(communities))
+      } else {
+        setPosts(await fetchPosts([DEFAULT_COMMUNITY]))
+      }
+    }
+
+    const fetchPosts = async (communities) => {
+      const tempPosts = []
+      for (const community of communities) {
+        const threadName = community.address.split('/').slice(-1)
+        const posts = await Box.getThreadByAddress(community.address)
+        posts.forEach((post) => {
+          post.threadName = threadName
+        })
+        tempPosts.push(posts)
+      }
+      return chronologicalSort(tempPosts.flat())
+    }
+
     const chronologicalSort = (posts) => {
       posts.sort(function (a, b) {
         return moment.utc(b.timestamp).diff(moment.utc(a.timestamp))
@@ -18,49 +41,6 @@ const Main = ({ address }) => {
       return posts
     }
 
-    const promiseTimeout = async (ms, fn) => {
-      return Promise.race([
-        fn,
-        new Promise((resolve, reject) => setTimeout(() => reject(new Error('timeout')), ms))
-      ]).catch(console.error)
-    }
-
-    const getPostsFromThread = async (address) => {
-      const thread = await window.space.joinThreadByAddress(address)
-      const posts = await thread.getPosts()
-      posts.forEach((post) => {
-        post.threadName = thread._name
-      })
-      return posts
-    }
-
-    const getPostsLoggedIn = async () => {
-      const TIMEOUT = 3000 // ms
-      let tempPosts = []
-      for (const community of communities.filter(community => community.visible)) {
-        let posts = await promiseTimeout(TIMEOUT, getPostsFromThread(community.address))
-        posts = posts === undefined ? [] : posts
-        tempPosts.push(posts)
-      }
-      tempPosts = chronologicalSort(tempPosts.flat())
-      return tempPosts
-    }
-
-    // TODO: implement
-    const getPostsLoggedOut = async () => {
-      return chronologicalSort([])
-    }
-
-    // TODO: add caching? Does orbitDB cache automatically?
-    const getPosts = async () => {
-      if (!window.space) {
-        const posts = await getPostsLoggedOut()
-        setPosts(posts)
-      } else {
-        const posts = await getPostsLoggedIn()
-        setPosts(posts)
-      }
-    }
     getPosts()
   }, [communities])
 

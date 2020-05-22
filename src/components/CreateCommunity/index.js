@@ -5,16 +5,12 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
-import CreateForm from './CreateForm'
+import CreateCommunityForm from './CreateCommunityForm'
 import styles from './index.module.css'
 
 const CreateCommunity = () => {
   const [open, setOpen] = useState(false)
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-
-  const handleOpen = () => {
-    setOpen(true)
-  }
 
   const handleClose = () => {
     setOpen(false)
@@ -24,7 +20,7 @@ const CreateCommunity = () => {
     return (
       <div className={styles.container}>
         <Button
-          onClick={handleOpen}
+          onClick={() => setOpen(true)}
           variant='contained'
           color='primary'
           disableElevation
@@ -36,12 +32,12 @@ const CreateCommunity = () => {
         </Button>
         <Dialog
           open={open}
-          onClose={handleClose}
+          onClose={() => setOpen(false)}
         >
           <div>
             <DialogTitle>Create a Community</DialogTitle>
             <DialogContent>
-              <CreateForm
+              <CreateCommunityForm
                 handleClose={handleClose}
               />
             </DialogContent>

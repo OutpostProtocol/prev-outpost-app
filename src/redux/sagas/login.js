@@ -1,29 +1,41 @@
-import { takeLatest, put } from 'redux-saga/effects'
+import { takeLatest, put, all } from 'redux-saga/effects'
 import Box from '3box'
-
-import { LOGIN_ASYNC, SET_ETHERS, SET_IS_LOGGED_IN, SET_COMMUNITIES } from '../../redux/actionTypes'
+import { LOGIN_ASYNC, SET_ADDR, SET_IS_LOGGED_IN, SET_COMMUNITIES } from '../../redux/actionTypes'
 import { DEFAULT_SPACE, COMMUNITIES, DEFAULT_COMMUNITY } from '../../constants'
 
 function * tryLogin (action) {
-  const { provider } = action.library
-  const address = provider.selectedAddress
-  const box = yield Box.create(provider)
-  yield box.auth([DEFAULT_SPACE], { address })
-  const space = yield box.openSpace(DEFAULT_SPACE)
-  window.box = box
-  window.space = space
-
-  const communities = yield space.public.get(COMMUNITIES)
-
-  for (const community of communities) {
-    community.visible = true
+  /**
+   * Add the user to the default community
+   * @param {Space} space
+   * @param {String} address
+   */
+  const addToDefaultCommunity = async (space, address) => {
+    const thread = await space.getThreadByAddress(DEFAULT_COMMUNITY.address)
+    await thread.addMember(address)
   }
 
-  if (communities) yield put({ type: SET_COMMUNITIES, communities })
-  else yield window.space.public.set(COMMUNITIES, [DEFAULT_COMMUNITY])
+  try {
+    const provider = yield Box.get3idConnectProvider()
+    const address = action.address
+    const box = yield Box.openBox(address, provider)
+    const space = yield box.openSpace(DEFAULT_SPACE)
+    window.space = space
 
-  yield put({ type: SET_ETHERS, library: action.library })
-  yield put({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
+    let communities = yield space.public.get(COMMUNITIES)
+    if (!communities || communities.length === 0) {
+      addToDefaultCommunity(space, address)
+      communities = [DEFAULT_COMMUNITY]
+      yield window.space.public.set(COMMUNITIES, communities)
+    }
+
+    yield all([
+      put({ type: SET_ADDR, address: address }),
+      put({ type: SET_COMMUNITIES, communities }),
+      put({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
+    ])
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 export default function * login () {
