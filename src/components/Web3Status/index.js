@@ -27,7 +27,7 @@ const Web3Status = () => {
     } else if (window.web3) { // Legacy dapp browsers
       window.web3 = new Web3(window.web3.currentProvider)
       return window.web3.currentProvider.selectedAddress
-    } else {
+    } else { // Browser not web3 enabled
       alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
     }
   }

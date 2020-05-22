@@ -11,6 +11,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import CreateCommunity from '../CreateCommunity'
 import CommunityView from '../CommunityView'
 import styles from './index.module.css'
+import Web3Status from '../Web3Status'
 
 const CommunityDrawer = ({ img }) => {
   const theme = useTheme()
@@ -37,6 +38,7 @@ const CommunityDrawer = ({ img }) => {
             <ChevronLeftIcon />
           </IconButton>
         </div>
+        <Web3Status />
         <CreateCommunity />
         {/* search for new communities */}
         <CommunityView />

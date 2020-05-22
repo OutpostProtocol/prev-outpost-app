@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField'
 import { ADD_COMMUNITY_ASYNC } from '../../redux/actionTypes'
 import styles from './index.module.css'
 
-const CreateForm = ({ handleClose }) => {
+const CreateCommunityForm = ({ handleClose }) => {
   const address = useSelector(state => state.address)
   const [name, setName] = useState('')
   const [abbr, setAbbr] = useState('')
@@ -77,4 +77,4 @@ const CreateForm = ({ handleClose }) => {
   )
 }
 
-export default CreateForm
+export default CreateCommunityForm

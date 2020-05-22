@@ -4,7 +4,6 @@ import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
 import SEO from '../components/seo'
 import CommunityDrawer from '../components/CommunityDrawer'
-import RightSidebar from '../components/RightSidebar'
 import Main from '../components/Main'
 
 import styles from './index.module.css'
@@ -19,7 +18,6 @@ const IndexPage = ({ data }) => {
         />
         <Main
         />
-        <RightSidebar/>
       </div>
     </Layout>
   )

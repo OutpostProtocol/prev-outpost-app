@@ -37,7 +37,7 @@ const NewPost = () => {
         value={postText}
         onChange={handleChange}
         multiline
-        label='What is on your mind?'
+        label='Post text'
         variant='outlined'
         className={styles.textField}
       />

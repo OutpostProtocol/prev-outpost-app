@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 import Box from '3box'
+
 import { DEFAULT_COMMUNITY } from '../../constants'
 import Feed from '../Feed'
 import NewPost from '../NewPost'
