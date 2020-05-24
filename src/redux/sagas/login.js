@@ -10,7 +10,7 @@ function * tryLogin (action) {
    * @param {String} address
    */
   const addToDefaultCommunity = async (space, address) => {
-    const thread = await space.getThreadByAddress(DEFAULT_COMMUNITY.address)
+    const thread = await space.joinThreadByAddress(DEFAULT_COMMUNITY.address)
     await thread.addMember(address)
   }
 
