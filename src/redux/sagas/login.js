@@ -4,16 +4,6 @@ import { LOGIN_ASYNC, SET_ADDR, SET_IS_LOGGED_IN, SET_COMMUNITIES } from '../../
 import { DEFAULT_SPACE, COMMUNITIES, DEFAULT_COMMUNITY } from '../../constants'
 
 function * tryLogin (action) {
-  /**
-   * Add the user to the default community
-   * @param {Space} space
-   * @param {String} address
-   */
-  const addToDefaultCommunity = async (space, address) => {
-    const thread = await space.joinThreadByAddress(DEFAULT_COMMUNITY.address)
-    await thread.addMember(address)
-  }
-
   try {
     let provider
     // Temporary?
@@ -30,7 +20,6 @@ function * tryLogin (action) {
 
     let communities = yield space.public.get(COMMUNITIES)
     if (!communities || communities.length === 0) {
-      addToDefaultCommunity(space, address)
       communities = [DEFAULT_COMMUNITY]
       yield window.space.public.set(COMMUNITIES, communities)
     }

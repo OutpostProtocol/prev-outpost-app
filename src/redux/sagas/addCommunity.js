@@ -6,8 +6,7 @@ function * tryAdd (action) {
   try {
     const { name, moderatorAddress } = action.community
     const thread = yield window.space.joinThread(name, {
-      firstModerator: moderatorAddress,
-      members: true
+      firstModerator: moderatorAddress
     })
     yield window.space.subscribeThread(thread.address)
 
