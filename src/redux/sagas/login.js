@@ -15,7 +15,14 @@ function * tryLogin (action) {
   }
 
   try {
-    const provider = yield Box.get3idConnectProvider()
+    let provider
+    // Temporary?
+    if (window.web3 && window.web3.currentProvider) {
+      provider = window.web3.currentProvider
+    } else {
+      provider = yield Box.get3idConnectProvider()
+    }
+
     const address = action.address
     const box = yield Box.openBox(address, provider)
     const space = yield box.openSpace(DEFAULT_SPACE)
