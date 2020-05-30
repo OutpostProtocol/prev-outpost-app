@@ -4,7 +4,7 @@ import {
 } from '../actionTypes'
 import { DEFAULT_COMMUNITY } from '../../constants'
 
-const address = (state = {}, action) => {
+const address = (state = '', action) => {
   switch (action.type) {
     case SET_ADDR:
       return action.address

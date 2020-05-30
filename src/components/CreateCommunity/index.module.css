@@ -1,19 +1,17 @@
-.container {
-  height: 6em;
-  align-items: center;
-  display: flex;
+.formElement {
+  border-radius: 2em;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.formContainer {
+  text-align: center;
+  width: 25vw;
+  margin: 0 auto;
 }
 
 .buttonRoot {
   border-radius: 2em;
   width: 80%;
-  margin: 0 10%;
-}
-
-.formContainer {
-  width: 50vw;
-  border-radius: 2em;
-  position: absolute;
-  top: 25vh;
-  left: 25vw;
+  margin: 5px 10%;
 }

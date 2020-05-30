@@ -1,6 +1,11 @@
 .post {
   padding: 10px;
   margin-top: 15px;
+  border-radius: 2em;
+}
+
+.post:hover {
+  background-color: #f1f1f1;
 }
 
 .postMetaData {

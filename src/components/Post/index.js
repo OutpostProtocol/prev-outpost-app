@@ -1,6 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import ProfileHover from 'profile-hover'
+import { navigate } from 'gatsby'
 
 import styles from './index.module.css'
 
@@ -9,7 +10,9 @@ const Post = ({ post }) => {
   const time = moment.unix(post.timestamp).format(TIME_FORMAT)
 
   return (
-    <div className={styles.post}>
+    <div
+      onClick={() => navigate('/post', { state: { post } })}
+      className={styles.post}>
       <div>
         <div className={styles.postHeading}>
           <span>

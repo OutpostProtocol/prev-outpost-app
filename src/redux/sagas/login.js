@@ -1,4 +1,4 @@
-import { takeLatest, put, all } from 'redux-saga/effects'
+import { takeLeading, put, all } from 'redux-saga/effects'
 import Box from '3box'
 import { LOGIN_ASYNC, SET_ADDR, SET_IS_LOGGED_IN, SET_COMMUNITIES } from '../../redux/actionTypes'
 import { DEFAULT_SPACE, COMMUNITIES, DEFAULT_COMMUNITY } from '../../constants'
@@ -15,7 +15,9 @@ function * tryLogin (action) {
 
     const address = action.address
     const box = yield Box.openBox(address, provider)
+    console.log('fuvk slow spaces')
     const space = yield box.openSpace(DEFAULT_SPACE)
+    console.log('slowwww')
     window.space = space
 
     let communities = yield space.public.get(COMMUNITIES)
@@ -35,5 +37,5 @@ function * tryLogin (action) {
 }
 
 export default function * login () {
-  yield takeLatest(LOGIN_ASYNC, tryLogin)
+  yield takeLeading(LOGIN_ASYNC, tryLogin)
 }

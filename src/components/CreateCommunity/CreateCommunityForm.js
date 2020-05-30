@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import { navigate } from 'gatsby'
 
 import { ADD_COMMUNITY_ASYNC } from '../../redux/actionTypes'
 import styles from './index.module.css'
 
-const CreateCommunityForm = ({ handleClose }) => {
+const CreateCommunityForm = () => {
   const address = useSelector(state => state.address)
   const [name, setName] = useState('')
   const [abbr, setAbbr] = useState('')
@@ -18,9 +19,9 @@ const CreateCommunityForm = ({ handleClose }) => {
       abbr: abbr,
       moderatorAddress: address
     }
-    if (validateFields) {
+    if (validateFields()) {
       dispatch({ type: ADD_COMMUNITY_ASYNC, community })
-      handleClose()
+      navigate('/')
     }
   }
 
@@ -50,20 +51,24 @@ const CreateCommunityForm = ({ handleClose }) => {
   }
 
   return (
-    <div>
+    <div className={styles.formContainer}>
+      <h2 styles="text-align: center">Create a Community</h2>
       <TextField
+        className={styles.formElement}
         value={name}
         onChange={handleName}
         label='Community Name'
         variant='outlined'
       />
       <TextField
+        className={styles.formElement}
         value={abbr}
         onChange={handleAbbr}
         label='Community Abbreviation'
         variant='outlined'
       />
       <Button
+        className={styles.formElement}
         onClick={createCommunity}
         disableElevation
         color='primary'
