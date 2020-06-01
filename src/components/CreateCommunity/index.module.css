@@ -1,5 +1,5 @@
 .formElement {
-  border-radius: 2em;
+  border-radius: 4px;
   width: 100%;
   margin-top: 15px;
 }
@@ -11,7 +11,7 @@
 }
 
 .buttonRoot {
-  border-radius: 2em;
+  border-radius: 4px;
   width: 80%;
   margin: 5px 10%;
 }

@@ -47,6 +47,7 @@ const NewPost = () => {
       </CommunitySelector>
       <Button
         variant='contained'
+        disableElevation
         onClick={handlePost}
         className={styles.postBtn}
       >
