@@ -1,7 +1,7 @@
 .post {
   padding: 10px;
   margin-top: 15px;
-  border-radius: 2em;
+  border-radius: 4px;
 }
 
 .post:hover {
