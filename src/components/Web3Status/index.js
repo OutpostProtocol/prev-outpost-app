@@ -7,6 +7,7 @@ import Web3 from 'web3'
 
 import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import { shortenAddress } from '../../utils'
+import ProviderSelector from '../ProviderSelector'
 import styles from './index.module.css'
 
 const Web3Status = () => {
@@ -16,26 +17,21 @@ const Web3Status = () => {
   const dispatch = useDispatch()
 
   const getAddress = async () => {
-    if (window.ethereum) { // Modern dapp browsers
-      window.web3 = new Web3(window.ethereum)
-      try {
-        await window.ethereum.enable()
-        return window.web3.currentProvider.selectedAddress
-      } catch (error) {
-        console.log(error)
-      }
-    } else if (window.web3) { // Legacy dapp browsers
-      window.web3 = new Web3(window.web3.currentProvider)
+    try {
+      window.web3 = new Web3(await ProviderSelector())
       return window.web3.currentProvider.selectedAddress
-    } else { // Browser not web3 enabled
-      alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+    } catch (error) {
+      console.log(error)
+      return null
     }
   }
 
   const signIn = async () => {
-    setIsLoading(true)
     const address = await getAddress()
-    dispatch({ type: LOGIN_ASYNC, address })
+    if (address) {
+      setIsLoading(true)
+      dispatch({ type: LOGIN_ASYNC, address })
+    }
   }
 
   if (isLoggedIn) {

@@ -15,9 +15,7 @@ function * tryLogin (action) {
 
     const address = action.address
     const box = yield Box.openBox(address, provider)
-    console.log('fuvk slow spaces')
     const space = yield box.openSpace(DEFAULT_SPACE)
-    console.log('slowwww')
     window.space = space
 
     let communities = yield space.public.get(COMMUNITIES)
