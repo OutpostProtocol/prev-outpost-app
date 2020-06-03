@@ -6,7 +6,7 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      infuraId: '141da514b2e9412ba2ff5c4023ba75dd'
+      infuraId: ''
     }
   },
   torus: {
