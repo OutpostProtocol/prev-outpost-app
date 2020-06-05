@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ThemeProvider, StylesProvider, createMuiTheme } from '@material-ui/core/styles'
+
+import { createMuiTheme, ThemeProvider, StylesProvider } from '@material-ui/core/styles'
 
 import '../../utils/global.css'
 
@@ -15,8 +16,7 @@ const theme = createMuiTheme({
   },
   typography: {
     fontFamily: 'Roboto'
-  },
-  sidebarWidth: 22 // vw
+  }
 })
 
 const Layout = ({ children }) => {
