@@ -6,11 +6,8 @@ import { DEFAULT_SPACE, COMMUNITIES, DEFAULT_COMMUNITY } from '../../constants'
 function * tryLogin (action) {
   try {
     let provider
-    // Temporary?
-    if (window.web3 && window.web3.currentProvider) {
-      provider = window.web3.currentProvider
-    } else {
-      provider = yield Box.get3idConnectProvider()
+    if (window.web3 && window.web3.provider) {
+      provider = window.web3.provider
     }
 
     const address = action.address

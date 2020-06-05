@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Web3 from 'web3'
+import { ethers } from 'ethers'
 
 import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import { shortenAddress } from '../../utils'
@@ -18,8 +18,8 @@ const Web3Status = () => {
 
   const getAddress = async () => {
     try {
-      window.web3 = new Web3(await ProviderSelector())
-      return window.web3.currentProvider.selectedAddress
+      window.web3 = new ethers.providers.Web3Provider(await ProviderSelector())
+      return window.web3.provider.selectedAddress
     } catch (error) {
       console.log(error)
       return null
