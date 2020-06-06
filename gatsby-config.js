@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: 'Micro Rain',
-    description: 'A micro blog for self-governed online communities',
+    title: 'Clear Rain',
+    description: 'Communities controlled by users, not big tech',
     author: 'https://clearrain.xyz'
   },
   plugins: [
