@@ -4,7 +4,6 @@ import { navigate } from 'gatsby'
 import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
-import Layout from '../components/Layout'
 import CreateCommunityForm from '../components/CreateCommunity/CreateCommunityForm'
 
 const CreateCommunity = () => {
@@ -15,7 +14,7 @@ const CreateCommunity = () => {
   }
 
   return (
-    <Layout>
+    <>
       <IconButton
         color="inherit"
         aria-label="Go back"
@@ -25,7 +24,7 @@ const CreateCommunity = () => {
         <ChevronLeftIcon />
       </IconButton>
       <CreateCommunityForm />
-    </Layout>
+    </>
   )
 }
 
