@@ -5,9 +5,9 @@ import MenuItem from '@material-ui/core/MenuItem'
 
 import styles from './index.module.css'
 
-const CommunitySelector = ({ handleSelection }) => {
-  const communities = useSelector(state => state.communities.length !== 0 ? state.communities : [])
-  const [activeCommunity, setActiveCommunity] = useState(communities[0])
+const CommunitySelector = ({ handleSelection, placeHolder }) => {
+  const communities = useSelector(state => state.communities.length !== 0 ? state.communities : [''])
+  const [activeCommunity, setActiveCommunity] = useState(placeHolder)
   const switchActiveCommunity = (event) => {
     if (event && event.target.value) {
       setActiveCommunity(event.target.value)
@@ -19,10 +19,14 @@ const CommunitySelector = ({ handleSelection }) => {
 
   return (
     <Select
+      labelId="input-label"
       className={styles.selector}
       value={activeCommunity}
       onChange={switchActiveCommunity}
     >
+      <MenuItem value={placeHolder} >
+        <em>{capitalize(placeHolder.name)}</em>
+      </MenuItem>
       {communities.map((com, i) => {
         return (
           <MenuItem
