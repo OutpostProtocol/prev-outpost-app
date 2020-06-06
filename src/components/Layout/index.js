@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { createMuiTheme, ThemeProvider, StylesProvider } from '@material-ui/core/styles'
 
 import '../../utils/global.css'
@@ -10,12 +9,18 @@ const theme = createMuiTheme({
     primary: {
       main: '#333333'
     },
+    secondary: {
+      main: '#fafafa'
+    },
     background: {
       default: '#fafafa'
     }
   },
   typography: {
     fontFamily: 'Roboto'
+  },
+  zIndex: {
+    drawer: 0
   }
 })
 

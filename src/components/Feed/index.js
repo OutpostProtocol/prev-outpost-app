@@ -1,12 +1,16 @@
 import React from 'react'
+import { styled } from '@material-ui/core/styles'
 
 import Post from '../Post'
-import styles from './index.module.css'
+
+const FeedContainer = styled('div')({
+  'margin-top': '5px'
+})
 
 const Feed = ({ posts }) => {
   if (posts) {
     return (
-      <div className={styles.feedContainer}>
+      <FeedContainer>
         {posts.map((post, i) => {
           return (
             <Post
@@ -16,7 +20,7 @@ const Feed = ({ posts }) => {
           )
         })
         }
-      </div>
+      </FeedContainer>
     )
   } else {
     return (

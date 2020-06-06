@@ -1,11 +1,34 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { navigate } from 'gatsby'
+import { styled } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import { navigate } from 'gatsby'
 
 import { ADD_COMMUNITY_ASYNC } from '../../redux/actionTypes'
-import styles from './index.module.css'
+
+const FormContainer = styled('div')({
+  width: '25vw',
+  margin: '0 auto',
+  'text-align': 'center'
+})
+
+const FormTitle = styled('h2')({
+  'text-align': 'center'
+})
+
+const FormTextField = styled(TextField)({
+  width: '100%',
+  'border-radius': '4px',
+  'margin-top': '15px'
+})
+
+const FormButton = styled(Button)({
+  width: '100%',
+  color: 'primary',
+  'border-radius': '4px',
+  'margin-top': '15px'
+})
 
 const CreateCommunityForm = () => {
   const address = useSelector(state => state.address)
@@ -51,34 +74,31 @@ const CreateCommunityForm = () => {
   }
 
   return (
-    <div className={styles.formContainer}>
-      <h2 styles="text-align: center">Create a Community</h2>
-      <TextField
-        className={styles.formElement}
+    <FormContainer>
+      <FormTitle>
+        Create a Community
+      </FormTitle>
+      <FormTextField
         value={name}
         onChange={handleName}
         label='Community Name'
         variant='outlined'
       />
-      <TextField
-        className={styles.formElement}
+      <FormTextField
         value={abbr}
         onChange={handleAbbr}
         label='Community Abbreviation'
         variant='outlined'
       />
-      <Button
-        className={styles.formElement}
+      <FormButton
         onClick={createCommunity}
         disableElevation
         color='primary'
-        classes={{
-          root: styles.buttonRoot
-        }}
+        variant='contained'
       >
         Create
-      </Button>
-    </div>
+      </FormButton>
+    </FormContainer>
   )
 }
 
