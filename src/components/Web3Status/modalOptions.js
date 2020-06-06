@@ -2,11 +2,13 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import Torus from '@toruslabs/torus-embed'
 import Authereum from 'authereum'
 
+const INFURA_ID = process.env.INFURA_ID
+
 const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      infuraId: ''
+      infuraId: INFURA_ID
     }
   },
   torus: {
@@ -18,7 +20,6 @@ const providerOptions = {
 }
 
 export default {
-  network: 'ropsten',
   cacheProvider: false,
   providerOptions
 }

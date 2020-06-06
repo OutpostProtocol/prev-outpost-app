@@ -10,13 +10,13 @@ import styles from './index.module.css'
 const CreateCommunityForm = () => {
   const address = useSelector(state => state.address)
   const [name, setName] = useState('')
-  const [abbr, setAbbr] = useState('')
+  const [symbol, setSymbol] = useState('')
   const dispatch = useDispatch()
 
   const createCommunity = async () => {
     const community = {
-      name: name,
-      abbr: abbr,
+      name,
+      symbol,
       moderatorAddress: address
     }
     if (validateFields()) {
@@ -26,7 +26,7 @@ const CreateCommunityForm = () => {
   }
 
   const validateFields = () => {
-    if (abbr === '') {
+    if (symbol === '') {
       alert('enter an abbreviation')
       return false
     } else if (name === '') {
@@ -43,10 +43,10 @@ const CreateCommunityForm = () => {
     setName(event.target.value)
   }
 
-  const handleAbbr = (event) => {
-    const abbr = event.target.value
-    if (abbr && abbr.length <= 3) {
-      setAbbr(event.target.value)
+  const handleSymbol = (event) => {
+    const symbol = event.target.value
+    if (symbol && symbol.length <= 3) {
+      setSymbol(event.target.value)
     }
   }
 
@@ -62,8 +62,8 @@ const CreateCommunityForm = () => {
       />
       <TextField
         className={styles.formElement}
-        value={abbr}
-        onChange={handleAbbr}
+        value={symbol}
+        onChange={handleSymbol}
         label='Community Abbreviation'
         variant='outlined'
       />

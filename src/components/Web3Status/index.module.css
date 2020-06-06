@@ -5,5 +5,5 @@
 }
 
 .backdrop {
-  z-index: 5;
+  z-index: 2000;
 }

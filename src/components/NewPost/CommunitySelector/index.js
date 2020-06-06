@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import styles from './index.module.css'
 
 const CommunitySelector = ({ handleSelection }) => {
-  const communities = useSelector(state => state.communities)
+  const communities = useSelector(state => state.communities.length !== 0 ? state.communities : [])
   const [activeCommunity, setActiveCommunity] = useState(communities[0])
   const switchActiveCommunity = (event) => {
     if (event && event.target.value) {
@@ -14,6 +14,8 @@ const CommunitySelector = ({ handleSelection }) => {
     }
     handleSelection(event)
   }
+
+  const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1)
 
   return (
     <Select
@@ -26,7 +28,7 @@ const CommunitySelector = ({ handleSelection }) => {
           <MenuItem
             key={i}
             value={com}>
-            {com.name}
+            {capitalize(com.name)}
           </MenuItem>
         )
       })}
