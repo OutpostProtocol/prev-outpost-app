@@ -13,7 +13,8 @@ import modalOptions from './modalOptions'
 const Web3Button = styled(Button)({
   width: '80%',
   'margin-left': '10%',
-  'border-radius': '4px'
+  'border-radius': '4px',
+  'margin-bottom': '5px'
 })
 
 const Web3Container = styled('div')({

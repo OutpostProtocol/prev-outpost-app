@@ -37,7 +37,7 @@ const DrawerContentsContainer = styled('div')({
 })
 
 const LogoContainer = styled('div')({
-  'margin-top': '10px'
+  margin: '10px 0'
 })
 
 const Logo = styled(Link)({
