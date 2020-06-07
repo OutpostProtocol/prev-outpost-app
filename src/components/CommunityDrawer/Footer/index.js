@@ -3,17 +3,14 @@ import { styled } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import LanguageIcon from '@material-ui/icons/Language'
-import TwitterIcon from '@material-ui/icons/Twitter'
 
 const FooterContainer = styled('div')({
   display: 'flex',
   position: 'absolute',
   bottom: 0,
-  'margin-left': 10
-})
-
-const IconContainer = styled('div')({
-  padding: '10px'
+  'justify-content': 'space-evenly',
+  width: '80%',
+  padding: '0 10%'
 })
 
 const Icon = styled(IconButton)({
@@ -23,7 +20,7 @@ const Icon = styled(IconButton)({
 const Footer = () => {
   return (
     <FooterContainer>
-      <IconContainer>
+      <div>
         <Icon>
           <a
             href="https://github.com/ClearRainLabs"
@@ -37,8 +34,8 @@ const Footer = () => {
             </GitHubIcon>
           </a>
         </Icon>
-      </IconContainer>
-      <IconContainer>
+      </div>
+      <div>
         <Icon>
           <a
             href="https://clearrain.xyz/"
@@ -52,22 +49,7 @@ const Footer = () => {
             </LanguageIcon>
           </a>
         </Icon>
-      </IconContainer>
-      <IconContainer>
-        <Icon>
-          <a
-            href="https://twitter.com/clear__rain"
-            rel="noopener noreferrer"
-            target='_blank'
-          >
-            <TwitterIcon
-              color='primary'
-              label='Blog'
-            >
-            </TwitterIcon>
-          </a>
-        </Icon>
-      </IconContainer>
+      </div>
     </FooterContainer>
   )
 }
