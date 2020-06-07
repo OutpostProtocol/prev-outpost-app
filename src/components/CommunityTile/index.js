@@ -1,12 +1,27 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { styled } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
 import { REMOVE_COMMUNITY_ASYNC } from '../../redux/actionTypes'
-import styles from './index.module.css'
+
+const TileContainer = styled('div')({
+  width: '80%',
+  padding: '0 5%',
+  margin: '0.5em auto',
+  display: 'flex',
+  height: '2em',
+  'justify-content': 'space-between',
+  'align-items': 'center'
+})
+
+const TileStatus = styled('div')({
+  display: 'flex',
+  'align-items': 'center'
+})
 
 const CommunityTile = ({ community }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
@@ -28,14 +43,12 @@ const CommunityTile = ({ community }) => {
   const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1)
 
   return (
-    <div
-      className={styles.tileContainer}
-    >
-      <div className={styles.tileStatus}>
+    <TileContainer>
+      <TileStatus>
         <div>
           {capitalize(community.name)} ({community.symbol.toUpperCase()})
         </div>
-      </div>
+      </TileStatus>
       {isLoggedIn
         ? <div>
           <IconButton
@@ -65,8 +78,7 @@ const CommunityTile = ({ community }) => {
         </div>
         : null
       }
-
-    </div>
+    </TileContainer>
   )
 }
 

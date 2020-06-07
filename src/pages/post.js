@@ -1,11 +1,15 @@
 import React from 'react'
 import { navigate } from 'gatsby'
+import { styled } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
 import Post from '../components/Post'
 
-import styles from './index.module.css'
+const PostContainer = styled('div')({
+  width: '50vw',
+  margin: '0 auto'
+})
 
 const viewPost = ({ location }) => {
   if (!location.state.post) {
@@ -22,12 +26,12 @@ const viewPost = ({ location }) => {
       >
         <ChevronLeftIcon />
       </IconButton>
-      <div className={styles.postContainer}>
+      <PostContainer>
         <Post
           post={location.state.post}
         />
-      </div>
-    </>
+      </PostContainer>
+    </ >
   )
 }
 

@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { styled } from '@material-ui/core/styles'
 import moment from 'moment'
 import Box from '3box'
 
 import { DEFAULT_COMMUNITY } from '../../constants'
 import Feed from '../Feed'
 import NewPost from '../NewPost'
-import styles from './index.module.css'
+
+const MainContainer = styled('div')({
+  flex: '3',
+  padding: '1em',
+  'padding-left': '15%',
+  'padding-right': '15%'
+})
 
 const Main = () => {
   const communities = useSelector(state => state.communities)
@@ -45,10 +52,10 @@ const Main = () => {
   }, [communities])
 
   return (
-    <div className={styles.container}>
+    <MainContainer>
       <NewPost />
       <Feed posts={allPosts} />
-    </div>
+    </MainContainer>
   )
 }
 

@@ -1,24 +1,26 @@
 import React from 'react'
 import { graphql } from 'gatsby'
+import { styled } from '@material-ui/core/styles'
 
 import SEO from '../components/seo'
 import CommunityDrawer from '../components/CommunityDrawer'
 import Main from '../components/Main'
 
-import styles from './index.module.css'
+const PageContainer = styled('div')({
+  display: 'flex'
+})
 
 const IndexPage = ({ data }) => {
   return (
     <>
       <SEO title="Home" />
-      <div className={styles.flexGrid}>
+      <PageContainer>
         <CommunityDrawer
           img={data.logo.childImageSharp}
         />
-        <Main
-        />
-      </div>
-    </>
+        <Main />
+      </PageContainer>
+    </ >
   )
 }
 

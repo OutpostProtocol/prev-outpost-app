@@ -1,9 +1,22 @@
 import React, { useState } from 'react'
+import { styled } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import CommunitySelector from '../CommunitySelector'
 
-import CommunitySelector from './CommunitySelector'
-import styles from './index.module.css'
+const NewPostContainer = styled('div')({
+  margin: '0 0 3% 0'
+})
+
+const PostButton = styled(Button)({
+  margin: '5px',
+  float: 'right',
+  'margin-right': 0
+})
+
+const PostText = styled(TextField)({
+  width: '100%'
+})
 
 const placeHolderCommunity = {
   name: 'Community',
@@ -38,29 +51,26 @@ const NewPost = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <TextField
-        value={postText}
-        onChange={handleChange}
-        multiline
+    <NewPostContainer>
+      <PostText
         label='Post text'
         variant='outlined'
-        className={styles.textField}
+        value={postText}
+        onChange={handleChange}
       />
       <CommunitySelector
         handleSelection={handleCommunitySelection}
         placeHolder={placeHolderCommunity}
       >
       </CommunitySelector>
-      <Button
-        variant='contained'
+      <PostButton
         disableElevation
+        variant= 'contained'
         onClick={handlePost}
-        className={styles.postBtn}
       >
         Post
-      </Button>
-    </div>
+      </PostButton>
+    </NewPostContainer>
   )
 }
 

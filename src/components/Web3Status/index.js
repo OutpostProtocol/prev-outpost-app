@@ -5,11 +5,24 @@ import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Web3Modal from 'web3modal'
 import { ethers } from 'ethers'
-
+import { styled } from '@material-ui/core/styles'
 import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import { shortenAddress } from '../../utils'
-import styles from './index.module.css'
 import modalOptions from './modalOptions'
+
+const Web3Button = styled(Button)({
+  width: '80%',
+  'margin-left': '10%',
+  'border-radius': '4px'
+})
+
+const Web3Container = styled('div')({
+  width: '100%'
+})
+
+const ProgressContainer = styled(Backdrop)({
+  'z-index': 5
+})
 
 const Web3Status = () => {
   const address = useSelector(state => state.address)
@@ -27,35 +40,30 @@ const Web3Status = () => {
 
   if (isLoggedIn) {
     return (
-      <Button
+      <Web3Button
         disableElevation
         color='primary'
         variant='contained'
-        classes={{
-          root: styles.buttonRoot
-        }}
+        disableRipple={true}
       >
         <div>{shortenAddress(address)}</div>
-      </Button>
+      </Web3Button>
     )
   } else {
     return (
-      <div>
-        <Backdrop className={styles.backdrop} open={isLoading && !isLoggedIn}>
+      <Web3Container>
+        <ProgressContainer open={isLoading && !isLoggedIn}>
           <CircularProgress />
-        </Backdrop>
-        <Button
+        </ProgressContainer>
+        <Web3Button
           onClick={signIn}
           variant='contained'
           disableElevation
           color='primary'
-          classes={{
-            root: styles.buttonRoot
-          }}
         >
           Sign In
-        </ Button>
-      </div>
+        </Web3Button>
+      </Web3Container>
     )
   }
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
-import { useTheme } from '@material-ui/core/styles'
+import { styled } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
@@ -10,71 +10,80 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
 import CreateCommunity from '../CreateCommunity'
 import CommunityView from '../CommunityView'
-import styles from './index.module.css'
 import Web3Status from '../Web3Status'
 
+const GridContainer = styled('div')({
+  flex: 1
+})
+
+const CloseChevron = styled(IconButton)({
+  float: 'right',
+  color: 'inherit',
+  edge: 'end',
+  'aria-label': 'Close Sidebar',
+  'margin-right': 'auto'
+})
+
+const OpenChevron = styled(IconButton)({
+  color: 'inherit',
+  edge: 'start',
+  'aria-label': 'View Commnities',
+  'margin-top': '10px'
+})
+
+const DrawerContentsContainer = styled('div')({
+  width: '18vw'
+})
+
+const LogoContainer = styled('div')({
+  'margin-top': '10px'
+})
+
+const Logo = styled(Link)({
+  width: '20%',
+  'margin-left': '40%'
+})
+
 const CommunityDrawer = ({ img }) => {
-  const theme = useTheme()
   const [open, setOpen] = useState(true)
 
   const DrawerContents = ({ img }) => {
     return (
-      <div
-        style={{
-          width: `${theme.sidebarWidth}vw`
-        }}
-      >
-        <div className={styles.logoContainer}>
-          <Link to='/' className={styles.logo}>
+      <DrawerContentsContainer>
+        <LogoContainer>
+          <Logo to='/'>
             <Img fixed={img.fixed} />
-          </Link>
-          <IconButton
-            color="inherit"
-            aria-label="Close Sidebar"
-            edge="end"
+          </Logo>
+          <CloseChevron
             onClick={() => setOpen(false)}
-            className={styles.closeChevron}
           >
             <ChevronLeftIcon />
-          </IconButton>
-        </div>
+          </CloseChevron>
+        </LogoContainer>
         <Web3Status />
         <CreateCommunity />
         {/* search for new communities */}
         <CommunityView />
-      </div>
+      </DrawerContentsContainer>
     )
   }
 
   return (
-    <div
-      className={styles.container}
-      style={{
-        width: `${theme.sidebarWidth}vw`
-      }}
-      data-testid='communityDrawer'
-    >
-      <IconButton
-        color="inherit"
-        aria-label="View Communities"
-        edge="start"
+    <GridContainer>
+      <OpenChevron
         onClick={() => setOpen(true)}
-        className={styles.openChevron}
       >
         <ChevronRightIcon />
-      </IconButton>
+      </OpenChevron>
       <Drawer
         anchor="left"
         variant="persistent"
         open={open}
         elevation={4}
-        classes={{
-          paper: styles.drawerPaper
-        }}
       >
         <DrawerContents img={img} />
       </Drawer>
-    </div>
+    </GridContainer>
   )
 }
 

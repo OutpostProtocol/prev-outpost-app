@@ -1,26 +1,28 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import Button from '@material-ui/core/Button'
 import { navigate } from 'gatsby'
+import { styled } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
 
-import styles from './index.module.css'
+const CreateButton = styled(Button)({
+  width: '80%',
+  margin: '5px 10%',
+  'border-radius': '4px'
+})
 
 const CreateCommunity = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-
   if (isLoggedIn) {
     return (
-      <Button
-        onClick={() => navigate('/createCommunity')}
+      <CreateButton
         variant='contained'
         color='primary'
+        disabled={!isLoggedIn}
         disableElevation
-        classes={{
-          root: styles.buttonRoot
-        }}
+        onClick={() => navigate('/createCommunity')}
       >
         Create a Community
-      </Button>
+      </CreateButton>
     )
   } else {
     return null
