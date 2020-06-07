@@ -11,10 +11,12 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 import CreateCommunity from '../CreateCommunity'
 import CommunityView from '../CommunityView'
 import Web3Status from '../Web3Status'
+import Footer from './Footer'
 
 const GridContainer = styled('div')({
   flex: 1,
   height: '100vh',
+  postion: 'relative',
   'z-index': 1
 })
 
@@ -65,6 +67,7 @@ const CommunityDrawer = ({ img }) => {
         <CreateCommunity />
         {/* search for new communities */}
         <CommunityView />
+        <Footer />
       </DrawerContentsContainer>
     )
   }
