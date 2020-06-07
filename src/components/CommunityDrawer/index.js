@@ -14,10 +14,9 @@ import Web3Status from '../Web3Status'
 import Footer from './Footer'
 
 const GridContainer = styled('div')({
-  flex: 1,
   height: '100vh',
-  postion: 'relative',
-  'z-index': 1
+  'z-index': 1,
+  position: 'fixed'
 })
 
 const CloseChevron = styled(IconButton)({
@@ -34,7 +33,7 @@ const OpenChevron = styled(IconButton)({
 })
 
 const DrawerContentsContainer = styled('div')({
-  width: '18vw'
+  width: '20vw'
 })
 
 const LogoContainer = styled('div')({

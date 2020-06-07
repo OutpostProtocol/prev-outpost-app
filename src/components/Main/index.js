@@ -9,10 +9,9 @@ import Feed from '../Feed'
 import NewPost from '../NewPost'
 
 const MainContainer = styled('div')({
-  flex: 3,
   padding: '1em',
-  'padding-left': '15%',
-  'padding-right': '15%'
+  'padding-left': '23vw',
+  'padding-right': '23vw'
 })
 
 const Main = () => {
