@@ -12,15 +12,13 @@ const PageContainer = styled('div')({
 
 const IndexPage = ({ data }) => {
   return (
-    <>
+    <PageContainer>
       <SEO title="Home" />
-      <PageContainer>
-        <CommunityDrawer
-          img={data.logo.childImageSharp}
-        />
-        <Main />
-      </PageContainer>
-    </ >
+      <CommunityDrawer
+        img={data.logo.childImageSharp}
+      />
+      <Main />
+    </ PageContainer>
   )
 }
 

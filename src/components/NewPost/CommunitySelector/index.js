@@ -5,7 +5,8 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 
 const CommunitySelect = styled(Select)({
-  margin: '5px'
+  margin: '5px',
+  'min-width': '150px'
 })
 
 const CommunitySelector = ({ handleSelection, placeHolder }) => {

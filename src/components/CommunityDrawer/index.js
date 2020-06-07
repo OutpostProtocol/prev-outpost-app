@@ -13,7 +13,9 @@ import CommunityView from '../CommunityView'
 import Web3Status from '../Web3Status'
 
 const GridContainer = styled('div')({
-  flex: 1
+  flex: 1,
+  height: '100vh',
+  'z-index': 1
 })
 
 const CloseChevron = styled(IconButton)({
