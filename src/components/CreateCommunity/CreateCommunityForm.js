@@ -4,6 +4,7 @@ import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import Checkbox from '@material-ui/core/Checkbox'
 
 import { ADD_COMMUNITY_ASYNC } from '../../redux/actionTypes'
 
@@ -23,6 +24,11 @@ const FormTextField = styled(TextField)({
   'margin-top': '15px'
 })
 
+const FormCheckboxContainer = styled('div')({
+  'margin-top': '15px',
+  float: 'left'
+})
+
 const FormButton = styled(Button)({
   width: '100%',
   color: 'primary',
@@ -34,14 +40,19 @@ const CreateCommunityForm = () => {
   const address = useSelector(state => state.address)
   const [name, setName] = useState('')
   const [symbol, setSymbol] = useState('')
+  const [isOpenToView, setIsOpenToView] = useState(false)
+  const [isOpenToPost, setIsOpenToPost] = useState(false)
   const dispatch = useDispatch()
 
   const createCommunity = async () => {
     const community = {
       name,
       symbol,
+      isOpenToView,
+      isOpenToPost,
       moderatorAddress: address
     }
+
     if (validateFields()) {
       dispatch({ type: ADD_COMMUNITY_ASYNC, community })
       navigate('/')
@@ -58,6 +69,9 @@ const CreateCommunityForm = () => {
     } else if (address === '') {
       alert('address is undefined')
       return false
+    } else if (isOpenToPost && !isOpenToView) {
+      alert('In order to allow public to post, please allow them to view the community')
+      return false
     }
     return true
   }
@@ -70,6 +84,18 @@ const CreateCommunityForm = () => {
     const symbol = event.target.value
     if (symbol && symbol.length <= 3) {
       setSymbol(event.target.value)
+    }
+  }
+
+  const handleIsOpenToView = (event) => {
+    if (event && event.target.value !== undefined) {
+      setIsOpenToView(event.target.value)
+    }
+  }
+
+  const handleIsOpenToPost = (event) => {
+    if (event && event.target.value !== undefined) {
+      setIsOpenToPost(event.target.value)
     }
   }
 
@@ -90,6 +116,22 @@ const CreateCommunityForm = () => {
         label='Community Abbreviation'
         variant='outlined'
       />
+      <FormCheckboxContainer>
+        Can public view?
+        <Checkbox
+          value={isOpenToView}
+          onClick={handleIsOpenToView}
+          color='primary'
+        />
+      </FormCheckboxContainer>
+      <FormCheckboxContainer>
+        Can public post?
+        <Checkbox
+          value={isOpenToPost}
+          onClick={handleIsOpenToPost}
+          color='primary'
+        />
+      </FormCheckboxContainer>
       <FormButton
         onClick={createCommunity}
         disableElevation

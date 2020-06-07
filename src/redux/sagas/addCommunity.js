@@ -4,10 +4,20 @@ import { COMMUNITIES } from '../../constants'
 
 function * tryAdd (action) {
   try {
-    const { name, moderatorAddress } = action.community
-    const thread = yield window.space.joinThread(name, {
-      firstModerator: moderatorAddress
-    })
+    const { name, moderatorAddress, isOpenToView, isOpenToPost } = action.community
+    let thread
+    if (isOpenToView) {
+      thread = yield window.space.joinThread(name, {
+        firstModerator: moderatorAddress,
+        members: !isOpenToPost
+      })
+    } else {
+      thread = yield window.space.createConfidentialThread(name, {
+        firstModerator: moderatorAddress,
+        members: !isOpenToPost
+      })
+    }
+
     yield window.space.subscribeThread(thread.address)
 
     const community = {
