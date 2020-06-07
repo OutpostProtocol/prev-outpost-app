@@ -5,19 +5,21 @@ import IconButton from '@material-ui/core/IconButton'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
 import Post from '../components/Post'
+import SEO from '../components/seo'
 
 const PostContainer = styled('div')({
   width: '50vw',
   margin: '0 auto'
 })
 
-const viewPost = ({ location }) => {
+const PostPage = ({ location }) => {
   if (!location.state.post) {
     navigate('/')
   }
 
   return (
     <>
+      <SEO title="Post" />
       <IconButton
         color="inherit"
         aria-label="Go back"
@@ -35,4 +37,4 @@ const viewPost = ({ location }) => {
   )
 }
 
-export default viewPost
+export default PostPage
