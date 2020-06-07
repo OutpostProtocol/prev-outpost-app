@@ -3,12 +3,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import Button from '@material-ui/core/Button'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Web3Modal from 'web3modal'
 import { ethers } from 'ethers'
 
 import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import { shortenAddress } from '../../utils'
-import ProviderSelector from '../ProviderSelector'
 import styles from './index.module.css'
+import modalOptions from './modalOptions'
 
 const Web3Status = () => {
   const address = useSelector(state => state.address)
@@ -16,22 +17,12 @@ const Web3Status = () => {
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
 
-  const getAddress = async () => {
-    try {
-      window.web3 = new ethers.providers.Web3Provider(await ProviderSelector())
-      return window.web3.provider.selectedAddress
-    } catch (error) {
-      console.log(error)
-      return null
-    }
-  }
-
   const signIn = async () => {
-    const address = await getAddress()
-    if (address) {
-      setIsLoading(true)
-      dispatch({ type: LOGIN_ASYNC, address })
-    }
+    const modal = new Web3Modal(modalOptions)
+    const provider = new ethers.providers.Web3Provider(await modal.connect())
+    window.web3 = provider
+    setIsLoading(true)
+    dispatch({ type: LOGIN_ASYNC })
   }
 
   if (isLoggedIn) {

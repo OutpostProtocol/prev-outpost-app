@@ -17,7 +17,7 @@ function * tryAdd (action) {
 
     const communities = yield window.space.public.get(COMMUNITIES)
 
-    yield communities
+    yield Array.isArray(communities)
       ? window.space.public.set(COMMUNITIES, [
         ...communities,
         community

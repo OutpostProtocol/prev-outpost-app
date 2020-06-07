@@ -11,7 +11,7 @@ describe('Community Tile', () => {
   const store = mockStore(state)
 
   const sampleCommunity = {
-    abbr: 'ABC',
+    symbol: 'ABC',
     name: 'Sample Community',
     address: '0x0',
     visible: true

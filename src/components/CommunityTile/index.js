@@ -33,7 +33,7 @@ const CommunityTile = ({ community }) => {
     >
       <div className={styles.tileStatus}>
         <div>
-          {capitalize(community.name)} ({community.abbr.toUpperCase()})
+          {capitalize(community.name)} ({community.symbol.toUpperCase()})
         </div>
       </div>
       {isLoggedIn

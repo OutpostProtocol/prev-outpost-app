@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import CommunitySelector from '../CommunitySelector'
+
+import CommunitySelector from './CommunitySelector'
 import styles from './index.module.css'
+
+const placeHolderCommunity = {
+  name: 'Community',
+  address: 'PLACEHOLDER'
+}
 
 const NewPost = () => {
   const [postText, setPostText] = useState('')
@@ -22,7 +28,7 @@ const NewPost = () => {
     if (postText === 'undefined' || postText === '') {
       alert('enter something!')
       return
-    } else if (communityAddress === '') {
+    } else if (communityAddress === placeHolderCommunity.address) {
       alert('select a community!')
       return
     }
@@ -41,8 +47,9 @@ const NewPost = () => {
         variant='outlined'
         className={styles.textField}
       />
-      To <CommunitySelector
+      <CommunitySelector
         handleSelection={handleCommunitySelection}
+        placeHolder={placeHolderCommunity}
       >
       </CommunitySelector>
       <Button
