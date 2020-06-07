@@ -21,14 +21,12 @@ const GridContainer = styled('div')({
 const CloseChevron = styled(IconButton)({
   float: 'right',
   color: 'inherit',
-  edge: 'end',
   'aria-label': 'Close Sidebar',
   'margin-right': 'auto'
 })
 
 const OpenChevron = styled(IconButton)({
   color: 'inherit',
-  edge: 'start',
   'aria-label': 'View Commnities',
   'margin-top': '10px'
 })
@@ -57,6 +55,7 @@ const CommunityDrawer = ({ img }) => {
             <Img fixed={img.fixed} />
           </Logo>
           <CloseChevron
+            edge='end'
             onClick={() => setOpen(false)}
           >
             <ChevronLeftIcon />
@@ -73,6 +72,7 @@ const CommunityDrawer = ({ img }) => {
   return (
     <GridContainer>
       <OpenChevron
+        edge= 'start'
         onClick={() => setOpen(true)}
       >
         <ChevronRightIcon />
