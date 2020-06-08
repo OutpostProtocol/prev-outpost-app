@@ -6,10 +6,10 @@ import { styled } from '@material-ui/core/styles'
 
 const PostContainer = styled('div')({
   padding: '10px',
-  'margin-top': '15px',
+  'margin-top': '5px',
   'border-radius': '4px',
   '&:hover': {
-    'background-color': '#f1f1f1'
+    'background-color': '#fafafae8'
   }
 })
 
