@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import ProfileHover from 'profile-hover'
-import { navigate } from 'gatsby'
+import { Link } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 
 const PostContainer = styled('div')({
@@ -25,23 +25,32 @@ const PostContent = styled('span')({
   'margin-left': '60px'
 })
 
+const UnstyledLink = styled(Link)({
+  'text-decoration': 'none',
+  color: 'black'
+})
+
 const Post = ({ post }) => {
   const TIME_FORMAT = 'M/D h:mm a'
   const time = moment.unix(post.timestamp).format(TIME_FORMAT)
+  const url = '/post/' + post.Id
 
   return (
-    <PostContainer
-      onClick={() => navigate('/post', { state: { post } })}
+    <UnstyledLink
+      to={url}
+      state={{ post }}
     >
-      <ProfileHover
-        address={post.author}
-        showName={true}
-        orientation='left'
-      >
-      </ProfileHover>
-      <PostMetaData>{post.threadName} {time}</PostMetaData>
-      <PostContent>{post.message}</PostContent>
-    </PostContainer>
+      <PostContainer>
+        <ProfileHover
+          address={post.author}
+          showName={true}
+          orientation='left'
+        >
+        </ProfileHover>
+        <PostMetaData>{post.threadName} {time}</PostMetaData>
+        <PostContent>{post.message}</PostContent>
+      </PostContainer>
+    </UnstyledLink>
   )
 }
 

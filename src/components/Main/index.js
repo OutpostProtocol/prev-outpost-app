@@ -33,6 +33,7 @@ const Main = () => {
         const threadName = community.address.split('/').slice(-1)
         const posts = await Box.getThreadByAddress(community.address)
         posts.forEach((post) => {
+          post.Id = post.postId
           post.threadName = threadName
         })
         tempPosts.push(posts)
