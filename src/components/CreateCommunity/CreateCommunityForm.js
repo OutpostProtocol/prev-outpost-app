@@ -73,6 +73,9 @@ const CreateCommunityForm = () => {
     } else if (isOpenToPost && !isOpenToView) {
       alert('In order to allow public to post, please allow them to view the community')
       return false
+    } else if (name.includes('/')) {
+      alert('Illegal character \'/\'')
+      return false
     }
     return true
   }

@@ -4,8 +4,7 @@ import { AuthereumConnector } from '@web3-react/authereum-connector'
 import { TorusConnector } from '@web3-react/torus-connector'
 
 const POLLING_INTERVAL = 10000
-const NETWORK_URL = process.env.REACT_APP_NETWORK_URL
-// const INFURA_ID = process.env.INFURA_ID
+const NETWORK_URL = process.env.GATSBY_NETWORK_URL
 
 export const injected = new InjectedConnector({
   supportedChainIds: [1, 3, 4, 5, 42]
