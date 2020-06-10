@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import {
+  useSelector,
+  useDispatch
+} from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
@@ -41,7 +44,9 @@ const CommunityTile = ({ community }) => {
     dispatch({ type: REMOVE_COMMUNITY_ASYNC, community })
   }
 
-  const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1)
+  const capitalize = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
 
   return (
     <TileContainer>
@@ -50,8 +55,8 @@ const CommunityTile = ({ community }) => {
           {capitalize(community.name)} ({community.symbol.toUpperCase()})
         </div>
       </TileStatus>
-      {isLoggedIn
-        ? <div>
+      {isLoggedIn &&
+        <div>
           <IconButton
             onClick={handleOpen}
             aria-label="options"
@@ -77,7 +82,6 @@ const CommunityTile = ({ community }) => {
             <MenuItem onClick={removeCommunity}>Remove</MenuItem>
           </Menu>
         </div>
-        : null
       }
     </TileContainer>
   )

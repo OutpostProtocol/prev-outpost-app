@@ -1,5 +1,4 @@
 export const LOGIN_ASYNC = 'LOGIN'
-export const SET_ADDR = 'SET_ADDR'
 export const SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN'
 export const SET_COMMUNITIES = 'SET_COMMUNITIES'
 export const ADD_COMMUNITY_ASYNC = 'ADD_COMMUNITY_ASYNC'

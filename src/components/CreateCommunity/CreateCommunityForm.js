@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useWeb3React } from '@web3-react/core'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -37,7 +38,7 @@ const FormButton = styled(Button)({
 })
 
 const CreateCommunityForm = () => {
-  const address = useSelector(state => state.address)
+  const { account } = useWeb3React()
   const [name, setName] = useState('')
   const [symbol, setSymbol] = useState('')
   const [isOpenToView, setIsOpenToView] = useState(false)
@@ -50,7 +51,7 @@ const CreateCommunityForm = () => {
       symbol,
       isOpenToView,
       isOpenToPost,
-      moderatorAddress: address
+      moderatorAddress: account
     }
 
     if (validateFields()) {
@@ -66,8 +67,8 @@ const CreateCommunityForm = () => {
     } else if (name === '') {
       alert('enter a name')
       return false
-    } else if (address === '') {
-      alert('address is undefined')
+    } else if (account === '') {
+      alert('user address is undefined')
       return false
     } else if (isOpenToPost && !isOpenToView) {
       alert('In order to allow public to post, please allow them to view the community')

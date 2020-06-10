@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
-import Img from 'gatsby-image'
 import { styled } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import IconButton from '@material-ui/core/IconButton'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import Img from 'gatsby-image'
+import PropTypes from 'prop-types'
+import {
+  Drawer,
+  IconButton
+} from '@material-ui/core'
+import {
+  ChevronLeft,
+  ChevronRight
+} from '@material-ui/icons'
 
 import CreateCommunity from '../CreateCommunity'
 import CommunityView from '../CommunityView'
@@ -15,8 +19,8 @@ import Footer from './Footer'
 
 const GridContainer = styled('div')({
   height: '100vh',
-  'z-index': 1,
-  position: 'fixed'
+  position: 'fixed',
+  'z-index': 1
 })
 
 const CloseChevron = styled(IconButton)({
@@ -59,7 +63,7 @@ const CommunityDrawer = ({ img }) => {
             edge='end'
             onClick={() => setOpen(false)}
           >
-            <ChevronLeftIcon />
+            <ChevronLeft />
           </CloseChevron>
         </LogoContainer>
         <Web3Status />
@@ -77,11 +81,11 @@ const CommunityDrawer = ({ img }) => {
         edge= 'start'
         onClick={() => setOpen(true)}
       >
-        <ChevronRightIcon />
+        <ChevronRight />
       </OpenChevron>
       <Drawer
-        anchor="left"
-        variant="persistent"
+        anchor='left'
+        variant='persistent'
         open={open}
         elevation={4}
       >

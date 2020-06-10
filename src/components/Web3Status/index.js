@@ -1,14 +1,21 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, {
+  useState,
+  useEffect
+} from 'react'
+import {
+  useSelector,
+  useDispatch
+} from 'react-redux'
+import { useWeb3React } from '@web3-react/core'
+import { styled } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Backdrop from '@material-ui/core/Backdrop'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Web3Modal from 'web3modal'
-import { ethers } from 'ethers'
-import { styled } from '@material-ui/core/styles'
+
 import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import { shortenAddress } from '../../utils'
-import modalOptions from './modalOptions'
+import WalletModal from '../WalletModal'
+import Notification from '../Notification'
 
 const Web3Button = styled(Button)({
   width: '80%',
@@ -26,18 +33,30 @@ const ProgressContainer = styled(Backdrop)({
 })
 
 const Web3Status = () => {
-  const address = useSelector(state => state.address)
-  const isLoggedIn = useSelector(state => state.isLoggedIn)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const isLoggedIn = useSelector(state => state.isLoggedIn)
   const dispatch = useDispatch()
 
-  const signIn = async () => {
-    const modal = new Web3Modal(modalOptions)
-    const provider = new ethers.providers.Web3Provider(await modal.connect())
-    window.web3 = provider
-    setIsLoading(true)
-    dispatch({ type: LOGIN_ASYNC })
+  const { account, library, error } = useWeb3React()
+
+  const createLoginAction = () => {
+    const web3Credentials = {
+      address: account,
+      provider: library.provider
+    }
+    return { type: LOGIN_ASYNC, web3Credentials }
   }
+
+  useEffect(() => {
+    if (account && library && !isLoggedIn && !isLoading) {
+      setIsLoading(true)
+      setIsModalOpen(false)
+      dispatch(createLoginAction())
+    }
+  // React guarantees that dispatch function identity is stable and won’t change on re-renders
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account, library, isLoggedIn, isLoading])
 
   if (isLoggedIn) {
     return (
@@ -47,7 +66,7 @@ const Web3Status = () => {
         variant='contained'
         disableRipple={true}
       >
-        <div>{shortenAddress(address)}</div>
+        <div>{shortenAddress(account)}</div>
       </Web3Button>
     )
   } else {
@@ -57,13 +76,22 @@ const Web3Status = () => {
           <CircularProgress />
         </ProgressContainer>
         <Web3Button
-          onClick={signIn}
+          onClick={() => setIsModalOpen(true)}
           variant='contained'
           disableElevation
           color='primary'
         >
           Sign In
         </Web3Button>
+        <WalletModal
+          open={isModalOpen}
+          handleClose={() => setIsModalOpen(false)}
+        />
+        {error &&
+          <Notification
+            message={error.message}
+          />
+        }
       </Web3Container>
     )
   }

@@ -1,17 +1,10 @@
 import { combineReducers } from 'redux'
 import {
-  SET_ADDR, SET_IS_LOGGED_IN, SET_COMMUNITIES, ADD_COMMUNITY
+  SET_IS_LOGGED_IN,
+  SET_COMMUNITIES,
+  ADD_COMMUNITY
 } from '../actionTypes'
 import { DEFAULT_COMMUNITY } from '../../constants'
-
-const address = (state = '', action) => {
-  switch (action.type) {
-    case SET_ADDR:
-      return action.address
-    default:
-      return state
-  }
-}
 
 const isLoggedIn = (state = false, action) => {
   switch (action.type) {
@@ -39,7 +32,6 @@ const communities = (state = [DEFAULT_COMMUNITY], action) => {
 }
 
 const app = combineReducers({
-  address,
   isLoggedIn,
   communities
 })

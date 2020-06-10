@@ -1,20 +1,25 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
 import IconButton from '@material-ui/core/IconButton'
-import GitHubIcon from '@material-ui/icons/GitHub'
-import LanguageIcon from '@material-ui/icons/Language'
+import {
+  GitHub,
+  Language
+} from '@material-ui/icons'
 
 const FooterContainer = styled('div')({
   display: 'flex',
   position: 'absolute',
   bottom: 0,
-  'justify-content': 'space-evenly',
+  alignItems: 'center',
+  justifyContent: 'space-evenly',
   width: '80%',
   padding: '0 10%'
 })
 
 const Icon = styled(IconButton)({
-  margin: '0 auto'
+  margin: '0 auto',
+  width: '40px',
+  height: '40px'
 })
 
 const Footer = () => {
@@ -27,11 +32,11 @@ const Footer = () => {
             rel="noopener noreferrer"
             target='_blank'
           >
-            <GitHubIcon
+            <GitHub
               color='primary'
               label='Github'
             >
-            </GitHubIcon>
+            </GitHub>
           </a>
         </Icon>
       </div>
@@ -42,11 +47,11 @@ const Footer = () => {
             rel="noopener noreferrer"
             target='_blank'
           >
-            <LanguageIcon
-              color='primary'
+            <Language
+              color='secondary'
               label='Blog'
             >
-            </LanguageIcon>
+            </Language>
           </a>
         </Icon>
       </div>

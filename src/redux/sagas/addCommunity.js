@@ -1,5 +1,11 @@
-import { takeLatest, put } from 'redux-saga/effects'
-import { ADD_COMMUNITY_ASYNC, ADD_COMMUNITY } from '../actionTypes'
+import {
+  takeLatest,
+  put
+} from 'redux-saga/effects'
+import {
+  ADD_COMMUNITY_ASYNC,
+  ADD_COMMUNITY
+} from '../actionTypes'
 import { COMMUNITIES } from '../../constants'
 
 function * tryAdd (action) {

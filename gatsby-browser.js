@@ -3,6 +3,8 @@ import { Provider } from 'react-redux'
 import { ThemeProvider, StylesProvider, createMuiTheme } from '@material-ui/core/styles'
 import createStore, { runSaga } from './src/redux/store'
 import { ELEMENT_ID, GLOBAL_KEY } from './src/constants'
+import { Web3ReactProvider } from '@web3-react/core'
+import { ethers } from 'ethers'
 
 import './src/utils/global.css'
 
@@ -18,8 +20,16 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: 'Roboto'
   },
+  zIndex: {
+    snackbar: 2300
+  },
   sidebarWidth: 22 // vw
 })
+
+const getLibrary = (provider, connector) => {
+  window.web3 = new ethers.providers.Web3Provider(provider)
+  return window.web3
+}
 
 export const wrapRootElement = ({ element }) => {
   const store = createStore(window[GLOBAL_KEY])
@@ -30,17 +40,19 @@ export const wrapRootElement = ({ element }) => {
       <Provider store={store}>
         <StylesProvider injectFirst >
           <ThemeProvider theme={theme}>
-            <main
-              style={{
-                height: '100vh',
-                width: '100vw',
-                position: 'absolute',
-                top: '0',
-                left: '0'
-              }}
-            >
-              {element}
-            </main>
+            <Web3ReactProvider getLibrary={getLibrary}>
+              <main
+                style={{
+                  height: '100vh',
+                  width: '100vw',
+                  position: 'absolute',
+                  top: '0',
+                  left: '0'
+                }}
+              >
+                {element}
+              </main>
+            </Web3ReactProvider>
           </ThemeProvider>
         </StylesProvider>
 

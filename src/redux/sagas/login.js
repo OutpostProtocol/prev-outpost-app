@@ -1,16 +1,25 @@
-import { takeLeading, put, all } from 'redux-saga/effects'
+import {
+  takeLeading,
+  put,
+  all
+} from 'redux-saga/effects'
+import {
+  LOGIN_ASYNC,
+  SET_IS_LOGGED_IN,
+  SET_COMMUNITIES
+} from '../../redux/actionTypes'
+import {
+  DEFAULT_SPACE,
+  COMMUNITIES,
+  DEFAULT_COMMUNITY
+} from '../../constants'
 import Box from '3box'
-import { LOGIN_ASYNC, SET_ADDR, SET_IS_LOGGED_IN, SET_COMMUNITIES } from '../../redux/actionTypes'
-import { DEFAULT_SPACE, COMMUNITIES, DEFAULT_COMMUNITY } from '../../constants'
 
-function * tryLogin () {
+function * tryLogin (action) {
   try {
-    let provider
-    if (window.web3 && window.web3.provider) {
-      provider = window.web3.provider
-    }
-
-    const box = yield Box.openBox(provider.selectedAddress, provider)
+    const address = action.web3Credentials.address
+    const provider = action.web3Credentials.provider
+    const box = yield Box.openBox(address, provider)
     const space = yield box.openSpace(DEFAULT_SPACE)
     window.space = space
 
@@ -21,7 +30,6 @@ function * tryLogin () {
     }
 
     yield all([
-      put({ type: SET_ADDR, address: provider.selectedAddress }),
       put({ type: SET_COMMUNITIES, communities }),
       put({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
     ])

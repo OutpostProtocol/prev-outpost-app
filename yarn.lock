@@ -1428,7 +1428,7 @@
     scrypt-js "3.0.1"
     uuid "2.0.1"
 
-"@ethersproject/keccak256@>=5.0.0-beta.127", "@ethersproject/keccak256@>=5.0.0-beta.131":
+"@ethersproject/keccak256@>=5.0.0-beta.127", "@ethersproject/keccak256@>=5.0.0-beta.131", "@ethersproject/keccak256@^5.0.0-beta.130":
   version "5.0.0-beta.132"
   resolved "https://registry.yarnpkg.com/@ethersproject/keccak256/-/keccak256-5.0.0-beta.132.tgz#38c128194a88aba690b6aca43cae57df420408d7"
   integrity sha512-YpkwYGV4nu1QM7Q+mhYKO1bCk/sbiV7AAU/HnHwZhDiwJZSDRwfjiFkAJQpvTbsAR02Ek9LhFEBg4OfLTEhJLg==
@@ -3338,7 +3338,7 @@
     web3-eth-contract "^1.2.7"
     web3-utils "^1.2.7"
 
-"@toruslabs/torus-embed@^1.3.0":
+"@toruslabs/torus-embed@^1.2.4", "@toruslabs/torus-embed@^1.3.0":
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/@toruslabs/torus-embed/-/torus-embed-1.4.4.tgz#461f08c710a0116e6c79cacf7bb1e267b176e498"
   integrity sha512-QksfX3CMSgkSOSg1RsTC8lqPdA2AlyuFA1r8/uDcy7p0Cm/vFmE4uq6xbnOLnq1VTJwHbicwYVyG6QBcnDqUTA==
@@ -3816,7 +3816,7 @@
     "@walletconnect/types" "^1.0.0-beta.47"
     bignumber.js "9.0.0"
 
-"@walletconnect/web3-provider@^1.0.0-beta.47":
+"@walletconnect/web3-provider@^1.0.0-beta.39", "@walletconnect/web3-provider@^1.0.0-beta.47":
   version "1.0.0-beta.47"
   resolved "https://registry.yarnpkg.com/@walletconnect/web3-provider/-/web3-provider-1.0.0-beta.47.tgz#797c9903fe5b26b43c23247b9b32d7d743018d56"
   integrity sha512-mbtmDdp/RmsJzB7kkIFGDvfhQ7vIDSsKBTvpD7GUzXDi15yvQTNt9Ak7OUOe/9N7AO9X9gBf0J/lE+yqoBUiXA==
@@ -3837,6 +3837,66 @@
     nan "^2.14.0"
     typedarray-to-buffer "^3.1.5"
     yaeti "^0.0.6"
+
+"@web3-react/abstract-connector@^6.0.7":
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/@web3-react/abstract-connector/-/abstract-connector-6.0.7.tgz#401b3c045f1e0fab04256311be49d5144e9badc6"
+  integrity sha512-RhQasA4Ox8CxUC0OENc1AJJm8UTybu/oOCM61Zjg6y0iF7Z0sqv1Ai1VdhC33hrQpA8qSBgoXN9PaP8jKmtdqg==
+  dependencies:
+    "@web3-react/types" "^6.0.7"
+
+"@web3-react/authereum-connector@^6.0.9":
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/@web3-react/authereum-connector/-/authereum-connector-6.0.9.tgz#904858144f2ed717ac46615932c8b98de8f2ffaf"
+  integrity sha512-2UufY+7RVwOnVNW5EYKfI+PK8bzIdbFZ+8XbtjLInD0IZtMurIhoDsKSoGMRAOOfK8A1UBN6BLeRWaRDqS5hag==
+  dependencies:
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
+    authereum "^0.0.4-beta.93"
+
+"@web3-react/core@^6.0.9":
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/@web3-react/core/-/core-6.0.9.tgz#0c9dd6f9dca1f54368e768130c5be0ffc9eda5ad"
+  integrity sha512-mhYvLLXcnzi75ksdOkPGPo6dagd+z30ziz4169C9wSukq9zozNhwAFVlx5rmXJz/EnHl+AwwYcuGVONwEzifsw==
+  dependencies:
+    "@ethersproject/keccak256" "^5.0.0-beta.130"
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
+    tiny-invariant "^1.0.6"
+    tiny-warning "^1.0.3"
+
+"@web3-react/injected-connector@^6.0.7":
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/@web3-react/injected-connector/-/injected-connector-6.0.7.tgz#1e0be23f51fa07fe6547fe986768a46b74c3a426"
+  integrity sha512-Y7aJSz6pg+MWKtvdyuqyy6LWuH+4Tqtph1LWfiyVms9II9ar/9B/de4R8wh4wjg91wmHkU+D75yP09E/Soh2RA==
+  dependencies:
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
+    tiny-warning "^1.0.3"
+
+"@web3-react/torus-connector@^6.0.9":
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/@web3-react/torus-connector/-/torus-connector-6.0.9.tgz#b5156e2e13b899c3b1ffeeb2343cd17ce8e842ff"
+  integrity sha512-q6CB32QlAdMDUwOlhdKspwahP8+MYKoNAxC6dSPet0VZTtc04xQdyWS9olLk6N1IdV9z4F2OWfGCLnp6HvxYHg==
+  dependencies:
+    "@toruslabs/torus-embed" "^1.2.4"
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
+
+"@web3-react/types@^6.0.7":
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/@web3-react/types/-/types-6.0.7.tgz#34a6204224467eedc6123abaf55fbb6baeb2809f"
+  integrity sha512-ofGmfDhxmNT1/P/MgVa8IKSkCStFiyvXe+U5tyZurKdrtTDFU+wJ/LxClPDtFerWpczNFPUSrKcuhfPX1sI6+A==
+
+"@web3-react/walletconnect-connector@^6.0.9":
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/@web3-react/walletconnect-connector/-/walletconnect-connector-6.0.9.tgz#76cdbf39ca670ce1a14fa254d1e5fc5a6efbe5ed"
+  integrity sha512-k+rjDgxaoUrMMVt4ssopVh/OMKVhgcpgeogqZnaMzCR1i07z6nH0gNrtVg0ddevbiLkMmnp4ieE8ilpZAgsDOw==
+  dependencies:
+    "@walletconnect/web3-provider" "^1.0.0-beta.39"
+    "@web3-react/abstract-connector" "^6.0.7"
+    "@web3-react/types" "^6.0.7"
+    tiny-invariant "^1.0.6"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -4711,7 +4771,7 @@ authereum@0.0.4-beta.129:
     web3-provider-engine "^15.0.4"
     web3-utils "^1.2.1"
 
-authereum@^0.0.4-beta.133:
+authereum@^0.0.4-beta.133, authereum@^0.0.4-beta.93:
   version "0.0.4-beta.156"
   resolved "https://registry.yarnpkg.com/authereum/-/authereum-0.0.4-beta.156.tgz#668e5d8d02b2b1b5cd891aa4c2c1f08fe83c91c4"
   integrity sha512-lgsJwNSz0TU5f7z5lRUWUqIFFjh5zPKpik5OQMRH1LYeJM39ld3LzIPhld9/3NAfs7zQ0FG6X+8RNonbbBZYdw==
@@ -19382,7 +19442,7 @@ pull-utf8-decoder@^1.0.2:
   resolved "https://registry.yarnpkg.com/pull-utf8-decoder/-/pull-utf8-decoder-1.0.2.tgz#a7afa2384d1e6415a5d602054126cc8de3bcbce7"
   integrity sha1-p6+iOE0eZBWl1gIFQSbMjeO8vOc=
 
-"pull-ws@github:hugomrdias/pull-ws#fix/bundle-size":
+pull-ws@hugomrdias/pull-ws#fix/bundle-size:
   version "3.3.1"
   resolved "https://codeload.github.com/hugomrdias/pull-ws/tar.gz/8e2ce0bb3b1cd6804828316e937fff8e0bef6225"
   dependencies:
@@ -22405,6 +22465,11 @@ tiny-each-async@2.0.3:
   resolved "https://registry.yarnpkg.com/tiny-each-async/-/tiny-each-async-2.0.3.tgz#8ebbbfd6d6295f1370003fbb37162afe5a0a51d1"
   integrity sha1-jru/1tYpXxNwAD+7NxYq/loKUdE=
 
+tiny-invariant@^1.0.6:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.1.0.tgz#634c5f8efdc27714b7f386c35e6760991d230875"
+  integrity sha512-ytxQvrb1cPc9WBEI/HSeYYoGD0kWnGEOR8RY6KomWLBVhqz0RgTwVO9dLrGz7dC+nN9llyI7OKAgRq8Vq4ZBSw==
+
 tiny-queue@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/tiny-queue/-/tiny-queue-0.2.0.tgz#c49fcb5c87555be1b4a5df7eb87101d5b78bc9dc"
@@ -22421,7 +22486,7 @@ tiny-secp256k1@^1.1.1, tiny-secp256k1@^1.1.3:
     elliptic "^6.4.0"
     nan "^2.13.2"
 
-tiny-warning@^1.0.2:
+tiny-warning@^1.0.2, tiny-warning@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
   integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==

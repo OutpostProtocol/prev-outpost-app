@@ -1,5 +1,11 @@
-import { takeEvery, put } from 'redux-saga/effects'
-import { SET_COMMUNITIES, REMOVE_COMMUNITY_ASYNC } from '../actionTypes'
+import { 
+  takeEvery,
+  put
+} from 'redux-saga/effects'
+import {
+  SET_COMMUNITIES,
+  REMOVE_COMMUNITY_ASYNC
+} from '../actionTypes'
 import { COMMUNITIES } from '../../constants'
 
 function * tryRemove (action) {
