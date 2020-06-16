@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
+import {
+  Select,
+  MenuItem
+} from '@material-ui/core'
 
 const CommunitySelect = styled(Select)({
   margin: '5px',
+  float: 'left',
   'min-width': '150px'
 })
 

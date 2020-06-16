@@ -7,5 +7,10 @@ export const DEFAULT_COMMUNITY = {
   name: 'Rain'
 }
 
+export const PLACEHOLDER_COMMUNITY = {
+  name: 'Community',
+  address: 'PLACEHOLDER'
+}
+
 export const ELEMENT_ID = 'redux-ssr'
 export const GLOBAL_KEY = '__PRELOADED_STATE__'
