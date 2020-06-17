@@ -20,10 +20,7 @@ const PostMetaData = styled('span')({
 })
 
 const PostContent = styled(Editor)({
-  position: 'relative',
-  clear: 'both',
-  display: 'block',
-  'margin-left': '60px'
+  'margin-top': '70px'
 })
 
 const Post = ({ post }) => {
