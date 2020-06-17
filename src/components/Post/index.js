@@ -3,6 +3,7 @@ import moment from 'moment'
 import ProfileHover from 'profile-hover'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
+import Editor from 'rich-markdown-editor'
 
 const PostContainer = styled('div')({
   padding: '10px',
@@ -18,7 +19,7 @@ const PostMetaData = styled('span')({
   color: 'darkgrey'
 })
 
-const PostContent = styled('span')({
+const PostContent = styled(Editor)({
   position: 'relative',
   clear: 'both',
   display: 'block',
@@ -44,7 +45,11 @@ const Post = ({ post }) => {
       >
       </ProfileHover>
       <PostMetaData>{post.threadName} {time}</PostMetaData>
-      <PostContent>{post.message}</PostContent>
+      <PostContent
+        defaultValue={post.message}
+        readOnly={true}
+      >
+      </PostContent>
     </PostContainer>
   )
 }

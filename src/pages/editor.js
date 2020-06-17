@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
@@ -6,9 +6,9 @@ import {
   IconButton,
   Button
 } from '@material-ui/core'
+import Editor from 'rich-markdown-editor'
 
 import SEO from '../components/seo'
-import Editor from 'rich-markdown-editor'
 import CommunitySelector from '../components/NewPost/CommunitySelector'
 import { PLACEHOLDER_COMMUNITY } from '../constants'
 
@@ -28,6 +28,28 @@ const PostButton = styled(Button)({
 })
 
 const EditorPage = () => {
+  const [postText, setPostText] = useState('')
+  const [communityAddress, setCommunityAddress] = useState('')
+
+  const handleCommunitySelection = (event) => {
+    if (event && event.target.value) {
+      setCommunityAddress(event.target.value.address)
+    }
+  }
+
+  const handlePost = async () => {
+    if (postText === 'undefined' || postText === '') {
+      alert('enter something!')
+      return
+    } else if (communityAddress === PLACEHOLDER_COMMUNITY.address) {
+      alert('select a community!')
+      return
+    }
+    const thread = await window.space.joinThreadByAddress(communityAddress)
+    await thread.post(postText)
+    setPostText('')
+  }
+
   return (
     <>
       <SEO title="Post Editor" />
@@ -46,6 +68,7 @@ const EditorPage = () => {
             onSave={options => console.log('Save triggered', options)}
             onCancel={() => console.log('Cancel triggered')}
             onShowToast={message => window.alert(message)}
+            onChange={(value) => setPostText(value)}
             uploadImage={file => {
               console.log('File upload triggered: ', file)
             }}
@@ -53,13 +76,13 @@ const EditorPage = () => {
           />
         </TextContainer>
         <CommunitySelector
-          handleSelection={null}
+          handleSelection={handleCommunitySelection}
           placeHolder={PLACEHOLDER_COMMUNITY}
         />
         <PostButton
           disableElevation
           variant='contained'
-          onClick={null}
+          onClick={handlePost}
         >
           Post
         </PostButton>

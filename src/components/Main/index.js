@@ -18,12 +18,13 @@ const MainContainer = styled('div')({
 })
 
 const Main = () => {
+  const isLoggedIn = useSelector(state => state.isLoggedIn)
   const communities = useSelector(state => state.communities)
   const [allPosts, setPosts] = useState([])
 
   useEffect(() => {
     const getPosts = async () => {
-      if (window.space && communities) {
+      if (isLoggedIn) {
         setPosts(await fetchPostsLoggedIn(communities))
       } else {
         setPosts(await fetchPostsLoggedOut([DEFAULT_COMMUNITY]))
@@ -33,7 +34,7 @@ const Main = () => {
     const fetchPostsLoggedIn = async (communities) => {
       const tempPosts = []
       for (const community of communities) {
-        const threadName = community.address.split('/').slice(-1)
+        const threadName = community.address.split('/').slice(-1)[0]
         const thread = await window.space.joinThreadByAddress(community.address)
         const posts = await thread.getPosts()
         posts.forEach((post) => {
@@ -48,7 +49,7 @@ const Main = () => {
     const fetchPostsLoggedOut = async (communities) => {
       const tempPosts = []
       for (const community of communities) {
-        const threadName = community.address.split('/').slice(-1)
+        const threadName = community.address.split('/').slice(-1)[0]
         const posts = await Box.getThreadByAddress(community.address)
         posts.forEach((post) => {
           post.Id = post.postId
@@ -67,11 +68,13 @@ const Main = () => {
     }
 
     getPosts()
-  }, [communities])
+  }, [communities, isLoggedIn])
 
   return (
     <MainContainer>
-      <NewPost />
+      { isLoggedIn &&
+        <NewPost />
+      }
       <Feed posts={allPosts} />
     </MainContainer>
   )
