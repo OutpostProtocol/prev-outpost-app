@@ -7,9 +7,10 @@ import { styled } from '@material-ui/core/styles'
 import {
   IconButton,
   Menu,
-  MenuItem,
-  MoreHorizIcon
+  MenuItem
 } from '@material-ui/core'
+
+import { MoreHoriz } from '@material-ui/icons'
 
 import { REMOVE_COMMUNITY_ASYNC } from '../../redux/actionTypes'
 
@@ -64,7 +65,7 @@ const CommunityTile = ({ community }) => {
             aria-label="options"
             aria-haspopup="true"
           >
-            <MoreHorizIcon />
+            <MoreHoriz />
           </IconButton>
           <Menu
             anchorEl={anchorEl}
