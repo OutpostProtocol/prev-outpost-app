@@ -1,7 +1,7 @@
 import React from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
+import { IconButton } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
 import Post from '../components/Post'

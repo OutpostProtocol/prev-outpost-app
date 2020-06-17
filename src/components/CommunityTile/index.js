@@ -4,10 +4,12 @@ import {
   useDispatch
 } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import {
+  IconButton,
+  Menu,
+  MenuItem,
+  MoreHorizIcon
+} from '@material-ui/core'
 
 import { REMOVE_COMMUNITY_ASYNC } from '../../redux/actionTypes'
 

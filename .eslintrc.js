@@ -11,6 +11,10 @@ module.exports = {
   ],
   rules: {
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "object-curly-newline": ["error", {
+      "ImportDeclaration": { "multiline": true, "minProperties": 2 },
+      "ExportDeclaration": { "multiline": true, "minProperties": 2 }
+    }]
   }
 }

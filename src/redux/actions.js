@@ -1,4 +1,8 @@
-import { SET_ADDR, SET_IS_LOGGED_IN, SET_COMMUNITIES } from './actionTypes'
+import {
+  SET_ADDR,
+  SET_IS_LOGGED_IN,
+  SET_COMMUNITIES
+} from './actionTypes'
 
 export const setAddr = address => ({
   type: SET_ADDR,

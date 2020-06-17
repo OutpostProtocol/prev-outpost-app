@@ -3,9 +3,11 @@ import { useDispatch } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Checkbox from '@material-ui/core/Checkbox'
+import {
+  Button,
+  TextField,
+  Checkbox
+} from '@material-ui/core'
 
 import { ADD_COMMUNITY_ASYNC } from '../../redux/actionTypes'
 

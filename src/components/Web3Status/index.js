@@ -8,9 +8,11 @@ import {
 } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
 import { styled } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Backdrop from '@material-ui/core/Backdrop'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import {
+  Button,
+  Backdrop,
+  CircularProgress
+} from '@material-ui/core'
 
 import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import { shortenAddress } from '../../utils'
