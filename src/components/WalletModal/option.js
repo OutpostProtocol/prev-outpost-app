@@ -4,7 +4,9 @@ import React, {
 } from 'react'
 import { styled } from '@material-ui/core/styles'
 import { useWeb3React } from '@web3-react/core'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import {
+  CircularProgress
+} from '@material-ui/core'
 
 const OptionContainer = styled('div')({
   width: '100%',

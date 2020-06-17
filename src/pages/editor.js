@@ -17,6 +17,11 @@ const EditorContainer = styled('div')({
   margin: '0 auto'
 })
 
+const TextContainer = styled('div')({
+  'border-radius': '4px',
+  'border-color': 'black'
+})
+
 const PostButton = styled(Button)({
   float: 'right',
   'margin-top': '5px'
@@ -35,16 +40,18 @@ const EditorPage = () => {
         <ChevronLeftIcon />
       </IconButton>
       <EditorContainer>
-        <Editor
-          defaultValue='enter post text here'
-          onSave={options => console.log('Save triggered', options)}
-          onCancel={() => console.log('Cancel triggered')}
-          onShowToast={message => window.alert(message)}
-          uploadImage={file => {
-            console.log('File upload triggered: ', file)
-          }}
-          autoFocus
-        />
+        <TextContainer>
+          <Editor
+            placeholder='enter post text here'
+            onSave={options => console.log('Save triggered', options)}
+            onCancel={() => console.log('Cancel triggered')}
+            onShowToast={message => window.alert(message)}
+            uploadImage={file => {
+              console.log('File upload triggered: ', file)
+            }}
+            autoFocus
+          />
+        </TextContainer>
         <CommunitySelector
           handleSelection={null}
           placeHolder={PLACEHOLDER_COMMUNITY}

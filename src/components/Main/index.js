@@ -24,13 +24,28 @@ const Main = () => {
   useEffect(() => {
     const getPosts = async () => {
       if (window.space && communities) {
-        setPosts(await fetchPosts(communities))
+        setPosts(await fetchPostsLoggedIn(communities))
       } else {
-        setPosts(await fetchPosts([DEFAULT_COMMUNITY]))
+        setPosts(await fetchPostsLoggedOut([DEFAULT_COMMUNITY]))
       }
     }
 
-    const fetchPosts = async (communities) => {
+    const fetchPostsLoggedIn = async (communities) => {
+      const tempPosts = []
+      for (const community of communities) {
+        const threadName = community.address.split('/').slice(-1)
+        const thread = await window.space.joinThreadByAddress(community.address)
+        const posts = await thread.getPosts()
+        posts.forEach((post) => {
+          post.Id = post.postId
+          post.threadName = threadName
+        })
+        tempPosts.push(posts)
+      }
+      return chronologicalSort(tempPosts.flat())
+    }
+
+    const fetchPostsLoggedOut = async (communities) => {
       const tempPosts = []
       for (const community of communities) {
         const threadName = community.address.split('/').slice(-1)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
+import { IconButton } from '@material-ui/core'
 import {
   GitHub,
   Language
@@ -28,8 +28,8 @@ const Footer = () => {
       <div>
         <Icon>
           <a
-            href="https://github.com/ClearRainLabs"
-            rel="noopener noreferrer"
+            href='https://github.com/ClearRainLabs'
+            rel='noopener noreferrer'
             target='_blank'
           >
             <GitHub
@@ -43,12 +43,12 @@ const Footer = () => {
       <div>
         <Icon>
           <a
-            href="https://clearrain.xyz/"
-            rel="noopener noreferrer"
+            href='https://clearrain.xyz/'
+            rel='noopener noreferrer'
             target='_blank'
           >
             <Language
-              color='secondary'
+              color='primary'
               label='Blog'
             >
             </Language>

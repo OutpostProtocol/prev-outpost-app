@@ -18,9 +18,9 @@ function * tryAdd (action) {
         members: !isOpenToPost
       })
     } else {
-      thread = yield window.space.createConfidentialThread(name, {
+      thread = yield window.space.joinThread(name, {
         firstModerator: moderatorAddress,
-        members: !isOpenToPost
+        confidential: true
       })
     }
 

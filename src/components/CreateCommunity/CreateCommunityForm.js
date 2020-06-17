@@ -131,6 +131,7 @@ const CreateCommunityForm = () => {
       <FormCheckboxContainer>
         Can public post?
         <Checkbox
+          disabled={!isOpenToView}
           value={isOpenToPost}
           onClick={handleIsOpenToPost}
           color='primary'

@@ -38,25 +38,21 @@ const Web3Status = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const dispatch = useDispatch()
 
-  const { account, library, error } = useWeb3React()
+  const { account, active, error } = useWeb3React()
 
   const createLoginAction = () => {
-    const web3Credentials = {
-      address: account,
-      provider: library.provider
-    }
-    return { type: LOGIN_ASYNC, web3Credentials }
+    return { type: LOGIN_ASYNC, account }
   }
 
   useEffect(() => {
-    if (account && library && !isLoggedIn && !isLoading) {
+    if (account && active && !isLoggedIn && !isLoading) {
       setIsLoading(true)
       setIsModalOpen(false)
       dispatch(createLoginAction())
     }
   // React guarantees that dispatch function identity is stable and won’t change on re-renders
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, library, isLoggedIn, isLoading])
+  }, [account, active, isLoggedIn, isLoading])
 
   if (isLoggedIn) {
     return (

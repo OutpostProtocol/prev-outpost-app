@@ -17,9 +17,9 @@ import Box from '3box'
 
 function * tryLogin (action) {
   try {
-    const address = action.web3Credentials.address
-    const provider = action.web3Credentials.provider
-    const box = yield Box.openBox(address, provider)
+    const address = action.account
+    const box = yield Box.openBox(address, window.web3.provider)
+    window.box = box
     const space = yield box.openSpace(DEFAULT_SPACE)
     window.space = space
 

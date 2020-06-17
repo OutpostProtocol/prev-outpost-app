@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
+import { Button } from '@material-ui/core'
 
 const CreateButton = styled(Button)({
   width: '80%',
