@@ -4,34 +4,43 @@ import React, {
 } from 'react'
 import { styled } from '@material-ui/core/styles'
 import { useWeb3React } from '@web3-react/core'
-import {
-  CircularProgress
-} from '@material-ui/core'
+import { CircularProgress } from '@material-ui/core'
 
 const OptionContainer = styled('div')({
   width: '100%',
   display: 'flex',
   padding: '5px',
+  overflow: 'hidden',
+  transition: 'max-height 0.7s ease-in-out',
+  '-webkit-transition': 'max-height 0.7s ease-in-out',
+  'max-height': '70px',
+  'flex-wrap': 'wrap',
   'border-radius': '4px',
   'box-sizing': 'border-box',
   'align-items': 'center',
-  'justify-content': 'center',
+  'justify-content': 'left',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#fafafae8'
+    'background-color': '#fafafae8',
+    'max-height': '300px'
   }
 })
 
 const Logo = styled('img')({
-  width: '64px',
+  width: '50px',
   'margin-left': 'auto'
 })
 
 const OptionName = styled('h4')({
-  fontWeight: 'normal'
+  fontWeight: 'bold'
 })
 
-const Option = ({ imgSrc, optionName, connector }) => {
+const Description = styled('p')({
+  fontWeight: 'lighter'
+})
+
+const Option = ({ options }) => {
+  const { imgSrc, name, description, connector } = options
   const web3Context = useWeb3React()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -53,7 +62,7 @@ const Option = ({ imgSrc, optionName, connector }) => {
       onClick={handleConnection}
     >
       <OptionName>
-        {optionName}
+        {name}
         &nbsp;
       </OptionName>
       {isLoading &&
@@ -61,8 +70,11 @@ const Option = ({ imgSrc, optionName, connector }) => {
       }
       <Logo
         src={imgSrc}
-        alt={optionName}
+        alt={name}
       />
+      <Description>
+        {description}
+      </Description>
     </OptionContainer>
   )
 }

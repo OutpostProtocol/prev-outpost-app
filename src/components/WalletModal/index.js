@@ -45,7 +45,9 @@ const WalletModal = ({ open, handleClose }) => {
   const ModalContent = (
     <ContentContainer>
       <Heading>
-        <h4>Select a Wallet</h4>
+        <h3>
+          Select a Wallet
+        </h3>
         <ExitButton
           onClick={handleClose}
         >
@@ -55,9 +57,7 @@ const WalletModal = ({ open, handleClose }) => {
       {modalOptions.map((wallet, index) => {
         return (
           <Option
-            connector={wallet.connector}
-            imgSrc={wallet.imgSrc}
-            optionName={wallet.name}
+            options={wallet}
             key={index}
           />
         )
