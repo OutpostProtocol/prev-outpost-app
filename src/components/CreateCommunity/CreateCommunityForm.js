@@ -88,7 +88,7 @@ const CreateCommunityForm = () => {
 
   const handleSymbol = (event) => {
     const symbol = event.target.value
-    if (symbol && symbol.length <= 3) {
+    if (!symbol || symbol.length <= 3) {
       setSymbol(event.target.value)
     }
   }
