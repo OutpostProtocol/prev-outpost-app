@@ -16,10 +16,12 @@ const FooterContainer = styled('div')({
   padding: '0 10%'
 })
 
+const ExternalLink = styled('a')({
+  height: '24px'
+})
+
 const Icon = styled(IconButton)({
-  margin: '0 auto',
-  width: '40px',
-  height: '40px'
+  'margin-bottom': '10px'
 })
 
 const Footer = () => {
@@ -27,7 +29,7 @@ const Footer = () => {
     <FooterContainer>
       <div>
         <Icon>
-          <a
+          <ExternalLink
             href='https://github.com/ClearRainLabs'
             rel='noopener noreferrer'
             target='_blank'
@@ -37,12 +39,12 @@ const Footer = () => {
               label='Github'
             >
             </GitHub>
-          </a>
+          </ExternalLink>
         </Icon>
       </div>
       <div>
         <Icon>
-          <a
+          <ExternalLink
             href='https://clearrain.xyz/'
             rel='noopener noreferrer'
             target='_blank'
@@ -52,7 +54,7 @@ const Footer = () => {
               label='Blog'
             >
             </Language>
-          </a>
+          </ExternalLink>
         </Icon>
       </div>
     </FooterContainer>

@@ -45,6 +45,9 @@ const Post = ({ post }) => {
       <PostContent
         defaultValue={post.message}
         readOnly={true}
+        theme={{
+          background: ''
+        }}
       >
       </PostContent>
     </PostContainer>
