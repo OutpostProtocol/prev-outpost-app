@@ -10,10 +10,6 @@ const OptionContainer = styled('div')({
   width: '100%',
   display: 'flex',
   padding: '5px',
-  overflow: 'hidden',
-  transition: 'max-height 0.7s ease-in-out',
-  '-webkit-transition': 'max-height 0.7s ease-in-out',
-  'max-height': '70px',
   'flex-wrap': 'wrap',
   'border-radius': '4px',
   'box-sizing': 'border-box',
@@ -21,8 +17,7 @@ const OptionContainer = styled('div')({
   'justify-content': 'left',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#fafafae8',
-    'max-height': '300px'
+    'background-color': '#fafafae8'
   }
 })
 
@@ -35,12 +30,8 @@ const OptionName = styled('h4')({
   fontWeight: 'bold'
 })
 
-const Description = styled('p')({
-  fontWeight: 'lighter'
-})
-
 const Option = ({ options }) => {
-  const { imgSrc, name, description, connector } = options
+  const { imgSrc, name, connector } = options
   const web3Context = useWeb3React()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -72,9 +63,6 @@ const Option = ({ options }) => {
         src={imgSrc}
         alt={name}
       />
-      <Description>
-        {description}
-      </Description>
     </OptionContainer>
   )
 }

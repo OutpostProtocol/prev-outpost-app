@@ -63,13 +63,13 @@ const WalletModal = ({ open, handleClose }) => {
         )
       })}
       <Footer>
-        Don't know where to start?&nbsp;
+        New to Ethereum?&nbsp;
         <a
           href="https://clearrain.xyz/"
           rel="noopener noreferrer"
           target='_blank'
         >
-          Find more information on Ethereum wallets here
+          Learn more about wallets
         </a>
       </Footer>
     </ContentContainer>
