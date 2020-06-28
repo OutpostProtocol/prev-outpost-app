@@ -1,9 +1,5 @@
-import React, {
-  useState,
-  useEffect
-} from 'react'
+import React from 'react'
 import { styled } from '@material-ui/core/styles'
-import { useWeb3React } from '@web3-react/core'
 import { CircularProgress } from '@material-ui/core'
 
 const OptionContainer = styled('div')({
@@ -26,43 +22,39 @@ const Logo = styled('img')({
   'margin-left': 'auto'
 })
 
-const OptionName = styled('h4')({
-  fontWeight: 'bold'
+const OptionName = styled('h3')({
+  'font-weight': 100
 })
 
-const Option = ({ options }) => {
-  const { imgSrc, name, connector } = options
-  const web3Context = useWeb3React()
-  const [isLoading, setIsLoading] = useState(false)
+const DesciptionContainer = styled('div')({
+  'margin-top': '20px'
+})
 
-  useEffect(() => {
-    if (web3Context.active || web3Context.error) {
-      setIsLoading(false)
-    }
-  }, [web3Context])
-
-  const handleConnection = async () => {
-    if (connector) {
-      setIsLoading(true)
-      web3Context.activate(connector)
-    }
-  }
+const Option = ({ options, handleConnection, showDescription }) => {
+  const { imgSrc, name, description } = options
 
   return (
     <OptionContainer
-      onClick={handleConnection}
+      onClick={() => handleConnection()}
     >
       <OptionName>
         {name}
         &nbsp;
       </OptionName>
-      {isLoading &&
-        <CircularProgress />
+      {showDescription &&
+        <CircularProgress
+          disableShrink
+        />
       }
       <Logo
         src={imgSrc}
         alt={name}
       />
+      {showDescription &&
+        <DesciptionContainer>
+          {description}
+        </DesciptionContainer>
+      }
     </OptionContainer>
   )
 }

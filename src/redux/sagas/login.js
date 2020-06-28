@@ -18,9 +18,12 @@ import Box from '3box'
 function * tryLogin (action) {
   try {
     const address = action.account
+    console.log('opening box')
     const box = yield Box.openBox(address, window.web3.provider)
+    console.log('opening space')
     window.box = box
     const space = yield box.openSpace(DEFAULT_SPACE)
+    console.log('setting state')
     window.space = space
 
     let communities = yield space.public.get(COMMUNITIES)

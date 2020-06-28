@@ -14,26 +14,27 @@ import {
 
 import CreateCommunity from '../CreateCommunity'
 import CommunityView from '../CommunityView'
-import Web3Status from '../Web3Status'
+import Web3Manager from '../Web3Manager'
 import Footer from './Footer'
 
 const GridContainer = styled('div')({
   height: '100vh',
-  position: 'fixed',
-  'z-index': 1
+  position: 'fixed'
 })
 
 const CloseChevron = styled(IconButton)({
-  float: 'right',
+  position: 'absolute',
+  right: 0,
   color: 'inherit',
   'aria-label': 'Close Sidebar',
-  'margin-right': 'auto'
+  'margin-right': '5px'
 })
 
 const OpenChevron = styled(IconButton)({
   color: 'inherit',
   'aria-label': 'View Commnities',
-  'margin-top': '10px'
+  'margin-top': '10px',
+  'margin-left': '5px'
 })
 
 const DrawerContentsContainer = styled('div')({
@@ -41,12 +42,13 @@ const DrawerContentsContainer = styled('div')({
 })
 
 const LogoContainer = styled('div')({
+  position: 'relative',
+  'text-align': 'center',
   margin: '10px 0'
 })
 
 const Logo = styled(Link)({
-  width: '20%',
-  'margin-left': '40%'
+  width: '20%'
 })
 
 const CommunityDrawer = ({ img }) => {
@@ -66,7 +68,7 @@ const CommunityDrawer = ({ img }) => {
             <ChevronLeft />
           </CloseChevron>
         </LogoContainer>
-        <Web3Status />
+        <Web3Manager />
         <CreateCommunity />
         {/* search for new communities */}
         <CommunityView />
@@ -78,7 +80,7 @@ const CommunityDrawer = ({ img }) => {
   return (
     <GridContainer>
       <OpenChevron
-        edge= 'start'
+        edge='start'
         onClick={() => setOpen(true)}
       >
         <ChevronRight />

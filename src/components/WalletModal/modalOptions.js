@@ -14,25 +14,25 @@ const modalOptions = [
   {
     name: 'MetaMask',
     imgSrc: MetaMaskLogo,
-    description: 'I am comfortable with managing my private keys',
+    description: 'An ethereum wallet extension built for your browser',
     connector: injected
   },
   {
     name: 'Torus',
     imgSrc: TorusLogo,
-    description: 'I am new to crypto and want to make a wallet using OAuth',
+    description: 'An ethereum wallet that is non-custodial, but lets you sign up using exisiting accounts',
     connector: torus
   },
   {
     name: 'Authereum',
     imgSrc: AuthereumLogo,
-    description: 'I am new to crypto and want to make a new wallet easily',
+    description: 'An ethereum wallet that is easy to get started with and manages your keys for you',
     connector: authereum
   },
   {
     name: 'Wallet Connect',
     imgSrc: WalletConnectLogo,
-    description: 'I want to connect to a mobile wallet',
+    description: 'A protocol to bridge your mobile ethereum wallet to the web',
     connector: walletconnect
   }
 ]

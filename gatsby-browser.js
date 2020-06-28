@@ -1,8 +1,15 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { ThemeProvider, StylesProvider, createMuiTheme } from '@material-ui/core/styles'
+import {
+  ThemeProvider,
+  StylesProvider,
+  createMuiTheme
+} from '@material-ui/core/styles'
 import createStore, { runSaga } from './src/redux/store'
-import { ELEMENT_ID, GLOBAL_KEY } from './src/constants'
+import {
+  ELEMENT_ID,
+  GLOBAL_KEY
+} from './src/constants'
 import { Web3ReactProvider } from '@web3-react/core'
 import { ethers } from 'ethers'
 
@@ -21,7 +28,8 @@ const theme = createMuiTheme({
     fontFamily: 'Roboto'
   },
   zIndex: {
-    snackbar: 2300
+    snackbar: 2300,
+    modal: 0
   },
   sidebarWidth: 22 // vw
 })
