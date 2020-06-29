@@ -27,6 +27,10 @@ const PostButton = styled(Button)({
   'margin-top': '5px'
 })
 
+const BackButton = styled(IconButton)({
+  margin: '5px'
+})
+
 const EditorPage = () => {
   const [postText, setPostText] = useState('')
   const [communityAddress, setCommunityAddress] = useState('')
@@ -53,14 +57,14 @@ const EditorPage = () => {
   return (
     <>
       <SEO title="Post Editor" />
-      <IconButton
+      <BackButton
         color="inherit"
         aria-label="Go back"
         edge="end"
         onClick={() => navigate('/')}
       >
         <ChevronLeftIcon />
-      </IconButton>
+      </BackButton>
       <EditorContainer>
         <TextContainer>
           <Editor

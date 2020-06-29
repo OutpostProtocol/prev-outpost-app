@@ -8,7 +8,7 @@ import Profile from '../Profile'
 
 const PostContainer = styled('div')({
   padding: '10px',
-  'margin-top': '5px',
+  // 'margin-top': '5px',
   'border-radius': '4px',
   '&:hover': {
     'background-color': '#fafafae8'
@@ -18,17 +18,17 @@ const PostContainer = styled('div')({
 const PostMetaData = styled('span')({
   float: 'right',
   color: 'darkgrey',
-  'margin-left': 'auto',
-  order: 2
+  'margin-left': 'auto'
 })
 
 const PostContent = styled(Editor)({
-  'margin-top': '70px'
+  'margin-top': '30px'
 })
 
 const PostHeader = styled('div')({
   display: 'flex',
-  'align-items': 'center'
+  'align-items': 'center',
+  height: '100%'
 })
 
 const Post = ({ post }) => {

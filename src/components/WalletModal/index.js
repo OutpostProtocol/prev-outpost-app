@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, {
+  useState,
+  useEffect
+} from 'react'
 import {
   Dialog,
   IconButton,
@@ -13,6 +16,7 @@ import { useWeb3React } from '@web3-react/core'
 
 import modalOptions from './modalOptions'
 import Option from './option'
+import Notification from '../Notification'
 
 const ModalContainer = styled(Dialog)({
   display: 'flex',
@@ -48,22 +52,37 @@ const ContentContainer = styled('div')({
 const WalletModal = ({ open, handleClose }) => {
   const [isPendingActivation, setIsPendingActivation] = useState(false)
   const [selectedOptionView, setSelectedOptionView] = useState(false)
-  const { activate } = useWeb3React()
+  const { activate, active, error, setError } = useWeb3React()
+
+  useEffect(() => {
+    if (active) {
+      handleClose()
+    }
+  }, [active, handleClose])
 
   const handleConnection = async (walletOptions) => {
-    if (walletOptions.connector) {
+    if (!active && walletOptions.connector) {
       setSelectedOptionView(
         <Option
           options={walletOptions}
-          handleConnection={null}
+          handleConnection={() => handleConnection(walletOptions)}
           showDescription={true}
+          isInitializing={true}
         />
       )
+      if (walletOptions.proact !== undefined) walletOptions.proact(walletOptions.connector)
       setIsPendingActivation(true)
       await activate(walletOptions.connector)
+      if (walletOptions.react !== undefined) walletOptions.react(walletOptions.connector)
     }
-    setIsPendingActivation(false)
-    handleClose()
+    setSelectedOptionView(
+      <Option
+        options={walletOptions}
+        handleConnection={() => handleConnection(walletOptions)}
+        showDescription={true}
+        isInitializing={false}
+      />
+    )
   }
 
   const handleStopActivation = () => {
@@ -106,6 +125,7 @@ const WalletModal = ({ open, handleClose }) => {
             key={index}
             handleConnection={() => handleConnection(wallet)}
             showDescription={false}
+            isInitializing={false}
           />
         )
       })}
@@ -119,6 +139,12 @@ const WalletModal = ({ open, handleClose }) => {
           Learn more about wallets
         </a>
       </Footer>
+      {(error && open) &&
+        <Notification
+          message={error.message}
+          onClose={() => setError(undefined)}
+        />
+      }
     </ContentContainer>
   )
 

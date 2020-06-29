@@ -1,6 +1,10 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
-import { CircularProgress } from '@material-ui/core'
+import {
+  CircularProgress,
+  IconButton
+} from '@material-ui/core'
+import { Sync } from '@material-ui/icons'
 
 const OptionContainer = styled('div')({
   width: '100%',
@@ -30,21 +34,33 @@ const DesciptionContainer = styled('div')({
   'margin-top': '20px'
 })
 
-const Option = ({ options, handleConnection, showDescription }) => {
+const TryAgainButton = styled(IconButton)({
+  'margin-left': '5px',
+  color: 'inherit'
+})
+
+const Option = ({ options, handleConnection, showDescription, isInitializing }) => {
   const { imgSrc, name, description } = options
 
   return (
     <OptionContainer
-      onClick={() => handleConnection()}
+      onClick={() => { if (!isInitializing) handleConnection() }}
     >
       <OptionName>
         {name}
         &nbsp;
       </OptionName>
-      {showDescription &&
+      {isInitializing &&
         <CircularProgress
           disableShrink
         />
+      }
+      {(!isInitializing && showDescription) &&
+        < TryAgainButton
+          onClick={() => handleConnection()}
+        >
+          <Sync/>
+        </TryAgainButton>
       }
       <Logo
         src={imgSrc}

@@ -25,7 +25,7 @@ const ProfileName = styled('h3')({
 })
 
 const Profile = ({ address }) => {
-  const [imageSrc, setImageSrc] = useState(null)
+  const [imageSrc, setImageSrc] = useState('http://via.placeholder.com/40')
   const [name, setName] = useState(shortenAddress(address))
 
   useMemo(() => {

@@ -7,11 +7,10 @@ import { useWeb3React } from '@web3-react/core'
 
 import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import Web3Status from '../Web3Status'
-import Notification from '../Notification'
 
 const Web3Manager = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const { account, active, error } = useWeb3React()
+  const { account, active } = useWeb3React()
   const dispatch = useDispatch()
 
   const createLoginAction = () => {
@@ -31,11 +30,6 @@ const Web3Manager = () => {
       <Web3Status
         address={account}
       />
-      {error &&
-        <Notification
-          message={error.message}
-        />
-      }
     </>
   )
 }

@@ -10,7 +10,7 @@ const Error = styled(SnackbarContent)({
   backgroundColor: 'Red'
 })
 
-const Notifictation = ({ message }) => {
+const Notifictation = ({ message, onClose }) => {
   const [isOpen, setIsOpen] = useState(true)
 
   return (
@@ -22,7 +22,10 @@ const Notifictation = ({ message }) => {
         }}
         open={isOpen}
         autoHideDuration={6000}
-        onClose={() => setIsOpen(false)}
+        onClose={() => {
+          onClose()
+          setIsOpen(false)
+        }}
       >
         <Error
           message={message}

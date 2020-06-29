@@ -5,7 +5,7 @@ import { styled } from '@material-ui/core/styles'
 import CommunityTile from '../CommunityTile'
 
 const ViewContainer = styled('div')({
-  margin: '10px 0'
+  'margin-top': '10px'
 })
 
 const CommunityView = () => {
