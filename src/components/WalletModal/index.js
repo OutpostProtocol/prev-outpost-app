@@ -84,10 +84,11 @@ const WalletModal = ({ open, handleClose }) => {
         {detailedView ? (
           <>
             <h3>
-              Connect
+              Initializing
             </h3>
             <ExitButton
               onClick={() => setDetailedView(undefined)}
+              disableRipple={true}
             >
               <ChevronLeft />
             </ExitButton>

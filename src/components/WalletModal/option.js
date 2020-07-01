@@ -36,11 +36,6 @@ const OptionName = styled('h3')({
   'font-weight': 100
 })
 
-const DesciptionContainer = styled('div')({
-  'margin-top': '20px',
-  'font-weight': 50
-})
-
 const ConnectButton = styled(Button)({
   color: 'black',
   'margin-left': '10px'
@@ -48,7 +43,7 @@ const ConnectButton = styled(Button)({
 
 const Option = ({ options, showDetailedView, setDetailedView }) => {
   const [isInitializing, setIsInitializing] = useState(false)
-  const { imgSrc, name, description, connector, prepare, setup } = options
+  const { imgSrc, name, connector, prepare, setup } = options
   const { activate, deactivate } = useWeb3React()
 
   useEffect(() => {
@@ -61,7 +56,7 @@ const Option = ({ options, showDetailedView, setDetailedView }) => {
       }
     }
     connect()
-  }, [isInitializing, connector, options, setDetailedView, prepare, setup, activate, deactivate])
+  }, [isInitializing, connector, prepare, setup, activate, deactivate])
 
   const connect = () => {
     // if not already initalizing, initialize and try activiating
@@ -98,11 +93,6 @@ const Option = ({ options, showDetailedView, setDetailedView }) => {
         src={imgSrc}
         alt={name}
       />
-      {showDetailedView &&
-        <DesciptionContainer>
-          {description}
-        </DesciptionContainer>
-      }
     </Container>
   )
 }
