@@ -27,36 +27,32 @@ const Icon = styled(IconButton)({
 const Footer = () => {
   return (
     <FooterContainer>
-      <div>
-        <Icon>
-          <ExternalLink
-            href='https://github.com/ClearRainLabs'
-            rel='noopener noreferrer'
-            target='_blank'
+      <Icon>
+        <ExternalLink
+          href='https://github.com/ClearRainLabs'
+          rel='noopener noreferrer'
+          target='_blank'
+        >
+          <GitHub
+            color='primary'
+            label='Github'
           >
-            <GitHub
-              color='primary'
-              label='Github'
-            >
-            </GitHub>
-          </ExternalLink>
-        </Icon>
-      </div>
-      <div>
-        <Icon>
-          <ExternalLink
-            href='https://clearrain.xyz/'
-            rel='noopener noreferrer'
-            target='_blank'
+          </GitHub>
+        </ExternalLink>
+      </Icon>
+      <Icon>
+        <ExternalLink
+          href='https://clearrain.xyz/'
+          rel='noopener noreferrer'
+          target='_blank'
+        >
+          <Language
+            color='primary'
+            label='Blog'
           >
-            <Language
-              color='primary'
-              label='Blog'
-            >
-            </Language>
-          </ExternalLink>
-        </Icon>
-      </div>
+          </Language>
+        </ExternalLink>
+      </Icon>
     </FooterContainer>
   )
 }

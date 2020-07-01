@@ -9,7 +9,6 @@ import {
   Menu,
   MenuItem
 } from '@material-ui/core'
-
 import { MoreHoriz } from '@material-ui/icons'
 
 import { REMOVE_COMMUNITY_ASYNC } from '../../redux/actionTypes'
@@ -26,8 +25,7 @@ const TileContainer = styled('div')({
 
 const TileStatus = styled('div')({
   display: 'flex',
-  'align-items': 'center',
-  'padding-left': '12px'
+  'align-items': 'center'
 })
 
 const CommunityTile = ({ community }) => {

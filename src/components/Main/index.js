@@ -1,6 +1,7 @@
 import React, {
   useEffect,
-  useState
+  useState,
+  useRef
 } from 'react'
 import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
@@ -18,6 +19,7 @@ const MainContainer = styled('div')({
 })
 
 const Main = () => {
+  const isMounted = useRef(true)
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const communities = useSelector(state => state.communities)
   const [allPosts, setPosts] = useState([])
@@ -25,9 +27,11 @@ const Main = () => {
   useEffect(() => {
     const getPosts = async () => {
       if (isLoggedIn) {
-        setPosts(await fetchPostsLoggedIn(communities))
-      } else {
-        setPosts(await fetchPostsLoggedOut([DEFAULT_COMMUNITY]))
+        const posts = await fetchPostsLoggedIn(communities)
+        setPosts(posts)
+      } else if (!isLoggedIn) {
+        const posts = await fetchPostsLoggedOut([DEFAULT_COMMUNITY])
+        if (isMounted.current) setPosts(posts)
       }
     }
 
@@ -35,8 +39,7 @@ const Main = () => {
       const tempPosts = []
       for (const community of communities) {
         const threadName = community.address.split('/').slice(-1)[0]
-        const thread = await window.space.joinThreadByAddress(community.address)
-        const posts = await thread.getPosts()
+        const posts = await Box.getThreadByAddress(community.address)
         posts.forEach((post) => {
           post.Id = post.postId
           post.threadName = threadName
@@ -68,6 +71,10 @@ const Main = () => {
     }
 
     getPosts()
+
+    return () => {
+      isMounted.current = false
+    }
   }, [communities, isLoggedIn])
 
   return (

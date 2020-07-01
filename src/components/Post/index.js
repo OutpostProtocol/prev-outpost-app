@@ -1,13 +1,13 @@
 import React from 'react'
 import moment from 'moment'
-import ProfileHover from 'profile-hover'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import Editor from 'rich-markdown-editor'
 
+import Profile from '../Profile'
+
 const PostContainer = styled('div')({
   padding: '10px',
-  'margin-top': '5px',
   'border-radius': '4px',
   '&:hover': {
     'background-color': '#fafafae8'
@@ -16,11 +16,18 @@ const PostContainer = styled('div')({
 
 const PostMetaData = styled('span')({
   float: 'right',
-  color: 'darkgrey'
+  color: 'darkgrey',
+  'margin-left': 'auto'
 })
 
 const PostContent = styled(Editor)({
-  'margin-top': '70px'
+  'margin-top': '30px'
+})
+
+const PostHeader = styled('div')({
+  display: 'flex',
+  height: '100%',
+  'align-items': 'center'
 })
 
 const Post = ({ post }) => {
@@ -34,22 +41,23 @@ const Post = ({ post }) => {
 
   return (
     <PostContainer
-      onClick={handleRedirect}>
-      <ProfileHover
-        address={post.author}
-        showName={true}
-        orientation='left'
-      >
-      </ProfileHover>
-      <PostMetaData>{post.threadName} {time}</PostMetaData>
+      onClick={handleRedirect}
+    >
+      <PostHeader>
+        <Profile
+          address={post.author}
+        />
+        <PostMetaData>
+          {post.threadName} {time}
+        </PostMetaData>
+      </PostHeader>
       <PostContent
         defaultValue={post.message}
         readOnly={true}
         theme={{
           background: ''
         }}
-      >
-      </PostContent>
+      />
     </PostContainer>
   )
 }

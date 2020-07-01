@@ -12,6 +12,10 @@ const PostContainer = styled('div')({
   margin: '0 auto'
 })
 
+const BackButton = styled(IconButton)({
+  margin: '5px'
+})
+
 const PostPage = ({ location }) => {
   if (!location.state.post) {
     navigate('/')
@@ -20,14 +24,14 @@ const PostPage = ({ location }) => {
   return (
     <>
       <SEO title="Post" />
-      <IconButton
+      <BackButton
         color="inherit"
         aria-label="Go back"
         edge="end"
         onClick={() => navigate('/')}
       >
         <ChevronLeftIcon />
-      </IconButton>
+      </BackButton>
       <PostContainer>
         <Post
           post={location.state.post}

@@ -1,21 +1,23 @@
-import React from 'react'
+import React, {
+  useState,
+  useEffect
+} from 'react'
 import {
   Dialog,
   IconButton,
   Fade
 } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
-import CloseIcon from '@material-ui/icons/Close'
+import {
+  Close,
+  ChevronLeft
+} from '@material-ui/icons'
+import { useWeb3React } from '@web3-react/core'
+import { useDispatch } from 'react-redux'
 
-import modalOptions from './modalOptions'
+import { LOGIN_ASYNC } from '../../redux/actionTypes'
+import walletOptions from './walletOptions'
 import Option from './option'
-
-const ContentContainer = styled('div')({
-  padding: '10px',
-  width: '20vw',
-  'background-color': 'white',
-  'border-radius': '4px'
-})
 
 const ModalContainer = styled(Dialog)({
   display: 'flex',
@@ -30,33 +32,97 @@ const Heading = styled('div')({
   'padding-left': '5px'
 })
 
+const ContentContainer = styled('div')({
+  padding: '10px',
+  width: '22vw',
+  'background-clip': 'content-box',
+  'border-radius': '4px'
+})
+
 const ExitButton = styled(IconButton)({
   width: '40px',
   height: '40px',
   'margin-left': 'auto'
 })
 
+const Footer = styled('div')({
+  'margin-top': '15px',
+  'margin-left': '5px'
+})
+
 const WalletModal = ({ open, handleClose }) => {
+  const [detailedView, setDetailedView] = useState(undefined)
+  const { active, account } = useWeb3React()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const createLoginAction = () => {
+      return { type: LOGIN_ASYNC, account }
+    }
+
+    if (active && account) {
+      dispatch(createLoginAction())
+      handleClose()
+    }
+  }, [active, account, handleClose, dispatch])
+
+  const optionFactory = (walletOptions, showDetailedView) => {
+    return (
+      <Option
+        key={walletOptions.name}
+        options={walletOptions}
+        showDetailedView={showDetailedView}
+        setDetailedView={(options) => setDetailedView(optionFactory(options, true)) }
+      />
+    )
+  }
+
   const ModalContent = (
     <ContentContainer>
       <Heading>
-        <h3>
-          Select a Wallet
-        </h3>
-        <ExitButton
-          onClick={handleClose}
-        >
-          <CloseIcon />
-        </ExitButton>
+        {detailedView ? (
+          <>
+            <h3>
+              Connect
+            </h3>
+            <ExitButton
+              onClick={() => setDetailedView(undefined)}
+            >
+              <ChevronLeft />
+            </ExitButton>
+          </>
+        ) : (
+          <>
+            <h3>
+              Select A Wallet
+            </h3>
+            <ExitButton
+              onClick={handleClose}
+            >
+              <Close />
+            </ExitButton>
+          </>
+        )}
       </Heading>
-      {modalOptions.map((wallet, index) => {
-        return (
-          <Option
-            options={wallet}
-            key={index}
-          />
-        )
-      })}
+      {detailedView ||
+        walletOptions.map((option, index) => {
+          return (
+            optionFactory(option, false)
+          )
+        })
+      }
+      {!detailedView &&
+        <Footer>
+          New to Ethereum?&nbsp;
+          <a
+            href="https://clearrain.xyz/"
+            rel="noopener noreferrer"
+            target='_blank'
+          >
+            Learn more about wallets
+          </a>
+        </Footer>
+      }
     </ContentContainer>
   )
 

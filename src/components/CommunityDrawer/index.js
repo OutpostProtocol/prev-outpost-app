@@ -19,21 +19,22 @@ import Footer from './Footer'
 
 const GridContainer = styled('div')({
   height: '100vh',
-  position: 'fixed',
-  'z-index': 1
+  position: 'fixed'
 })
 
 const CloseChevron = styled(IconButton)({
-  float: 'right',
+  position: 'absolute',
+  right: 0,
   color: 'inherit',
   'aria-label': 'Close Sidebar',
-  'margin-right': 'auto'
+  'margin-right': '5px'
 })
 
 const OpenChevron = styled(IconButton)({
   color: 'inherit',
   'aria-label': 'View Commnities',
-  'margin-top': '10px'
+  'margin-top': '10px',
+  'margin-left': '5px'
 })
 
 const DrawerContentsContainer = styled('div')({
@@ -41,12 +42,13 @@ const DrawerContentsContainer = styled('div')({
 })
 
 const LogoContainer = styled('div')({
-  margin: '10px 0'
+  position: 'relative',
+  margin: '10px 0',
+  'text-align': 'center'
 })
 
 const Logo = styled(Link)({
-  width: '20%',
-  'margin-left': '40%'
+  width: '20%'
 })
 
 const CommunityDrawer = ({ img }) => {
@@ -56,8 +58,12 @@ const CommunityDrawer = ({ img }) => {
     return (
       <DrawerContentsContainer>
         <LogoContainer>
-          <Logo to='/'>
-            <Img fixed={img.fixed} />
+          <Logo
+            to='/'
+          >
+            <Img
+              fixed={img.fixed}
+            />
           </Logo>
           <CloseChevron
             edge='end'
@@ -78,7 +84,7 @@ const CommunityDrawer = ({ img }) => {
   return (
     <GridContainer>
       <OpenChevron
-        edge= 'start'
+        edge='start'
         onClick={() => setOpen(true)}
       >
         <ChevronRight />
@@ -89,7 +95,9 @@ const CommunityDrawer = ({ img }) => {
         open={open}
         elevation={4}
       >
-        <DrawerContents img={img} />
+        <DrawerContents
+          img={img}
+        />
       </Drawer>
     </GridContainer>
   )

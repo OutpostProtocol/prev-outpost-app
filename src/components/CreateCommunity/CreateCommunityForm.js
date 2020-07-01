@@ -28,8 +28,8 @@ const FormTextField = styled(TextField)({
 })
 
 const FormCheckboxContainer = styled('div')({
-  'margin-top': '15px',
-  float: 'left'
+  float: 'left',
+  'margin-top': '15px'
 })
 
 const FormButton = styled(Button)({

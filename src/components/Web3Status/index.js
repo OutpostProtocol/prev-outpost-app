@@ -1,23 +1,15 @@
-import React, {
-  useState,
-  useEffect
-} from 'react'
-import {
-  useSelector,
-  useDispatch
-} from 'react-redux'
-import { useWeb3React } from '@web3-react/core'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import {
   Button,
   Backdrop,
   CircularProgress
 } from '@material-ui/core'
+import { useWeb3React } from '@web3-react/core'
 
-import { LOGIN_ASYNC } from '../../redux/actionTypes'
-import { shortenAddress } from '../../utils'
 import WalletModal from '../WalletModal'
-import Notification from '../Notification'
+import { shortenAddress } from '../../utils'
 
 const Web3Button = styled(Button)({
   width: '80%',
@@ -30,33 +22,16 @@ const Web3Container = styled('div')({
   width: '100%'
 })
 
-const ProgressContainer = styled(Backdrop)({
-  'z-index': 5
+const LoadingContainer = styled(Backdrop)({
+  'z-index': 1200
 })
 
 const Web3Status = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const dispatch = useDispatch()
+  const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
+  const { account } = useWeb3React()
 
-  const { account, active, error } = useWeb3React()
-
-  const createLoginAction = () => {
-    return { type: LOGIN_ASYNC, account }
-  }
-
-  useEffect(() => {
-    if (account && active && !isLoggedIn && !isLoading) {
-      setIsLoading(true)
-      setIsModalOpen(false)
-      dispatch(createLoginAction())
-    }
-  // React guarantees that dispatch function identity is stable and won’t change on re-renders
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, active, isLoggedIn, isLoading])
-
-  if (isLoggedIn) {
+  if (isLoggedIn && account) {
     return (
       <Web3Button
         disableElevation
@@ -70,26 +45,25 @@ const Web3Status = () => {
   } else {
     return (
       <Web3Container>
-        <ProgressContainer open={isLoading && !isLoggedIn}>
-          <CircularProgress />
-        </ProgressContainer>
+        <LoadingContainer
+          open={account !== undefined && !isLoggedIn}
+        >
+          <CircularProgress
+            disableShrink
+          />
+        </LoadingContainer>
         <Web3Button
-          onClick={() => setIsModalOpen(true)}
           variant='contained'
-          disableElevation
           color='primary'
+          disableElevation
+          onClick={() => setIsWalletModalOpen(true) }
         >
           Sign In
         </Web3Button>
         <WalletModal
-          open={isModalOpen}
-          handleClose={() => setIsModalOpen(false)}
+          open={isWalletModalOpen}
+          handleClose={() => setIsWalletModalOpen(false) }
         />
-        {error &&
-          <Notification
-            message={error.message}
-          />
-        }
       </Web3Container>
     )
   }

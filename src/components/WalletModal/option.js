@@ -3,26 +3,27 @@ import React, {
   useEffect
 } from 'react'
 import { styled } from '@material-ui/core/styles'
+import {
+  CircularProgress,
+  Button
+} from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
-import { CircularProgress } from '@material-ui/core'
 
-const OptionContainer = styled('div')({
+const DetailedOptionContainer = styled('div')({
   width: '100%',
   display: 'flex',
   padding: '5px',
-  overflow: 'hidden',
-  transition: 'max-height 0.7s ease-in-out',
-  '-webkit-transition': 'max-height 0.7s ease-in-out',
-  'max-height': '70px',
   'flex-wrap': 'wrap',
   'border-radius': '4px',
   'box-sizing': 'border-box',
   'align-items': 'center',
-  'justify-content': 'left',
+  'justify-content': 'left'
+})
+
+const OptionContainer = styled(DetailedOptionContainer)({
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#fafafae8',
-    'max-height': '300px'
+    'background-color': '#fafafae8'
   }
 })
 
@@ -31,44 +32,78 @@ const Logo = styled('img')({
   'margin-left': 'auto'
 })
 
-const OptionName = styled('h4')({
-  fontWeight: 'bold'
+const OptionName = styled('h3')({
+  'font-weight': 100
 })
 
-const Option = ({ options }) => {
-  const { imgSrc, name, connector } = options
-  const web3Context = useWeb3React()
-  const [isLoading, setIsLoading] = useState(false)
+const DesciptionContainer = styled('div')({
+  'margin-top': '20px',
+  'font-weight': 50
+})
+
+const ConnectButton = styled(Button)({
+  color: 'black',
+  'margin-left': '10px'
+})
+
+const Option = ({ options, showDetailedView, setDetailedView }) => {
+  const [isInitializing, setIsInitializing] = useState(false)
+  const { imgSrc, name, description, connector, prepare, setup } = options
+  const { activate, deactivate } = useWeb3React()
 
   useEffect(() => {
-    if (web3Context.active || web3Context.error) {
-      setIsLoading(false)
+    const connect = async () => {
+      if (isInitializing) {
+        if (prepare) prepare(connector)
+        await activate(connector)
+        if (setup) setup(connector)
+        setIsInitializing(false)
+      }
     }
-  }, [web3Context])
+    connect()
+  }, [isInitializing, connector, options, setDetailedView, prepare, setup, activate, deactivate])
 
-  const handleConnection = async () => {
-    if (connector) {
-      setIsLoading(true)
-      web3Context.activate(connector)
+  const connect = () => {
+    // if not already initalizing, initialize and try activiating
+    if (options.connector && !isInitializing) {
+      setIsInitializing(true)
     }
   }
 
+  const Container = showDetailedView ? DetailedOptionContainer : OptionContainer
+
   return (
-    <OptionContainer
-      onClick={handleConnection}
+    <Container
+      onClick={() => { if (!showDetailedView) setDetailedView(options, false) }}
     >
       <OptionName>
         {name}
         &nbsp;
       </OptionName>
-      {isLoading &&
-        <CircularProgress />
+      {isInitializing &&
+        <CircularProgress
+          disableShrink
+        />
+      }
+      {(!isInitializing && showDetailedView) &&
+        <ConnectButton
+          onClick={() => connect()}
+          variant='contained'
+          disableElevation
+        >
+          Connect
+        </ConnectButton>
       }
       <Logo
         src={imgSrc}
         alt={name}
       />
-    </OptionContainer>
+      {showDetailedView &&
+        <DesciptionContainer>
+          {description}
+        </DesciptionContainer>
+      }
+    </Container>
   )
 }
 

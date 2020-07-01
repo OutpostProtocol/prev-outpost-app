@@ -19,8 +19,8 @@ function * tryLogin (action) {
   try {
     const address = action.account
     const box = yield Box.openBox(address, window.web3.provider)
-    window.box = box
     const space = yield box.openSpace(DEFAULT_SPACE)
+    yield space.syncDone
     window.space = space
 
     let communities = yield space.public.get(COMMUNITIES)
