@@ -42,7 +42,8 @@ const ContentContainer = styled('div')({
 const ExitButton = styled(IconButton)({
   width: '40px',
   height: '40px',
-  'margin-left': 'auto'
+  'margin-left': 'auto',
+  padding: 0
 })
 
 const Footer = styled('div')({
