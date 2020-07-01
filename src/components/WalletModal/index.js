@@ -36,11 +36,6 @@ const ExitButton = styled(IconButton)({
   'margin-left': 'auto'
 })
 
-const Footer = styled('div')({
-  'margin-top': '15px',
-  'margin-left': '5px'
-})
-
 const WalletModal = ({ open, handleClose }) => {
   const ModalContent = (
     <ContentContainer>
@@ -62,16 +57,6 @@ const WalletModal = ({ open, handleClose }) => {
           />
         )
       })}
-      <Footer>
-        Don't know where to start?&nbsp;
-        <a
-          href="https://clearrain.xyz/"
-          rel="noopener noreferrer"
-          target='_blank'
-        >
-          Find more information on Ethereum wallets here
-        </a>
-      </Footer>
     </ContentContainer>
   )
 

@@ -13,7 +13,7 @@ const CommunitySelect = styled(Select)({
 })
 
 const CommunitySelector = ({ handleSelection, placeHolder }) => {
-  const communities = useSelector(state => state.communities.length !== 0 ? state.communities : [''])
+  const communities = useSelector(state => state.communities.length !== 0 ? state.communities : null)
   const [activeCommunity, setActiveCommunity] = useState(placeHolder)
 
   const switchActiveCommunity = (event) => {
@@ -36,7 +36,7 @@ const CommunitySelector = ({ handleSelection, placeHolder }) => {
       <MenuItem value={placeHolder} >
         <em>{capitalize(placeHolder.name)}</em>
       </MenuItem>
-      {communities.map((com, i) => {
+      {communities && communities.map((com, i) => {
         return (
           <MenuItem
             key={i}

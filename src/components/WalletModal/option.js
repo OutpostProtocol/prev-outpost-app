@@ -35,12 +35,8 @@ const OptionName = styled('h4')({
   fontWeight: 'bold'
 })
 
-const Description = styled('p')({
-  fontWeight: 'lighter'
-})
-
 const Option = ({ options }) => {
-  const { imgSrc, name, description, connector } = options
+  const { imgSrc, name, connector } = options
   const web3Context = useWeb3React()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -72,9 +68,6 @@ const Option = ({ options }) => {
         src={imgSrc}
         alt={name}
       />
-      <Description>
-        {description}
-      </Description>
     </OptionContainer>
   )
 }
