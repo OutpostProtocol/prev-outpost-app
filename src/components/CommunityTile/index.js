@@ -9,7 +9,6 @@ import {
   Menu,
   MenuItem
 } from '@material-ui/core'
-
 import { MoreHoriz } from '@material-ui/icons'
 
 import { REMOVE_COMMUNITY_ASYNC } from '../../redux/actionTypes'

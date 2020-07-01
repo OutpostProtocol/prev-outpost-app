@@ -14,7 +14,7 @@ import {
 
 import CreateCommunity from '../CreateCommunity'
 import CommunityView from '../CommunityView'
-import Web3Manager from '../Web3Manager'
+import Web3Status from '../Web3Status'
 import Footer from './Footer'
 
 const GridContainer = styled('div')({
@@ -43,8 +43,8 @@ const DrawerContentsContainer = styled('div')({
 
 const LogoContainer = styled('div')({
   position: 'relative',
-  'text-align': 'center',
-  margin: '10px 0'
+  margin: '10px 0',
+  'text-align': 'center'
 })
 
 const Logo = styled(Link)({
@@ -58,8 +58,12 @@ const CommunityDrawer = ({ img }) => {
     return (
       <DrawerContentsContainer>
         <LogoContainer>
-          <Logo to='/'>
-            <Img fixed={img.fixed} />
+          <Logo
+            to='/'
+          >
+            <Img
+              fixed={img.fixed}
+            />
           </Logo>
           <CloseChevron
             edge='end'
@@ -68,7 +72,7 @@ const CommunityDrawer = ({ img }) => {
             <ChevronLeft />
           </CloseChevron>
         </LogoContainer>
-        <Web3Manager />
+        <Web3Status />
         <CreateCommunity />
         {/* search for new communities */}
         <CommunityView />
@@ -91,7 +95,9 @@ const CommunityDrawer = ({ img }) => {
         open={open}
         elevation={4}
       >
-        <DrawerContents img={img} />
+        <DrawerContents
+          img={img}
+        />
       </Drawer>
     </GridContainer>
   )

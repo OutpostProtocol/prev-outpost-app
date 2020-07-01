@@ -13,10 +13,11 @@ import {
   ChevronLeft
 } from '@material-ui/icons'
 import { useWeb3React } from '@web3-react/core'
+import { useDispatch } from 'react-redux'
 
-import modalOptions from './modalOptions'
+import { LOGIN_ASYNC } from '../../redux/actionTypes'
+import walletOptions from './walletOptions'
 import Option from './option'
-import Notification from '../Notification'
 
 const ModalContainer = styled(Dialog)({
   display: 'flex',
@@ -31,6 +32,13 @@ const Heading = styled('div')({
   'padding-left': '5px'
 })
 
+const ContentContainer = styled('div')({
+  padding: '10px',
+  width: '22vw',
+  'background-clip': 'content-box',
+  'border-radius': '4px'
+})
+
 const ExitButton = styled(IconButton)({
   width: '40px',
   height: '40px',
@@ -42,63 +50,43 @@ const Footer = styled('div')({
   'margin-left': '5px'
 })
 
-const ContentContainer = styled('div')({
-  padding: '10px',
-  width: '20vw',
-  'background-clip': 'content-box',
-  'border-radius': '4px'
-})
-
 const WalletModal = ({ open, handleClose }) => {
-  const [isPendingActivation, setIsPendingActivation] = useState(false)
-  const [selectedOptionView, setSelectedOptionView] = useState(false)
-  const { activate, active, error, setError } = useWeb3React()
+  const [detailedView, setDetailedView] = useState(undefined)
+  const { active, account } = useWeb3React()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    if (active) {
+    const createLoginAction = () => {
+      return { type: LOGIN_ASYNC, account }
+    }
+
+    if (active && account) {
+      dispatch(createLoginAction())
       handleClose()
     }
-  }, [active, handleClose])
+  }, [active, account, handleClose, dispatch])
 
-  const handleConnection = async (walletOptions) => {
-    if (!active && walletOptions.connector) {
-      setSelectedOptionView(
-        <Option
-          options={walletOptions}
-          handleConnection={() => handleConnection(walletOptions)}
-          showDescription={true}
-          isInitializing={true}
-        />
-      )
-      if (walletOptions.proact !== undefined) walletOptions.proact(walletOptions.connector)
-      setIsPendingActivation(true)
-      await activate(walletOptions.connector)
-      if (walletOptions.react !== undefined) walletOptions.react(walletOptions.connector)
-    }
-    setSelectedOptionView(
+  const optionFactory = (walletOptions, showDetailedView) => {
+    return (
       <Option
+        key={walletOptions.name}
         options={walletOptions}
-        handleConnection={() => handleConnection(walletOptions)}
-        showDescription={true}
-        isInitializing={false}
+        showDetailedView={showDetailedView}
+        setDetailedView={(options) => setDetailedView(optionFactory(options, true)) }
       />
     )
-  }
-
-  const handleStopActivation = () => {
-    setIsPendingActivation(false)
   }
 
   const ModalContent = (
     <ContentContainer>
       <Heading>
-        {isPendingActivation ? (
+        {detailedView ? (
           <>
             <h3>
-              Initializing
+              Connect
             </h3>
             <ExitButton
-              onClick={handleStopActivation}
+              onClick={() => setDetailedView(undefined)}
             >
               <ChevronLeft />
             </ExitButton>
@@ -111,39 +99,29 @@ const WalletModal = ({ open, handleClose }) => {
             <ExitButton
               onClick={handleClose}
             >
-              <Close/>
+              <Close />
             </ExitButton>
           </>
         )}
       </Heading>
-      {isPendingActivation ? (
-        selectedOptionView
-      ) : modalOptions.map((wallet, index) => {
-        return (
-          <Option
-            options={wallet}
-            key={index}
-            handleConnection={() => handleConnection(wallet)}
-            showDescription={false}
-            isInitializing={false}
-          />
-        )
-      })}
-      <Footer>
-        New to Ethereum?&nbsp;
-        <a
-          href="https://clearrain.xyz/"
-          rel="noopener noreferrer"
-          target='_blank'
-        >
-          Learn more about wallets
-        </a>
-      </Footer>
-      {(error && open) &&
-        <Notification
-          message={error.message}
-          onClose={() => setError(undefined)}
-        />
+      {detailedView ||
+        walletOptions.map((option, index) => {
+          return (
+            optionFactory(option, false)
+          )
+        })
+      }
+      {!detailedView &&
+        <Footer>
+          New to Ethereum?&nbsp;
+          <a
+            href="https://clearrain.xyz/"
+            rel="noopener noreferrer"
+            target='_blank'
+          >
+            Learn more about wallets
+          </a>
+        </Footer>
       }
     </ContentContainer>
   )

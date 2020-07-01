@@ -6,6 +6,7 @@ import {
   Backdrop,
   CircularProgress
 } from '@material-ui/core'
+import { useWeb3React } from '@web3-react/core'
 
 import WalletModal from '../WalletModal'
 import { shortenAddress } from '../../utils'
@@ -25,19 +26,12 @@ const LoadingContainer = styled(Backdrop)({
   'z-index': 1200
 })
 
-const Web3Status = ({ address }) => {
+const Web3Status = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
+  const { account } = useWeb3React()
 
-  const handleModalClose = () => {
-    setIsWalletModalOpen(false)
-  }
-
-  const handleModalOpen = () => {
-    setIsWalletModalOpen(true)
-  }
-
-  if (isLoggedIn) {
+  if (isLoggedIn && account) {
     return (
       <Web3Button
         disableElevation
@@ -45,14 +39,14 @@ const Web3Status = ({ address }) => {
         variant='contained'
         disableRipple={true}
       >
-        <div>{shortenAddress(address)}</div>
+        <div>{shortenAddress(account)}</div>
       </Web3Button>
     )
   } else {
     return (
       <Web3Container>
         <LoadingContainer
-          open={address !== undefined && !isLoggedIn}
+          open={account !== undefined && !isLoggedIn}
         >
           <CircularProgress
             disableShrink
@@ -62,15 +56,13 @@ const Web3Status = ({ address }) => {
           variant='contained'
           color='primary'
           disableElevation
-          onClick={() => {
-            handleModalOpen()
-          }}
+          onClick={() => setIsWalletModalOpen(true) }
         >
           Sign In
         </Web3Button>
         <WalletModal
           open={isWalletModalOpen}
-          handleClose={handleModalClose}
+          handleClose={() => setIsWalletModalOpen(false) }
         />
       </Web3Container>
     )

@@ -8,7 +8,6 @@ import Profile from '../Profile'
 
 const PostContainer = styled('div')({
   padding: '10px',
-  // 'margin-top': '5px',
   'border-radius': '4px',
   '&:hover': {
     'background-color': '#fafafae8'
@@ -27,8 +26,8 @@ const PostContent = styled(Editor)({
 
 const PostHeader = styled('div')({
   display: 'flex',
-  'align-items': 'center',
-  height: '100%'
+  height: '100%',
+  'align-items': 'center'
 })
 
 const Post = ({ post }) => {

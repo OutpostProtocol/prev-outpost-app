@@ -51,9 +51,8 @@ export const wrapRootElement = ({ element }) => {
             <Web3ReactProvider getLibrary={getLibrary}>
               <main
                 style={{
-                  height: '100vh',
-                  width: '100vw',
-                  position: 'absolute',
+                  height: '100%',
+                  width: '100%',
                   top: '0',
                   left: '0'
                 }}
