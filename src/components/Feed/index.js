@@ -9,7 +9,6 @@ const FeedContainer = styled('div')({
 
 const Feed = ({ posts }) => {
   if (posts) {
-    console.log('rendering posts', posts)
     return (
       <FeedContainer>
         {posts.map((post, i) => {
