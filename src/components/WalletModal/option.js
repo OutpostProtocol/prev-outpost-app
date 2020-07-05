@@ -42,7 +42,7 @@ const ConnectButton = styled(Button)({
 })
 
 const Option = ({ options, showDetailedView, setDetailedView }) => {
-  const [isInitializing, setIsInitializing] = useState(false)
+  const [isInitializing, setIsInitializing] = useState(showDetailedView)
   const { imgSrc, name, connector, prepare, setup } = options
   const { activate, deactivate } = useWeb3React()
 
