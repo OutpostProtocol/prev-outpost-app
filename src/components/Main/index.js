@@ -15,8 +15,7 @@ const MainContainer = styled('div')({
 const Main = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const communities = useSelector(state => state.communities)
-  const { posts, error } = usePosts(isLoggedIn, communities)
-  console.log('error from usePosts', error)
+  const { posts } = usePosts(isLoggedIn, communities)
 
   return (
     <MainContainer>

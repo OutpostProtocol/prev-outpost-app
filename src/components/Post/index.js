@@ -2,7 +2,9 @@ import React from 'react'
 import moment from 'moment'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import Editor from 'rich-markdown-editor'
+import unified from 'unified'
+import parse from 'remark-parse'
+import remark2react from 'remark-react'
 
 import Profile from '../Profile'
 
@@ -20,7 +22,7 @@ const PostMetaData = styled('span')({
   'margin-left': 'auto'
 })
 
-const PostContent = styled(Editor)({
+const PostContent = styled('div')({
   'margin-top': '10px'
 })
 
@@ -51,13 +53,14 @@ const Post = ({ post }) => {
           {post.threadName} {time}
         </PostMetaData>
       </PostHeader>
-      <PostContent
-        defaultValue={post.message}
-        readOnly={true}
-        theme={{
-          background: ''
-        }}
-      />
+      <PostContent>
+        {
+          unified()
+            .use(parse)
+            .use(remark2react)
+            .processSync(post.message).result
+        }
+      </PostContent>
     </PostContainer>
   )
 }
