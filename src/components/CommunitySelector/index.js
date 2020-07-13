@@ -29,7 +29,7 @@ const CommunitySelector = ({ handleSelection, placeHolder }) => {
 
   return (
     <CommunitySelect
-      labelId="input-label"
+      labelId='input-label'
       value={activeCommunity}
       onChange={switchActiveCommunity}
     >

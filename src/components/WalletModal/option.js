@@ -44,7 +44,7 @@ const ConnectButton = styled(Button)({
 const Option = ({ options, showDetailedView, setDetailedView }) => {
   const [isInitializing, setIsInitializing] = useState(showDetailedView)
   const { imgSrc, name, connector, prepare, setup } = options
-  const { activate, deactivate } = useWeb3React()
+  const { activate } = useWeb3React()
 
   useEffect(() => {
     const connect = async () => {
@@ -56,10 +56,10 @@ const Option = ({ options, showDetailedView, setDetailedView }) => {
       }
     }
     connect()
-  }, [isInitializing, connector, prepare, setup, activate, deactivate])
+  }, [isInitializing, connector, prepare, setup, activate])
 
   const connect = () => {
-    // if not already initalizing, initialize and try activiating
+    // if not already initalizing, initialize and try activiating in useEffect hook
     if (options.connector && !isInitializing) {
       setIsInitializing(true)
     }

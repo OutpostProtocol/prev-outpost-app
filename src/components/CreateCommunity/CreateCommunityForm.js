@@ -142,7 +142,7 @@ const CreateCommunityForm = () => {
       <FormButton
         onClick={createCommunity}
         disableElevation
-        color='primary'
+        color='secondary'
         variant='contained'
       >
         Create

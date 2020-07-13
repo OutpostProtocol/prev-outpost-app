@@ -10,16 +10,27 @@ import Profile from '../Profile'
 
 const PostContainer = styled('div')({
   padding: '10px',
+  'margin-top': '10px',
   'border-radius': '4px',
   '&:hover': {
+    cursor: 'pointer',
     'background-color': '#fafafae8'
   }
 })
 
-const PostMetaData = styled('span')({
+const PostContainerNoHover = styled('div')({
+  padding: '10px',
+  'margin-top': '5px',
+  'border-radius': '4px'
+})
+
+const ProfileContainer = styled('div')({
   float: 'right',
-  color: 'darkgrey',
   'margin-left': 'auto'
+})
+
+const PostMetaData = styled('span')({
+  display: 'block'
 })
 
 const PostContent = styled('div')({
@@ -32,36 +43,71 @@ const PostHeader = styled('div')({
   'align-items': 'center'
 })
 
-const Post = ({ post }) => {
-  const TIME_FORMAT = 'M/D h:mm a'
-  const time = moment.unix(post.timestamp).format(TIME_FORMAT)
+const PostCommunityAndDate = styled('h4')({
+  color: 'darkgray',
+  'margin-top': '5px'
+})
+
+const Post = ({ post, preview }) => {
+  const DATE_FORMAT = 'D MMMM YYYY'
+  const time = moment.unix(post.timestamp).format(DATE_FORMAT)
   const url = '/post/' + post.Id
+  const { title, subtitle, postText } = post.message
 
   const handleRedirect = () => {
     navigate(url, { state: { post } })
   }
 
+  const getPreviewText = () => {
+    const MAX_PREVIEW_CHARACTERS = 256
+    const previewLength = postText.length < MAX_PREVIEW_CHARACTERS ? postText.length : MAX_PREVIEW_CHARACTERS
+    return postText.substring(0, previewLength) + ' ...'
+  }
+
+  const Container = preview ? PostContainer : PostContainerNoHover
+  const previewText = subtitle === undefined ? getPreviewText() : subtitle
+
   return (
-    <PostContainer
+    <Container
       onClick={handleRedirect}
     >
       <PostHeader>
-        <Profile
-          address={post.author}
-        />
         <PostMetaData>
-          {post.threadName} {time}
+          <h1>
+            {title}
+          </h1>
+          <PostCommunityAndDate>
+            {post.threadName} · {time}
+          </PostCommunityAndDate>
         </PostMetaData>
+        <ProfileContainer>
+          <Profile
+            address={post.author}
+            showName={true}
+          />
+        </ProfileContainer>
       </PostHeader>
-      <PostContent>
-        {
-          unified()
-            .use(parse)
-            .use(remark2react)
-            .processSync(post.message).result
-        }
-      </PostContent>
-    </PostContainer>
+      {preview ? (
+        <PostContent>
+          {
+            unified()
+              .use(parse)
+              .use(remark2react)
+              .processSync(previewText).result
+          }
+        </PostContent>
+      ) : (
+        <PostContent>
+          {
+            unified()
+              .use(parse)
+              .use(remark2react)
+              .processSync(postText).result
+          }
+        </PostContent>
+      )
+      }
+    </Container>
   )
 }
 

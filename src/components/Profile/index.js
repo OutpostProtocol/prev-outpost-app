@@ -3,28 +3,28 @@ import React, {
   useMemo
 } from 'react'
 import { getProfile } from '3box/lib/api'
-import makeBlockie from 'ethereum-blockies-base64'
 import { styled } from '@material-ui/core/styles'
+import makeBlockie from 'ethereum-blockies-base64'
 
 import { shortenAddress } from '../../utils'
 
 const ProfileImage = styled('img')({
   width: '40px',
   height: '40px',
-  'border-radius': '4px',
+  'border-radius': '50%',
   'margin-right': '10px'
 })
 
 const ProfileContainer = styled('span')({
-  display: 'flex',
+  display: 'inline-flex',
   'align-items': 'center'
 })
 
-const ProfileName = styled('h3')({
+const ProfileName = styled('h4')({
   'font-weight': 100
 })
 
-const Profile = ({ address }) => {
+const Profile = ({ address, showName }) => {
   const [imageSrc, setImageSrc] = useState('http://via.placeholder.com/40')
   const [name, setName] = useState(shortenAddress(address))
 
@@ -51,9 +51,11 @@ const Profile = ({ address }) => {
         src={imageSrc}
         alt='Profile'
       />
-      <ProfileName>
-        {name}
-      </ProfileName>
+      { showName &&
+        <ProfileName>
+          {name}
+        </ProfileName>
+      }
     </ProfileContainer>
   )
 }

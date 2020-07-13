@@ -16,7 +16,7 @@ const CreateCommunity = () => {
     return (
       <CreateButton
         variant='contained'
-        color='primary'
+        color='secondary'
         disabled={!isLoggedIn}
         disableElevation
         onClick={() => navigate('/createCommunity')}

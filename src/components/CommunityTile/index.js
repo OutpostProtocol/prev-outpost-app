@@ -60,8 +60,8 @@ const CommunityTile = ({ community }) => {
         <div>
           <IconButton
             onClick={handleOpen}
-            aria-label="options"
-            aria-haspopup="true"
+            aria-label='options'
+            aria-haspopup='true'
           >
             <MoreHoriz />
           </IconButton>

@@ -1,12 +1,18 @@
 import {
   SET_ADDR,
   SET_IS_LOGGED_IN,
-  SET_COMMUNITIES
+  SET_COMMUNITIES,
+  SET_IS_LOADING
 } from './actionTypes'
 
 export const setAddr = address => ({
   type: SET_ADDR,
   address
+})
+
+export const setIsLoading = isLoading => ({
+  type: SET_IS_LOADING,
+  isLoading
 })
 
 export const setIsLoggedIn = isLoggedIn => ({

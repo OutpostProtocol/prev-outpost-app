@@ -1,7 +1,4 @@
-import React, {
-  useState,
-  useEffect
-} from 'react'
+import React, { useState } from 'react'
 import {
   Dialog,
   IconButton,
@@ -12,10 +9,7 @@ import {
   Close,
   ChevronLeft
 } from '@material-ui/icons'
-import { useWeb3React } from '@web3-react/core'
-import { useDispatch } from 'react-redux'
 
-import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import walletOptions from './walletOptions'
 import Option from './option'
 
@@ -42,8 +36,8 @@ const ContentContainer = styled('div')({
 const ExitButton = styled(IconButton)({
   width: '40px',
   height: '40px',
-  'margin-left': 'auto',
-  padding: 0
+  padding: 0,
+  'margin-left': 'auto'
 })
 
 const Footer = styled('div')({
@@ -53,19 +47,6 @@ const Footer = styled('div')({
 
 const WalletModal = ({ open, handleClose }) => {
   const [detailedView, setDetailedView] = useState(undefined)
-  const { active, account } = useWeb3React()
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    const createLoginAction = () => {
-      return { type: LOGIN_ASYNC, account }
-    }
-
-    if (active && account) {
-      dispatch(createLoginAction())
-      handleClose()
-    }
-  }, [active, account, handleClose, dispatch])
 
   const optionFactory = (walletOptions, showDetailedView) => {
     return (
@@ -117,8 +98,8 @@ const WalletModal = ({ open, handleClose }) => {
         <Footer>
           New to Ethereum?&nbsp;
           <a
-            href="https://clearrain.xyz/"
-            rel="noopener noreferrer"
+            href='https://clearrain.xyz/'
+            rel='noopener noreferrer'
             target='_blank'
           >
             Learn more about wallets

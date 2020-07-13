@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Clear Rain',
+    title: 'Outpost',
     description: 'Communities controlled by users, not big tech',
     author: 'https://clearrain.xyz'
   },

@@ -20,12 +20,19 @@ const theme = createMuiTheme({
     primary: {
       main: '#333333'
     },
+    secondary: {
+      main: '#00aced',
+      contrastText: 'white'
+    },
     background: {
       default: '#fafafa'
     }
   },
   typography: {
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
+    button: {
+      textTransform: 'none'
+    }
   },
   zIndex: {
     snackbar: 2300,

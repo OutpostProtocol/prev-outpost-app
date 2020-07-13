@@ -1,5 +1,11 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, {
+  useState,
+  useEffect
+} from 'react'
+import {
+  useSelector,
+  useDispatch
+} from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import {
   Button,
@@ -8,8 +14,8 @@ import {
 } from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
 
+import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import WalletModal from '../WalletModal'
-import { shortenAddress } from '../../utils'
 
 const Web3Button = styled(Button)({
   width: '80%',
@@ -28,45 +34,53 @@ const LoadingContainer = styled(Backdrop)({
 
 const Web3Status = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
+  const isLoading = useSelector(state => state.isLoading)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
-  const { account } = useWeb3React()
+  const { active, account } = useWeb3React()
+  const dispatch = useDispatch()
 
-  if (isLoggedIn && account) {
-    return (
-      <Web3Button
-        disableElevation
-        color='primary'
-        variant='contained'
-        disableRipple={true}
+  useEffect(() => {
+    const createLoginAction = () => {
+      return { type: LOGIN_ASYNC, account }
+    }
+
+    if (active && account && !isLoggedIn) {
+      dispatch(createLoginAction())
+    }
+  }, [active, account, isLoggedIn, dispatch])
+
+  useEffect(() => {
+    if (isLoading) {
+      setIsWalletModalOpen(false)
+    }
+  }, [isLoading])
+
+  return (
+    <Web3Container>
+      <LoadingContainer
+        open={isLoading}
       >
-        <div>{shortenAddress(account)}</div>
-      </Web3Button>
-    )
-  } else {
-    return (
-      <Web3Container>
-        <LoadingContainer
-          open={account !== undefined && !isLoggedIn}
-        >
-          <CircularProgress
-            disableShrink
-          />
-        </LoadingContainer>
+        <CircularProgress
+          disableShrink
+        />
+      </LoadingContainer>
+      {!isLoggedIn &&
         <Web3Button
           variant='contained'
           color='primary'
           disableElevation
-          onClick={() => setIsWalletModalOpen(true) }
+          onClick={() => setIsWalletModalOpen(true)}
         >
           Sign In
         </Web3Button>
-        <WalletModal
-          open={isWalletModalOpen}
-          handleClose={() => setIsWalletModalOpen(false) }
-        />
-      </Web3Container>
-    )
-  }
+      }
+      <WalletModal
+        open={isWalletModalOpen}
+        isLoggedIn={isLoggedIn}
+        handleClose={() => setIsWalletModalOpen(false)}
+      />
+    </Web3Container>
+  )
 }
 
 export default Web3Status

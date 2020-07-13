@@ -4,10 +4,9 @@ import { styled } from '@material-ui/core/styles'
 
 import { usePosts } from '../../hooks'
 import Feed from '../Feed'
-import NewPost from '../NewPost'
+import Toolbar from '../Toolbar'
 
 const MainContainer = styled('div')({
-  padding: '1em',
   'padding-left': '23vw',
   'padding-right': '23vw'
 })
@@ -20,7 +19,7 @@ const Main = () => {
   return (
     <MainContainer>
       { isLoggedIn &&
-        <NewPost />
+        <Toolbar />
       }
       <Feed
         posts={posts}

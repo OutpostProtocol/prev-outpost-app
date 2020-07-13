@@ -1,10 +1,10 @@
-export const DEFAULT_SPACE = 'rain-dev2'
+export const DEFAULT_SPACE = 'outpost-dev'
 export const COMMUNITIES = 'communities'
 
 export const DEFAULT_COMMUNITY = {
-  symbol: 'RAI',
-  address: '/orbitdb/zdpuApVni86SEbjcYuM8iuTJdxArsoiJ9EdPcgR3LDnUp9DVg/3box.thread.rain-dev2.Rain',
-  name: 'Rain'
+  symbol: 'OP',
+  address: '/orbitdb/zdpuAqRvTg4RxKyp8PpAbztFWm1xcvjfrVCu96d4awtjGusn9/3box.thread.outpost-dev.Outpost',
+  name: 'Outpost'
 }
 
 export const PLACEHOLDER_COMMUNITY = {

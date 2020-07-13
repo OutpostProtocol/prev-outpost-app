@@ -26,7 +26,7 @@ export const usePosts = (isLoggedIn, communities) => {
     const fetchPostsLoggedIn = async (communities) => {
       const tempPosts = []
       for (const community of communities) {
-        const threadName = community.address.split('/').slice(-1)[0]
+        const threadName = community.address.split('/').slice(-1)[0].split('.')[3]
         try {
           const thread = await window.space.joinThreadByAddress(community.address)
           const threadPosts = await thread.getPosts()
@@ -45,7 +45,7 @@ export const usePosts = (isLoggedIn, communities) => {
     const fetchPostsLoggedOut = async (communities) => {
       const tempPosts = []
       for (const community of communities) {
-        const threadName = community.address.split('/').slice(-1)[0]
+        const threadName = community.address.split('/').slice(-1)[0].split('.')[3]
         const threadPosts = await Box.getThreadByAddress(community.address)
         threadPosts.forEach((post) => {
           post.Id = post.postId

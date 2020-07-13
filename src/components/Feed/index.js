@@ -15,6 +15,7 @@ const Feed = ({ posts }) => {
           return (
             <Post
               post={post}
+              preview={true}
               key={i}
             />
           )

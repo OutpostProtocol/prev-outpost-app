@@ -24,6 +24,7 @@ const walletOptions = [
     imgSrc: WalletConnectLogo,
     description: 'Connect with a mobile wallet by scanning a qr code',
     prepare: walletConnectPrepare,
+    setup: undefined,
     connector: walletconnect
   }
 ]

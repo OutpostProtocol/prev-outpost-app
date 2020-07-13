@@ -1,16 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import Img from 'gatsby-image'
 import PropTypes from 'prop-types'
-import {
-  Drawer,
-  IconButton
-} from '@material-ui/core'
-import {
-  ChevronLeft,
-  ChevronRight
-} from '@material-ui/icons'
+import { Drawer } from '@material-ui/core'
 
 import CreateCommunity from '../CreateCommunity'
 import CommunityView from '../CommunityView'
@@ -20,21 +13,6 @@ import Footer from './Footer'
 const GridContainer = styled('div')({
   height: '100vh',
   position: 'fixed'
-})
-
-const CloseChevron = styled(IconButton)({
-  position: 'absolute',
-  right: 0,
-  color: 'inherit',
-  'aria-label': 'Close Sidebar',
-  'margin-right': '5px'
-})
-
-const OpenChevron = styled(IconButton)({
-  color: 'inherit',
-  'aria-label': 'View Commnities',
-  'margin-top': '10px',
-  'margin-left': '5px'
 })
 
 const DrawerContentsContainer = styled('div')({
@@ -52,9 +30,7 @@ const Logo = styled(Link)({
 })
 
 const CommunityDrawer = ({ img }) => {
-  const [open, setOpen] = useState(true)
-
-  const DrawerContents = ({ img }) => {
+  const DrawerContents = () => {
     return (
       <DrawerContentsContainer>
         <LogoContainer>
@@ -65,12 +41,6 @@ const CommunityDrawer = ({ img }) => {
               fixed={img.fixed}
             />
           </Logo>
-          <CloseChevron
-            edge='end'
-            onClick={() => setOpen(false)}
-          >
-            <ChevronLeft />
-          </CloseChevron>
         </LogoContainer>
         <Web3Status />
         <CreateCommunity />
@@ -83,21 +53,13 @@ const CommunityDrawer = ({ img }) => {
 
   return (
     <GridContainer>
-      <OpenChevron
-        edge='start'
-        onClick={() => setOpen(true)}
-      >
-        <ChevronRight />
-      </OpenChevron>
       <Drawer
         anchor='left'
         variant='persistent'
-        open={open}
+        open={true}
         elevation={4}
       >
-        <DrawerContents
-          img={img}
-        />
+        <DrawerContents />
       </Drawer>
     </GridContainer>
   )
