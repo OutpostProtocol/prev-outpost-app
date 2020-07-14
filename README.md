@@ -4,7 +4,7 @@ Right now the frontend is integrate with 3box storage. I want to move away from 
 
 ```shell
 git clone git@github.com:ClearRainLabs/rain-app.git
-cd micro-rain/
+cd rain-app/
 yarn install
 yarn dev
 ```
