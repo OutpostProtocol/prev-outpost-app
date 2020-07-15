@@ -29,7 +29,9 @@ const PostPage = ({ location }) => {
 
   return (
     <>
-      <SEO title="Post" />
+      <SEO
+        title="Post"
+      />
       <BackButton
         color="inherit"
         aria-label="Go back"
