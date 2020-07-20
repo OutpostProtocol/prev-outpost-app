@@ -94,14 +94,14 @@ const EditorPage = () => {
         <FormTextField
           onChange={(event) => setTitle(event.target.value)}
           value={title}
-          label="Title"
+          label='Title'
           variant='outlined'
         >
         </FormTextField>
         <FormTextField
           onChange={(event) => setSubtitle(event.target.value)}
           value={subtitle}
-          label="Subtitle"
+          label='Subtitle'
           variant='outlined'
         >
         </FormTextField>

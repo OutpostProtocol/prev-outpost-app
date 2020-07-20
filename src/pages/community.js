@@ -32,6 +32,7 @@ const BackButton = styled(IconButton)({
 })
 
 const CommunityName = styled('h1')({
+  'font-style': 'italic',
   'margin-right': 'auto'
 })
 
@@ -74,7 +75,7 @@ const CommunuityPage = ({ location }) => {
       <Container>
         <CommunityToolbar>
           <CommunityName>
-            {name}
+            {name} ({symbol})
           </CommunityName>
           {isLoggedIn &&
             <>
