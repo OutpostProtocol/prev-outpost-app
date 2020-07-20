@@ -66,7 +66,6 @@ const EditorPage = () => {
       return
     }
 
-    // No title defaults to 'Untitled'
     // No subtitle is ok, the post preview will render a portion of the post instead
     const payload = {
       title: title !== '' ? title : 'Untitled',
@@ -80,7 +79,9 @@ const EditorPage = () => {
 
   return (
     <>
-      <SEO title="Post Editor" />
+      <SEO
+        title="Post Editor"
+      />
       <BackButton
         color="inherit"
         aria-label="Go back"

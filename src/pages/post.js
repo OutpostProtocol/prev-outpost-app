@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { navigate } from 'gatsby'
+import { navigate } from '@reach/router'
 import { styled } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
@@ -11,7 +11,7 @@ import SEO from '../components/seo'
 
 const PostContainer = styled('div')({
   width: '50vw',
-  margin: '20px auto'
+  margin: 'auto'
 })
 
 const BackButton = styled(IconButton)({
@@ -36,7 +36,7 @@ const PostPage = ({ location }) => {
         color="inherit"
         aria-label="Go back"
         edge="end"
-        onClick={() => navigate('/')}
+        onClick={() => navigate(-1)}
       >
         <ChevronLeftIcon />
       </BackButton>

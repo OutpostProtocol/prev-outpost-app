@@ -1,6 +1,7 @@
 import React, {
   useState,
-  useMemo
+  useRef,
+  useEffect
 } from 'react'
 import { getProfile } from '3box/lib/api'
 import { styled } from '@material-ui/core/styles'
@@ -27,17 +28,24 @@ const ProfileName = styled('h4')({
 const Profile = ({ address, showName }) => {
   const [imageSrc, setImageSrc] = useState('http://via.placeholder.com/40')
   const [name, setName] = useState(shortenAddress(address))
+  const isMounted = useRef(true)
 
-  useMemo(() => {
+  useEffect(() => {
     const retreiveProfile = async () => {
+      let img
       const profile = await getProfile(address)
-      if (profile.name) setName(profile.name)
+      if (profile.image) img = await getImgSrc(profile, address)
+      else img = await makeBlockie(address)
 
-      if (profile.image) setImageSrc(await getImgSrc(profile, address))
-      else setImageSrc(await makeBlockie(address))
+      if (isMounted.current) {
+        setImageSrc(img)
+        if (profile.name) setName(profile.name)
+      }
     }
 
     retreiveProfile()
+
+    return () => { isMounted.current = false }
   }, [address])
 
   const getImgSrc = (profile, address) => {

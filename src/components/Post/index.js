@@ -44,7 +44,7 @@ const PostHeader = styled('div')({
 })
 
 const PostCommunityAndDate = styled('h4')({
-  color: 'darkgray',
+  color: '#c4c4c4',
   'margin-top': '5px'
 })
 

@@ -3,6 +3,7 @@ import {
   useSelector,
   useDispatch
 } from 'react-redux'
+import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import {
   IconButton,
@@ -15,12 +16,16 @@ import { REMOVE_COMMUNITY_ASYNC } from '../../redux/actionTypes'
 
 const TileContainer = styled('div')({
   width: '80%',
-  padding: '0 5%',
-  margin: '0.5em auto',
+  margin: '5px 10%',
   display: 'flex',
   height: '2em',
+  'border-radius': '4px',
   'justify-content': 'space-between',
-  'align-items': 'center'
+  'align-items': 'center',
+  '&:hover': {
+    cursor: 'pointer',
+    'background-color': '#fafafa'
+  }
 })
 
 const TileStatus = styled('div')({
@@ -32,6 +37,7 @@ const CommunityTile = ({ community }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const [anchorEl, setAnchorEl] = useState(null)
   const dispatch = useDispatch('')
+  const url = '/community' + community.address
 
   const handleOpen = (event) => {
     setAnchorEl(event.currentTarget)
@@ -39,6 +45,10 @@ const CommunityTile = ({ community }) => {
 
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleRedirect = () => {
+    navigate(url, { state: { community } })
   }
 
   const removeCommunity = () => {
@@ -50,7 +60,9 @@ const CommunityTile = ({ community }) => {
   }
 
   return (
-    <TileContainer>
+    <TileContainer
+      onClick={() => handleRedirect()}
+    >
       <TileStatus>
         <div>
           {capitalize(community.name)} ({community.symbol.toUpperCase()})

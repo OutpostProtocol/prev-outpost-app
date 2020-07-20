@@ -5,5 +5,8 @@ exports.onCreatePage = async ({ page, actions }) => {
   if (page.path.match(/^\/post/)) {
     page.matchPath = '/post/*'
     createPage(page)
+  } else if (page.path.match(/^\/community/)) {
+    page.matchPath = '/community/*'
+    createPage(page)
   }
 }

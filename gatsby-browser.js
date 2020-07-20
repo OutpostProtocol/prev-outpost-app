@@ -24,6 +24,9 @@ const theme = createMuiTheme({
       main: '#3D5AFE',
       contrastText: 'white'
     },
+    info: {
+      main: '#c4c4c4'
+    },
     background: {
       default: '#fafafa'
     }
@@ -37,8 +40,7 @@ const theme = createMuiTheme({
   zIndex: {
     snackbar: 2300,
     modal: 0
-  },
-  sidebarWidth: 22 // vw
+  }
 })
 
 const getLibrary = (provider, connector) => {

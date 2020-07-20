@@ -52,7 +52,6 @@ const Toolbar = () => {
   return (
     <ToolbarContainer>
       <SearchBar
-        id='outlined-basic'
         variant='outlined'
         InputProps={{
           endAdornment: (
