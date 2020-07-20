@@ -107,7 +107,7 @@ const EditorPage = () => {
         </FormTextField>
         <PostContent
           headingsOffset={1}
-          placeholder='enter post text here'
+          placeholder='Begin writing your post'
           onSave={options => console.log('Save triggered', options)}
           onCancel={() => console.log('Cancel triggered')}
           onShowToast={message => window.alert(message)}
