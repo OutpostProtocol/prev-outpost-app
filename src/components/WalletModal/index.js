@@ -98,7 +98,7 @@ const WalletModal = ({ open, handleClose }) => {
         <Footer>
           New to Ethereum?&nbsp;
           <a
-            href='https://clearrain.xyz/'
+            href='https://outpost-protocol.com/'
             rel='noopener noreferrer'
             target='_blank'
           >

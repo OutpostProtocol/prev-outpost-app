@@ -3,7 +3,7 @@ Right now the frontend is integrate with 3box storage. I want to move away from 
 **Start developing**
 
 ```shell
-git clone git@github.com:ClearRainLabs/rain-app.git
+git clone git@github.com:OutpostProtocol/outpost-app.git
 cd rain-app/
 yarn install
 yarn dev

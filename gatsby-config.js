@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: 'Outpost',
     description: 'Communities controlled by users, not big tech',
-    author: 'https://clearrain.xyz'
+    author: 'https://outpost-protocol.com/'
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -18,8 +18,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'micro-rain',
-        short_name: 'micro-rain',
+        name: 'outpost-app',
+        short_name: 'outpost-app',
         start_url: '/',
         background_color: '#fafafa',
         theme_color: '#333333',

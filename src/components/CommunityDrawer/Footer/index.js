@@ -29,7 +29,7 @@ const Footer = () => {
     <FooterContainer>
       <Icon>
         <ExternalLink
-          href='https://github.com/ClearRainLabs'
+          href='https://github.com/OutpostProtocol'
           rel='noopener noreferrer'
           target='_blank'
         >
@@ -42,7 +42,7 @@ const Footer = () => {
       </Icon>
       <Icon>
         <ExternalLink
-          href='https://clearrain.xyz/'
+          href='https://outpost-protocol.com/'
           rel='noopener noreferrer'
           target='_blank'
         >
