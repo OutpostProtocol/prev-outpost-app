@@ -36,13 +36,7 @@ const FormTextField = styled(TextField)({
 })
 
 const PostContent = styled(Editor)({
-  margin: '10px 0px',
-  border: '1px solid #c4c4c4',
-  padding: '10px',
-  'border-radius': '4px',
-  '&:hover': {
-    border: '1px solid #000000'
-  }
+  'margin-top': '30px'
 })
 
 const EditorPage = () => {
@@ -95,14 +89,12 @@ const EditorPage = () => {
           onChange={(event) => setTitle(event.target.value)}
           value={title}
           label='Title'
-          variant='outlined'
         >
         </FormTextField>
         <FormTextField
           onChange={(event) => setSubtitle(event.target.value)}
           value={subtitle}
           label='Subtitle'
-          variant='outlined'
         >
         </FormTextField>
         <PostContent
