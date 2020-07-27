@@ -1,5 +1,0 @@
-describe('Feed', () => {
-  test('TODO', () => {
-
-  })
-})
