@@ -19,17 +19,32 @@ const IndexPage = ({ data }) => {
       <CommunityDrawer
         img={data.logo.childImageSharp}
       />
-      <Main />
+      <Main posts={data.posts.Posts}/>
     </ div>
   )
 }
 
 export const query = graphql`
   query {
-    logo: file(relativePath: { eq: "drops/drop_dk_grey.png" }) {
+    logo: file(relativePath: { eq: "logo/Outpost_black.png" }) {
       childImageSharp {
         fixed(width: 50, height: 50) {
           ...GatsbyImageSharpFixed
+        }
+      }
+    }
+    posts: outpostapi {
+      Posts {
+        txId
+        title
+        body
+        subtitle
+        timestamp
+        community {
+          name
+        }
+        user {
+          did
         }
       }
     }

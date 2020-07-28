@@ -24,7 +24,7 @@ module.exports = {
         background_color: '#fafafa',
         theme_color: '#333333',
         display: 'minimal-ui',
-        icon: './src/images/drops/drop_white.png' // This path is relative to the root of the site.
+        icon: './src/images/logo/Outpost_black.png' // This path is relative to the root of the site.
       }
     },
     'gatsby-plugin-material-ui',
@@ -37,6 +37,17 @@ module.exports = {
             variants: ['400', '700']
           }
         ]
+      }
+    },
+    {
+      resolve: 'gatsby-source-graphql',
+      options: {
+        // Arbitrary name for the remote schema Query type
+        typeName: 'OutpostApi',
+        // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
+        fieldName: 'outpostapi',
+        // Url to query from
+        url: 'http://localhost:4000/'
       }
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality

@@ -8,11 +8,11 @@ const MainContainer = styled('div')({
   'padding-right': '23vw'
 })
 
-const Main = () => {
+const Main = ({ posts }) => {
   return (
     <MainContainer>
       <Feed
-        posts={null}
+        posts={posts}
       />
     </MainContainer>
   )

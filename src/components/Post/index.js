@@ -51,8 +51,8 @@ const PostCommunityAndDate = styled('h4')({
 const Post = ({ post, preview }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
-  const url = '/post/' + post.Id
-  const { title, subtitle, postText } = post.message
+  const url = '/post/' + post.txId
+  const { title, subtitle, body } = post
 
   const handleRedirect = () => {
     navigate(url, { state: { post } })
@@ -60,8 +60,8 @@ const Post = ({ post, preview }) => {
 
   const getPreviewText = () => {
     const MAX_PREVIEW_CHARACTERS = 256
-    const previewLength = postText.length < MAX_PREVIEW_CHARACTERS ? postText.length : MAX_PREVIEW_CHARACTERS
-    return postText.substring(0, previewLength) + ' ...'
+    const previewLength = body.length < MAX_PREVIEW_CHARACTERS ? body.length : MAX_PREVIEW_CHARACTERS
+    return body.substring(0, previewLength) + ' ...'
   }
 
   const Container = preview ? PostContainer : PostContainerNoHover
@@ -77,12 +77,12 @@ const Post = ({ post, preview }) => {
             {title}
           </h1>
           <PostCommunityAndDate>
-            {post.threadName} · {time}
+            {post.community.name} · {time}
           </PostCommunityAndDate>
         </PostMetaData>
         <ProfileContainer>
           <Profile
-            address={post.author}
+            address={post.user.did}
             showName={true}
           />
         </ProfileContainer>
@@ -102,7 +102,7 @@ const Post = ({ post, preview }) => {
             unified()
               .use(parse)
               .use(remark2react)
-              .processSync(postText).result
+              .processSync(body).result
           }
         </PostContent>
       )

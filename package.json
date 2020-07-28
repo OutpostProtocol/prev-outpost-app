@@ -46,6 +46,7 @@
     "gatsby-plugin-react-redux": "^1.1.0-0",
     "gatsby-plugin-sharp": "^2.5.4",
     "gatsby-source-filesystem": "^2.2.2",
+    "gatsby-source-graphql": "^2.6.2",
     "gatsby-transformer-sharp": "^2.4.4",
     "moment": "^2.24.0",
     "outpost-protocol": "^1.0.1",
