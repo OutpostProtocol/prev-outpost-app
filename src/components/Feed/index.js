@@ -1,10 +1,10 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
 
-import Post from '../Post'
+import PostPreview from '../PostPreview'
 
 const FeedContainer = styled('div')({
-  'margin-top': '5px'
+  'margin-top': '10vh'
 })
 
 const Feed = ({ posts }) => {
@@ -13,7 +13,7 @@ const Feed = ({ posts }) => {
       <FeedContainer>
         {posts.map((post, i) => {
           return (
-            <Post
+            <PostPreview
               post={post}
               preview={true}
               key={i}

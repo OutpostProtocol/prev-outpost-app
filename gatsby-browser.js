@@ -18,11 +18,11 @@ import './src/utils/global.css'
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#333333'
+      main: '#1a1a1a'
     },
     secondary: {
       main: '#3D5AFE',
-      contrastText: 'white'
+      contrastText: '#f1f1f1'
     },
     info: {
       main: '#c4c4c4'

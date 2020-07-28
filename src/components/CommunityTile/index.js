@@ -37,7 +37,6 @@ const CommunityTile = ({ community }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const [anchorEl, setAnchorEl] = useState(null)
   const dispatch = useDispatch('')
-  console.log(community, 'THE COMMUNITY OBJECT')
   const url = '/community/' + community.txId
 
   const handleOpen = (event) => {

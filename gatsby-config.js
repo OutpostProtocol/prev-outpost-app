@@ -13,6 +13,13 @@ module.exports = {
         path: `${__dirname}/src/images`
       }
     },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'fonts',
+        path: `${__dirname}/src/fonts`
+      }
+    },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
@@ -22,7 +29,7 @@ module.exports = {
         short_name: 'outpost-app',
         start_url: '/',
         background_color: '#fafafa',
-        theme_color: '#333333',
+        theme_color: '#1a1a1a',
         display: 'minimal-ui',
         icon: './src/images/logo/Outpost_black.png' // This path is relative to the root of the site.
       }

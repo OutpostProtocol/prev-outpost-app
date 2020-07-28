@@ -67,7 +67,7 @@ const Web3Status = () => {
       {!isLoggedIn &&
         <Web3Button
           variant='contained'
-          color='primary'
+          color='secondary'
           disableElevation
           onClick={() => setIsWalletModalOpen(true)}
         >

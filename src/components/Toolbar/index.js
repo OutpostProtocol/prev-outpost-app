@@ -1,14 +1,8 @@
 import React from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import {
-  IconButton,
-  TextField
-} from '@material-ui/core'
-import {
-  CreateOutlined,
-  Search
-} from '@material-ui/icons'
+import { IconButton } from '@material-ui/core'
+import { CreateOutlined } from '@material-ui/icons'
 import { useWeb3React } from '@web3-react/core'
 
 import Profile from '../Profile'
@@ -35,13 +29,6 @@ const ProfileContainer = styled(Profile)({
   'margin-left': 'auto'
 })
 
-const SearchBar = styled(TextField)({
-  position: 'absolute',
-  left: '50%',
-  transform: 'translateX(-50%)',
-  width: '300px'
-})
-
 const Toolbar = () => {
   const { account } = useWeb3React()
 
@@ -51,14 +38,6 @@ const Toolbar = () => {
 
   return (
     <ToolbarContainer>
-      <SearchBar
-        variant='outlined'
-        InputProps={{
-          endAdornment: (
-            <Search />
-          )
-        }}
-      />
       <CreateButton
         onClick={handleOpenEditor}
       >

@@ -26,7 +26,6 @@ const ProfileName = styled('h4')({
 })
 
 const Profile = ({ address, showName }) => {
-  console.log(address, 'THE DID IN PROFILE')
   const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
   const [name, setName] = useState(shortenAddress(address))
   const isMounted = useRef(true)

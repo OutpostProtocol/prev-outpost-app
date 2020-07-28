@@ -10,8 +10,12 @@ import Profile from '../Profile'
 
 const PostContainer = styled('div')({
   padding: '10px',
-  'margin-top': '5px',
-  'border-radius': '4px'
+  'margin-top': '10px',
+  'border-radius': '4px',
+  '&:hover': {
+    cursor: 'pointer',
+    'background-color': '#fafafae8'
+  }
 })
 
 const ProfileContainer = styled('div')({
@@ -42,15 +46,27 @@ const Title = styled('h2')({
   margin: 0
 })
 
-const Post = ({ post, preview }) => {
+const PostPreview = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
   const url = '/post/' + post.txId
-  const { title, body } = post
+  const { title, subtitle, body } = post
 
   const handleRedirect = () => {
     navigate(url, { state: { post } })
   }
+
+  const getPreviewText = () => {
+    const MAX_PREVIEW_CHARACTERS = 256
+
+    if (body.length < MAX_PREVIEW_CHARACTERS) {
+      return body
+    } else {
+      return body.substring(0, MAX_PREVIEW_CHARACTERS) + '...'
+    }
+  }
+
+  const previewText = subtitle || getPreviewText()
 
   return (
     <PostContainer
@@ -72,20 +88,16 @@ const Post = ({ post, preview }) => {
           />
         </ProfileContainer>
       </PostHeader>
-      <PostContent
-        style={{
-          'margin-top': '5vh'
-        }}
-      >
+      <PostContent>
         {
           unified()
             .use(parse)
             .use(remark2react)
-            .processSync(body).result
+            .processSync(previewText).result
         }
       </PostContent>
     </PostContainer>
   )
 }
 
-export default Post
+export default PostPreview
