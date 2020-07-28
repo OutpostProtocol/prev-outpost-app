@@ -1,16 +1,12 @@
-export const DEFAULT_SPACE = 'outpost-dev'
-export const COMMUNITIES = 'communities'
+export const ELEMENT_ID = 'redux-ssr'
+export const GLOBAL_KEY = '__PRELOADED_STATE__'
 
 export const DEFAULT_COMMUNITY = {
-  symbol: 'OP',
-  address: '/orbitdb/zdpuAqRvTg4RxKyp8PpAbztFWm1xcvjfrVCu96d4awtjGusn9/3box.thread.outpost-dev.Outpost',
-  name: 'Outpost'
+  txId: 'cp1ka-VbZJJj_GOraw9cuJznspR2Vdvcqp71TJ3R03Q',
+  name: 'Outpost-Dev'
 }
 
 export const PLACEHOLDER_COMMUNITY = {
   name: 'Community',
-  address: 'PLACEHOLDER'
+  txId: 'PLACEHOLDER'
 }
-
-export const ELEMENT_ID = 'redux-ssr'
-export const GLOBAL_KEY = '__PRELOADED_STATE__'

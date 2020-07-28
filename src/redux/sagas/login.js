@@ -6,14 +6,8 @@ import {
 import {
   LOGIN_ASYNC,
   SET_IS_LOGGED_IN,
-  SET_IS_LOADING,
-  SET_COMMUNITIES
+  SET_IS_LOADING
 } from '../../redux/actionTypes'
-import {
-  DEFAULT_SPACE,
-  COMMUNITIES,
-  DEFAULT_COMMUNITY
-} from '../../constants'
 import Box from '3box'
 
 function * tryLogin (action) {
@@ -22,18 +16,8 @@ function * tryLogin (action) {
     const address = action.account
     const box = yield Box.openBox(address, window.web3.provider)
     window.box = box
-    const space = yield box.openSpace(DEFAULT_SPACE)
-    yield space.syncDone
-    window.space = space
-
-    let communities = yield space.public.get(COMMUNITIES)
-    if (!Array.isArray(communities)) {
-      communities = [DEFAULT_COMMUNITY]
-      yield window.space.public.set(COMMUNITIES, communities)
-    }
 
     yield all([
-      put({ type: SET_COMMUNITIES, communities }),
       put({ type: SET_IS_LOADING, isLoading: false }),
       put({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
     ])

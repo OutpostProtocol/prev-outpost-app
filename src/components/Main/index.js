@@ -1,8 +1,6 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 
-import { usePosts } from '../../hooks'
 import Feed from '../Feed'
 
 const MainContainer = styled('div')({
@@ -11,14 +9,10 @@ const MainContainer = styled('div')({
 })
 
 const Main = () => {
-  const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const communities = useSelector(state => state.communities)
-  const { posts } = usePosts(isLoggedIn, communities)
-
   return (
     <MainContainer>
       <Feed
-        posts={posts}
+        posts={null}
       />
     </MainContainer>
   )

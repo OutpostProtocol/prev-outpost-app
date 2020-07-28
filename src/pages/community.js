@@ -11,7 +11,6 @@ import { ChevronLeft } from '@material-ui/icons/'
 import SEO from '../components/seo'
 import Toolbar from '../components/Toolbar'
 import Feed from '../components/Feed'
-import { usePosts } from '../hooks'
 
 const Container = styled('div')({
   'padding-left': '23vw',
@@ -45,8 +44,8 @@ const CommunuityPage = ({ location }) => {
     navigate('/')
   }
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const { name, symbol } = location.state.community
-  const { posts } = usePosts(isLoggedIn, [location.state.community])
+  const { name } = location.state.community
+  // const { posts } = usePosts(isLoggedIn, [location.state.community])
 
   const followCommunity = () => {
     // TODO: dispatch to add community
@@ -59,7 +58,7 @@ const CommunuityPage = ({ location }) => {
   return (
     <>
       <SEO
-        title={symbol}
+        title={name}
       />
       <BackButton
         color='inherit'
@@ -75,7 +74,7 @@ const CommunuityPage = ({ location }) => {
       <Container>
         <CommunityToolbar>
           <CommunityName>
-            {name} ({symbol})
+            {name}
           </CommunityName>
           {isLoggedIn &&
             <>
@@ -99,7 +98,7 @@ const CommunuityPage = ({ location }) => {
           }
         </CommunityToolbar>
         <Feed
-          posts={posts}
+          posts={null}
         />
       </Container>
     </>

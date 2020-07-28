@@ -65,7 +65,7 @@ const CommunityTile = ({ community }) => {
     >
       <TileStatus>
         <div>
-          {capitalize(community.name)} ({community.symbol.toUpperCase()})
+          {capitalize(community.name)}
         </div>
       </TileStatus>
       {isLoggedIn &&

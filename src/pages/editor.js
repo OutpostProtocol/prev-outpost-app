@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core'
 import Editor from 'rich-markdown-editor'
 
+import { uploadPost } from '../uploaders'
 import SEO from '../components/seo'
 import CommunitySelector from '../components/CommunitySelector'
 import { PLACEHOLDER_COMMUNITY } from '../constants'
@@ -41,13 +42,13 @@ const PostContent = styled(Editor)({
 
 const EditorPage = () => {
   const [postText, setPostText] = useState('')
-  const [communityAddress, setCommunityAddress] = useState('')
+  const [communityId, setCommunityId] = useState('')
   const [title, setTitle] = useState('')
   const [subtitle, setSubtitle] = useState('')
 
   const handleCommunitySelection = (event) => {
     if (event && event.target.value) {
-      setCommunityAddress(event.target.value.address)
+      setCommunityId(event.target.value.txId)
     }
   }
 
@@ -55,7 +56,7 @@ const EditorPage = () => {
     if (postText === '') {
       alert('this post has no text')
       return
-    } else if (communityAddress === '' || communityAddress === PLACEHOLDER_COMMUNITY.address) {
+    } else if (communityId === '' || communityId === PLACEHOLDER_COMMUNITY.txId) {
       alert('select a community')
       return
     }
@@ -66,8 +67,8 @@ const EditorPage = () => {
       subtitle: subtitle !== '' ? subtitle : undefined,
       postText: postText
     }
-    const thread = await window.space.joinThreadByAddress(communityAddress)
-    await thread.post(payload)
+    const res = await uploadPost(payload, communityId)
+    console.log(res, 'THE RES IN EDITOR')
     navigate('/')
   }
 

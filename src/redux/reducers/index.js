@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 import {
   SET_IS_LOGGED_IN,
-  SET_COMMUNITIES,
   SET_IS_LOADING,
   ADD_COMMUNITY
 } from '../actionTypes'
@@ -27,10 +26,6 @@ const isLoading = (state = false, action) => {
 
 const communities = (state = [DEFAULT_COMMUNITY], action) => {
   switch (action.type) {
-    case SET_COMMUNITIES:
-      return [
-        ...action.communities
-      ]
     case ADD_COMMUNITY:
       return [
         ...state,
