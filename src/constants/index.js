@@ -14,3 +14,10 @@ export const PLACEHOLDER_COMMUNITY = {
 
 export const ELEMENT_ID = 'redux-ssr'
 export const GLOBAL_KEY = '__PRELOADED_STATE__'
+
+export const ROLES = {
+  Owner: 'OWNER',
+  Admin: 'ADMIN',
+  Moderator: 'MODERATOR',
+  Member: 'MEMBER'
+}

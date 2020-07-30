@@ -5,6 +5,11 @@ import {
   StylesProvider,
   createMuiTheme
 } from '@material-ui/core/styles'
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider
+} from '@apollo/client'
 import createStore, { runSaga } from './src/redux/store'
 import {
   ELEMENT_ID,
@@ -14,6 +19,11 @@ import { Web3ReactProvider } from '@web3-react/core'
 import { ethers } from 'ethers'
 
 import './src/utils/global.css'
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4000',
+  cache: new InMemoryCache()
+});
 
 const theme = createMuiTheme({
   palette: {
@@ -58,16 +68,18 @@ export const wrapRootElement = ({ element }) => {
         <StylesProvider injectFirst >
           <ThemeProvider theme={theme}>
             <Web3ReactProvider getLibrary={getLibrary}>
-              <main
-                style={{
-                  height: '100%',
-                  width: '100%',
-                  top: '0',
-                  left: '0'
-                }}
-              >
-                {element}
-              </main>
+              <ApolloProvider client={client}>
+                <main
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    top: '0',
+                    left: '0'
+                  }}
+                >
+                  {element}
+                </main>
+              </ApolloProvider>
             </Web3ReactProvider>
           </ThemeProvider>
         </StylesProvider>
