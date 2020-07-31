@@ -23,7 +23,7 @@ import './src/utils/global.css'
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
   cache: new InMemoryCache()
-});
+})
 
 const theme = createMuiTheme({
   palette: {

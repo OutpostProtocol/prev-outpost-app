@@ -93,7 +93,7 @@ export const useAllCommunities = () => {
   const { loading, error, data } = useQuery(GET_ALL_COMMUNITIES)
 
   if (loading || error) return []
-  else return data
+  else if (data.community) return data.community
 }
 
 /**
@@ -105,8 +105,8 @@ export const useAllCommunities = () => {
  */
 export const useCommunityRoles = (id) => {
   const GET_COMMUNITY_ROLES = gql`
-    query getAllCommunityRoles($testID: String!) {
-      getAllCommunityRoles(communityTxId: $testID) {
+    query getAllCommunityRoles($id: String!) {
+      getAllCommunityRoles(communityTxId: $id) {
         role
         user {
           did
@@ -118,7 +118,7 @@ export const useCommunityRoles = (id) => {
     GET_COMMUNITY_ROLES,
     {
       variables: {
-        testID: id
+        id: id
       }
     }
   )
