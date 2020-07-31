@@ -39,10 +39,11 @@ const FollowButton = styled(Button)({
   'margin-right': '10px'
 })
 
-const CommunuityPage = ({ location }) => {
+const CommunuityPage = ({ location, data }) => {
   if (!location.state.community) {
     navigate('/')
   }
+
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const { name } = location.state.community
   // const { posts } = usePosts(isLoggedIn, [location.state.community])
