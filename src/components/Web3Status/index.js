@@ -71,7 +71,7 @@ const Web3Status = () => {
           disableElevation
           onClick={() => setIsWalletModalOpen(true)}
         >
-          Sign In
+          SIGN IN
         </Web3Button>
       }
       <WalletModal

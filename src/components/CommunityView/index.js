@@ -23,7 +23,7 @@ const CommunityView = () => {
       { communities &&
         <>
           <Heading>
-            Communities
+            COMMUNITIES
           </Heading>
         </>
       }

@@ -21,7 +21,7 @@ const CreateCommunity = () => {
         disableElevation
         onClick={() => navigate('/createCommunity')}
       >
-        Create a Community
+        CREATE A COMMUNITY
       </CreateButton>
     )
   } else {
