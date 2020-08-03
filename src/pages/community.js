@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core'
 import { ChevronLeft } from '@material-ui/icons/'
 
+import usePosts from '../hooks/usePosts'
 import SEO from '../components/seo'
 import Toolbar from '../components/Toolbar'
 import Feed from '../components/Feed'
@@ -45,14 +46,19 @@ const CommunuityPage = ({ location, data }) => {
   }
 
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const { name } = location.state.community
-  // const { posts } = usePosts(isLoggedIn, [location.state.community])
+  const { name, txId } = location.state.community
+  const postReq = usePosts(txId)
+
+  console.log(postReq, 'THE POST REQ')
+
+  if (postReq.loading) return 'Loading...'
+  if (postReq.error) return `Error! ${postReq.error.message}`
 
   const followCommunity = () => {
     // TODO: dispatch to add community
   }
 
-  const requestToJoinCommunity = () => {
+  const joinCommunity = () => {
     // TODO: send notif to moderators
   }
 
@@ -88,7 +94,7 @@ const CommunuityPage = ({ location, data }) => {
                 Follow
               </FollowButton>
               <Button
-                onClick={requestToJoinCommunity}
+                onClick={joinCommunity}
                 disableElevation
                 color='primary'
                 variant='contained'
@@ -99,7 +105,7 @@ const CommunuityPage = ({ location, data }) => {
           }
         </CommunityToolbar>
         <Feed
-          posts={null}
+          posts={postReq.data.Posts}
         />
       </Container>
     </>

@@ -15,11 +15,9 @@ const Main = () => {
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
 
-  const posts = data.Posts
-
   return (
     <MainContainer>
-      <Feed posts={posts} />
+      <Feed posts={data.Posts} />
     </MainContainer>
   )
 }

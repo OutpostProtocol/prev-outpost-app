@@ -3,10 +3,10 @@ import {
   useQuery
 } from '@apollo/client'
 
-const usePosts = (isLoggedIn, communities) => {
+const usePosts = (communityTxId) => {
   const GET_POSTS = gql`
-    query {
-      Posts {
+    query Posts($communityTxId: String) {
+      Posts (communityTxId: $communityTxId) {
         txId
         title
         body
@@ -22,7 +22,9 @@ const usePosts = (isLoggedIn, communities) => {
     }
   `
 
-  return useQuery(GET_POSTS)
+  return useQuery(GET_POSTS, {
+    variables: { communityTxId }
+  })
 }
 
 export default usePosts
