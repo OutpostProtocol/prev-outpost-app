@@ -38,17 +38,6 @@ module.exports = {
           }
         ]
       }
-    },
-    {
-      resolve: 'gatsby-source-graphql',
-      options: {
-        // Arbitrary name for the remote schema Query type
-        typeName: 'OutpostApi',
-        // Field under which the remote schema will be accessible. You'll use this in your Gatsby query
-        fieldName: 'outpostapi',
-        // Url to query from
-        url: 'http://localhost:4000/'
-      }
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
