@@ -24,7 +24,7 @@ const PostMetaData = styled('span')({
 })
 
 const PostContent = styled('div')({
-  marginTop: '0'
+  marginTop: 0
 })
 
 const PostHeader = styled('div')({
@@ -42,7 +42,7 @@ const Title = styled('h2')({
   margin: 0
 })
 
-const Post = ({ post, preview }) => {
+const Post = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
   const url = '/post/' + post.txId

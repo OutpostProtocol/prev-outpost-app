@@ -14,7 +14,6 @@ const Feed = ({ posts }) => {
         return (
           <PostPreview
             post={post}
-            preview={true}
             key={i}
           />
         )
