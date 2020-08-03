@@ -36,10 +36,6 @@ const CommunityName = styled('h1')({
   'margin-right': 'auto'
 })
 
-const FollowButton = styled(Button)({
-  'margin-right': '10px'
-})
-
 const CommunuityPage = ({ location, data }) => {
   if (!location.state.community) {
     navigate('/')
@@ -53,10 +49,6 @@ const CommunuityPage = ({ location, data }) => {
 
   if (postReq.loading) return 'Loading...'
   if (postReq.error) return `Error! ${postReq.error.message}`
-
-  const followCommunity = () => {
-    // TODO: dispatch to add community
-  }
 
   const joinCommunity = () => {
     // TODO: send notif to moderators
@@ -84,24 +76,14 @@ const CommunuityPage = ({ location, data }) => {
             {name}
           </CommunityName>
           {isLoggedIn &&
-            <>
-              <FollowButton
-                onClick={followCommunity}
-                disableElevation
-                color='primary'
-                variant='contained'
-              >
-                Follow
-              </FollowButton>
-              <Button
-                onClick={joinCommunity}
-                disableElevation
-                color='primary'
-                variant='contained'
-              >
-                Request to Join
-              </Button>
-            </>
+            <Button
+              onClick={joinCommunity}
+              disableElevation
+              color='primary'
+              variant='contained'
+            >
+              JOIN
+            </Button>
           }
         </CommunityToolbar>
         <Feed
