@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useCommunities } from '../../hooks'
 import { styled } from '@material-ui/core/styles'
 import {
   Select,
@@ -13,8 +13,13 @@ const CommunitySelect = styled(Select)({
 })
 
 const CommunitySelector = ({ handleSelection, placeHolder }) => {
-  const communities = useSelector(state => state.communities.length !== 0 ? state.communities : null)
   const [activeCommunity, setActiveCommunity] = useState(placeHolder)
+  const { data, loading, error } = useCommunities()
+
+  if (loading) return 'Loading...'
+  if (error) return `Error! ${error.message}`
+
+  const communities = data.Community
 
   const switchActiveCommunity = (event) => {
     if (event && event.target.value) {

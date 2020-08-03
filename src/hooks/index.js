@@ -7,42 +7,16 @@ import { constants } from 'outpost-protocol'
 
 const { ROLES } = constants
 
-export const usePosts = (isLoggedIn, communities) => {
-  const GET_POSTS = gql`
-    query {
-      Posts {
-        txId
-        title
-        body
-        subtitle
-        timestamp
-        community {
-          name
-        }
-        user {
-          did
-        }
-      }
-    }
-  `
-
-  const { loading, error, data } = useQuery(GET_POSTS)
-
-  if (loading) return 'Loading...'
-  if (error) return `Error! ${error.message}`
-
-  return { posts: data.Posts, error }
-}
-
 /**
  * Get all communities
  *
  * @returns {Object} All the communities
  */
-export const useAllCommunities = () => {
+export const useCommunities = () => {
   const GET_ALL_COMMUNITIES = gql`
     query {
       Community {
+        id
         name
         txId
         isOpen
@@ -51,8 +25,7 @@ export const useAllCommunities = () => {
   `
   const { loading, error, data } = useQuery(GET_ALL_COMMUNITIES)
 
-  if (loading || error) return []
-  else if (data.community) return data.community
+  return { data, loading, error }
 }
 
 /**

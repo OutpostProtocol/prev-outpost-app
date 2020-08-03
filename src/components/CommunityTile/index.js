@@ -30,7 +30,9 @@ const TileContainer = styled('div')({
 
 const TileStatus = styled('div')({
   display: 'flex',
-  'align-items': 'center'
+  'align-items': 'center',
+  'font-size': '0.9em',
+  'padding-left': '2%'
 })
 
 const CommunityTile = ({ community }) => {
