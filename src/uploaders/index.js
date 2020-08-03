@@ -19,6 +19,8 @@ export const uploadPost = async (postData, communityTxId) => {
     did: window.box.DID
   }
 
+  console.log(uploadData, 'THE UPLOAD DATA')
+
   return await axios.post(`${ARWEAVE_UPLOAD_SERVICE}/blog-post`, uploadData)
 }
 

@@ -10,7 +10,7 @@ import Profile from '../Profile'
 
 const PostContainer = styled('div')({
   padding: '10px',
-  'margin-top': '5px',
+  marginTop: '5px',
   'border-radius': '4px'
 })
 
@@ -24,7 +24,7 @@ const PostMetaData = styled('span')({
 })
 
 const PostContent = styled('div')({
-  'margin-top': '0'
+  marginTop: '0'
 })
 
 const PostHeader = styled('div')({

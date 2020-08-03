@@ -54,21 +54,23 @@ const EditorPage = () => {
 
   const handlePost = async () => {
     if (postText === '') {
-      alert('this post has no text')
+      alert('This post has no text.')
+      return
+    } else if (title === '') {
+      alert('You must create a title for your post')
       return
     } else if (communityId === '' || communityId === PLACEHOLDER_COMMUNITY.txId) {
-      alert('select a community')
+      alert('Select a community')
       return
     }
 
     // No subtitle is ok, the post preview will render a portion of the post instead
     const payload = {
-      title: title !== '' ? title : 'Untitled',
+      title: title,
       subtitle: subtitle !== '' ? subtitle : undefined,
       postText: postText
     }
-    const res = await uploadPost(payload, communityId)
-    console.log(res, 'THE RES IN EDITOR')
+    await uploadPost(payload, communityId)
     navigate('/')
   }
 
