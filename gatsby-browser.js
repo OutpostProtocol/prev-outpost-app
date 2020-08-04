@@ -21,7 +21,7 @@ import { ethers } from 'ethers'
 import './src/utils/global.css'
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000',
+  uri: process.env.OUTPOST_API,
   cache: new InMemoryCache()
 })
 
