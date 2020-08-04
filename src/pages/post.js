@@ -1,10 +1,15 @@
-import React from 'react'
+import React, {
+  useState,
+  useEffect
+} from 'react'
 import { useSelector } from 'react-redux'
 import { navigate } from '@reach/router'
 import { styled } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
+import { usePost } from '../hooks'
+import { PLACEHOLDER_POST } from '../constants'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
@@ -23,11 +28,15 @@ const BackButton = styled(IconButton)({
 })
 
 const PostPage = ({ location }) => {
+  let txId = location.href.split('/post/')[1]
+  txId = txId.replace('/', '')
+  const { data } = usePost(txId)
+  const [post, setPost] = useState(PLACEHOLDER_POST)
   const isLoggedIn = useSelector(state => state.isLoggedIn)
 
-  if (!location.state.post) {
-    navigate('/')
-  }
+  useEffect(() => {
+    if (data && data.Posts && data.Posts[0]) setPost(data.Posts[0])
+  }, [data])
 
   return (
     <>
@@ -47,7 +56,7 @@ const PostPage = ({ location }) => {
       }
       <PostContainer>
         <Post
-          post={location.state.post}
+          post={post}
           preview={false}
         />
       </PostContainer>

@@ -143,3 +143,31 @@ export const useUserRolesForCommunity = (did, id) => {
 
   return roles
 }
+
+export const usePost = (txId) => {
+  const GET_POST = gql`
+    query Posts($txId: String!) {
+      Posts(txId: $txId) {
+        txId
+        title
+        body
+        subtitle
+        timestamp
+        community {
+          name
+        }
+        user {
+          did
+        }
+      }
+    }
+  `
+  return useQuery(
+    GET_POST,
+    {
+      variables: {
+        txId: txId
+      }
+    }
+  )
+}
