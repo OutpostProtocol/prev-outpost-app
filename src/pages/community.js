@@ -15,8 +15,7 @@ import Toolbar from '../components/Toolbar'
 import Feed from '../components/Feed'
 
 const Container = styled('div')({
-  'padding-left': '23vw',
-  'padding-right': '23vw'
+  padding: '15vh 23vw'
 })
 
 const CommunityToolbar = styled('div')({
