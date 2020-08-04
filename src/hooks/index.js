@@ -29,6 +29,33 @@ export const useCommunities = () => {
 }
 
 /**
+ * Get a community
+ *
+ * @returns {Object} a community
+ */
+export const useCommunity = (id) => {
+  const GET_COMMUNITY = gql`
+    query Community($txIds: [String]) {
+      Community(txIds: $txIds) {
+        id
+        name
+        txId
+        isOpen
+      }
+    }
+  `
+  const { loading, error, data } = useQuery(
+    GET_COMMUNITY,
+    {
+      variables: {
+        txIds: [id]
+      }
+    })
+
+  return { data, loading, error }
+}
+
+/**
  * Get the owners, admins, moderators, and members for a community
  *
  * @param   {String}  id  of the community to get the roles for

@@ -1,6 +1,5 @@
 import React from 'react'
 import moment from 'moment'
-import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import unified from 'unified'
 import parse from 'remark-parse'
@@ -45,17 +44,10 @@ const Title = styled('h2')({
 const Post = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
-  const url = '/post/' + post.txId
   const { title, body } = post
 
-  const handleRedirect = () => {
-    navigate(url, { state: { post } })
-  }
-
   return (
-    <PostContainer
-      onClick={handleRedirect}
-    >
+    <PostContainer>
       <PostHeader>
         <PostMetaData>
           <Title color='primary'>

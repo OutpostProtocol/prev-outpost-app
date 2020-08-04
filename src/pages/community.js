@@ -9,6 +9,7 @@ import {
 import { ChevronLeft } from '@material-ui/icons/'
 
 import usePosts from '../hooks/usePosts'
+import { useCommunity } from '../hooks'
 import SEO from '../components/seo'
 import Toolbar from '../components/Toolbar'
 import Feed from '../components/Feed'
@@ -40,15 +41,16 @@ const FollowButton = styled(Button)({
   'margin-right': '10px'
 })
 
-const CommunuityPage = ({ location, data }) => {
-  if (!location.state.community) {
-    navigate('/')
-  }
+const CommunuityPage = ({ location }) => {
+  let txId = location.href.split('/community/')[1]
+  txId = txId.replace('/', '')
+  let name = ''
 
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const { name, txId } = location.state.community
+  const { data } = useCommunity(txId)
   const postReq = usePosts(txId)
 
+  if (data && data.Community) name = data.Community[0].name
   console.log(postReq, 'THE POST REQ')
 
   if (postReq.loading) return 'Loading...'

@@ -28,6 +28,7 @@ const BackButton = styled(IconButton)({
 })
 
 const PostPage = ({ location }) => {
+  const backPath = (location.state && location.state.from) ? location.state.from : '/'
   let txId = location.href.split('/post/')[1]
   txId = txId.replace('/', '')
   const { data } = usePost(txId)
@@ -47,7 +48,7 @@ const PostPage = ({ location }) => {
         color="inherit"
         aria-label="Go back"
         edge="end"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(backPath)}
       >
         <ChevronLeftIcon />
       </BackButton>
