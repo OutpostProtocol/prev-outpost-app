@@ -6,9 +6,10 @@ import {
   IconButton,
   Button
 } from '@material-ui/core'
-import { ChevronLeft } from '@material-ui/icons/'
+import ChevronLeft from '@material-ui/icons/ChevronLeft'
 
 import usePosts from '../hooks/usePosts'
+import { joinCommunity } from '../uploaders'
 import SEO from '../components/seo'
 import Toolbar from '../components/Toolbar'
 import Feed from '../components/Feed'
@@ -45,13 +46,13 @@ const CommunuityPage = ({ location, data }) => {
   const { name, txId } = location.state.community
   const postReq = usePosts(txId)
 
-  console.log(postReq, 'THE POST REQ')
-
   if (postReq.loading) return 'Loading...'
   if (postReq.error) return `Error! ${postReq.error.message}`
 
-  const joinCommunity = () => {
-    // TODO: send notif to moderators
+  const join = async () => {
+    const { community } = location.state
+
+    await joinCommunity(community.txId)
   }
 
   return (
@@ -77,7 +78,7 @@ const CommunuityPage = ({ location, data }) => {
           </CommunityName>
           {isLoggedIn &&
             <Button
-              onClick={joinCommunity}
+              onClick={join}
               disableElevation
               color='primary'
               variant='contained'
