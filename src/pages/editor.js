@@ -4,7 +4,7 @@ import { styled } from '@material-ui/core/styles'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import {
   IconButton,
-  TextField,
+  Input,
   Button
 } from '@material-ui/core'
 import Editor from 'rich-markdown-editor'
@@ -30,14 +30,23 @@ const BackButton = styled(IconButton)({
   'z-index': 2
 })
 
-const FormTextField = styled(TextField)({
+const FormTextField = styled(Input)({
   width: '100%',
   'border-radius': '4px',
-  'margin-top': '15px'
+  margin: '2vh 0'
+})
+
+const TitleContainer = styled('div')({
+  padding: '5vh 0 0 0'
 })
 
 const PostContent = styled(Editor)({
   'margin-top': '30px'
+})
+
+const OptionContainer = styled('div')({
+  margin: '10vh 0',
+  height: '3em'
 })
 
 const EditorPage = () => {
@@ -88,18 +97,18 @@ const EditorPage = () => {
         <ChevronLeftIcon />
       </BackButton>
       <EditorContainer>
-        <FormTextField
-          onChange={(event) => setTitle(event.target.value)}
-          value={title}
-          label='Title'
-        >
-        </FormTextField>
-        <FormTextField
-          onChange={(event) => setSubtitle(event.target.value)}
-          value={subtitle}
-          label='Subtitle'
-        >
-        </FormTextField>
+        <TitleContainer>
+          <FormTextField
+            onChange={(event) => setTitle(event.target.value)}
+            value={title}
+            placeholder='TITLE'
+          />
+          <FormTextField
+            onChange={(event) => setSubtitle(event.target.value)}
+            value={subtitle}
+            placeholder='DESCRIPTION (optional)'
+          />
+        </TitleContainer>
         <PostContent
           headingsOffset={1}
           placeholder='Begin writing your post'
@@ -112,18 +121,20 @@ const EditorPage = () => {
           }}
           autoFocus
         />
-        <CommunitySelector
-          handleSelection={handleCommunitySelection}
-          placeHolder={PLACEHOLDER_COMMUNITY}
-        />
-        <PostButton
-          disableElevation
-          variant='contained'
-          color='secondary'
-          onClick={handlePost}
-        >
+        <OptionContainer >
+          <CommunitySelector
+            handleSelection={handleCommunitySelection}
+            placeHolder={PLACEHOLDER_COMMUNITY}
+          />
+          <PostButton
+            disableElevation
+            variant='contained'
+            color='secondary'
+            onClick={handlePost}
+          >
           Post
-        </PostButton>
+          </PostButton>
+        </OptionContainer>
       </EditorContainer>
     </>
   )
