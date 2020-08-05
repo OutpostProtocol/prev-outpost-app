@@ -15,7 +15,8 @@ import Toolbar from '../components/Toolbar'
 import Feed from '../components/Feed'
 
 const Container = styled('div')({
-  padding: '15vh 23vw'
+  margin: '3em 0',
+  padding: '10vh 23vw'
 })
 
 const CommunityToolbar = styled('div')({
@@ -28,6 +29,8 @@ const CommunityToolbar = styled('div')({
 const BackButton = styled(IconButton)({
   margin: '5px',
   position: 'absolute',
+  top: '0',
+  left: '0',
   'z-index': 2
 })
 
