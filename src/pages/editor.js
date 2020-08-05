@@ -8,6 +8,10 @@ import {
   Button
 } from '@material-ui/core'
 import Editor from 'rich-markdown-editor'
+import {
+  gql, useMutation
+} from '@apollo/client'
+import { decodeJWT } from 'did-jwt'
 
 import { uploadPost } from '../uploaders'
 import SEO from '../components/seo'
@@ -49,16 +53,69 @@ const OptionContainer = styled('div')({
   height: '3em'
 })
 
+const UPLOAD_POST = gql`
+  mutation UploadPost($post: PostUpload!) {
+    uploadPost(post: $post) {
+      success,
+      post {
+        title
+        body
+        subtitle
+        timestamp
+        community {
+          name
+        }
+        user {
+          did
+        }
+        transaction {
+          txId
+        }
+      }
+    }
+  }
+`
+
 const EditorPage = () => {
   const [postText, setPostText] = useState('')
   const [communityId, setCommunityId] = useState('')
   const [title, setTitle] = useState('')
   const [subtitle, setSubtitle] = useState('')
+  const [uploadPostToDb] = useMutation(UPLOAD_POST)
 
   const handleCommunitySelection = (event) => {
     if (event && event.target.value) {
       setCommunityId(event.target.value.txId)
     }
+  }
+
+  const handleUploadToDb = async (postTx) => {
+    const rawData = postTx.data
+    const jwt = Buffer.from(rawData, 'base64').toString('utf-8')
+
+    const payload = decodeJWT(jwt).payload
+
+    const { communityTxId, iss, iat, postData } = payload
+
+    const postUpload = {
+      communityTxId,
+      userDid: iss,
+      timestamp: iat,
+      title: postData.title,
+      subtitle: postData.subtitle,
+      body: postData.postText,
+      txId: postTx.id
+    }
+
+    const res = await uploadPostToDb({
+      variables: {
+        post: postUpload
+      }
+    })
+
+    const post = res.data.uploadPost.post
+
+    navigate(`/post/${post.transaction.txId}`, { state: { post } })
   }
 
   const handlePost = async () => {
@@ -79,8 +136,13 @@ const EditorPage = () => {
       subtitle: subtitle !== '' ? subtitle : undefined,
       postText: postText
     }
-    await uploadPost(payload, communityId)
-    navigate('/')
+    const res = await uploadPost(payload, communityId)
+
+    if (res.status === 200 && res.data.status === 200) {
+      return await handleUploadToDb(res.data.tx)
+    }
+
+    alert('The post upload failed. Try again.')
   }
 
   return (

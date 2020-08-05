@@ -7,7 +7,6 @@ const usePosts = (communityTxId) => {
   const GET_POSTS = gql`
     query Posts($communityTxId: String) {
       Posts (communityTxId: $communityTxId) {
-        txId
         title
         body
         subtitle
@@ -17,6 +16,9 @@ const usePosts = (communityTxId) => {
         }
         user {
           did
+        }
+        transaction {
+          txId
         }
       }
     }
