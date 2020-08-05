@@ -1,11 +1,11 @@
 import uploadContractInteraction from './contractInteraction'
-import { ADD_MEMBER } from 'outpost-protocol/functionTypes'
+import { MEMBER_ADD } from 'outpost-protocol/functionTypes'
 
 export const joinCommunity = async contractTxId => {
   const interaction = {
     contractId: contractTxId,
     input: {
-      function: ADD_MEMBER,
+      function: MEMBER_ADD,
       member: window.box.DID
     }
   }

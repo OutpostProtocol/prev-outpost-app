@@ -1,5 +1,5 @@
 import { uploadNewCommunity } from './newCommunity'
-import { uploadPost } from './post'
+import { uploadPost } from './blog-post'
 import { joinCommunity } from './joinCommunity'
 
 export {
