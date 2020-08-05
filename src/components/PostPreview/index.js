@@ -49,7 +49,7 @@ const Title = styled('h2')({
 const PostPreview = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
-  const url = '/post/' + post.txId
+  const url = '/post/' + post.transaction.txId
   const { title, subtitle, body } = post
 
   const handleRedirect = () => {
