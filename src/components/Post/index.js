@@ -72,11 +72,7 @@ const Post = ({ post }) => {
           />
         </ProfileContainer>
       </PostHeader>
-      <PostContent
-        style={{
-          'margin-top': '5vh'
-        }}
-      >
+      <PostContent>
         {
           unified()
             .use(parse)
