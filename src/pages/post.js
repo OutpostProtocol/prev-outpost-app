@@ -1,6 +1,7 @@
 import React, {
   useState,
-  useEffect
+  useEffect,
+  useRef
 } from 'react'
 import { useSelector } from 'react-redux'
 import { navigate } from '@reach/router'
@@ -32,11 +33,13 @@ const PostPage = ({ location }) => {
   let txId = location.href.split('/post/')[1]
   txId = txId.replace('/', '')
   const { data } = usePost(txId)
+  const isMounted = useRef(true)
   const [post, setPost] = useState(PLACEHOLDER_POST)
   const isLoggedIn = useSelector(state => state.isLoggedIn)
 
   useEffect(() => {
-    if (data && data.Posts && data.Posts[0]) setPost(data.Posts[0])
+    if (data && data.Posts && data.Posts[0] && isMounted.current) setPost(data.Posts[0])
+    return () => { isMounted.current = false }
   }, [data])
 
   return (
