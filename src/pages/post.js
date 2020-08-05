@@ -39,7 +39,7 @@ const PostPage = ({ location }) => {
         color="inherit"
         aria-label="Go back"
         edge="end"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate('/')}
       >
         <ChevronLeftIcon />
       </BackButton>

@@ -5,7 +5,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import {
   IconButton,
   Input,
-  Button
+  Button,
+  Backdrop,
+  CircularProgress
 } from '@material-ui/core'
 import Editor from 'rich-markdown-editor'
 import {
@@ -53,6 +55,10 @@ const OptionContainer = styled('div')({
   height: '3em'
 })
 
+const LoadingContainer = styled(Backdrop)({
+  'z-index': 1200
+})
+
 const UPLOAD_POST = gql`
   mutation UploadPost($post: PostUpload!) {
     uploadPost(post: $post) {
@@ -81,6 +87,7 @@ const EditorPage = () => {
   const [communityId, setCommunityId] = useState('')
   const [title, setTitle] = useState('')
   const [subtitle, setSubtitle] = useState('')
+  const [isWaitingForUpload, setIsWaiting] = useState(false)
   const [uploadPostToDb] = useMutation(UPLOAD_POST)
 
   const handleCommunitySelection = (event) => {
@@ -115,6 +122,8 @@ const EditorPage = () => {
 
     const post = res.data.uploadPost.post
 
+    setIsWaiting(false)
+
     navigate(`/post/${post.transaction.txId}`, { state: { post } })
   }
 
@@ -130,6 +139,8 @@ const EditorPage = () => {
       return
     }
 
+    setIsWaiting(true)
+
     // No subtitle is ok, the post preview will render a portion of the post instead
     const payload = {
       title: title,
@@ -142,6 +153,7 @@ const EditorPage = () => {
       return await handleUploadToDb(res.data.tx)
     }
 
+    setIsWaiting(false)
     alert('The post upload failed. Try again.')
   }
 
@@ -150,6 +162,13 @@ const EditorPage = () => {
       <SEO
         title="Post Editor"
       />
+      <LoadingContainer
+        open={isWaitingForUpload}
+      >
+        <CircularProgress
+          disableShrink
+        />
+      </LoadingContainer>
       <BackButton
         color="inherit"
         aria-label="Go back"
