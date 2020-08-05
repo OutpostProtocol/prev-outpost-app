@@ -10,7 +10,6 @@ import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
 
 const PostContainer = styled('div')({
-  width: '55vw',
   margin: '3em 0',
   padding: '10vh 23vw'
 })
