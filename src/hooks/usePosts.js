@@ -8,7 +8,7 @@ const usePosts = (communityTxId) => {
     query Posts($communityTxId: String) {
       Posts (communityTxId: $communityTxId) {
         title
-        body
+        postText
         subtitle
         timestamp
         community {

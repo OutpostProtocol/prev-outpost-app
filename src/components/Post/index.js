@@ -46,7 +46,7 @@ const Post = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
   const url = '/post/' + post.txId
-  const { title, body } = post
+  const { title, postText } = post
 
   const handleRedirect = () => {
     navigate(url, { state: { post } })
@@ -81,7 +81,7 @@ const Post = ({ post }) => {
           unified()
             .use(parse)
             .use(remark2react)
-            .processSync(body).result
+            .processSync(postText).result
         }
       </PostContent>
     </PostContainer>

@@ -65,7 +65,7 @@ const UPLOAD_POST = gql`
       success,
       post {
         title
-        body
+        postText
         subtitle
         timestamp
         community {
@@ -110,7 +110,7 @@ const EditorPage = () => {
       timestamp: iat,
       title: postData.title,
       subtitle: postData.subtitle,
-      body: postData.postText,
+      postText: postData.postText,
       txId: postTx.id
     }
 

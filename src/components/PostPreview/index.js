@@ -50,7 +50,7 @@ const PostPreview = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
   const url = '/post/' + post.transaction.txId
-  const { title, subtitle, body } = post
+  const { title, subtitle, postText } = post
 
   const handleRedirect = () => {
     navigate(url, { state: { post } })
@@ -59,10 +59,10 @@ const PostPreview = ({ post }) => {
   const getPreviewText = () => {
     const MAX_PREVIEW_CHARACTERS = 256
 
-    if (body.length < MAX_PREVIEW_CHARACTERS) {
-      return body
+    if (postText.length < MAX_PREVIEW_CHARACTERS) {
+      return postText
     } else {
-      return body.substring(0, MAX_PREVIEW_CHARACTERS) + '...'
+      return postText.substring(0, MAX_PREVIEW_CHARACTERS) + '...'
     }
   }
 
