@@ -40,11 +40,6 @@ const ExitButton = styled(IconButton)({
   'margin-left': 'auto'
 })
 
-const Footer = styled('div')({
-  'margin-top': '15px',
-  'margin-left': '5px'
-})
-
 const WalletModal = ({ open, handleClose }) => {
   const [detailedView, setDetailedView] = useState(undefined)
 
@@ -93,18 +88,6 @@ const WalletModal = ({ open, handleClose }) => {
             optionFactory(option, false)
           )
         })
-      }
-      {!detailedView &&
-        <Footer>
-          New to Ethereum?&nbsp;
-          <a
-            href='https://outpost-protocol.com/'
-            rel='noopener noreferrer'
-            target='_blank'
-          >
-            Learn more about wallets
-          </a>
-        </Footer>
       }
     </ContentContainer>
   )
