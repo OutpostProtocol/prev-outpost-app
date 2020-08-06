@@ -45,6 +45,10 @@ const Title = styled('h1')({
   margin: 0
 })
 
+const TitleContainer = styled('div')({
+  display: 'flex'
+})
+
 const StatusChip = styled(Chip)({
   'border-radius': '4px',
   'background-color': '#FF5252',
@@ -70,16 +74,16 @@ const Post = ({ post }) => {
     >
       <PostHeader>
         <PostMetaData>
-          <div>
+          <TitleContainer>
             <Title color='primary'>
               {title}
             </Title>
-            {post.blockHash ||
+            {!post.transaction.blockHash &&
               <Tooltip title={pendingDescription} placement='top' enterDelay={200}>
                 <StatusChip label='PENDING' />
               </Tooltip>
             }
-          </div>
+          </TitleContainer>
           <PostCommunityAndDate>
             {post.community.name} · {time}
           </PostCommunityAndDate>
