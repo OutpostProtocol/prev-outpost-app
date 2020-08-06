@@ -1,7 +1,7 @@
 {
-  "name": "micro-rain",
+  "name": "outpost-app",
   "private": true,
-  "description": "A micro blog for self-governed online communities",
+  "description": "A blog for self-governed online communities",
   "version": "0.1.0",
   "author": "samhatem",
   "scripts": {
