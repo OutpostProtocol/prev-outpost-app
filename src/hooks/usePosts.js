@@ -11,6 +11,7 @@ const usePosts = (communityTxId) => {
         postText
         subtitle
         timestamp
+        blockHash
         community {
           name
         }

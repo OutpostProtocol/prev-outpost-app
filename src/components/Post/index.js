@@ -5,6 +5,9 @@ import { styled } from '@material-ui/core/styles'
 import unified from 'unified'
 import parse from 'remark-parse'
 import remark2react from 'remark-react'
+import {
+  Chip, Tooltip
+} from '@material-ui/core'
 
 import Profile from '../Profile'
 
@@ -38,9 +41,18 @@ const PostCommunityAndDate = styled('h5')({
   margin: '5px 0 0 0'
 })
 
-const Title = styled('h2')({
+const Title = styled('h1')({
   margin: 0
 })
+
+const StatusChip = styled(Chip)({
+  'border-radius': '4px',
+  'background-color': '#FF5252',
+  color: '#f1f1f1',
+  'margin-left': '10px'
+})
+
+const pendingDescription = 'The post has been sent to the network but has not yet been confirmed.'
 
 const Post = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
@@ -58,9 +70,16 @@ const Post = ({ post }) => {
     >
       <PostHeader>
         <PostMetaData>
-          <Title color='primary'>
-            {title}
-          </Title>
+          <div>
+            <Title color='primary'>
+              {title}
+            </Title>
+            {post.blockHash ||
+              <Tooltip title={pendingDescription} placement='top' enterDelay={200}>
+                <StatusChip label='PENDING' />
+              </Tooltip>
+            }
+          </div>
           <PostCommunityAndDate>
             {post.community.name} · {time}
           </PostCommunityAndDate>
