@@ -18,6 +18,7 @@ export const useCommunities = () => {
         name
         txId
         isOpen
+        blockHash
       }
     }
   `

@@ -13,6 +13,7 @@ import { joinCommunity } from '../uploaders'
 import SEO from '../components/seo'
 import Toolbar from '../components/Toolbar'
 import Feed from '../components/Feed'
+import PendingChip from '../components/PendingChip'
 
 const Container = styled('div')({
   margin: '3em 0',
@@ -23,7 +24,7 @@ const CommunityToolbar = styled('div')({
   display: 'flex',
   width: '100%',
   padding: '10px',
-  'justify-content': 'flex-end'
+  'justify-content': 'space-between'
 })
 
 const BackButton = styled(IconButton)({
@@ -39,13 +40,19 @@ const CommunityName = styled('h1')({
   'margin-right': 'auto'
 })
 
+const NameContainer = styled('div')({
+  display: 'flex'
+})
+
+const pendingDescription = 'The community has been submitted but has not yet been confirmed.'
+
 const CommunuityPage = ({ location, data }) => {
   if (!location.state.community) {
     navigate('/')
   }
 
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const { name, txId } = location.state.community
+  const { name, txId, blockHash } = location.state.community
   const postReq = usePosts(txId)
 
   if (postReq.loading) return 'Loading...'
@@ -75,9 +82,15 @@ const CommunuityPage = ({ location, data }) => {
       }
       <Container>
         <CommunityToolbar>
-          <CommunityName>
-            {name}
-          </CommunityName>
+          <NameContainer>
+            <CommunityName>
+              {name}
+            </CommunityName>
+            <PendingChip
+              isPending={!blockHash}
+              description={pendingDescription}
+            />
+          </NameContainer>
           {isLoggedIn &&
             <Button
               onClick={join}
