@@ -32,13 +32,13 @@ const theme = createMuiTheme({
     },
     secondary: {
       main: '#3D5AFE',
-      contrastText: '#f1f1f1'
+      contrastText: '#f3f2f2'
     },
     info: {
       main: '#c4c4c4'
     },
     background: {
-      default: '#fafafa'
+      default: '#f3f2f2'
     }
   },
   typography: {
