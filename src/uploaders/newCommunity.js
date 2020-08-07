@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { ADD_CHILD } from 'outpost-protocol/functionTypes'
 import uploadContractInteraction from './contractInteraction'
+import { DEV_CONTRACT_ID } from 'outpost-protocol'
 
-const CONTRACT_ID = process.env.MAIN_CONTRACT_ID
 const ARWEAVE_UPLOAD_SERVICE = process.env.ARWEAVE_UPLOAD_SERVICE
 
 export const uploadNewCommunity = async com => {
@@ -15,7 +15,7 @@ export const uploadNewCommunity = async com => {
   const childTxId = await createContract(createData)
 
   const interaction = {
-    contractId: CONTRACT_ID,
+    contractId: DEV_CONTRACT_ID,
     input: {
       function: ADD_CHILD,
       communityId: childTxId
