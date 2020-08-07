@@ -15,6 +15,7 @@ import SEO from '../components/seo'
 import Toolbar from '../components/Toolbar'
 import Feed from '../components/Feed'
 import PendingChip from '../components/PendingChip'
+import { getId } from '../utils'
 
 const Container = styled('div')({
   margin: '3em 0',
@@ -48,24 +49,22 @@ const NameContainer = styled('div')({
 const pendingDescription = 'The community has been submitted but has not yet been confirmed.'
 
 const CommunuityPage = ({ location }) => {
-  let txId = location.href.split('/community/')[1]
-  txId = txId.replace('/', '')
-  let community
-
   const isLoggedIn = useSelector(state => state.isLoggedIn)
+  const txId = getId(location, '/community/')
   const { data } = useCommunity(txId)
   const postReq = usePosts(txId)
+  let community
+
+  if (data && data.Community) community = data.Community[0]
+  const { name, blockHash } = community || {}
 
   if (postReq.loading) return 'Loading...'
   if (postReq.error) return `Error! ${postReq.error.message}`
 
-  if (data && data.Community) community = data.Community[0].name
-  const { name, blockHash } = community || {}
-
   const join = async () => {
-    const { community } = location.state
-
-    await joinCommunity(community.txId)
+    if (community.txId) {
+      await joinCommunity(community.txId)
+    }
   }
 
   return (

@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef
-} from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { navigate } from '@reach/router'
 import { styled } from '@material-ui/core/styles'
@@ -10,10 +6,14 @@ import { IconButton } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
 import { usePost } from '../hooks'
-import { PLACEHOLDER_POST } from '../constants'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
+import { PLACEHOLDER_POST } from '../constants'
+import {
+  getBackPath,
+  getId
+} from '../utils'
 
 const PostContainer = styled('div')({
   margin: '3em 0',
@@ -29,18 +29,11 @@ const BackButton = styled(IconButton)({
 })
 
 const PostPage = ({ location }) => {
-  const backPath = (location.state && location.state.from) ? location.state.from : '/'
-  let txId = location.href.split('/post/')[1]
-  txId = txId.replace('/', '')
-  const { data } = usePost(txId)
-  const isMounted = useRef(true)
-  const [post, setPost] = useState(PLACEHOLDER_POST)
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-
-  useEffect(() => {
-    if (data && data.Posts && data.Posts[0] && isMounted.current) setPost(data.Posts[0])
-    return () => { isMounted.current = false }
-  }, [data])
+  const backPath = getBackPath(location)
+  const txId = getId(location, '/post/')
+  const { data } = usePost(txId)
+  const post = data && data.Posts && data.Posts[0] ? data.Posts[0] : PLACEHOLDER_POST
 
   return (
     <>
@@ -61,7 +54,6 @@ const PostPage = ({ location }) => {
       <PostContainer>
         <Post
           post={post}
-          preview={false}
         />
       </PostContainer>
     </ >

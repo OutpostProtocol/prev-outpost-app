@@ -21,5 +21,8 @@ export const PLACEHOLDER_POST = {
   },
   user: {
     did: 'did:3:bafyreiagk6hlbhdnu5glvllprgflwxib3xz4l35lb74ictkwhicgbnvf6e'
+  },
+  transaction: {
+    blockHash: '0x0'
   }
 }

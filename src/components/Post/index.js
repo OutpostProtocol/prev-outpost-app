@@ -54,7 +54,9 @@ const Post = ({ post }) => {
   const { title, postText } = post
 
   return (
-    <PostContainer>
+    <PostContainer
+      key={post}
+    >
       <PostHeader>
         <PostMetaData>
           <TitleContainer>

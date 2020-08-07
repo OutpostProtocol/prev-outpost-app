@@ -40,6 +40,7 @@ export const useCommunity = (id) => {
         name
         txId
         isOpen
+        blockHash
       }
     }
   `
@@ -174,9 +175,8 @@ export const usePost = (txId) => {
   const GET_POST = gql`
     query Posts($txId: String!) {
       Posts(txId: $txId) {
-        txId
         title
-        body
+        postText
         subtitle
         timestamp
         community {
@@ -184,6 +184,10 @@ export const usePost = (txId) => {
         }
         user {
           did
+        }
+        transaction {
+          txId
+          blockHash
         }
       }
     }
