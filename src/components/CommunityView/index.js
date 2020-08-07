@@ -10,6 +10,11 @@ const Heading = styled('h4')({
   'font-weight': 100
 })
 
+const Container = styled('div')({
+  'overflow-y': 'scroll',
+  'max-height': 'calc(100vh - 160px)'
+})
+
 const CommunityView = () => {
   const { data, loading, error } = useCommunities()
 
@@ -19,7 +24,7 @@ const CommunityView = () => {
   const communities = data.Community
 
   return (
-    <>
+    <Container>
       { communities &&
         <>
           <Heading>
@@ -35,7 +40,7 @@ const CommunityView = () => {
           />
         )
       })}
-    </>
+    </Container>
   )
 }
 
