@@ -6,29 +6,33 @@ import {
   IconButton,
   Button
 } from '@material-ui/core'
-import { ChevronLeft } from '@material-ui/icons/'
+import ChevronLeft from '@material-ui/icons/ChevronLeft'
 
 import usePosts from '../hooks/usePosts'
 import { useCommunity } from '../hooks'
+import { joinCommunity } from '../uploaders'
 import SEO from '../components/seo'
 import Toolbar from '../components/Toolbar'
 import Feed from '../components/Feed'
+import PendingChip from '../components/PendingChip'
 
 const Container = styled('div')({
-  'padding-left': '23vw',
-  'padding-right': '23vw'
+  margin: '3em 0',
+  padding: '10vh 23vw'
 })
 
 const CommunityToolbar = styled('div')({
   display: 'flex',
   width: '100%',
   padding: '10px',
-  'justify-content': 'flex-end'
+  'justify-content': 'space-between'
 })
 
 const BackButton = styled(IconButton)({
   margin: '5px',
   position: 'absolute',
+  top: '0',
+  left: '0',
   'z-index': 2
 })
 
@@ -37,31 +41,31 @@ const CommunityName = styled('h1')({
   'margin-right': 'auto'
 })
 
-const FollowButton = styled(Button)({
-  'margin-right': '10px'
+const NameContainer = styled('div')({
+  display: 'flex'
 })
+
+const pendingDescription = 'The community has been submitted but has not yet been confirmed.'
 
 const CommunuityPage = ({ location }) => {
   let txId = location.href.split('/community/')[1]
   txId = txId.replace('/', '')
-  let name = ''
+  let community
 
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const { data } = useCommunity(txId)
   const postReq = usePosts(txId)
 
-  if (data && data.Community) name = data.Community[0].name
-  console.log(postReq, 'THE POST REQ')
-
   if (postReq.loading) return 'Loading...'
   if (postReq.error) return `Error! ${postReq.error.message}`
 
-  const followCommunity = () => {
-    // TODO: dispatch to add community
-  }
+  if (data && data.Community) community = data.Community[0].name
+  const { name, blockHash } = community || {}
 
-  const joinCommunity = () => {
-    // TODO: send notif to moderators
+  const join = async () => {
+    const { community } = location.state
+
+    await joinCommunity(community.txId)
   }
 
   return (
@@ -82,28 +86,24 @@ const CommunuityPage = ({ location }) => {
       }
       <Container>
         <CommunityToolbar>
-          <CommunityName>
-            {name}
-          </CommunityName>
+          <NameContainer>
+            <CommunityName>
+              {name}
+            </CommunityName>
+            <PendingChip
+              isPending={!blockHash}
+              description={pendingDescription}
+            />
+          </NameContainer>
           {isLoggedIn &&
-            <>
-              <FollowButton
-                onClick={followCommunity}
-                disableElevation
-                color='primary'
-                variant='contained'
-              >
-                Follow
-              </FollowButton>
-              <Button
-                onClick={joinCommunity}
-                disableElevation
-                color='primary'
-                variant='contained'
-              >
-                Request to Join
-              </Button>
-            </>
+            <Button
+              onClick={join}
+              disableElevation
+              color='primary'
+              variant='contained'
+            >
+              JOIN
+            </Button>
           }
         </CommunityToolbar>
         <Feed

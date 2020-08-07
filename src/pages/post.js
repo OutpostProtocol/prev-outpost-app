@@ -16,8 +16,8 @@ import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
 
 const PostContainer = styled('div')({
-  width: '55vw',
-  margin: '5vh auto'
+  margin: '3em 0',
+  padding: '10vh 23vw'
 })
 
 const BackButton = styled(IconButton)({

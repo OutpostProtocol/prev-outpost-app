@@ -7,9 +7,8 @@ const usePosts = (communityTxId) => {
   const GET_POSTS = gql`
     query Posts($communityTxId: String) {
       Posts (communityTxId: $communityTxId) {
-        txId
         title
-        body
+        postText
         subtitle
         timestamp
         community {
@@ -17,6 +16,10 @@ const usePosts = (communityTxId) => {
         }
         user {
           did
+        }
+        transaction {
+          txId
+          blockHash
         }
       }
     }

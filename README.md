@@ -1,10 +1,10 @@
-Right now the frontend is integrate with 3box storage. I want to move away from 3box for the short term. We'll still use them to sign in, but all data will be stored in a central database. A central database will allow us to be more agile at early stages.
+A blogging platform for Outpost communities.
 
 **Start developing**
 
 ```shell
 git clone git@github.com:OutpostProtocol/outpost-app.git
-cd rain-app/
+cd outpost-app/
 yarn install
 yarn dev
 ```

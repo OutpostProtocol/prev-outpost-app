@@ -6,7 +6,9 @@ import usePosts from '../../hooks/usePosts'
 
 const MainContainer = styled('div')({
   'padding-left': '23vw',
-  'padding-right': '23vw'
+  'padding-right': '23vw',
+  'margin-top': '4em',
+  'padding-top': '5vh'
 })
 
 const Main = () => {

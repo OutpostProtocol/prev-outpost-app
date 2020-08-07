@@ -3,9 +3,7 @@ import {
   useQuery
 } from '@apollo/client'
 
-import { constants } from 'outpost-protocol'
-
-const { ROLES } = constants
+import { ROLES } from 'outpost-protocol'
 
 /**
  * Get all communities
@@ -20,6 +18,7 @@ export const useCommunities = () => {
         name
         txId
         isOpen
+        blockHash
       }
     }
   `

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
@@ -8,7 +7,7 @@ import {
   TextField
 } from '@material-ui/core'
 
-import { ADD_COMMUNITY_ASYNC } from '../../redux/actionTypes'
+import { uploadNewCommunity } from '../../uploaders'
 
 const FormContainer = styled('div')({
   width: '25vw',
@@ -36,20 +35,20 @@ const FormButton = styled(Button)({
 const CreateCommunityForm = () => {
   const { account } = useWeb3React()
   const [name, setName] = useState('')
-  const dispatch = useDispatch()
 
   const createCommunity = async () => {
     const community = {
-      name
+      name,
+      isOpen: true
     }
 
-    if (validateFields()) {
-      dispatch({ type: ADD_COMMUNITY_ASYNC, community })
+    if (hasValidFields()) {
+      await uploadNewCommunity(community)
       navigate('/')
     }
   }
 
-  const validateFields = () => {
+  const hasValidFields = () => {
     if (name === '') {
       alert('enter a name')
       return false

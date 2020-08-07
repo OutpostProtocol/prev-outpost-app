@@ -5,6 +5,7 @@ import unified from 'unified'
 import parse from 'remark-parse'
 import remark2react from 'remark-react'
 
+import PendingChip from '../PendingChip'
 import Profile from '../Profile'
 
 const PostContainer = styled('div')({
@@ -37,22 +38,34 @@ const PostCommunityAndDate = styled('h5')({
   margin: '5px 0 0 0'
 })
 
-const Title = styled('h2')({
+const Title = styled('h1')({
   margin: 0
 })
+
+const TitleContainer = styled('div')({
+  display: 'flex'
+})
+
+const pendingDescription = 'The post has been sent to the network but has not yet been confirmed.'
 
 const Post = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
-  const { title, body } = post
+  const { title, postText } = post
 
   return (
     <PostContainer>
       <PostHeader>
         <PostMetaData>
-          <Title color='primary'>
-            {title}
-          </Title>
+          <TitleContainer>
+            <Title color='primary'>
+              {title}
+            </Title>
+            <PendingChip
+              isPending={!post.transaction.blockHash}
+              description={pendingDescription}
+            />
+          </TitleContainer>
           <PostCommunityAndDate>
             {post.community.name} · {time}
           </PostCommunityAndDate>
@@ -64,16 +77,12 @@ const Post = ({ post }) => {
           />
         </ProfileContainer>
       </PostHeader>
-      <PostContent
-        style={{
-          'margin-top': '5vh'
-        }}
-      >
+      <PostContent>
         {
           unified()
             .use(parse)
             .use(remark2react)
-            .processSync(body).result
+            .processSync(postText).result
         }
       </PostContent>
     </PostContainer>

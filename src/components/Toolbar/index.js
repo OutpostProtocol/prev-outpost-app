@@ -24,21 +24,19 @@ const CreateButton = styled(IconButton)({
 
 const ToolbarContainer = styled('div')({
   display: 'flex',
-  position: 'sticky',
+  position: 'absolute',
   top: 0,
-  width: '100%',
+  right: 0,
+  width: '30vw',
   padding: '10px 0',
   'align-items': 'center',
-  'justify-content': 'space-between',
-  'background-color': 'rgba(255, 255, 255, 0.9)'
+  'justify-content': 'space-between'
 })
 
 const SearchBar = styled(Autocomplete)({
+  width: '15vw',
   position: 'absolute',
-  left: '50%',
-  transform: 'translateX(-50%)',
-  width: '300px',
-  'z-index': 5000
+  top: '5px'
 })
 
 const ProfileContainer = styled(Profile)({
@@ -80,9 +78,8 @@ const Toolbar = () => {
         renderInput={(params) =>
           <TextField
             {...params}
-            variant='outlined'
-            label='Search for communities'
-            margin="normal"
+            label='SEARCH'
+            margin="none"
           />}
       />
       <CreateButton
