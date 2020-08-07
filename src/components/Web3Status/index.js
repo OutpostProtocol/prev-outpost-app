@@ -7,13 +7,10 @@ import {
   useDispatch
 } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
-import {
-  Button,
-  Backdrop,
-  CircularProgress
-} from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
 
+import LoadingBackdrop from '../LoadingBackdrop'
 import { LOGIN_ASYNC } from '../../redux/actionTypes'
 import WalletModal from '../WalletModal'
 
@@ -26,10 +23,6 @@ const Web3Button = styled(Button)({
 
 const Web3Container = styled('div')({
   width: '100%'
-})
-
-const LoadingContainer = styled(Backdrop)({
-  'z-index': 1200
 })
 
 const Web3Status = () => {
@@ -57,13 +50,7 @@ const Web3Status = () => {
 
   return (
     <Web3Container>
-      <LoadingContainer
-        open={isLoading}
-      >
-        <CircularProgress
-          disableShrink
-        />
-      </LoadingContainer>
+      <LoadingBackdrop isLoading={isLoading} />
       {!isLoggedIn &&
         <Web3Button
           variant='contained'

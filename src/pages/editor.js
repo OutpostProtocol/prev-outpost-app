@@ -5,9 +5,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import {
   IconButton,
   Input,
-  Button,
-  Backdrop,
-  CircularProgress
+  Button
 } from '@material-ui/core'
 import Editor from 'rich-markdown-editor'
 import {
@@ -16,6 +14,7 @@ import {
 import { decodeJWT } from 'did-jwt'
 
 import { uploadPost } from '../uploaders'
+import LoadingBackdrop from '../components/LoadingBackdrop'
 import SEO from '../components/seo'
 import CommunitySelector from '../components/CommunitySelector'
 import { PLACEHOLDER_COMMUNITY } from '../constants'
@@ -55,14 +54,10 @@ const OptionContainer = styled('div')({
   height: '3em'
 })
 
-const LoadingContainer = styled(Backdrop)({
-  'z-index': 1200
-})
-
 const UPLOAD_POST = gql`
   mutation UploadPost($post: PostUpload!) {
     uploadPost(post: $post) {
-      success,
+      success
       post {
         title
         postText
@@ -162,13 +157,7 @@ const EditorPage = () => {
       <SEO
         title="Post Editor"
       />
-      <LoadingContainer
-        open={isWaitingForUpload}
-      >
-        <CircularProgress
-          disableShrink
-        />
-      </LoadingContainer>
+      <LoadingBackdrop isLoading={isWaitingForUpload} />
       <BackButton
         color="inherit"
         aria-label="Go back"
