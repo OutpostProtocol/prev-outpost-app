@@ -8,7 +8,9 @@ const StatusChip = styled(Chip)({
   'border-radius': '4px',
   'background-color': '#FF5252',
   color: '#f1f1f1',
-  'margin-left': '10px'
+  'margin-left': '20px',
+  height: '2em',
+  'margin-top': '0.5em'
 })
 
 const PendingChip = ({ isPending, description }) => {
