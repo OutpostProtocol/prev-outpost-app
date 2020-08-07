@@ -198,3 +198,51 @@ export const usePost = (txId) => {
     }
   )
 }
+
+/**
+ * Checks if a user has a name
+ *
+ * @param   {String}  did of the user
+ *
+ * @returns {String}      if the user has a name
+ */
+export const useHasName = (did) => {
+  const HAS_USERNAME = gql`
+    query hasUsername($did: String) {
+      hasUsername(did: $did)
+    }
+  `
+
+  return useQuery(
+    HAS_USERNAME,
+    {
+      variables: {
+        did: did
+      }
+    })
+}
+
+/**
+ * Set a user's name
+ *
+ * @param   {String}  did   of the user
+ * @param   {String}  name  to give the user
+ *
+ * @returns {Boolean}       if it was successfully set
+ */
+export const useSetName = (did, name) => {
+  const HAS_USERNAME = gql`
+    query hasUsername($did: String, $name: String) {
+      setUsername(did: $did, name: $name)
+    }
+  `
+
+  return useQuery(
+    HAS_USERNAME,
+    {
+      variables: {
+        did: did,
+        name: name
+      }
+    })
+}
