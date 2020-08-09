@@ -108,7 +108,7 @@ const CommunuityPage = ({ location }) => {
           }
         </CommunityToolbar>
         <Feed
-          posts={data.posts}
+          posts={postReq.data.posts}
         />
       </Container>
     </>
