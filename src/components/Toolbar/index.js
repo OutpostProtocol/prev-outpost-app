@@ -87,7 +87,7 @@ const Toolbar = () => {
       </CreateButton>
       <ProfileContainer
         address={did}
-        showName={true}
+        showName={false}
       />
     </ToolbarContainer>
   )

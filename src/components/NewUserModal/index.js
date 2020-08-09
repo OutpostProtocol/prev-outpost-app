@@ -91,9 +91,6 @@ const NewUserModal = ({ open, handleClose, did }) => {
   const ModalContent = (
     <ContentContainer>
       <Heading>
-        <h3>
-          Enter a username
-        </h3>
         <ExitButton
           onClick={handleClose}
         >
@@ -103,7 +100,7 @@ const NewUserModal = ({ open, handleClose, did }) => {
       <UsernameField
         value={name}
         onChange={handleName}
-        label='Username'
+        label='USERNAME'
         variant='outlined'
       />
       <SubmitButton
@@ -112,7 +109,7 @@ const NewUserModal = ({ open, handleClose, did }) => {
         color='secondary'
         variant='contained'
       >
-        SET USERNAME
+        SAVE
       </SubmitButton>
     </ContentContainer>
   )
