@@ -22,7 +22,12 @@ export const uploadNewCommunity = async com => {
     }
   }
 
-  return await uploadContractInteraction(interaction)
+  await uploadContractInteraction(interaction)
+
+  return {
+    txId: childTxId,
+    parentTxId: DEV_CONTRACT_ID
+  }
 }
 
 const createContract = async comData => {

@@ -13,7 +13,8 @@ const FooterContainer = styled('div')({
   alignItems: 'center',
   justifyContent: 'space-evenly',
   width: '80%',
-  padding: '0 10%'
+  padding: '0 10%',
+  background: 'white'
 })
 
 const ExternalLink = styled('a')({

@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux'
 import {
   SET_IS_LOGGED_IN,
-  SET_IS_LOADING,
-  ADD_COMMUNITY
+  SET_IS_LOADING
 } from '../actionTypes'
-import { DEFAULT_COMMUNITY } from '../../constants'
 
 const isLoggedIn = (state = false, action) => {
   switch (action.type) {
@@ -24,22 +22,9 @@ const isLoading = (state = false, action) => {
   }
 }
 
-const communities = (state = [DEFAULT_COMMUNITY], action) => {
-  switch (action.type) {
-    case ADD_COMMUNITY:
-      return [
-        ...state,
-        action.community
-      ]
-    default:
-      return state
-  }
-}
-
 const app = combineReducers({
   isLoggedIn,
-  isLoading,
-  communities
+  isLoading
 })
 
 export default app

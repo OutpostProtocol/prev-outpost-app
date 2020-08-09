@@ -56,7 +56,8 @@ const CommunuityPage = ({ location }) => {
   let community
 
   if (data && data.community && data.community[0]) community = data.community[0]
-  const { name, blockHash } = community || {}
+  const { name, blockHash, isOpen } = community || {}
+  const showJoin = isLoggedIn && isOpen
 
   if (postReq.loading || loading) return 'Loading...'
   if (postReq.error) return `Error! ${postReq.error.message}`
@@ -95,7 +96,7 @@ const CommunuityPage = ({ location }) => {
               description={pendingDescription}
             />
           </NameContainer>
-          {isLoggedIn &&
+          {showJoin &&
             <Button
               onClick={join}
               disableElevation
@@ -107,7 +108,7 @@ const CommunuityPage = ({ location }) => {
           }
         </CommunityToolbar>
         <Feed
-          posts={postReq.data.Posts}
+          posts={data.posts}
         />
       </Container>
     </>

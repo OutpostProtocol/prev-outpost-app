@@ -6,7 +6,11 @@ import {
   Button,
   TextField
 } from '@material-ui/core'
+import {
+  gql, useMutation
+} from '@apollo/client'
 
+import LoadingBackdrop from '../LoadingBackdrop'
 import { uploadNewCommunity } from '../../uploaders'
 
 const FormContainer = styled('div')({
@@ -32,9 +36,44 @@ const FormButton = styled(Button)({
   'margin-top': '15px'
 })
 
+const UPLOAD_COMMUNITY = gql`
+  mutation UploadCommunity($community: CommunityUpload!) {
+    uploadCommunity(community: $community) {
+      success
+      community {
+        txId
+        name
+        isOpen
+        blockHash
+      }
+    }
+  }
+`
+
 const CreateCommunityForm = () => {
   const { account } = useWeb3React()
   const [name, setName] = useState('')
+  const [uploadComToDb] = useMutation(UPLOAD_COMMUNITY)
+  const [isUploadLoading, setIsLoading] = useState(false)
+
+  const handleUploadToDb = async (comData, txData) => {
+    const comUpload = {
+      ...txData,
+      ...comData
+    }
+
+    const res = await uploadComToDb({
+      variables: {
+        community: comUpload
+      }
+    })
+
+    const community = res.data.uploadCommunity.community
+
+    setIsLoading(false)
+
+    navigate(`/community/${community.txId}`, { state: { community } })
+  }
 
   const createCommunity = async () => {
     const community = {
@@ -43,8 +82,10 @@ const CreateCommunityForm = () => {
     }
 
     if (hasValidFields()) {
-      await uploadNewCommunity(community)
-      navigate('/')
+      setIsLoading(true)
+
+      const txData = await uploadNewCommunity(community)
+      await handleUploadToDb(community, txData)
     }
   }
 
@@ -68,6 +109,7 @@ const CreateCommunityForm = () => {
 
   return (
     <FormContainer>
+      <LoadingBackdrop isLoading={isUploadLoading} />
       <FormTitle>
         Create a Community
       </FormTitle>
