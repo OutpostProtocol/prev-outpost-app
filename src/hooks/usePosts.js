@@ -5,7 +5,7 @@ import {
 
 const usePosts = (communityTxId) => {
   const GET_POSTS = gql`
-    query Posts($communityTxId: String) {
+    query posts($communityTxId: String) {
       posts (communityTxId: $communityTxId) {
         title
         postText

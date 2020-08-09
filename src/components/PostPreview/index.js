@@ -53,7 +53,7 @@ const PostPreview = ({ post }) => {
   const { title, subtitle, postText } = post
 
   const handleRedirect = () => {
-    navigate(url, { state: { post } })
+    navigate(url, { state: { from: window.location.href } })
   }
 
   const getPreviewText = () => {

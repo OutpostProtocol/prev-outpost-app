@@ -6,6 +6,8 @@ import {
   MenuItem
 } from '@material-ui/core'
 
+import { capitalize } from '../../utils'
+
 const CommunitySelect = styled(Select)({
   margin: '5px',
   float: 'left',
@@ -28,10 +30,6 @@ const CommunitySelector = ({ handleSelection, placeHolder }) => {
     handleSelection(event)
   }
 
-  const capitalize = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1)
-  }
-
   return (
     <CommunitySelect
       labelId='input-label'
@@ -39,7 +37,9 @@ const CommunitySelector = ({ handleSelection, placeHolder }) => {
       onChange={switchActiveCommunity}
     >
       <MenuItem value={placeHolder} >
-        <em>{capitalize(placeHolder.name)}</em>
+        <em>
+          {capitalize(placeHolder.name)}
+        </em>
       </MenuItem>
       {communities && communities.map((com, i) => {
         return (

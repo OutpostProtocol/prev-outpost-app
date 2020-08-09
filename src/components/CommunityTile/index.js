@@ -2,6 +2,9 @@ import React from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 
+import { PLACEHOLDER_COMMUNITY } from '../../constants'
+import { capitalize } from '../../utils'
+
 const TileContainer = styled('div')({
   width: '80%',
   margin: '5px 10%',
@@ -24,27 +27,28 @@ const TileStatus = styled('div')({
 })
 
 const CommunityTile = ({ community }) => {
+  if (!community) community = PLACEHOLDER_COMMUNITY
   const url = '/community/' + community.txId
 
   const handleRedirect = () => {
     navigate(url, { state: { community } })
   }
 
-  const capitalize = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1)
+  if (community.name) {
+    return (
+      <TileContainer
+        onClick={() => handleRedirect()}
+      >
+        <TileStatus>
+          <div>
+            {capitalize(community.name)}
+          </div>
+        </TileStatus>
+      </TileContainer>
+    )
+  } else {
+    return null
   }
-
-  return (
-    <TileContainer
-      onClick={() => handleRedirect()}
-    >
-      <TileStatus>
-        <div>
-          {capitalize(community.name)}
-        </div>
-      </TileStatus>
-    </TileContainer>
-  )
 }
 
 export default CommunityTile

@@ -7,16 +7,15 @@ import {
   Button
 } from '@material-ui/core'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
-import {
-  gql,
-  useQuery
-} from '@apollo/client'
 
+import usePosts from '../hooks/usePosts'
+import { useCommunity } from '../hooks'
 import { joinCommunity } from '../uploaders'
 import SEO from '../components/seo'
 import Toolbar from '../components/Toolbar'
 import Feed from '../components/Feed'
 import PendingChip from '../components/PendingChip'
+import { getId } from '../utils'
 
 const Container = styled('div')({
   margin: '3em 0',
@@ -49,49 +48,25 @@ const NameContainer = styled('div')({
 
 const pendingDescription = 'The community has been submitted but has not yet been confirmed.'
 
-const GET_COMMUNITY_DATA = gql`
-  query comPageData($communityTxId: String!) {
-    posts (communityTxId: $communityTxId) {
-      title
-      postText
-      subtitle
-      timestamp
-      community {
-        name
-      }
-      user {
-        did
-      }
-      transaction {
-        txId
-        blockHash
-      }
-    }
-  }
-`
-
 const CommunuityPage = ({ location }) => {
-  if (!location.state.community) {
-    navigate('/')
-  }
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const { name, txId, blockHash, isOpen } = location.state.community
+  const txId = getId(location, '/community/')
+  const { data, loading, error } = useCommunity(txId)
+  const postReq = usePosts(txId)
+  let community
 
-  const { loading, error, data } = useQuery(GET_COMMUNITY_DATA, {
-    variables: {
-      communityTxId: txId
-    }
-  })
-
-  if (loading) return 'Loading...'
-  if (error) return `Error! ${error.message}`
-
+  if (data && data.community && data.community[0]) community = data.community[0]
+  const { name, blockHash, isOpen } = community || {}
   const showJoin = isLoggedIn && isOpen
 
-  const join = async () => {
-    const { community } = location.state
+  if (postReq.loading || loading) return 'Loading...'
+  if (postReq.error) return `Error! ${postReq.error.message}`
+  if (error) return `Error! ${error.message}`
 
-    await joinCommunity(community.txId)
+  const join = async () => {
+    if (community.txId) {
+      await joinCommunity(community.txId)
+    }
   }
 
   return (
@@ -133,7 +108,7 @@ const CommunuityPage = ({ location }) => {
           }
         </CommunityToolbar>
         <Feed
-          posts={data.posts}
+          posts={postReq.data.posts}
         />
       </Container>
     </>

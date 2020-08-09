@@ -1,6 +1,5 @@
 import React from 'react'
 import moment from 'moment'
-import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import unified from 'unified'
 import parse from 'remark-parse'
@@ -52,16 +51,11 @@ const pendingDescription = 'The post has been sent to the network but has not ye
 const Post = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
-  const url = '/post/' + post.txId
   const { title, postText } = post
-
-  const handleRedirect = () => {
-    navigate(url, { state: { post } })
-  }
 
   return (
     <PostContainer
-      onClick={handleRedirect}
+      key={post}
     >
       <PostHeader>
         <PostMetaData>

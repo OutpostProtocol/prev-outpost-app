@@ -3,10 +3,10 @@ import React, {
   useRef,
   useEffect
 } from 'react'
-import { getProfile } from '3box/lib/api'
 import { styled } from '@material-ui/core/styles'
 import makeBlockie from 'ethereum-blockies-base64'
 
+import { useUser } from '../../hooks'
 import { shortenAddress } from '../../utils'
 
 const ProfileImage = styled('img')({
@@ -26,32 +26,22 @@ const ProfileName = styled('h4')({
 })
 
 const Profile = ({ address, showName }) => {
-  const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
-  const [name, setName] = useState(shortenAddress(address))
   const isMounted = useRef(true)
+  const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
+  const { data } = useUser(address)
+  const name = (data && data.user && data.user.name) ? data.user.name : shortenAddress(address)
 
   useEffect(() => {
     const retreiveProfile = async () => {
-      let img
-      const profile = await getProfile(address)
-      if (profile.image) img = await getImgSrc(profile, address)
-      else img = await makeBlockie(address)
-
+      const img = await makeBlockie(address)
       if (isMounted.current) {
         setImageSrc(img)
-        if (profile.name) setName(profile.name)
       }
     }
-
     retreiveProfile()
 
     return () => { isMounted.current = false }
   }, [address])
-
-  const getImgSrc = (profile, address) => {
-    const hash = profile.image ? profile.image[0].contentUrl['/'] : ''
-    return `https://ipfs.infura.io/ipfs/${hash}`
-  }
 
   return (
     <ProfileContainer>

@@ -5,9 +5,15 @@ import { styled } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
+import { usePost } from '../hooks'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
+import { PLACEHOLDER_POST } from '../constants'
+import {
+  getBackPath,
+  getId
+} from '../utils'
 
 const PostContainer = styled('div')({
   margin: '3em 0',
@@ -24,10 +30,14 @@ const BackButton = styled(IconButton)({
 
 const PostPage = ({ location }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
+  const backPath = getBackPath(location)
+  const txId = getId(location, '/post/')
+  const { data, loading, error } = usePost(txId)
 
-  if (!location.state.post) {
-    navigate('/')
-  }
+  if (loading) return 'Loading...'
+  if (error) return `Error! ${error.message}`
+
+  const post = data && data.posts && data.posts[0] ? data.posts[0] : PLACEHOLDER_POST
 
   return (
     <>
@@ -38,7 +48,7 @@ const PostPage = ({ location }) => {
         color="inherit"
         aria-label="Go back"
         edge="end"
-        onClick={() => navigate('/')}
+        onClick={() => navigate(backPath)}
       >
         <ChevronLeftIcon />
       </BackButton>
@@ -47,8 +57,7 @@ const PostPage = ({ location }) => {
       }
       <PostContainer>
         <Post
-          post={location.state.post}
-          preview={false}
+          post={post}
         />
       </PostContainer>
     </ >

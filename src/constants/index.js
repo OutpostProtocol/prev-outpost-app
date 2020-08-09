@@ -10,3 +10,19 @@ export const PLACEHOLDER_COMMUNITY = {
   name: 'Community',
   txId: 'PLACEHOLDER'
 }
+
+export const PLACEHOLDER_POST = {
+  title: 'Placeholder',
+  subtitle: null,
+  body: 'loading content ...',
+  timestamp: 1596463285,
+  community: {
+    name: 'Placeholder'
+  },
+  user: {
+    did: 'did:3:bafyreiagk6hlbhdnu5glvllprgflwxib3xz4l35lb74ictkwhicgbnvf6e'
+  },
+  transaction: {
+    blockHash: '0x0'
+  }
+}
