@@ -16,7 +16,7 @@ const CommunityView = () => {
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
 
-  const communities = data.Community
+  const communities = data.community
 
   return (
     <>

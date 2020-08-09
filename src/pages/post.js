@@ -32,8 +32,12 @@ const PostPage = ({ location }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const backPath = getBackPath(location)
   const txId = getId(location, '/post/')
-  const { data } = usePost(txId)
-  const post = data && data.Posts && data.Posts[0] ? data.Posts[0] : PLACEHOLDER_POST
+  const { data, loading, error } = usePost(txId)
+
+  if (loading) return 'Loading...'
+  if (error) return `Error! ${error.message}`
+
+  const post = data && data.posts && data.posts[0] ? data.posts[0] : PLACEHOLDER_POST
 
   return (
     <>

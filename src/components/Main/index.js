@@ -19,7 +19,9 @@ const Main = () => {
 
   return (
     <MainContainer>
-      <Feed posts={data.Posts} />
+      <Feed
+        posts={data.posts}
+      />
     </MainContainer>
   )
 }

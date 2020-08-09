@@ -51,15 +51,16 @@ const pendingDescription = 'The community has been submitted but has not yet bee
 const CommunuityPage = ({ location }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const txId = getId(location, '/community/')
-  const { data } = useCommunity(txId)
+  const { data, loading, error } = useCommunity(txId)
   const postReq = usePosts(txId)
   let community
 
-  if (data && data.Community) community = data.Community[0]
+  if (data && data.community && data.community[0]) community = data.community[0]
   const { name, blockHash } = community || {}
 
-  if (postReq.loading) return 'Loading...'
+  if (postReq.loading || loading) return 'Loading...'
   if (postReq.error) return `Error! ${postReq.error.message}`
+  if (error) return `Error! ${error.message}`
 
   const join = async () => {
     if (community.txId) {

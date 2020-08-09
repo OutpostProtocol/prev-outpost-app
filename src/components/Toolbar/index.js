@@ -10,10 +10,8 @@ import {
 } from '@material-ui/core'
 import { CreateOutlined } from '@material-ui/icons'
 import { Autocomplete } from '@material-ui/lab'
-import { useWeb3React } from '@web3-react/core'
 
 import { useCommunities } from '../../hooks'
-
 import Profile from '../Profile'
 
 const CreateButton = styled(IconButton)({
@@ -46,9 +44,9 @@ const ProfileContainer = styled(Profile)({
 
 const Toolbar = () => {
   const [selectedCommunity, setSelectedCommunity] = useState(null)
-  const { account } = useWeb3React()
   const { data } = useCommunities()
-  const communities = data.Community
+  const communities = data.community
+  const did = window.box.public._3id._rootDID
 
   useEffect(() => {
     const handleSelection = (community) => {
@@ -88,8 +86,8 @@ const Toolbar = () => {
         <CreateOutlined />
       </CreateButton>
       <ProfileContainer
-        address={account}
-        showName={false}
+        address={did}
+        showName={true}
       />
     </ToolbarContainer>
   )

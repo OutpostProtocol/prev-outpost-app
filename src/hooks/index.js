@@ -1,6 +1,7 @@
 import {
   gql,
-  useQuery
+  useQuery,
+  useMutation
 } from '@apollo/client'
 
 import { ROLES } from 'outpost-protocol'
@@ -13,7 +14,7 @@ import { ROLES } from 'outpost-protocol'
 export const useCommunities = () => {
   const GET_ALL_COMMUNITIES = gql`
     query {
-      Community {
+      community {
         id
         name
         txId
@@ -34,8 +35,8 @@ export const useCommunities = () => {
  */
 export const useCommunity = (id) => {
   const GET_COMMUNITY = gql`
-    query Community($txIds: [String]) {
-      Community(txIds: $txIds) {
+    query community($txIds: [String]) {
+      community(txIds: $txIds) {
         id
         name
         txId
@@ -173,8 +174,8 @@ export const useUserRolesForCommunity = (did, id) => {
 
 export const usePost = (txId) => {
   const GET_POST = gql`
-    query Posts($txId: String!) {
-      Posts(txId: $txId) {
+    query posts($txId: String!) {
+      posts(txId: $txId) {
         title
         postText
         subtitle
@@ -202,6 +203,24 @@ export const usePost = (txId) => {
   )
 }
 
+export const useUser = (did) => {
+  const GET_USER = gql`
+    query user($did: String!) {
+      user(did: $did) {
+        name,
+        id
+      }
+    }
+    `
+  const { data, loading, error } = useQuery(GET_USER, {
+    variables: {
+      did: did
+    }
+  })
+
+  return { data, loading, error }
+}
+
 /**
  * Checks if a user has a name
  *
@@ -211,18 +230,20 @@ export const usePost = (txId) => {
  */
 export const useHasName = (did) => {
   const HAS_USERNAME = gql`
-    query hasUsername($did: String) {
+    query hasUsername($did: String!) {
       hasUsername(did: $did)
     }
   `
 
-  return useQuery(
+  const { data, loading, error } = useQuery(
     HAS_USERNAME,
     {
       variables: {
         did: did
       }
     })
+
+  return { data, loading, error }
 }
 
 /**
@@ -231,21 +252,18 @@ export const useHasName = (did) => {
  * @param   {String}  did   of the user
  * @param   {String}  name  to give the user
  *
- * @returns {Boolean}       if it was successfully set
+ * @returns {User}          the user modified or created
  */
-export const useSetName = (did, name) => {
-  const HAS_USERNAME = gql`
-    query hasUsername($did: String, $name: String) {
-      setUsername(did: $did, name: $name)
+export const useSetName = () => {
+  const SET_USERNAME = gql`
+    mutation setUsername($did: String!, $name: String!) {
+      setUsername(did: $did, name: $name) {
+        id,
+        name
+      }
     }
   `
 
-  return useQuery(
-    HAS_USERNAME,
-    {
-      variables: {
-        did: did,
-        name: name
-      }
-    })
+  const [setName] = useMutation(SET_USERNAME)
+  return [setName]
 }
