@@ -33,12 +33,8 @@ const Web3Status = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const createLoginAction = () => {
-      return { type: LOGIN_ASYNC, account }
-    }
-
     if (active && account && !isLoggedIn) {
-      dispatch(createLoginAction())
+      dispatch({ type: LOGIN_ASYNC, account })
     }
   }, [active, account, isLoggedIn, dispatch])
 

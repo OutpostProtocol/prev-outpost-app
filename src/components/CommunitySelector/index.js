@@ -19,7 +19,7 @@ const CommunitySelector = ({ handleSelection, placeHolder }) => {
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
 
-  const communities = data.Community
+  const communities = data.community
 
   const switchActiveCommunity = (event) => {
     if (event && event.target.value) {

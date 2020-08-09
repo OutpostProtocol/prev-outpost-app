@@ -7,8 +7,11 @@ import {
   Button
 } from '@material-ui/core'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
+import {
+  gql,
+  useQuery
+} from '@apollo/client'
 
-import usePosts from '../hooks/usePosts'
 import { joinCommunity } from '../uploaders'
 import SEO from '../components/seo'
 import Toolbar from '../components/Toolbar'
@@ -46,17 +49,44 @@ const NameContainer = styled('div')({
 
 const pendingDescription = 'The community has been submitted but has not yet been confirmed.'
 
-const CommunuityPage = ({ location, data }) => {
+const GET_COMMUNITY_DATA = gql`
+  query comPageData($communityTxId: String!) {
+    posts (communityTxId: $communityTxId) {
+      title
+      postText
+      subtitle
+      timestamp
+      community {
+        name
+      }
+      user {
+        did
+      }
+      transaction {
+        txId
+        blockHash
+      }
+    }
+  }
+`
+
+const CommunuityPage = ({ location }) => {
   if (!location.state.community) {
     navigate('/')
   }
-
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const { name, txId, blockHash } = location.state.community
-  const postReq = usePosts(txId)
+  const { name, txId, blockHash, isOpen } = location.state.community
 
-  if (postReq.loading) return 'Loading...'
-  if (postReq.error) return `Error! ${postReq.error.message}`
+  const { loading, error, data } = useQuery(GET_COMMUNITY_DATA, {
+    variables: {
+      communityTxId: txId
+    }
+  })
+
+  if (loading) return 'Loading...'
+  if (error) return `Error! ${error.message}`
+
+  const showJoin = isLoggedIn && isOpen
 
   const join = async () => {
     const { community } = location.state
@@ -91,7 +121,7 @@ const CommunuityPage = ({ location, data }) => {
               description={pendingDescription}
             />
           </NameContainer>
-          {isLoggedIn &&
+          {showJoin &&
             <Button
               onClick={join}
               disableElevation
@@ -103,7 +133,7 @@ const CommunuityPage = ({ location, data }) => {
           }
         </CommunityToolbar>
         <Feed
-          posts={postReq.data.Posts}
+          posts={data.posts}
         />
       </Container>
     </>

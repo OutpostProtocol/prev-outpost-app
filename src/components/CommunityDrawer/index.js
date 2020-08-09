@@ -44,7 +44,6 @@ const CommunityDrawer = ({ img }) => {
         </LogoContainer>
         <Web3Status />
         <CreateCommunity />
-        {/* search for new communities */}
         <CommunityView />
         <Footer />
       </DrawerContentsContainer>

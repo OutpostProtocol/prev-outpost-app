@@ -48,7 +48,7 @@ const Toolbar = () => {
   const [selectedCommunity, setSelectedCommunity] = useState(null)
   const { account } = useWeb3React()
   const { data } = useCommunities()
-  const communities = data.Community
+  const communities = data.community
 
   useEffect(() => {
     const handleSelection = (community) => {

@@ -13,7 +13,7 @@ import { ROLES } from 'outpost-protocol'
 export const useCommunities = () => {
   const GET_ALL_COMMUNITIES = gql`
     query {
-      Community {
+      community {
         id
         name
         txId
