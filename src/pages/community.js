@@ -38,8 +38,12 @@ const BackButton = styled(IconButton)({
 })
 
 const CommunityName = styled('h1')({
-  'font-style': 'italic',
-  'margin-right': 'auto'
+  'font-style': 'italic'
+})
+
+const ButtonContainer = styled(Button)({
+  'margin-left': 'auto',
+  'margin-right': '5px'
 })
 
 const NameContainer = styled('div')({
@@ -96,14 +100,14 @@ const CommunuityPage = ({ location }) => {
               description={pendingDescription}
             />
           </NameContainer>
-          <Button
+          <ButtonContainer
             onClick={() => navigate('/governance/' + txId)}
             disableElevation
             color='primary'
             variant='contained'
           >
             GOVERNANCE
-          </Button>
+          </ButtonContainer>
           {showJoin &&
             <Button
               onClick={join}

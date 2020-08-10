@@ -12,7 +12,7 @@ const Container = styled('div')({
 const Heading = styled('span')({
   display: 'flex',
   'align-items': 'center',
-  'justify-content': 'center'
+  'justify-content': 'flex-start'
 })
 
 const Title = styled('h3')({
@@ -20,13 +20,14 @@ const Title = styled('h3')({
 })
 
 const Icon = styled(IconButton)({
-  height: '48px',
-  width: '48px',
+  height: '40px',
+  width: '40px',
   'margin-left': '10px'
 })
 
 const ProfileContainer = styled('div')({
-  'margin-top': '5px'
+  'margin-top': '10px',
+  'margin-left': '10px'
 })
 
 const GovernanceTile = ({ dids, title }) => {
@@ -48,6 +49,7 @@ const GovernanceTile = ({ dids, title }) => {
               key={i}
               address={did}
               showName={true}
+              showPicture={false}
             />
           </ProfileContainer>
         )

@@ -16,7 +16,7 @@ const GovernancePanel = ({ communityTxId }) => {
   return (
     <Container>
       <GovernanceTile
-        title='Owners'
+        title='Owner'
         dids={owners}
       />
       <GovernanceTile

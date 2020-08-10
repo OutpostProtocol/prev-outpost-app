@@ -1,13 +1,17 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { IconButton } from '@material-ui/core'
+import {
+  IconButton,
+  Button
+} from '@material-ui/core'
 import { navigate } from 'gatsby'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import { styled } from '@material-ui/core/styles'
 
 import { useCommunity } from '../hooks'
-import GovernancePanel from '../components/GovernancePanel'
+import { joinCommunity } from '../uploaders'
 import { getId } from '../utils'
+import GovernancePanel from '../components/GovernancePanel'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
 
@@ -26,22 +30,38 @@ const Container = styled('div')({
 
 const CommunityName = styled('h1')({
   'font-style': 'italic',
-  'margin-right': 'auto'
+  'margin-right': 'auto',
+  'margin-bottom': '10px'
+})
+
+const CommunityToolbar = styled('div')({
+  display: 'flex',
+  width: '100%',
+  padding: '10px',
+  'justify-content': 'space-between'
 })
 
 const GovernancePage = ({ location }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const txId = getId(location, '/governance/')
   const { data, loading, error } = useCommunity(txId)
-  const { name } = data.community[0] || {}
+  const { name, isOpen } = data.community[0] || {}
+
+  const showJoin = isLoggedIn && isOpen
 
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
 
+  const join = async () => {
+    if (txId) {
+      await joinCommunity(txId)
+    }
+  }
+
   return (
     <>
       <SEO
-        title='Governance'
+        title={name}
       />
       <BackButton
         color='inherit'
@@ -55,9 +75,21 @@ const GovernancePage = ({ location }) => {
         <Toolbar />
       }
       <Container>
-        <CommunityName>
-          {name} Governance
-        </CommunityName>
+        <CommunityToolbar>
+          <CommunityName>
+            {name}
+          </CommunityName>
+          {showJoin &&
+              <Button
+                onClick={join}
+                disableElevation
+                color='primary'
+                variant='contained'
+              >
+                JOIN
+              </Button>
+          }
+        </CommunityToolbar>
         <GovernancePanel
           communityTxId={txId}
         />

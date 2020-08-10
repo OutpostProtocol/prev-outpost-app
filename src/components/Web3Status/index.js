@@ -36,8 +36,6 @@ const Web3Status = () => {
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
 
-  console.log(data, 'THE DATA IN WEB3STATUS')
-
   const dispatch = useDispatch()
 
   useEffect(() => {
