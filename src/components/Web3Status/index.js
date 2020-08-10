@@ -41,7 +41,7 @@ const Web3Status = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (isLoggedIn && data && !data.user.name) {
+    if (isLoggedIn && data && data.user && !data.user.name) {
       setIsNewUserModalOpen(true)
     }
   }, [data, isLoggedIn])

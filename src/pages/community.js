@@ -96,6 +96,14 @@ const CommunuityPage = ({ location }) => {
               description={pendingDescription}
             />
           </NameContainer>
+          <Button
+            onClick={() => navigate('/governance/' + txId)}
+            disableElevation
+            color='primary'
+            variant='contained'
+          >
+            GOVERNANCE
+          </Button>
           {showJoin &&
             <Button
               onClick={join}
