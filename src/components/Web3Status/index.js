@@ -12,7 +12,7 @@ import { useWeb3React } from '@web3-react/core'
 
 import LoadingBackdrop from '../LoadingBackdrop'
 import { LOGIN_ASYNC } from '../../redux/actionTypes'
-import { useHasName } from '../../hooks'
+import { useUser } from '../../hooks'
 import WalletModal from '../WalletModal'
 import NewUserModal from '../NewUserModal'
 
@@ -31,16 +31,17 @@ const Web3Status = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const isLoading = useSelector(state => state.isLoading)
   const { active, account } = useWeb3React()
-  let did = ''
-  if (isLoggedIn) did = window.box.public._3id._rootDID
-  const { data } = useHasName(did)
+
+  const { data } = useUser(window.box && window.box.DID)
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
+
+  console.log(data, 'THE DATA IN WEB3STATUS')
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (isLoggedIn && data && !data.hasUsername) {
+    if (isLoggedIn && data && !data.user.name) {
       setIsNewUserModalOpen(true)
     }
   }, [data, isLoggedIn])
@@ -78,7 +79,6 @@ const Web3Status = () => {
       <NewUserModal
         open={isNewUserModalOpen}
         handleClose={() => setIsNewUserModalOpen(false)}
-        did={did}
       />
     </Web3Container>
   )

@@ -5,7 +5,7 @@ import { styled } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 
-import { usePost } from '../hooks'
+import { useOnePost } from '../hooks/usePosts'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
@@ -32,7 +32,7 @@ const PostPage = ({ location }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const backPath = getBackPath(location)
   const txId = getId(location, '/post/')
-  const { data, loading, error } = usePost(txId)
+  const { data, loading, error } = useOnePost(txId)
 
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`

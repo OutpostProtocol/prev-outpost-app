@@ -48,7 +48,7 @@ const SubmitButton = styled(Button)({
   'margin-top': '10px'
 })
 
-const NewUserModal = ({ open, handleClose, did }) => {
+const NewUserModal = ({ open, handleClose }) => {
   const [name, setUsername] = useState('')
   const [setName] = useSetName()
 
@@ -59,30 +59,24 @@ const NewUserModal = ({ open, handleClose, did }) => {
   }
 
   const handleSetName = async () => {
+    const did = window.box.DID
+
     setName({
       variables: {
-        did: did,
+        did,
         name: name
       },
       refetchQueries: [
         {
           query: gql`
-            query hasUsername($did: String!) {
-              hasUsername(did: $did)
-            }
-          `,
-          variables: { did: did }
-        },
-        {
-          query: gql`
-            query user($did: String!) {
+            query user($did: String) {
               user(did: $did) {
                 name,
                 id
               }
             }
           `,
-          variables: { did: did }
+          variables: { did }
         }
       ]
     })
