@@ -12,7 +12,7 @@ const Heading = styled('h4')({
 
 const Container = styled('div')({
   'overflow-y': 'scroll',
-  'max-height': 'calc(100vh - 160px)'
+  'max-height': 'calc(100vh - 170px)'
 })
 
 const CommunityView = () => {
