@@ -53,7 +53,7 @@ const NewUserModal = ({ open, handleClose }) => {
   const [setName] = useSetName()
 
   const handleName = (event) => {
-    if (event && event.target && event.target.value) {
+    if (event && event.target) {
       setUsername(event.target.value)
     }
   }
