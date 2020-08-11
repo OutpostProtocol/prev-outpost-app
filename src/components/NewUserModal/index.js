@@ -4,13 +4,19 @@ import {
   IconButton,
   TextField,
   Button,
-  Fade
+  Fade,
+  CircularProgress
 } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
 import { Close } from '@material-ui/icons'
-import { gql } from '@apollo/client'
+import {
+  gql, useMutation
+} from '@apollo/client'
+import {
+  DEV_CONTRACT_ID, ROLES
+} from 'outpost-protocol'
 
-import { useSetName } from '../../hooks'
+import { joinCommunity } from '../../uploaders'
 
 const ModalContainer = styled(Dialog)({
   display: 'flex',
@@ -48,9 +54,32 @@ const SubmitButton = styled(Button)({
   'margin-top': '10px'
 })
 
+const UploadProgress = styled(CircularProgress)({
+  color: '#f1f1f1'
+})
+
+const UPLOAD_NEW_USER = gql`
+  mutation setUsername($did: String!, $name: String!, $role: RoleUpload!) {
+    setUsername(did: $did, name: $name) {
+      id,
+      name
+    }
+    uploadRole(role: $role) {
+      success
+      role {
+        role
+        transaction {
+          blockHash
+        }
+      }
+    }
+  }
+`
+
 const NewUserModal = ({ open, handleClose }) => {
   const [name, setUsername] = useState('')
-  const [setName] = useSetName()
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadNewUser] = useMutation(UPLOAD_NEW_USER)
 
   const handleName = (event) => {
     if (event && event.target) {
@@ -58,13 +87,24 @@ const NewUserModal = ({ open, handleClose }) => {
     }
   }
 
-  const handleSetName = async () => {
+  const handleNewUser = async () => {
+    setIsUploading(true)
+    const txId = (await joinCommunity(DEV_CONTRACT_ID)).data
+
     const did = window.box.DID
 
-    setName({
+    const roleUpload = {
+      txId: txId,
+      communityTxId: DEV_CONTRACT_ID,
+      userDid: did,
+      role: ROLES.MEMBER
+    }
+
+    await uploadNewUser({
       variables: {
-        did,
-        name: name
+        role: roleUpload,
+        name,
+        did
       },
       refetchQueries: [
         {
@@ -80,6 +120,7 @@ const NewUserModal = ({ open, handleClose }) => {
         }
       ]
     })
+
     handleClose()
   }
   const ModalContent = (
@@ -97,14 +138,28 @@ const NewUserModal = ({ open, handleClose }) => {
         label='USERNAME'
         variant='outlined'
       />
-      <SubmitButton
-        onClick={handleSetName}
-        disableElevation
-        color='secondary'
-        variant='contained'
-      >
-        SAVE
-      </SubmitButton>
+      { isUploading
+        ? <SubmitButton
+          disableElevation
+          color='secondary'
+          variant='contained'
+        >
+          <UploadProgress
+            style={{
+              width: '2em',
+              height: '2em'
+            }}
+          />
+        </SubmitButton>
+        : <SubmitButton
+          onClick={handleNewUser}
+          disableElevation
+          color='secondary'
+          variant='contained'
+        >
+          SAVE
+        </SubmitButton>
+      }
     </ContentContainer>
   )
 

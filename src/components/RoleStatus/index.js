@@ -25,9 +25,7 @@ const PendingRoleChip = styled(RoleChip)({
 })
 
 const UploadProgress = styled(CircularProgress)({
-  color: '#f1f1f1',
-  width: '1em',
-  height: '1em'
+  color: '#f1f1f1'
 })
 
 const JoinButton = styled(Button)({
