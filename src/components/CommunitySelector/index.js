@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
-import { useCommunities } from '../../hooks'
+import React, {
+  useState, useEffect
+} from 'react'
+// import { useCommunities } from '../../hooks'
 import { styled } from '@material-ui/core/styles'
 import {
   Select,
   MenuItem
 } from '@material-ui/core'
+import {
+  gql, useQuery
+} from '@apollo/client'
 
 import { capitalize } from '../../utils'
 
@@ -14,14 +19,43 @@ const CommunitySelect = styled(Select)({
   'min-width': '150px'
 })
 
+const GET_USER_ROLES = gql`
+  query userRoles($did: String) {
+    userRoles(did: $did) {
+      id
+      role
+      community {
+        name
+        txId
+      }
+      transaction {
+        blockHash
+      }
+    }
+  }
+`
+
 const CommunitySelector = ({ handleSelection, placeHolder }) => {
   const [activeCommunity, setActiveCommunity] = useState(placeHolder)
-  const { data, loading, error } = useCommunities()
+  // const { data, loading, error } = useCommunities()
+  const [communities, setCommunities] = useState([])
+  const { data } = useQuery(GET_USER_ROLES, {
+    variables: {
+      did: window.box && window.box.DID
+    },
+    skip: !window.box
+  })
 
-  if (loading) return 'Loading...'
-  if (error) return `Error! ${error.message}`
+  useEffect(() => {
+    const coms = {}
+    const roles = data.userRoles
+    for (let i = 0; i < roles.length; i++) {
+      const current = roles[i].community
+      coms[current.txId] = current
+    }
 
-  const communities = data.community
+    setCommunities(Object.values(coms))
+  }, [data])
 
   const switchActiveCommunity = (event) => {
     if (event && event.target.value) {
