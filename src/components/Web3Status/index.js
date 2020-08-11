@@ -36,12 +36,12 @@ const Web3Status = () => {
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
 
-  console.log(data, 'THE DATA IN WEB3STATUS')
-
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (isLoggedIn && data && !data.user.name) {
+    const hasUserName = data && data.user && data.user.name
+
+    if (isLoggedIn && !hasUserName) {
       setIsNewUserModalOpen(true)
     }
   }, [data, isLoggedIn])

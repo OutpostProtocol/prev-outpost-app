@@ -4,6 +4,7 @@ import React, {
 } from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
+import { useSelector } from 'react-redux'
 import {
   IconButton,
   TextField
@@ -45,8 +46,9 @@ const ProfileContainer = styled(Profile)({
 const Toolbar = () => {
   const [selectedCommunity, setSelectedCommunity] = useState(null)
   const { data } = useCommunities()
-  const communities = data.community
-  const did = window.box.public._3id._rootDID
+  const communities = data && data.community
+  const isLoggedIn = useSelector(state => state.isLoggedIn)
+  const did = window.box && window.box.DID
 
   useEffect(() => {
     const handleSelection = (community) => {
@@ -62,6 +64,8 @@ const Toolbar = () => {
   const handleOpenEditor = () => {
     navigate('/editor')
   }
+
+  if (!isLoggedIn) return null
 
   return (
     <ToolbarContainer>

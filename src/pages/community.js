@@ -2,17 +2,14 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import {
-  IconButton,
-  Button
-} from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 
 import usePosts from '../hooks/usePosts'
 import { useCommunity } from '../hooks'
-import { joinCommunity } from '../uploaders'
 import SEO from '../components/seo'
 import Toolbar from '../components/Toolbar'
+import RoleStatus from '../components/RoleStatus'
 import Feed from '../components/Feed'
 import PendingChip from '../components/PendingChip'
 import { getId } from '../utils'
@@ -53,21 +50,15 @@ const CommunuityPage = ({ location }) => {
   const txId = getId(location, '/community/')
   const { data, loading, error } = useCommunity(txId)
   const postReq = usePosts(txId)
+
   let community
 
   if (data && data.community && data.community[0]) community = data.community[0]
   const { name, blockHash, isOpen } = community || {}
-  const showJoin = isLoggedIn && isOpen
 
   if (postReq.loading || loading) return 'Loading...'
   if (postReq.error) return `Error! ${postReq.error.message}`
   if (error) return `Error! ${error.message}`
-
-  const join = async () => {
-    if (community.txId) {
-      await joinCommunity(community.txId)
-    }
-  }
 
   return (
     <>
@@ -96,16 +87,10 @@ const CommunuityPage = ({ location }) => {
               description={pendingDescription}
             />
           </NameContainer>
-          {showJoin &&
-            <Button
-              onClick={join}
-              disableElevation
-              color='primary'
-              variant='contained'
-            >
-              JOIN
-            </Button>
-          }
+          <RoleStatus
+            isOpen={isOpen}
+            communityTxId={txId}
+          />
         </CommunityToolbar>
         <Feed
           posts={postReq.data.posts}
