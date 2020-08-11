@@ -12,7 +12,9 @@ export const uploadNewCommunity = async com => {
     did: window.box.DID
   }
 
-  const childTxId = await createContract(createData)
+  const createRes = await createContract(createData)
+  const childTxId = createRes.txId
+  const initState = createRes.initState
 
   const interaction = {
     contractId: DEV_CONTRACT_ID,
@@ -26,6 +28,7 @@ export const uploadNewCommunity = async com => {
 
   return {
     txId: childTxId,
+    initState,
     parentTxId: DEV_CONTRACT_ID
   }
 }
