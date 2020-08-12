@@ -13,10 +13,12 @@ import {
   gql, useMutation
 } from '@apollo/client'
 import {
-  DEV_CONTRACT_ID, ROLES
+  DEV_CONTRACT_ID, PROD_CONTRACT_ID, ROLES
 } from 'outpost-protocol'
 
 import { joinCommunity } from '../../uploaders'
+
+const CONTRACT_ID = process.env.IS_PROD ? PROD_CONTRACT_ID : DEV_CONTRACT_ID
 
 const ModalContainer = styled(Dialog)({
   display: 'flex',
@@ -89,13 +91,13 @@ const NewUserModal = ({ open, handleClose }) => {
 
   const handleNewUser = async () => {
     setIsUploading(true)
-    const txId = (await joinCommunity(DEV_CONTRACT_ID)).data
+    const txId = (await joinCommunity(CONTRACT_ID)).data
 
     const did = window.box.DID
 
     const roleUpload = {
       txId: txId,
-      communityTxId: DEV_CONTRACT_ID,
+      communityTxId: CONTRACT_ID,
       userDid: did,
       role: ROLES.MEMBER
     }
