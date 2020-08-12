@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { navigate } from '@reach/router'
 import { styled } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
@@ -29,7 +28,6 @@ const BackButton = styled(IconButton)({
 })
 
 const PostPage = ({ location }) => {
-  const isLoggedIn = useSelector(state => state.isLoggedIn)
   const backPath = getBackPath(location)
   const txId = getId(location, '/post/')
   const { data, loading, error } = useOnePost(txId)
@@ -52,9 +50,7 @@ const PostPage = ({ location }) => {
       >
         <ChevronLeftIcon />
       </BackButton>
-      { isLoggedIn &&
-        <Toolbar />
-      }
+      <Toolbar />
       <PostContainer>
         <Post
           post={post}

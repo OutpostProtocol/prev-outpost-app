@@ -8,7 +8,8 @@ import {
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvider
+  ApolloProvider,
+  HttpLink
 } from '@apollo/client'
 import createStore, { runSaga } from './src/redux/store'
 import {
@@ -17,11 +18,15 @@ import {
 } from './src/constants'
 import { Web3ReactProvider } from '@web3-react/core'
 import { ethers } from 'ethers'
+import fetch from 'isomorphic-fetch'
 
 import './src/utils/global.css'
 
 const client = new ApolloClient({
-  uri: process.env.OUTPOST_API,
+  link: new HttpLink({
+    uri: process.env.OUTPOST_API,
+    fetch
+  }),
   cache: new InMemoryCache()
 })
 

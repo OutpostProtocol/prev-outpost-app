@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
@@ -46,7 +45,6 @@ const NameContainer = styled('div')({
 const pendingDescription = 'The community has been submitted but has not yet been confirmed.'
 
 const CommunuityPage = ({ location }) => {
-  const isLoggedIn = useSelector(state => state.isLoggedIn)
   const txId = getId(location, '/community/')
   const { data, loading, error } = useCommunity(txId)
   const postReq = usePosts(txId)
@@ -73,9 +71,7 @@ const CommunuityPage = ({ location }) => {
       >
         <ChevronLeft />
       </BackButton>
-      {isLoggedIn &&
-        <Toolbar />
-      }
+      <Toolbar />
       <Container>
         <CommunityToolbar>
           <NameContainer>

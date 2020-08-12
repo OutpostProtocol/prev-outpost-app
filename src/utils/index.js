@@ -7,6 +7,7 @@ export const getBackPath = (location) => {
 }
 
 export const getId = (location, delimeter) => {
+  if (!location.href) return null
   let id = location.href.split(delimeter)[1]
   id = id.replace('/', '')
   return id
