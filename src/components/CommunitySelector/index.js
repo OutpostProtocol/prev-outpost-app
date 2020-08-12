@@ -1,7 +1,6 @@
 import React, {
   useState, useEffect
 } from 'react'
-// import { useCommunities } from '../../hooks'
 import { styled } from '@material-ui/core/styles'
 import {
   Select,
@@ -37,7 +36,6 @@ const GET_USER_ROLES = gql`
 
 const CommunitySelector = ({ handleSelection, placeHolder }) => {
   const [activeCommunity, setActiveCommunity] = useState(placeHolder)
-  // const { data, loading, error } = useCommunities()
   const [communities, setCommunities] = useState([])
   const { data } = useQuery(GET_USER_ROLES, {
     variables: {
@@ -48,7 +46,7 @@ const CommunitySelector = ({ handleSelection, placeHolder }) => {
 
   useEffect(() => {
     const coms = {}
-    const roles = data.userRoles
+    const roles = data ? data.userRoles : []
     for (let i = 0; i < roles.length; i++) {
       const current = roles[i].community
       coms[current.txId] = current
