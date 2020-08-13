@@ -4,11 +4,26 @@ import {
   StylesProvider,
   createMuiTheme
 } from '@material-ui/core/styles'
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink
+} from '@apollo/client'
 import { ELEMENT_ID } from './src/constants'
 import { Web3ReactProvider } from '@web3-react/core'
 import { ethers } from 'ethers'
+import fetch from 'isomorphic-fetch'
 
 import './src/utils/global.css'
+
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: process.env.OUTPOST_API,
+    fetch
+  }),
+  cache: new InMemoryCache()
+})
 
 const theme = createMuiTheme({
   palette: {
@@ -46,22 +61,24 @@ const getLibrary = (provider, connector) => {
 export const wrapRootElement = ({ element }) => {
   return (
     <React.StrictMode>
-      <StylesProvider injectFirst >
-        <ThemeProvider theme={theme}>
-          <Web3ReactProvider getLibrary={getLibrary}>
-            <main
-              style={{
-                height: '100%',
-                width: '100%',
-                top: '0',
-                left: '0'
-              }}
-            >
-              {element}
-            </main>
-          </Web3ReactProvider>
-        </ThemeProvider>
-      </StylesProvider>
+      <ApolloProvider client={client} >
+        <StylesProvider injectFirst >
+          <ThemeProvider theme={theme}>
+            <Web3ReactProvider getLibrary={getLibrary}>
+              <main
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  top: '0',
+                  left: '0'
+                }}
+              >
+                {element}
+              </main>
+            </Web3ReactProvider>
+          </ThemeProvider>
+        </StylesProvider>
+      </ApolloProvider>
     </React.StrictMode>
   )
 }

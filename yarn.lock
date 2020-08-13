@@ -9094,13 +9094,6 @@ gatsby-page-utils@^0.2.19:
     lodash "^4.17.15"
     micromatch "^3.1.10"
 
-gatsby-plugin-apollo@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-apollo/-/gatsby-plugin-apollo-3.0.1.tgz#e0b775f91fb1cdbfc73747d0e951abc26da98c08"
-  integrity sha512-L5rDRMorlttAz60BIg/ZDrPsno7WwoE3QJg1IjhSh6f/jblkRdtvgvZwU6Rs5IeR8Esapspvm0EccKV3apjdSQ==
-  dependencies:
-    isomorphic-fetch "^2.2.1"
-
 gatsby-plugin-manifest@^2.3.3:
   version "2.4.21"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-2.4.21.tgz#5d0f0348c85ef45805fb1f796965bfa5d53ebc44"

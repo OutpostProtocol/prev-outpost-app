@@ -40,12 +40,6 @@ module.exports = {
       }
     },
     {
-      resolve: 'gatsby-plugin-apollo',
-      options: {
-        uri: 'https://infinite-scrubland-23817.herokuapp.com/'
-      }
-    },
-    {
       resolve: 'gatsby-plugin-react-redux',
       options: {
         // [required] - path to your createStore module
