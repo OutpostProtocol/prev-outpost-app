@@ -38,6 +38,7 @@ export const uploadNewCommunity = async com => {
 }
 
 const createContract = async comData => {
+  console.log(`Posting request to ${ARWEAVE_UPLOAD_SERVICE}`)
   const createRes = await axios.post(`${ARWEAVE_UPLOAD_SERVICE}/create-community`, comData)
 
   const txId = createRes.data
