@@ -9,7 +9,7 @@ import {
 import { styled } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
-import { Helmet } from 'react-helmet'
+import Box from '3box'
 
 import LoadingBackdrop from '../LoadingBackdrop'
 import {
@@ -47,13 +47,15 @@ const Web3Status = () => {
 
     if (isLoggedIn && !hasUserName) {
       setIsNewUserModalOpen(true)
+    } else if (hasUserName) {
+      setIsNewUserModalOpen(false)
     }
   }, [data, isLoggedIn])
 
   useEffect(() => {
     const login = async () => {
       setIsLoading(true)
-      const box = await window.Box.openBox(account, window.web3.provider)
+      const box = await Box.openBox(account, window.web3.provider)
       window.box = box
 
       dispatch({ type: SET_DID, did: window.box.DID })
@@ -74,9 +76,6 @@ const Web3Status = () => {
 
   return (
     <Web3Container>
-      <Helmet>
-        <script src="https://unpkg.com/3box@1.20.3/dist/3box.js"></script>
-      </Helmet>
       <LoadingBackdrop isLoading={isLoading} />
       {!isLoggedIn &&
         <Web3Button
