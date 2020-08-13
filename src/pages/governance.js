@@ -1,16 +1,13 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import {
-  IconButton,
-  Button
-} from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import { navigate } from 'gatsby'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 import { styled } from '@material-ui/core/styles'
 
 import { useCommunity } from '../hooks'
-import { joinCommunity } from '../uploaders'
 import { getId } from '../utils'
+import RoleStatus from '../components/RoleStatus'
 import GovernancePanel from '../components/GovernancePanel'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
@@ -47,16 +44,8 @@ const GovernancePage = ({ location }) => {
   const { data, loading, error } = useCommunity(txId)
   const { name, isOpen } = data.community[0] || {}
 
-  const showJoin = isLoggedIn && isOpen
-
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
-
-  const join = async () => {
-    if (txId) {
-      await joinCommunity(txId)
-    }
-  }
 
   return (
     <>
@@ -79,16 +68,10 @@ const GovernancePage = ({ location }) => {
           <CommunityName>
             {name}
           </CommunityName>
-          {showJoin &&
-              <Button
-                onClick={join}
-                disableElevation
-                color='primary'
-                variant='contained'
-              >
-                JOIN
-              </Button>
-          }
+          <RoleStatus
+            isOpen={isOpen}
+            communityTxId={txId}
+          />
         </CommunityToolbar>
         <GovernancePanel
           communityTxId={txId}

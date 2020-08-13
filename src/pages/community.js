@@ -43,7 +43,8 @@ const CommunityName = styled('h1')({
 
 const ButtonContainer = styled(Button)({
   'margin-left': 'auto',
-  'margin-right': '5px'
+  'margin-right': '5px',
+  height: '2.5em'
 })
 
 const NameContainer = styled('div')({
@@ -94,10 +95,6 @@ const CommunuityPage = ({ location }) => {
               description={pendingDescription}
             />
           </NameContainer>
-          <RoleStatus
-            isOpen={isOpen}
-            communityTxId={txId}
-          />
           <ButtonContainer
             onClick={() => navigate('/governance/' + txId)}
             disableElevation
@@ -106,6 +103,10 @@ const CommunuityPage = ({ location }) => {
           >
             GOVERNANCE
           </ButtonContainer>
+          <RoleStatus
+            isOpen={isOpen}
+            communityTxId={txId}
+          />
         </CommunityToolbar>
         <Feed
           posts={postReq.data.posts}
