@@ -85,6 +85,7 @@ const PostPreview = ({ post }) => {
           <Profile
             address={post.user.did}
             showName={true}
+            showPicture={true}
           />
         </ProfileContainer>
       </PostHeader>

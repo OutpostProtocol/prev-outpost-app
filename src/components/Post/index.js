@@ -76,6 +76,7 @@ const Post = ({ post }) => {
           <Profile
             address={post.user.did}
             showName={true}
+            showPicture={true}
           />
         </ProfileContainer>
       </PostHeader>

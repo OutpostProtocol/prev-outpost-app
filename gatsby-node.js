@@ -8,5 +8,8 @@ exports.onCreatePage = async ({ page, actions }) => {
   } else if (page.path.match(/^\/community/)) {
     page.matchPath = '/community/*'
     createPage(page)
+  } else if (page.path.match(/^\/governance/)) {
+    page.matchPath = '/governance/*'
+    createPage(page)
   }
 }

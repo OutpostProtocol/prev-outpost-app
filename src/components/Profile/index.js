@@ -25,7 +25,7 @@ const ProfileName = styled('h4')({
   'font-weight': 100
 })
 
-const Profile = ({ address, showName }) => {
+const Profile = ({ address, showName, showPicture }) => {
   const isMounted = useRef(true)
   const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
   const { data } = useUser(address)
@@ -45,13 +45,15 @@ const Profile = ({ address, showName }) => {
 
   return (
     <ProfileContainer>
-      <ProfileImage
-        src={imageSrc}
-        alt='Profile'
-      />
+      { showPicture &&
+        <ProfileImage
+          src={imageSrc}
+          alt='Profile'
+        />
+      }
       { showName &&
         <ProfileName>
-          {name}
+          @{name}
         </ProfileName>
       }
     </ProfileContainer>
