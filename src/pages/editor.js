@@ -184,7 +184,7 @@ const EditorPage = () => {
           placeholder='Begin writing your post'
           onSave={options => console.log('Save triggered', options)}
           onCancel={() => console.log('Cancel triggered')}
-          onShowToast={message => window.alert(message)}
+          onShowToast={message => { if (typeof window !== 'undefined') window.alert(message) }}
           onChange={(value) => setPostText(value)}
           uploadImage={file => {
             console.log('File upload triggered: ', file)

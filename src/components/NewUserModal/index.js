@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import {
   Dialog,
   IconButton,
@@ -82,6 +83,7 @@ const NewUserModal = ({ open, handleClose }) => {
   const [name, setUsername] = useState('')
   const [isUploading, setIsUploading] = useState(false)
   const [uploadNewUser] = useMutation(UPLOAD_NEW_USER)
+  const did = useSelector(state => state.did)
 
   const handleName = (event) => {
     if (event && event.target) {
@@ -92,8 +94,6 @@ const NewUserModal = ({ open, handleClose }) => {
   const handleNewUser = async () => {
     setIsUploading(true)
     const txId = (await joinCommunity(CONTRACT_ID)).data
-
-    const did = window.box.DID
 
     const roleUpload = {
       txId: txId,

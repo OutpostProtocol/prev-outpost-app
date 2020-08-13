@@ -1,6 +1,7 @@
 import React, {
   useState, useEffect
 } from 'react'
+import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import {
   Select,
@@ -37,11 +38,13 @@ const GET_USER_ROLES = gql`
 const CommunitySelector = ({ handleSelection, placeHolder }) => {
   const [activeCommunity, setActiveCommunity] = useState(placeHolder)
   const [communities, setCommunities] = useState([])
+  const did = useSelector(state => state.did)
+
   const { data } = useQuery(GET_USER_ROLES, {
     variables: {
-      did: window.box && window.box.DID
+      did
     },
-    skip: !window.box
+    skip: (typeof window === 'undefined' || !window.box)
   })
 
   useEffect(() => {

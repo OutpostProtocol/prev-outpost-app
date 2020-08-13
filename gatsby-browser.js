@@ -1,34 +1,14 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 import {
   ThemeProvider,
   StylesProvider,
   createMuiTheme
 } from '@material-ui/core/styles'
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  HttpLink
-} from '@apollo/client'
-import createStore, { runSaga } from './src/redux/store'
-import {
-  ELEMENT_ID,
-  GLOBAL_KEY
-} from './src/constants'
+import { ELEMENT_ID } from './src/constants'
 import { Web3ReactProvider } from '@web3-react/core'
 import { ethers } from 'ethers'
-import fetch from 'isomorphic-fetch'
 
 import './src/utils/global.css'
-
-const client = new ApolloClient({
-  link: new HttpLink({
-    uri: process.env.OUTPOST_API,
-    fetch
-  }),
-  cache: new InMemoryCache()
-})
 
 const theme = createMuiTheme({
   palette: {
@@ -64,32 +44,24 @@ const getLibrary = (provider, connector) => {
 }
 
 export const wrapRootElement = ({ element }) => {
-  const store = createStore(window[GLOBAL_KEY])
-  runSaga()
-
   return (
     <React.StrictMode>
-      <Provider store={store}>
-        <StylesProvider injectFirst >
-          <ThemeProvider theme={theme}>
-            <Web3ReactProvider getLibrary={getLibrary}>
-              <ApolloProvider client={client}>
-                <main
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                    top: '0',
-                    left: '0'
-                  }}
-                >
-                  {element}
-                </main>
-              </ApolloProvider>
-            </Web3ReactProvider>
-          </ThemeProvider>
-        </StylesProvider>
-
-      </Provider>
+      <StylesProvider injectFirst >
+        <ThemeProvider theme={theme}>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <main
+              style={{
+                height: '100%',
+                width: '100%',
+                top: '0',
+                left: '0'
+              }}
+            >
+              {element}
+            </main>
+          </Web3ReactProvider>
+        </ThemeProvider>
+      </StylesProvider>
     </React.StrictMode>
   )
 }

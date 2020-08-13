@@ -68,11 +68,12 @@ const RoleStatus = ({ communityTxId, isOpen }) => {
   const [isRoleLoading, setIsRoleLoading] = useState(false)
   const [roles, setRoles] = useState([])
   const [uploadRoleToDb] = useMutation(UPLOAD_ROLE)
+  const did = useSelector(state => state.did)
   const { data } = useQuery(GET_USER_ROLES, {
     variables: {
-      did: window.box && window.box.DID
+      did
     },
-    skip: !window.box
+    skip: (typeof window === 'undefined' || !window.box)
   })
 
   useEffect(() => {
@@ -89,7 +90,7 @@ const RoleStatus = ({ communityTxId, isOpen }) => {
       const roleUpload = {
         txId: txId,
         communityTxId,
-        userDid: window.box.DID,
+        userDid: did,
         role: ROLES.MEMBER
       }
 
@@ -99,7 +100,7 @@ const RoleStatus = ({ communityTxId, isOpen }) => {
         },
         refetchQueries: [{
           query: GET_USER_ROLES,
-          variables: { did: window.box.DID }
+          variables: { did }
         }]
       })
     }

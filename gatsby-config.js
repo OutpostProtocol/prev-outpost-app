@@ -38,6 +38,19 @@ module.exports = {
           }
         ]
       }
+    },
+    {
+      resolve: 'gatsby-plugin-apollo',
+      options: {
+        uri: 'https://infinite-scrubland-23817.herokuapp.com/'
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-react-redux',
+      options: {
+        // [required] - path to your createStore module
+        pathToCreateStoreModule: './src/redux/store'
+      }
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline

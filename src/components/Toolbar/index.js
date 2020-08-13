@@ -48,7 +48,7 @@ const Toolbar = () => {
   const { data } = useCommunities()
   const communities = data && data.community
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const did = window.box && window.box.DID
+  const did = useSelector(state => state.did)
 
   useEffect(() => {
     const handleSelection = (community) => {

@@ -1,20 +1,10 @@
-import {
-  createStore,
-  applyMiddleware
-} from 'redux'
-import createSagaMiddleWare from 'redux-saga'
+import { createStore } from 'redux'
 
-import rootSaga from './sagas'
 import app from './reducers'
-
-const sagaMiddleWare = createSagaMiddleWare()
 
 export default preloadedState => {
   return createStore(
     app,
-    preloadedState,
-    applyMiddleware(sagaMiddleWare)
+    preloadedState
   )
 }
-
-export const runSaga = () => sagaMiddleWare.run(rootSaga)

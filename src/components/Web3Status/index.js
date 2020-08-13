@@ -9,9 +9,12 @@ import {
 import { styled } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
+import { Helmet } from 'react-helmet'
 
 import LoadingBackdrop from '../LoadingBackdrop'
-import { LOGIN_ASYNC } from '../../redux/actionTypes'
+import {
+  SET_DID, SET_IS_LOGGED_IN
+} from '../../redux/actionTypes'
 import { useUser } from '../../hooks'
 import WalletModal from '../WalletModal'
 import NewUserModal from '../NewUserModal'
@@ -29,10 +32,11 @@ const Web3Container = styled('div')({
 
 const Web3Status = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
-  const isLoading = useSelector(state => state.isLoading)
+  const [isLoading, setIsLoading] = useState(false)
   const { active, account } = useWeb3React()
+  const did = useSelector(state => state.did)
 
-  const { data } = useUser(window.box && window.box.DID)
+  const { data } = useUser(did)
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
 
@@ -47,8 +51,18 @@ const Web3Status = () => {
   }, [data, isLoggedIn])
 
   useEffect(() => {
+    const login = async () => {
+      setIsLoading(true)
+      const box = await window.Box.openBox(account, window.web3.provider)
+      window.box = box
+
+      dispatch({ type: SET_DID, did: window.box.DID })
+      dispatch({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
+      setIsLoading(false)
+    }
+
     if (active && account && !isLoggedIn) {
-      dispatch({ type: LOGIN_ASYNC, account })
+      login()
     }
   }, [active, account, isLoggedIn, dispatch])
 
@@ -60,6 +74,9 @@ const Web3Status = () => {
 
   return (
     <Web3Container>
+      <Helmet>
+        <script src="https://unpkg.com/3box@1.20.3/dist/3box.js"></script>
+      </Helmet>
       <LoadingBackdrop isLoading={isLoading} />
       {!isLoggedIn &&
         <Web3Button
