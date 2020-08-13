@@ -44,7 +44,6 @@ const Web3Status = () => {
 
   useEffect(() => {
     const hasUserName = data && data.user && data.user.name
-    console.log(data, 'THE USER DATA')
     if (isLoggedIn && !hasUserName) {
       setIsNewUserModalOpen(true)
     } else if (hasUserName) {

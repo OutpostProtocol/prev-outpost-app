@@ -14,7 +14,7 @@ const MainContainer = styled('div')({
 const Main = () => {
   const { data, loading, error } = usePosts()
 
-  if (loading) return 'Loading...'
+  if (loading) return null
   if (error) return `Error! ${error.message}`
 
   return (

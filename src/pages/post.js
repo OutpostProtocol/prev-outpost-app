@@ -32,7 +32,7 @@ const PostPage = ({ location }) => {
   const txId = getId(location, '/post/')
   const { data, loading, error } = useOnePost(txId)
 
-  if (loading) return 'Loading...'
+  if (loading) return null
   if (error) return `Error! ${error.message}`
 
   const post = data && data.posts && data.posts[0] ? data.posts[0] : PLACEHOLDER_POST
