@@ -21,10 +21,6 @@ const ProfileContainer = styled('span')({
   'align-items': 'center'
 })
 
-const ProfileName = styled('h4')({
-  'font-weight': 100
-})
-
 const Profile = ({ address, showName }) => {
   const isMounted = useRef(true)
   const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
@@ -50,9 +46,9 @@ const Profile = ({ address, showName }) => {
         alt='Profile'
       />
       { showName &&
-        <ProfileName>
+        <p>
           {name}
-        </ProfileName>
+        </p>
       }
     </ProfileContainer>
   )
