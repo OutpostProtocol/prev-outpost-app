@@ -20,7 +20,9 @@ export const useCommunities = () => {
       }
     }
   `
-  const { loading, error, data } = useQuery(GET_ALL_COMMUNITIES)
+  const { loading, error, data } = useQuery(GET_ALL_COMMUNITIES, {
+    pollInterval: 1000
+  })
 
   return { data, loading, error }
 }

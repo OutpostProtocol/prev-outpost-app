@@ -26,7 +26,8 @@ const usePosts = (communityTxId) => {
   `
 
   return useQuery(GET_POSTS, {
-    variables: { communityTxId }
+    variables: { communityTxId },
+    pollInterval: 2000
   })
 }
 

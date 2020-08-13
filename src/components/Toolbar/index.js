@@ -71,7 +71,7 @@ const Toolbar = () => {
     <ToolbarContainer>
       <SearchBar
         id="community-search"
-        options={communities}
+        options={communities || []}
         value={selectedCommunity}
         onChange={(_, selection) => setSelectedCommunity(selection) }
         getOptionLabel={(option) => option.name}
