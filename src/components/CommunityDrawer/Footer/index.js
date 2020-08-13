@@ -43,7 +43,7 @@ const Footer = () => {
       </Icon>
       <Icon>
         <ExternalLink
-          href='https://outpost-protocol.com/'
+          href='https://info.outpost-protocol.com/'
           rel='noopener noreferrer'
           target='_blank'
         >
