@@ -3,6 +3,8 @@ import {
   useQuery
 } from '@apollo/client'
 
+import { ROLES } from 'outpost-protocol'
+
 /**
  * Get all communities
  *
@@ -53,6 +55,95 @@ export const useCommunity = (id) => {
     })
 
   return { data, loading, error }
+}
+
+/**
+ * Get the owners, admins, moderators, and members for a community
+ *
+ * @param   {String}  id  of the community to get the roles for
+ *
+ * @returns {Object}      The owners, admins, moderators, and members of a community
+ */
+export const useCommunityRoles = (id) => {
+  const GET_COMMUNITY_ROLES = gql`
+    query roles($id: String!) {
+      roles(communityTxId: $id) {
+        role
+        user {
+          did
+        }
+      }
+    }
+  `
+  const { loading, error, data } = useQuery(
+    GET_COMMUNITY_ROLES,
+    {
+      variables: {
+        id: id
+      }
+    }
+  )
+
+  const owners = []
+  const admins = []
+  const moderators = []
+  const members = []
+
+  if (data && data.roles) {
+    for (const result of data.roles) {
+      const { role, user } = result
+      switch (role) {
+        case ROLES.OWNER:
+          owners.push(user.did)
+          break
+        case ROLES.ADMIN:
+          admins.push(user.did)
+          break
+        case ROLES.MODERATOR:
+          moderators.push(user.did)
+          break
+        case ROLES.MEMBER:
+          members.push(user.did)
+          break
+        default:
+          console.error('Unrecognized role', role)
+      }
+    }
+  }
+
+  if (loading || error) return {}
+  else return { owners, admins, moderators, members }
+}
+
+export const usePost = (txId) => {
+  const GET_POST = gql`
+    query posts($txId: String!) {
+      posts(txId: $txId) {
+        title
+        postText
+        subtitle
+        timestamp
+        community {
+          name
+        }
+        user {
+          did
+        }
+        transaction {
+          txId
+          blockHash
+        }
+      }
+    }
+  `
+  return useQuery(
+    GET_POST,
+    {
+      variables: {
+        txId: txId
+      }
+    }
+  )
 }
 
 export const useUser = (did) => {

@@ -1,7 +1,10 @@
 import React from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import { IconButton } from '@material-ui/core'
+import {
+  IconButton,
+  Button
+} from '@material-ui/core'
 import ChevronLeft from '@material-ui/icons/ChevronLeft'
 
 import usePosts from '../hooks/usePosts'
@@ -34,8 +37,12 @@ const BackButton = styled(IconButton)({
 })
 
 const CommunityName = styled('h1')({
-  'font-style': 'italic',
-  'margin-right': 'auto'
+  'font-style': 'italic'
+})
+
+const ButtonContainer = styled(Button)({
+  margin: '10px',
+  height: '2.5em'
 })
 
 const NameContainer = styled('div')({
@@ -88,6 +95,14 @@ const CommunuityPage = ({ location }) => {
             communityTxId={txId}
           />
         </CommunityToolbar>
+        <ButtonContainer
+          onClick={() => navigate('/governance/' + txId)}
+          disableElevation
+          color='primary'
+          variant='contained'
+        >
+          GOVERNANCE
+        </ButtonContainer>
         <Feed
           posts={postReq.data.posts}
         />
