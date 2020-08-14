@@ -71,6 +71,7 @@ export const useCommunityRoles = (id) => {
         role
         user {
           did
+          name
         }
       }
     }

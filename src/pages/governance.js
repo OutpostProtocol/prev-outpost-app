@@ -40,10 +40,11 @@ const GovernancePage = ({ location }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const txId = getId(location, '/governance/')
   const { data, loading, error } = useCommunity(txId)
-  const { name, isOpen } = data.community[0] || {}
 
   if (loading) return null
   if (error) return `Error! ${error.message}`
+
+  const { name, isOpen } = data ? data.community[0] : {}
 
   return (
     <>
