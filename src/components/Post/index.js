@@ -39,7 +39,10 @@ const PostCommunityAndDate = styled('h5')({
 })
 
 const Title = styled('h1')({
-  margin: 0
+  margin: 0,
+  '@media only screen and (max-width: 700px)': {
+    'font-size': '18px'
+  }
 })
 
 const TitleContainer = styled('div')({

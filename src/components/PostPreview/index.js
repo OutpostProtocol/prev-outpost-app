@@ -20,7 +20,8 @@ const PostContainer = styled('div')({
 
 const ProfileContainer = styled('div')({
   float: 'right',
-  'margin-left': 'auto'
+  'margin-left': 'auto',
+  'padding-left': '10px'
 })
 
 const PostMetaData = styled('span')({
@@ -43,7 +44,10 @@ const PostCommunityAndDate = styled('h5')({
 })
 
 const Title = styled('h2')({
-  margin: 0
+  margin: 0,
+  '@media only screen and (max-width: 700px)': {
+    'font-size': '18px'
+  }
 })
 
 const PostPreview = ({ post }) => {
