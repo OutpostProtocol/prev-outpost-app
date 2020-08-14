@@ -16,7 +16,9 @@ import {
 
 const PostContainer = styled('div')({
   margin: '3em 0',
-  padding: '10vh 23vw'
+  '@media only screen and (min-width: 700px)': {
+    padding: '10vh 23vw'
+  }
 })
 
 const BackButton = styled(IconButton)({

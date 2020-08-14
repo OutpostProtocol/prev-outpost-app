@@ -5,10 +5,12 @@ import Feed from '../Feed'
 import usePosts from '../../hooks/usePosts'
 
 const MainContainer = styled('div')({
-  'padding-left': '23vw',
-  'padding-right': '23vw',
-  'margin-top': '4em',
-  'padding-top': '5vh'
+  '@media only screen and (min-width: 700px)': {
+    'padding-left': '23vw',
+    'padding-right': '23vw',
+    'padding-top': '5vh',
+    'margin-top': '4em'
+  }
 })
 
 const Main = () => {

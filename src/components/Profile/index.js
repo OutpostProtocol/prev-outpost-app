@@ -10,10 +10,16 @@ import { useUser } from '../../hooks'
 import { shortenAddress } from '../../utils'
 
 const ProfileImage = styled('img')({
-  width: '40px',
-  height: '40px',
   'border-radius': '50%',
-  'margin-right': '10px'
+  'margin-right': '10px',
+  '@media only screen and (max-width: 700px)': {
+    width: '30px',
+    height: '30px'
+  },
+  '@media only screen and (min-width: 700px)': {
+    width: '40px',
+    height: '40px'
+  }
 })
 
 const ProfileContainer = styled('span')({
@@ -22,7 +28,10 @@ const ProfileContainer = styled('span')({
 })
 
 const ProfileName = styled('h4')({
-  'font-weight': 100
+  'font-weight': 100,
+  '@media only screen and (max-width: 700px)': {
+    'font-size': '14px'
+  }
 })
 
 const Profile = ({ address, showName }) => {
