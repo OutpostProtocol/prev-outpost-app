@@ -73,7 +73,7 @@ const CommunuityPage = ({ location }) => {
   if (data && data.community && data.community[0]) community = data.community[0]
   const { name, blockHash, isOpen } = community || {}
 
-  if (postReq.loading || loading) return 'Loading...'
+  if (postReq.loading || loading) return null
   if (postReq.error) return `Error! ${postReq.error.message}`
   if (error) return `Error! ${error.message}`
 
