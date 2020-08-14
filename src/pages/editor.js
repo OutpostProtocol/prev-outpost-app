@@ -12,6 +12,9 @@ import {
   gql, useMutation
 } from '@apollo/client'
 import { decodeJWT } from 'did-jwt'
+import unified from 'unified'
+import parse from 'remark-parse'
+import remark2react from 'remark-react'
 
 import { uploadPost } from '../uploaders'
 import LoadingBackdrop from '../components/LoadingBackdrop'
@@ -26,7 +29,7 @@ const EditorContainer = styled('div')({
 
 const PostButton = styled(Button)({
   float: 'right',
-  'margin-top': '5px'
+  margin: '5px 0 0 5px'
 })
 
 const BackButton = styled(IconButton)({
@@ -83,6 +86,7 @@ const EditorPage = () => {
   const [title, setTitle] = useState('')
   const [subtitle, setSubtitle] = useState('')
   const [isWaitingForUpload, setIsWaiting] = useState(false)
+  const [showPreview, setShowPreview] = useState(false)
   const [uploadPostToDb] = useMutation(UPLOAD_POST)
 
   const handleCommunitySelection = (event) => {
@@ -142,11 +146,15 @@ const EditorPage = () => {
       subtitle: subtitle !== '' ? subtitle : undefined,
       postText: postText
     }
+
+    console.log(payload, 'THE UPLOAD PAYLOAD')
+    /*
     const res = await uploadPost(payload, communityId)
 
     if (res.status === 200 && res.data.status === 200) {
       return await handleUploadToDb(res.data.tx)
     }
+    */
 
     setIsWaiting(false)
     alert('The post upload failed. Try again.')
@@ -167,45 +175,126 @@ const EditorPage = () => {
         <ChevronLeftIcon />
       </BackButton>
       <EditorContainer>
-        <TitleContainer>
-          <FormTextField
-            onChange={(event) => setTitle(event.target.value)}
-            value={title}
-            placeholder='TITLE'
+        {showPreview
+          ? <PostPreview
+            title={title}
+            subtitle={subtitle}
+            postText={postText}
           />
-          <FormTextField
-            onChange={(event) => setSubtitle(event.target.value)}
-            value={subtitle}
-            placeholder='DESCRIPTION (optional)'
+          : <FullEditor
+            title={title}
+            subtitle={subtitle}
+            setTitle={setTitle}
+            setSubtitle={setSubtitle}
+            setPostText={setPostText}
           />
-        </TitleContainer>
-        <PostContent
-          headingsOffset={1}
-          placeholder='Begin writing your post'
-          onSave={options => console.log('Save triggered', options)}
-          onCancel={() => console.log('Cancel triggered')}
-          onShowToast={message => { if (typeof window !== 'undefined') window.alert(message) }}
-          onChange={(value) => setPostText(value)}
-          uploadImage={file => {
-            console.log('File upload triggered: ', file)
-          }}
-          autoFocus
-        />
+        }
         <OptionContainer >
           <CommunitySelector
             handleSelection={handleCommunitySelection}
             placeHolder={PLACEHOLDER_COMMUNITY}
           />
-          <PostButton
-            disableElevation
-            variant='contained'
-            color='secondary'
-            onClick={handlePost}
-          >
-          Post
-          </PostButton>
+          {showPreview
+            ? (
+              <>
+                <PostButton
+                  disableElevation
+                  variant='contained'
+                  color='secondary'
+                  onClick={handlePost}
+                >
+                  POST
+                </PostButton>
+                <PostButton
+                  disableElevation
+                  variant='contained'
+                  color='secondary'
+                  onClick={() => setShowPreview(false)}
+                >
+                  EDIT
+                </PostButton>
+              </>
+            )
+            : <PostButton
+              disableElevation
+              variant='contained'
+              color='secondary'
+              onClick={() => setShowPreview(true)}
+            >
+              PREVIEW
+            </PostButton>
+          }
         </OptionContainer>
       </EditorContainer>
+    </>
+  )
+}
+
+const PostHeader = styled('div')({
+  display: 'flex',
+  height: '100%',
+  'align-items': 'center'
+})
+
+const Title = styled('h1')({
+  margin: 0
+})
+
+const PostPreview = ({ title, subtitle, postText }) => {
+  console.log(postText, 'THE POST TEXT IN PREVIEW')
+  return (
+    <div>
+      <PostHeader>
+        <div>
+          <Title color='primary'>
+            {title}
+          </Title>
+        </div>
+        <div>
+          {subtitle}
+        </div>
+      </PostHeader>
+      <PostContent>
+        {
+          unified()
+            .use(parse)
+            .use(remark2react)
+            .processSync(postText).result
+        }
+      </PostContent>
+
+    </div>
+  )
+}
+
+const FullEditor = ({ title, subtitle, setTitle, setSubtitle, setPostText }) => {
+  console.log('SHOWING FULL EDITOR')
+  return (
+    <>
+      <TitleContainer>
+        <FormTextField
+          onChange={(event) => setTitle(event.target.value)}
+          value={title}
+          placeholder='TITLE'
+        />
+        <FormTextField
+          onChange={(event) => setSubtitle(event.target.value)}
+          value={subtitle}
+          placeholder='DESCRIPTION (optional)'
+        />
+      </TitleContainer>
+      <PostContent
+        headingsOffset={1}
+        placeholder='Begin writing your post'
+        onSave={options => console.log('Save triggered', options)}
+        onCancel={() => console.log('Cancel triggered')}
+        onShowToast={message => { if (typeof window !== 'undefined') window.alert(message) }}
+        onChange={(value) => setPostText(value)}
+        uploadImage={file => {
+          console.log('File upload triggered: ', file)
+        }}
+        autoFocus
+      />
     </>
   )
 }
