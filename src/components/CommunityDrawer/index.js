@@ -57,7 +57,7 @@ const CommunityDrawer = ({ img }) => {
       <Drawer
         PaperProps={{
           style: {
-            'background-color': '#f8f8f8'
+            backgroundColor: '#f8f8f8'
           }
         }}
         anchor='left'
