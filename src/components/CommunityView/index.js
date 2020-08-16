@@ -6,7 +6,7 @@ import CommunityTile from '../CommunityTile'
 
 const Heading = styled('h4')({
   margin: '20px 0px 10px 10%',
-  color: '#c4c4c4',
+  color: '#999',
   'font-weight': 100
 })
 

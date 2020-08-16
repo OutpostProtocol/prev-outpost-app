@@ -14,13 +14,14 @@ const PostContainer = styled('div')({
   'border-radius': '4px',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#fafafae8'
+    'background-color': '#f4f4f4'
   }
 })
 
 const ProfileContainer = styled('div')({
   float: 'right',
-  'margin-left': 'auto'
+  'margin-left': 'auto',
+  'padding-left': '10px'
 })
 
 const PostMetaData = styled('span')({
@@ -38,12 +39,15 @@ const PostHeader = styled('div')({
 })
 
 const PostCommunityAndDate = styled('h5')({
-  color: '#c4c4c4',
+  color: '#999',
   margin: '5px 0 0 0'
 })
 
 const Title = styled('h2')({
-  margin: 0
+  margin: 0,
+  '@media only screen and (max-width: 700px)': {
+    'font-size': '18px'
+  }
 })
 
 const PostPreview = ({ post }) => {

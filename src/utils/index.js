@@ -16,3 +16,8 @@ export const getId = (location, delimeter) => {
 export const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+export const isMobile = () => {
+  if (typeof navigator === 'undefined') return false
+  return /Mobi|Android/i.test(navigator.userAgent)
+}

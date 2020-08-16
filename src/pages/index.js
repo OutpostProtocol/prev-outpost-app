@@ -1,6 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 
+import { isMobile } from '../utils'
 import SEO from '../components/seo'
 import CommunityDrawer from '../components/CommunityDrawer'
 import Main from '../components/Main'
@@ -11,9 +12,11 @@ const IndexPage = ({ data }) => {
     <div>
       <SEO title="Home" />
       <Toolbar />
-      <CommunityDrawer
-        img={data.logo.childImageSharp}
-      />
+      { !isMobile() &&
+        <CommunityDrawer
+          img={data.logo.childImageSharp}
+        />
+      }
       <Main />
     </ div>
   )

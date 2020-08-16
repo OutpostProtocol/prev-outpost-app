@@ -14,7 +14,10 @@ import Toolbar from '../components/Toolbar'
 import RoleStatus from '../components/RoleStatus'
 import Feed from '../components/Feed'
 import PendingChip from '../components/PendingChip'
-import { getId } from '../utils'
+import {
+  getId,
+  isMobile
+} from '../utils'
 
 const Container = styled('div')({
   margin: '3em 0',
@@ -49,12 +52,28 @@ const NameContainer = styled('div')({
   display: 'flex'
 })
 
+const CenteredContainer = styled('div')({
+  display: 'flex',
+  padding: '20px',
+  height: '200px',
+  'justify-content': 'center',
+  'align-items': 'center'
+})
+
 const pendingDescription = 'The community has been submitted but has not yet been confirmed.'
 
 const CommunuityPage = ({ location }) => {
   const txId = getId(location, '/community/')
   const { data, loading, error } = useCommunity(txId)
   const postReq = usePosts(txId)
+
+  if (isMobile()) {
+    return (
+      <CenteredContainer>
+        This page is unavailable for mobile. Come back soon or vist on a desktop.
+      </CenteredContainer>
+    )
+  }
 
   let community
 
