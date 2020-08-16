@@ -24,7 +24,7 @@ import { PLACEHOLDER_COMMUNITY } from '../constants'
 
 const EditorContainer = styled('div')({
   width: '50vw',
-  margin: '0 auto'
+  margin: '0 auto 10vh'
 })
 
 const PostButton = styled(Button)({
@@ -45,7 +45,7 @@ const FormTextField = styled(Input)({
 })
 
 const TitleContainer = styled('div')({
-  padding: '5vh 0 0 0'
+  padding: '7vh 0 0 0'
 })
 
 const PostContent = styled(Editor)({
@@ -53,8 +53,12 @@ const PostContent = styled(Editor)({
 })
 
 const OptionContainer = styled('div')({
-  margin: '10vh 0',
+  'margin-top': '10vh',
   height: '3em'
+})
+
+const WarningText = styled('div')({
+  color: '#FF5252'
 })
 
 const UPLOAD_POST = gql`
@@ -184,6 +188,7 @@ const EditorPage = () => {
           : <FullEditor
             title={title}
             subtitle={subtitle}
+            postText={postText}
             setTitle={setTitle}
             setSubtitle={setSubtitle}
             setPostText={setPostText}
@@ -194,80 +199,100 @@ const EditorPage = () => {
             handleSelection={handleCommunitySelection}
             placeHolder={PLACEHOLDER_COMMUNITY}
           />
-          {showPreview
-            ? (
-              <>
-                <PostButton
-                  disableElevation
-                  variant='contained'
-                  color='secondary'
-                  onClick={handlePost}
-                >
-                  POST
-                </PostButton>
-                <PostButton
-                  disableElevation
-                  variant='contained'
-                  color='secondary'
-                  onClick={() => setShowPreview(false)}
-                >
-                  EDIT
-                </PostButton>
-              </>
-            )
-            : <PostButton
-              disableElevation
-              variant='contained'
-              color='secondary'
-              onClick={() => setShowPreview(true)}
-            >
-              PREVIEW
-            </PostButton>
-          }
+          <PostActions
+            setShowPreview={setShowPreview}
+            showPreview={showPreview}
+            handlePost={handlePost}
+          />
         </OptionContainer>
+        {showPreview
+          ? <WarningText>
+              WARNING: All posts are uploaded to a public blockchain.
+          </WarningText>
+          : null
+        }
       </EditorContainer>
     </>
   )
 }
 
+const PostActions = ({ showPreview, setShowPreview, handlePost }) => {
+  if (showPreview) {
+    return (
+      <>
+        <PostButton
+          disableElevation
+          variant='contained'
+          color='secondary'
+          onClick={() => setShowPreview(false)}
+        >
+          EDIT
+        </PostButton>
+        <PostButton
+          disableElevation
+          variant='contained'
+          color='secondary'
+          onClick={handlePost}
+        >
+        POST
+        </PostButton>
+      </>
+    )
+  }
+
+  return (
+    <PostButton
+      disableElevation
+      variant='contained'
+      color='secondary'
+      onClick={() => setShowPreview(true)}
+    >
+      PREVIEW
+    </PostButton>
+  )
+}
+
 const PostHeader = styled('div')({
-  display: 'flex',
   height: '100%',
   'align-items': 'center'
 })
 
 const Title = styled('h1')({
-  margin: 0
+  margin: '5vh 0'
+})
+
+const PreviewContainer = styled('div')({
+  'padding-top': '7vh'
+})
+
+const Subtitle = styled('h4')({
+  'margin-bottom': '5vh'
 })
 
 const PostPreview = ({ title, subtitle, postText }) => {
-  console.log(postText, 'THE POST TEXT IN PREVIEW')
   return (
-    <div>
+    <PreviewContainer>
       <PostHeader>
-        <div>
-          <Title color='primary'>
-            {title}
-          </Title>
-        </div>
-        <div>
+        <Title color='primary'>
+          {title}
+        </Title>
+        <Subtitle>
           {subtitle}
-        </div>
+        </Subtitle>
       </PostHeader>
-      <PostContent>
+      <div>
         {
           unified()
             .use(parse)
             .use(remark2react)
             .processSync(postText).result
         }
-      </PostContent>
-
-    </div>
+      </div>
+    </PreviewContainer>
   )
 }
 
-const FullEditor = ({ title, subtitle, setTitle, setSubtitle, setPostText }) => {
+const FullEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPostText }) => {
   console.log('SHOWING FULL EDITOR')
   return (
     <>
@@ -286,6 +311,7 @@ const FullEditor = ({ title, subtitle, setTitle, setSubtitle, setPostText }) => 
       <PostContent
         headingsOffset={1}
         placeholder='Begin writing your post'
+        defaultValue={postText}
         onSave={options => console.log('Save triggered', options)}
         onCancel={() => console.log('Cancel triggered')}
         onShowToast={message => { if (typeof window !== 'undefined') window.alert(message) }}
