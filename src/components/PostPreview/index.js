@@ -14,7 +14,7 @@ const PostContainer = styled('div')({
   'border-radius': '4px',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#fafafae8'
+    'background-color': '#f4f4f4'
   }
 })
 
@@ -39,7 +39,7 @@ const PostHeader = styled('div')({
 })
 
 const PostCommunityAndDate = styled('h5')({
-  color: '#c4c4c4',
+  color: '#999',
   margin: '5px 0 0 0'
 })
 

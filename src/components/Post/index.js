@@ -34,7 +34,7 @@ const PostHeader = styled('div')({
 })
 
 const PostCommunityAndDate = styled('h5')({
-  color: '#c4c4c4',
+  color: '#999',
   margin: '5px 0 0 0'
 })
 
