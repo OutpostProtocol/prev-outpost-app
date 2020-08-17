@@ -10,11 +10,10 @@ import Profile from '../Profile'
 
 const PostContainer = styled('div')({
   padding: '10px',
-  'margin-top': '10px',
   'border-radius': '4px',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#f4f4f4'
+    'background-color': '#f4f3f0'
   }
 })
 

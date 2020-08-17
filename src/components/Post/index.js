@@ -24,7 +24,9 @@ const PostMetaData = styled('span')({
 })
 
 const PostContent = styled('div')({
-  marginTop: 0
+  marginTop: 0,
+  'line-height': '1.5em',
+  'font-size': '1.1em'
 })
 
 const PostHeader = styled('div')({
