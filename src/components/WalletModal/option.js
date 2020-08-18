@@ -1,11 +1,13 @@
 import React, {
   useState,
-  useEffect
+  useEffect,
+  useRef
 } from 'react'
 import { styled } from '@material-ui/core/styles'
 import {
   CircularProgress,
-  Button
+  Button,
+  TextField
 } from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
 
@@ -41,22 +43,34 @@ const ConnectButton = styled(Button)({
   'margin-left': '10px'
 })
 
+const EmailField = styled(TextField)({
+  width: '150px',
+  'margin-left': '5px'
+})
+
 const Option = ({ options, showDetailedView, setDetailedView }) => {
-  const [isInitializing, setIsInitializing] = useState(showDetailedView)
   const { imgSrc, name, connector, prepare, setup } = options
+  const [isInitializing, setIsInitializing] = useState(showDetailedView && name !== 'Magic')
   const { activate } = useWeb3React()
+  const config = useRef({})
+
+  const handleEmail = (event) => {
+    if (event && event.target && event.target.value) {
+      config.current.email = event.target.value
+    }
+  }
 
   useEffect(() => {
     const connect = async () => {
       if (isInitializing) {
-        if (prepare) prepare(connector)
+        if (prepare) prepare(connector, config.current)
         await activate(connector)
         if (setup) setup(connector)
         setIsInitializing(false)
       }
     }
     connect()
-  }, [isInitializing, connector, prepare, setup, activate])
+  }, [isInitializing, connector, prepare, setup, activate, name])
 
   const connect = () => {
     // if not already initalizing, initialize and try activiating in useEffect hook
@@ -78,6 +92,13 @@ const Option = ({ options, showDetailedView, setDetailedView }) => {
       {isInitializing &&
         <CircularProgress
           disableShrink
+        />
+      }
+      { name === 'Magic' && showDetailedView && !isInitializing &&
+        <EmailField
+          variant='outlined'
+          label='Email'
+          onChange={handleEmail}
         />
       }
       {(!isInitializing && showDetailedView) &&
