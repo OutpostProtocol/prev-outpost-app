@@ -1,17 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Dialog,
   IconButton,
   Fade
 } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
-import {
-  Close,
-  ChevronLeft
-} from '@material-ui/icons'
+import { Close } from '@material-ui/icons'
 
-import walletOptions from './walletOptions'
-import Option from './option'
+import MetaMaskConnect from './MetaMaskConnect'
+import MagicConnect from './MagicConnect'
 
 const ModalContainer = styled(Dialog)({
   display: 'flex',
@@ -19,76 +16,41 @@ const ModalContainer = styled(Dialog)({
   justifyContent: 'center'
 })
 
-const Heading = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  'padding-left': '5px'
-})
-
 const ContentContainer = styled('div')({
-  padding: '10px',
-  width: '22vw',
+  width: '25vw',
   'background-clip': 'content-box',
-  'border-radius': '4px'
+  'border-radius': '4px',
+  'background-color': '#f7f6f3'
 })
 
 const ExitButton = styled(IconButton)({
   width: '40px',
   height: '40px',
   padding: 0,
-  'margin-left': 'auto'
+  position: 'absolute',
+  top: '5px',
+  right: '5px'
+})
+
+const OrContainer = styled('div')({
+  padding: '10% 0 5%',
+  display: 'flex',
+  'justify-content': 'space-around'
 })
 
 const WalletModal = ({ open, handleClose }) => {
-  const [detailedView, setDetailedView] = useState(undefined)
-
-  const optionFactory = (walletOptions, showDetailedView) => {
-    return (
-      <Option
-        key={walletOptions.name}
-        options={walletOptions}
-        showDetailedView={showDetailedView}
-        setDetailedView={(options) => setDetailedView(optionFactory(options, true)) }
-      />
-    )
-  }
-
   const ModalContent = (
     <ContentContainer>
-      <Heading>
-        {detailedView ? (
-          <>
-            <h3>
-              Initializing
-            </h3>
-            <ExitButton
-              onClick={() => setDetailedView(undefined)}
-              disableRipple={true}
-            >
-              <ChevronLeft />
-            </ExitButton>
-          </>
-        ) : (
-          <>
-            <h3>
-              Select A Wallet
-            </h3>
-            <ExitButton
-              onClick={handleClose}
-            >
-              <Close />
-            </ExitButton>
-          </>
-        )}
-      </Heading>
-      {detailedView ||
-        walletOptions.map((option, index) => {
-          return (
-            optionFactory(option, false)
-          )
-        })
-      }
+      <ExitButton
+        onClick={handleClose}
+      >
+        <Close />
+      </ExitButton>
+      <MagicConnect />
+      <OrContainer>
+        <i>&mdash;OR&mdash;</i>
+      </OrContainer>
+      <MetaMaskConnect />
     </ContentContainer>
   )
 

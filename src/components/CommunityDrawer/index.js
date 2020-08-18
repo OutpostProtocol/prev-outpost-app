@@ -31,6 +31,10 @@ const Logo = styled(Link)({
   width: '20%'
 })
 
+const ButtonContainer = styled('div')({
+  'min-height': '41px'
+})
+
 const CommunityDrawer = ({ img }) => {
   const DrawerContents = () => {
     return (
@@ -44,8 +48,10 @@ const CommunityDrawer = ({ img }) => {
             />
           </Logo>
         </LogoContainer>
-        <LoadableWeb3Status />
-        <CreateCommunity />
+        <ButtonContainer>
+          <LoadableWeb3Status />
+          <CreateCommunity />
+        </ButtonContainer>
         <CommunityView />
         <Footer />
       </DrawerContentsContainer>

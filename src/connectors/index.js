@@ -1,7 +1,7 @@
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { AuthereumConnector } from '@web3-react/authereum-connector'
-import { TorusConnector } from '@web3-react/torus-connector'
+import { MagicConnector } from './magicConnector'
 
 const POLLING_INTERVAL = 10000
 const NETWORK_URL = process.env.GATSBY_NETWORK_URL
@@ -20,5 +20,4 @@ export const walletconnect = new WalletConnectConnector({
   pollingInterval: POLLING_INTERVAL
 })
 
-// mainnet only
-export const torus = new TorusConnector({ chainId: 1 })
+export const magic = new MagicConnector({ apiKey: process.env.MAGIC_KEY, chainId: 1 })

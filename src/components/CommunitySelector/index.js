@@ -49,7 +49,7 @@ const CommunitySelector = ({ handleSelection, placeHolder }) => {
 
   useEffect(() => {
     const coms = {}
-    const roles = data ? data.userRoles : []
+    const roles = data && data.userRoles ? data.userRoles : []
     for (let i = 0; i < roles.length; i++) {
       const current = roles[i].community
       coms[current.txId] = current
