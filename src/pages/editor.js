@@ -219,7 +219,7 @@ const EditorPage = () => {
             <div>
               When articles are published on more than one website, search engines use canonical links to determine and prioritize
               the ultimate source of content. If your article was originally published on another platform, and you want search engines
-              to index that article instead of this Medium story, you can set the canonical link here.
+              to index that article instead of this Outpost story, you can set the canonical link here.
             </div>
             { isCanonical &&
               <div>
