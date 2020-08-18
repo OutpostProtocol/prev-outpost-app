@@ -1,7 +1,7 @@
 # Outpost
-### Communities owned by users, not big tech
+A blogging platform for user controlled communities.
 
-Visit a deployed instance of the Outpost App [here](https://outpost-protocol.com).
+Try Outpost live [here](https://outpost-protocol.com).
 
 **Start developing**
 
