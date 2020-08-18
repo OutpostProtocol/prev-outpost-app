@@ -14,7 +14,6 @@ import {
 import { capitalize } from '../../utils'
 
 const CommunitySelect = styled(Select)({
-  margin: '5px',
   float: 'left',
   'min-width': '150px'
 })

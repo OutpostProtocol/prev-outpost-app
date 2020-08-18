@@ -38,7 +38,8 @@ export const useOnePost = (txId) => {
         title
         postText
         subtitle
-        timestamp
+        timestamp,
+        canonicalLink,
         community {
           name
         }
