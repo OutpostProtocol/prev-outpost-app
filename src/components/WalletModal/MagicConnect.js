@@ -10,7 +10,7 @@ import { styled } from '@material-ui/core/styles'
 
 const EmailField = styled(TextField)({
   width: '100%',
-  'padding-bottom': '5vh'
+  'padding-bottom': '3vh'
 })
 
 const Container = styled('div')({
