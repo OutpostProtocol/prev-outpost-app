@@ -50,6 +50,7 @@
     "gatsby-source-filesystem": "^2.2.2",
     "gatsby-transformer-sharp": "^2.4.4",
     "isomorphic-fetch": "^2.2.1",
+    "magic-sdk": "^2.4.7",
     "moment": "^2.24.0",
     "outpost-protocol": "^1.0.1",
     "prop-types": "^15.7.2",
