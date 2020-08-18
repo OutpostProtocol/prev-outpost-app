@@ -24,7 +24,9 @@ const PostMetaData = styled('span')({
 })
 
 const PostContent = styled('div')({
-  marginTop: 0
+  marginTop: '5vh',
+  'line-height': '1.5em',
+  'font-size': '1.1em'
 })
 
 const PostHeader = styled('div')({
@@ -34,7 +36,7 @@ const PostHeader = styled('div')({
 })
 
 const PostCommunityAndDate = styled('h5')({
-  color: '#c4c4c4',
+  color: '#999',
   margin: '5px 0 0 0'
 })
 

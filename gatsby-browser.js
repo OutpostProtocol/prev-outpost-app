@@ -15,7 +15,7 @@ import { Web3ReactProvider } from '@web3-react/core'
 import { ethers } from 'ethers'
 import fetch from 'isomorphic-fetch'
 
-import './src/utils/global.css'
+import './src/static/global.css'
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -42,7 +42,7 @@ const theme = createMuiTheme({
     }
   },
   typography: {
-    fontFamily: 'Roboto',
+    fontFamily: 'Favorit',
     button: {
       textTransform: 'none'
     }

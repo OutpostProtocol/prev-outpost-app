@@ -55,6 +55,11 @@ const CommunityDrawer = ({ img }) => {
   return (
     <GridContainer>
       <Drawer
+        PaperProps={{
+          style: {
+            backgroundColor: '#f7f6f3'
+          }
+        }}
         anchor='left'
         variant='persistent'
         open={true}

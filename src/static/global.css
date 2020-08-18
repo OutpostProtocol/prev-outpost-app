@@ -1,0 +1,89 @@
+
+@font-face {
+  font-family: Favorit;
+  font-weight: 400;
+  font-style: normal;
+  src: url("./favoritFont/FavoritTrialStd-Book.woff2") format("woff2"), url("./favoritFont/FavoritTrialStd-Book.woff") format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: Favorit;
+  font-weight: 400;
+  font-style: italic;
+  src: url("./favoritFont/FavoritTrialStd-Italic.woff2") format("woff2"), url("./favoritFont/FavoritTrialStd-Italic.woff") format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: Favorit;
+  font-weight: 700;
+  font-style: italic;
+  src: url("./favoritFont/FavoritTrialStd-BoldItalic.woff2") format("woff2"), url("./favoritFont/FavoritTrialStd-BoldItalic.woff") format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: Favorit;
+  font-weight: 700;
+  font-style: normal;
+  src: url("./favoritFont/FavoritTrialStd-Bold.woff2") format("woff2"), url("./favoritFont/FavoritTrialStd-Bold.woff") format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: Favorit;
+  font-weight: 100;
+  font-style: normal;
+  src: url("./favoritFont/FavoritTrialStd-Light.woff2") format("woff2"), url("./favoritFont/FavoritTrialStd-Light.woff") format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: Favorit;
+  font-weight: 100;
+  font-style: italic;
+  src: url("./favoritFont/FavoritTrialStd-LightItalic.woff2") format("woff2"), url("./favoritFont/FavoritTrialStd-LightItalic.woff") format("woff");
+  font-display: swap;
+}
+
+:root {
+  font-family: 'Favorit', sans-serif;
+  margin: 0;
+  background-color: #f7f6f3;
+}
+
+body {
+  margin: 0px;
+}
+
+h1 {
+  margin: 0px;
+}
+
+h4 {
+  margin: 0px;
+}
+
+img {
+  max-width: 50vw;
+}
+
+a {
+  color: black;
+}
+
+div.sc-fzoyAV {
+  background: #f7f6f3;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f4f3f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #000000;
+}

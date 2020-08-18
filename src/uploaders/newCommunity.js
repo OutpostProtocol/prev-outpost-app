@@ -4,8 +4,9 @@ import uploadContractInteraction from './contractInteraction'
 import {
   DEV_CONTRACT_ID, PROD_CONTRACT_ID
 } from 'outpost-protocol'
+import { isProduction } from '../utils'
 
-const CONTRACT_ID = process.env.IS_PROD ? PROD_CONTRACT_ID : DEV_CONTRACT_ID
+const CONTRACT_ID = isProduction() ? PROD_CONTRACT_ID : DEV_CONTRACT_ID
 
 const ARWEAVE_UPLOAD_SERVICE = process.env.ARWEAVE_UPLOAD_SERVICE
 

@@ -10,11 +10,10 @@ import Profile from '../Profile'
 
 const PostContainer = styled('div')({
   padding: '10px',
-  'margin-top': '10px',
   'border-radius': '4px',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#fafafae8'
+    'background-color': '#f4f3f0'
   }
 })
 
@@ -39,7 +38,7 @@ const PostHeader = styled('div')({
 })
 
 const PostCommunityAndDate = styled('h5')({
-  color: '#c4c4c4',
+  color: '#999',
   margin: '5px 0 0 0'
 })
 

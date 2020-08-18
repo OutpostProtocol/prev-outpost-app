@@ -14,7 +14,7 @@ const FooterContainer = styled('div')({
   justifyContent: 'space-evenly',
   width: '80%',
   padding: '0 10%',
-  background: 'white'
+  background: '#f7f6f3'
 })
 
 const ExternalLink = styled('a')({

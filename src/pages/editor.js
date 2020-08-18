@@ -2,12 +2,7 @@ import React, { useState } from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import {
-  IconButton,
-  Input,
-  Button
-} from '@material-ui/core'
-import Editor from 'rich-markdown-editor'
+import { IconButton } from '@material-ui/core'
 import {
   gql, useMutation
 } from '@apollo/client'
@@ -18,15 +13,13 @@ import LoadingBackdrop from '../components/LoadingBackdrop'
 import SEO from '../components/seo'
 import CommunitySelector from '../components/CommunitySelector'
 import { PLACEHOLDER_COMMUNITY } from '../constants'
+import PostActions from '../components/Editor/PostActions'
+import ContentEditor from '../components/Editor/ContentEditor'
+import EditorPreview from '../components/Editor/EditorPreview'
 
 const EditorContainer = styled('div')({
   width: '50vw',
-  margin: '0 auto'
-})
-
-const PostButton = styled(Button)({
-  float: 'right',
-  'margin-top': '5px'
+  margin: '0 auto 10vh'
 })
 
 const BackButton = styled(IconButton)({
@@ -35,23 +28,13 @@ const BackButton = styled(IconButton)({
   'z-index': 2
 })
 
-const FormTextField = styled(Input)({
-  width: '100%',
-  'border-radius': '4px',
-  margin: '2vh 0'
-})
-
-const TitleContainer = styled('div')({
-  padding: '5vh 0 0 0'
-})
-
-const PostContent = styled(Editor)({
-  'margin-top': '30px'
-})
-
 const OptionContainer = styled('div')({
-  margin: '10vh 0',
+  'margin-top': '10vh',
   height: '3em'
+})
+
+const WarningText = styled('div')({
+  color: '#FF5252'
 })
 
 const UPLOAD_POST = gql`
@@ -83,6 +66,7 @@ const EditorPage = () => {
   const [title, setTitle] = useState('')
   const [subtitle, setSubtitle] = useState('')
   const [isWaitingForUpload, setIsWaiting] = useState(false)
+  const [showPreview, setShowPreview] = useState(false)
   const [uploadPostToDb] = useMutation(UPLOAD_POST)
 
   const handleCommunitySelection = (event) => {
@@ -142,6 +126,7 @@ const EditorPage = () => {
       subtitle: subtitle !== '' ? subtitle : undefined,
       postText: postText
     }
+
     const res = await uploadPost(payload, communityId)
 
     if (res.status === 200 && res.data.status === 200) {
@@ -167,44 +152,38 @@ const EditorPage = () => {
         <ChevronLeftIcon />
       </BackButton>
       <EditorContainer>
-        <TitleContainer>
-          <FormTextField
-            onChange={(event) => setTitle(event.target.value)}
-            value={title}
-            placeholder='TITLE'
+        {showPreview
+          ? <EditorPreview
+            title={title}
+            subtitle={subtitle}
+            postText={postText}
           />
-          <FormTextField
-            onChange={(event) => setSubtitle(event.target.value)}
-            value={subtitle}
-            placeholder='DESCRIPTION (optional)'
+          : <ContentEditor
+            title={title}
+            subtitle={subtitle}
+            postText={postText}
+            setTitle={setTitle}
+            setSubtitle={setSubtitle}
+            setPostText={setPostText}
           />
-        </TitleContainer>
-        <PostContent
-          headingsOffset={1}
-          placeholder='Begin writing your post'
-          onSave={options => console.log('Save triggered', options)}
-          onCancel={() => console.log('Cancel triggered')}
-          onShowToast={message => { if (typeof window !== 'undefined') window.alert(message) }}
-          onChange={(value) => setPostText(value)}
-          uploadImage={file => {
-            console.log('File upload triggered: ', file)
-          }}
-          autoFocus
-        />
+        }
         <OptionContainer >
           <CommunitySelector
             handleSelection={handleCommunitySelection}
             placeHolder={PLACEHOLDER_COMMUNITY}
           />
-          <PostButton
-            disableElevation
-            variant='contained'
-            color='secondary'
-            onClick={handlePost}
-          >
-          Post
-          </PostButton>
+          <PostActions
+            setShowPreview={setShowPreview}
+            showPreview={showPreview}
+            handlePost={handlePost}
+          />
         </OptionContainer>
+        {showPreview
+          ? <WarningText>
+              WARNING: All posts are permanently added to a public blockchain.
+          </WarningText>
+          : null
+        }
       </EditorContainer>
     </>
   )

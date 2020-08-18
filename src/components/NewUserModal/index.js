@@ -18,8 +18,9 @@ import {
 } from 'outpost-protocol'
 
 import { joinCommunity } from '../../uploaders'
+import { isProduction } from '../../utils'
 
-const CONTRACT_ID = process.env.IS_PROD ? PROD_CONTRACT_ID : DEV_CONTRACT_ID
+const CONTRACT_ID = isProduction() ? PROD_CONTRACT_ID : DEV_CONTRACT_ID
 
 const ModalContainer = styled(Dialog)({
   display: 'flex',
