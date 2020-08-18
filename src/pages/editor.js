@@ -4,11 +4,13 @@ import { styled } from '@material-ui/core/styles'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { IconButton } from '@material-ui/core'
 import {
-  gql, useMutation
+  gql,
+  useMutation
 } from '@apollo/client'
 import { decodeJWT } from 'did-jwt'
 
 import { uploadPost } from '../uploaders'
+import { isValidURL } from '../utils'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import SEO from '../components/seo'
 import CommunitySelector from '../components/CommunitySelector'
@@ -16,6 +18,7 @@ import { PLACEHOLDER_COMMUNITY } from '../constants'
 import PostActions from '../components/Editor/PostActions'
 import ContentEditor from '../components/Editor/ContentEditor'
 import EditorPreview from '../components/Editor/EditorPreview'
+import CanonicalLinkOption from '../components/Editor/CanonicalLinkOption'
 
 const EditorContainer = styled('div')({
   width: '50vw',
@@ -28,9 +31,9 @@ const BackButton = styled(IconButton)({
   'z-index': 2
 })
 
-const OptionContainer = styled('div')({
-  'margin-top': '10vh',
-  height: '3em'
+const PreviewContainer = styled('div')({
+  height: '3em',
+  'margin-top': '30px'
 })
 
 const WarningText = styled('div')({
@@ -46,6 +49,7 @@ const UPLOAD_POST = gql`
         postText
         subtitle
         timestamp
+        canonicalLink
         community {
           name
         }
@@ -67,6 +71,8 @@ const EditorPage = () => {
   const [subtitle, setSubtitle] = useState('')
   const [isWaitingForUpload, setIsWaiting] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
+  const [hasCanonicalLink, setHasLink] = useState(false)
+  const [canonicalLink, setCanonicalLink] = useState('')
   const [uploadPostToDb] = useMutation(UPLOAD_POST)
 
   const handleCommunitySelection = (event) => {
@@ -90,7 +96,8 @@ const EditorPage = () => {
       title: postData.title,
       subtitle: postData.subtitle,
       postText: postData.postText,
-      txId: postTx.id
+      txId: postTx.id,
+      canonicalLink: postData.canonicalLink
     }
 
     const res = await uploadPostToDb({
@@ -113,6 +120,9 @@ const EditorPage = () => {
     } else if (title === '') {
       alert('You must create a title for your post')
       return
+    } else if (hasCanonicalLink && !isValidURL(canonicalLink)) {
+      alert('Either disable the canonical link or enter a valid URL [https://www.example.com]')
+      return
     } else if (communityId === '' || communityId === PLACEHOLDER_COMMUNITY.txId) {
       alert('Select a community')
       return
@@ -124,7 +134,8 @@ const EditorPage = () => {
     const payload = {
       title: title,
       subtitle: subtitle !== '' ? subtitle : undefined,
-      postText: postText
+      postText: postText,
+      canonicalLink: canonicalLink
     }
 
     const res = await uploadPost(payload, communityId)
@@ -167,7 +178,7 @@ const EditorPage = () => {
             setPostText={setPostText}
           />
         }
-        <OptionContainer >
+        <PreviewContainer>
           <CommunitySelector
             handleSelection={handleCommunitySelection}
             placeHolder={PLACEHOLDER_COMMUNITY}
@@ -177,13 +188,19 @@ const EditorPage = () => {
             showPreview={showPreview}
             handlePost={handlePost}
           />
-        </OptionContainer>
+        </PreviewContainer>
         {showPreview
           ? <WarningText>
               WARNING: All posts are permanently added to a public blockchain.
           </WarningText>
           : null
         }
+        <CanonicalLinkOption
+          hasCanonicalLink={hasCanonicalLink}
+          setHasLink={setHasLink}
+          canonicalLink={canonicalLink}
+          setCanonicalLink={setCanonicalLink}
+        />
       </EditorContainer>
     </>
   )

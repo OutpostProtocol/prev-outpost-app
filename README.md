@@ -1,4 +1,7 @@
-A blogging platform for Outpost communities.
+# Outpost
+A blogging platform for user controlled communities.
+
+Try Outpost live [here](https://outpost-protocol.com).
 
 **Start developing**
 

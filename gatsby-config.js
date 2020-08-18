@@ -13,6 +13,12 @@ module.exports = {
         path: `${__dirname}/src/images`
       }
     },
+    {
+      resolve: 'gatsby-plugin-react-helmet-canonical-urls',
+      options: {
+        siteUrl: 'https://www.outpost-protocol.com'
+      }
+    },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
@@ -37,6 +43,14 @@ module.exports = {
             variants: ['400', '700']
           }
         ]
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-matomo',
+      options: {
+        siteId: '1',
+        matomoUrl: 'https://outpostprotocol.matomo.cloud/',
+        siteUrl: 'https://outpost-protocol.com'
       }
     },
     {
