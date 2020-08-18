@@ -4,7 +4,6 @@ import React, {
   useRef
 } from 'react'
 import { styled } from '@material-ui/core/styles'
-import { CircularProgress } from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
 
 import { MetaMask } from './walletOptions'
@@ -64,11 +63,6 @@ const MetaMaskConnect = () => {
         <OptionName>
           {name}
         </OptionName>
-        {isInitializing &&
-        <CircularProgress
-          disableShrink
-        />
-        }
         <Logo
           src={imgSrc}
           alt={name}
