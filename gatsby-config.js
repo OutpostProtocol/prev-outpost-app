@@ -46,6 +46,14 @@ module.exports = {
       }
     },
     {
+      resolve: 'gatsby-plugin-matomo',
+      options: {
+        siteId: '1',
+        matomoUrl: 'https://outpostprotocol.matomo.cloud/',
+        siteUrl: 'https://outpost-protocol.com'
+      }
+    },
+    {
       resolve: 'gatsby-plugin-react-redux',
       options: {
         // [required] - path to your createStore module
