@@ -32,6 +32,12 @@ const ExitButton = styled(IconButton)({
   right: '5px'
 })
 
+const OrContainer = styled('div')({
+  padding: '10% 0 5%',
+  display: 'flex',
+  'justify-content': 'space-around'
+})
+
 const WalletModal = ({ open, handleClose }) => {
   const ModalContent = (
     <ContentContainer>
@@ -41,6 +47,9 @@ const WalletModal = ({ open, handleClose }) => {
         <Close />
       </ExitButton>
       <MagicConnect />
+      <OrContainer>
+        <i>&mdash;OR&mdash;</i>
+      </OrContainer>
       <MetaMaskConnect />
     </ContentContainer>
   )

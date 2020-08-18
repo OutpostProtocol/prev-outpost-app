@@ -19,7 +19,7 @@ const Container = styled('div')({
 })
 
 const Holder = styled('div')({
-  padding: '10% 10%'
+  padding: '0 10% 10%'
 })
 
 const Logo = styled('img')({
