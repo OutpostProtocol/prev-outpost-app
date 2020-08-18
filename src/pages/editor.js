@@ -2,13 +2,19 @@ import React, { useState } from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import { IconButton } from '@material-ui/core'
 import {
-  gql, useMutation
+  IconButton,
+  TextField,
+  Checkbox
+} from '@material-ui/core'
+import {
+  gql,
+  useMutation
 } from '@apollo/client'
 import { decodeJWT } from 'did-jwt'
 
 import { uploadPost } from '../uploaders'
+import { isValidURL } from '../utils'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import SEO from '../components/seo'
 import CommunitySelector from '../components/CommunitySelector'
@@ -28,9 +34,26 @@ const BackButton = styled(IconButton)({
   'z-index': 2
 })
 
-const OptionContainer = styled('div')({
-  'margin-top': '10vh',
-  height: '3em'
+const PreviewContainer = styled('div')({
+  height: '3em',
+  'margin-top': '30px'
+})
+
+const AdvancedOptions = styled('div')({
+  'margin-top': '10vh'
+})
+
+const OptionHeading = styled('h4')({
+  padding: '0px',
+  'margin-right': '5px'
+})
+
+const TextFieldContainer = styled(TextField)({
+  width: '100%'
+})
+
+const CheckboxContainer = styled(Checkbox)({
+  'margin-left': '-10px'
 })
 
 const WarningText = styled('div')({
@@ -46,6 +69,7 @@ const UPLOAD_POST = gql`
         postText
         subtitle
         timestamp
+        canonicalLink
         community {
           name
         }
@@ -67,6 +91,8 @@ const EditorPage = () => {
   const [subtitle, setSubtitle] = useState('')
   const [isWaitingForUpload, setIsWaiting] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
+  const [isCanonical, setIsCanonical] = useState(false)
+  const [canonicalLink, setCanonicalLink] = useState('')
   const [uploadPostToDb] = useMutation(UPLOAD_POST)
 
   const handleCommunitySelection = (event) => {
@@ -90,7 +116,8 @@ const EditorPage = () => {
       title: postData.title,
       subtitle: postData.subtitle,
       postText: postData.postText,
-      txId: postTx.id
+      txId: postTx.id,
+      canonicalLink: postData.canonicalLink
     }
 
     const res = await uploadPostToDb({
@@ -113,6 +140,9 @@ const EditorPage = () => {
     } else if (title === '') {
       alert('You must create a title for your post')
       return
+    } else if (isCanonical && !isValidURL(canonicalLink)) {
+      alert('Either disable the canonical link or enter a valid URL [https://www.example.com]')
+      return
     } else if (communityId === '' || communityId === PLACEHOLDER_COMMUNITY.txId) {
       alert('Select a community')
       return
@@ -124,7 +154,8 @@ const EditorPage = () => {
     const payload = {
       title: title,
       subtitle: subtitle !== '' ? subtitle : undefined,
-      postText: postText
+      postText: postText,
+      canonicalLink: canonicalLink
     }
 
     const res = await uploadPost(payload, communityId)
@@ -167,7 +198,47 @@ const EditorPage = () => {
             setPostText={setPostText}
           />
         }
-        <OptionContainer >
+        { !showPreview &&
+          <AdvancedOptions>
+            <OptionHeading>
+              Canonical Link
+            </OptionHeading>
+            <div>
+              <CheckboxContainer
+                color='secondary'
+                checked={isCanonical}
+                onChange={(event) => {
+                  if (event && event.target && event.target.checked !== undefined) {
+                    setIsCanonical(event.target.checked)
+                  }
+                }}
+                disableRipple
+              />
+              This article was originally published somewhere else
+            </div>
+            <div>
+              When articles are published on more than one website, search engines use canonical links to determine and prioritize
+              the ultimate source of content. If your article was originally published on another platform, and you want search engines
+              to index that article instead of this Medium story, you can set the canonical link here.
+            </div>
+            { isCanonical &&
+              <div>
+                <TextFieldContainer
+                  color='primary'
+                  type='url'
+                  label='Original URL'
+                  value={canonicalLink}
+                  onChange={(event) => {
+                    if (event && event.target && event.target.value !== undefined) {
+                      setCanonicalLink(event.target.value)
+                    }
+                  }}
+                />
+              </div>
+            }
+          </AdvancedOptions>
+        }
+        <PreviewContainer>
           <CommunitySelector
             handleSelection={handleCommunitySelection}
             placeHolder={PLACEHOLDER_COMMUNITY}
@@ -177,7 +248,7 @@ const EditorPage = () => {
             showPreview={showPreview}
             handlePost={handlePost}
           />
-        </OptionContainer>
+        </PreviewContainer>
         {showPreview
           ? <WarningText>
               WARNING: All posts are permanently added to a public blockchain.

@@ -25,3 +25,10 @@ export const isMobile = () => {
 export const isProduction = () => {
   return process.env.NODE_ENV === 'production'
 }
+
+export const isValidURL = (url) => {
+  const link = document.createElement('a')
+  link.href = url
+  console.log(link.host)
+  return link.host && link.host !== window.location.host
+}

@@ -43,6 +43,7 @@ const PostPage = ({ location }) => {
     <>
       <SEO
         title="Post"
+        canonical={post.canonicalLink}
       />
       <BackButton
         color="inherit"
