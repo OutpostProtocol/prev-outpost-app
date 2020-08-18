@@ -31,6 +31,10 @@ const Logo = styled(Link)({
   width: '20%'
 })
 
+const Web3Container = styled('div')({
+  'min-height': '41px'
+})
+
 const CommunityDrawer = ({ img }) => {
   const DrawerContents = () => {
     return (
@@ -44,7 +48,9 @@ const CommunityDrawer = ({ img }) => {
             />
           </Logo>
         </LogoContainer>
-        <LoadableWeb3Status />
+        <Web3Container>
+          <LoadableWeb3Status />
+        </Web3Container>
         <CreateCommunity />
         <CommunityView />
         <Footer />
