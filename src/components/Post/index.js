@@ -5,6 +5,7 @@ import unified from 'unified'
 import parse from 'remark-parse'
 import remark2react from 'remark-react'
 
+import Share from '../Share'
 import PendingChip from '../PendingChip'
 import Profile from '../Profile'
 
@@ -56,7 +57,7 @@ const pendingDescription = 'The post has been sent to the network but has not ye
 const Post = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
-  const { title, postText } = post
+  const { title, subtitle, postText } = post
 
   return (
     <PostContainer
@@ -85,6 +86,11 @@ const Post = ({ post }) => {
           />
         </ProfileContainer>
       </PostHeader>
+      <Share
+        url={window.location.href}
+        title={title}
+        description={subtitle}
+      />
       <PostContent>
         {
           unified()
