@@ -2,11 +2,7 @@ import React, { useState } from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import {
-  IconButton,
-  TextField,
-  Checkbox
-} from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import {
   gql,
   useMutation
@@ -22,6 +18,7 @@ import { PLACEHOLDER_COMMUNITY } from '../constants'
 import PostActions from '../components/Editor/PostActions'
 import ContentEditor from '../components/Editor/ContentEditor'
 import EditorPreview from '../components/Editor/EditorPreview'
+import CanonicalLinkOption from '../components/Editor/CanonicalLinkOption'
 
 const EditorContainer = styled('div')({
   width: '50vw',
@@ -37,23 +34,6 @@ const BackButton = styled(IconButton)({
 const PreviewContainer = styled('div')({
   height: '3em',
   'margin-top': '30px'
-})
-
-const AdvancedOptions = styled('div')({
-  'margin-top': '10vh'
-})
-
-const OptionHeading = styled('h4')({
-  padding: '0px',
-  'margin-right': '5px'
-})
-
-const TextFieldContainer = styled(TextField)({
-  width: '100%'
-})
-
-const CheckboxContainer = styled(Checkbox)({
-  'margin-left': '-10px'
 })
 
 const WarningText = styled('div')({
@@ -91,7 +71,7 @@ const EditorPage = () => {
   const [subtitle, setSubtitle] = useState('')
   const [isWaitingForUpload, setIsWaiting] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
-  const [isCanonical, setIsCanonical] = useState(false)
+  const [hasCanonicalLink, setHasLink] = useState(false)
   const [canonicalLink, setCanonicalLink] = useState('')
   const [uploadPostToDb] = useMutation(UPLOAD_POST)
 
@@ -140,7 +120,7 @@ const EditorPage = () => {
     } else if (title === '') {
       alert('You must create a title for your post')
       return
-    } else if (isCanonical && !isValidURL(canonicalLink)) {
+    } else if (hasCanonicalLink && !isValidURL(canonicalLink)) {
       alert('Either disable the canonical link or enter a valid URL [https://www.example.com]')
       return
     } else if (communityId === '' || communityId === PLACEHOLDER_COMMUNITY.txId) {
@@ -198,46 +178,6 @@ const EditorPage = () => {
             setPostText={setPostText}
           />
         }
-        { !showPreview &&
-          <AdvancedOptions>
-            <OptionHeading>
-              Canonical Link
-            </OptionHeading>
-            <div>
-              <CheckboxContainer
-                color='secondary'
-                checked={isCanonical}
-                onChange={(event) => {
-                  if (event && event.target && event.target.checked !== undefined) {
-                    setIsCanonical(event.target.checked)
-                  }
-                }}
-                disableRipple
-              />
-              This article was originally published somewhere else
-            </div>
-            <div>
-              When articles are published on more than one website, search engines use canonical links to determine and prioritize
-              the ultimate source of content. If your article was originally published on another platform, and you want search engines
-              to index that article instead of this Outpost story, you can set the canonical link here.
-            </div>
-            { isCanonical &&
-              <div>
-                <TextFieldContainer
-                  color='primary'
-                  type='url'
-                  label='Original URL'
-                  value={canonicalLink}
-                  onChange={(event) => {
-                    if (event && event.target && event.target.value !== undefined) {
-                      setCanonicalLink(event.target.value)
-                    }
-                  }}
-                />
-              </div>
-            }
-          </AdvancedOptions>
-        }
         <PreviewContainer>
           <CommunitySelector
             handleSelection={handleCommunitySelection}
@@ -255,6 +195,12 @@ const EditorPage = () => {
           </WarningText>
           : null
         }
+        <CanonicalLinkOption
+          hasCanonicalLink={hasCanonicalLink}
+          setHasLink={setHasLink}
+          canonicalLink={canonicalLink}
+          setCanonicalLink={setCanonicalLink}
+        />
       </EditorContainer>
     </>
   )
