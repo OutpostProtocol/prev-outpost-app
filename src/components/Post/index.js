@@ -22,7 +22,8 @@ const PostContent = styled('div')({
 
 const PostHeader = styled('div')({
   height: '100%',
-  'align-items': 'center'
+  'align-items': 'center',
+  'margin-top': '10px'
 })
 
 const Title = styled('h1')({

@@ -13,11 +13,14 @@ import {
 
 const BUTTON_SIZE = 30
 
-const ShareContainer = styled('div')({
-  'margin-top': '15px'
+const Container = styled('div')({
+  'margin-top': '15px',
+  '@media only screen and (max-width: 1000px)': {
+    display: 'none'
+  }
 })
 
-const ShareButtonContainer = styled('span')({
+const ButtonContainer = styled('span')({
   'border-radius': '50%',
   'margin-right': '10px',
   outline: 'none'
@@ -49,8 +52,8 @@ const Share = ({ url, title, description }) => {
   }
 
   return (
-    <ShareContainer>
-      <ShareButtonContainer>
+    <Container>
+      <ButtonContainer>
         <LinkButton
           onClick={handleCopy}
         >
@@ -59,13 +62,13 @@ const Share = ({ url, title, description }) => {
             color='#f7f6f3'
           />
         </LinkButton>
-      </ShareButtonContainer>
+      </ButtonContainer>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert severity='success'>
         Link copied
         </Alert>
       </Snackbar>
-      <ShareButtonContainer>
+      <ButtonContainer>
         <TwitterShareButton
           url={url}
           title={title}
@@ -79,8 +82,8 @@ const Share = ({ url, title, description }) => {
             }}
           />
         </TwitterShareButton>
-      </ShareButtonContainer>
-      <ShareButtonContainer>
+      </ButtonContainer>
+      <ButtonContainer>
         <RedditShareButton
           url={url}
           title={title}
@@ -94,8 +97,8 @@ const Share = ({ url, title, description }) => {
             }}
           />
         </RedditShareButton>
-      </ShareButtonContainer>
-    </ShareContainer>
+      </ButtonContainer>
+    </Container>
   )
 }
 
