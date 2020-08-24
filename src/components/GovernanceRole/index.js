@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
 
-import Profile from '../Profile'
+import UserName from '../Profile/UserName'
 
 const Container = styled('div')({
   display: 'block',
@@ -37,10 +37,8 @@ const GovernanceRole = ({ dids, title }) => {
       {dids && dids.map((did, i) => {
         return (
           <ProfileContainer key={i}>
-            <Profile
-              address={did}
-              showName={true}
-              showPicture={false}
+            <UserName
+              userDid={did}
             />
           </ProfileContainer>
         )

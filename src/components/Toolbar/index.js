@@ -13,7 +13,7 @@ import { CreateOutlined } from '@material-ui/icons'
 import { Autocomplete } from '@material-ui/lab'
 
 import { useCommunities } from '../../hooks'
-import Profile from '../Profile'
+import ProfileImage from '../Profile/ProfileImage'
 
 const CreateButton = styled(IconButton)({
   float: 'right',
@@ -36,11 +36,6 @@ const SearchBar = styled(Autocomplete)({
   width: '15vw',
   position: 'absolute',
   top: '5px'
-})
-
-const ProfileContainer = styled(Profile)({
-  float: 'right',
-  'margin-left': 'auto'
 })
 
 const Toolbar = () => {
@@ -89,10 +84,8 @@ const Toolbar = () => {
       >
         <CreateOutlined />
       </CreateButton>
-      <ProfileContainer
-        address={did}
-        showName={false}
-        showPicture={true}
+      <ProfileImage
+        userDid={did}
       />
     </ToolbarContainer>
   )

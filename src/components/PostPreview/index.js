@@ -1,12 +1,11 @@
 import React from 'react'
-import moment from 'moment'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import unified from 'unified'
 import parse from 'remark-parse'
 import remark2react from 'remark-react'
 
-import Profile from '../Profile'
+import PostContext from '../PostContext'
 
 const PostContainer = styled('div')({
   padding: '10px',
@@ -17,32 +16,15 @@ const PostContainer = styled('div')({
   }
 })
 
-const ProfileContainer = styled('div')({
-  float: 'right',
-  'margin-left': 'auto',
-  'padding-left': '10px'
-})
-
-const PostMetaData = styled('span')({
-  display: 'block'
-})
-
 const PostContent = styled('div')({
   'margin-top': '0'
 })
 
 const PostHeader = styled('div')({
-  display: 'flex',
-  height: '100%',
-  'align-items': 'center'
+  display: 'block'
 })
 
-const PostCommunityAndDate = styled('h5')({
-  color: '#999',
-  margin: '5px 0 0 0'
-})
-
-const Title = styled('h2')({
+const Title = styled('h1')({
   margin: 0,
   '@media only screen and (max-width: 700px)': {
     'font-size': '18px'
@@ -50,12 +32,10 @@ const Title = styled('h2')({
 })
 
 const PostPreview = ({ post }) => {
-  const DATE_FORMAT = 'D MMMM YYYY'
-  const time = moment.unix(post.timestamp).format(DATE_FORMAT)
-  const url = '/post/' + post.transaction.txId
   const { title, subtitle, postText } = post
 
   const handleRedirect = () => {
+    const url = '/post/' + post.transaction.txId
     navigate(url)
   }
 
@@ -76,21 +56,14 @@ const PostPreview = ({ post }) => {
       onClick={handleRedirect}
     >
       <PostHeader>
-        <PostMetaData>
-          <Title color='primary'>
-            {title}
-          </Title>
-          <PostCommunityAndDate>
-            {post.community.name} · {time}
-          </PostCommunityAndDate>
-        </PostMetaData>
-        <ProfileContainer>
-          <Profile
-            address={post.user.did}
-            showName={true}
-            showPicture={true}
-          />
-        </ProfileContainer>
+        <PostContext
+          userDid={post.user.did}
+          communityName={post.community.name}
+          timestamp={post.timestamp}
+        />
+        <Title color='primary'>
+          {title}
+        </Title>
       </PostHeader>
       <PostContent>
         {
