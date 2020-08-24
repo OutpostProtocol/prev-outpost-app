@@ -48,6 +48,10 @@
   background-color: #f7f6f3;
 }
 
+:focus {
+  outline: none;
+}
+
 body {
   margin: 0px;
 }
