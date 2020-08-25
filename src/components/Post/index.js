@@ -1,7 +1,10 @@
 import React from 'react'
+<<<<<<< HEAD
 import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
 import moment from 'moment'
+=======
+>>>>>>> dfe80949e43d123cc914e51d39d603c645290b9a
 import { styled } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import { CreateOutlined } from '@material-ui/icons'
@@ -11,7 +14,7 @@ import remark2react from 'remark-react'
 
 import Share from '../Share'
 import PendingChip from '../PendingChip'
-import Profile from '../Profile'
+import PostContext from '../PostContext'
 
 const PostContainer = styled('div')({
   padding: '10px',
@@ -19,6 +22,7 @@ const PostContainer = styled('div')({
   'border-radius': '4px'
 })
 
+<<<<<<< HEAD
 const ProfileContainer = styled('div')({
   float: 'right',
   display: 'flex',
@@ -30,6 +34,8 @@ const PostMetaData = styled('span')({
   display: 'block'
 })
 
+=======
+>>>>>>> dfe80949e43d123cc914e51d39d603c645290b9a
 const PostContent = styled('div')({
   marginTop: '5vh',
   'line-height': '1.5em',
@@ -37,25 +43,27 @@ const PostContent = styled('div')({
 })
 
 const PostHeader = styled('div')({
-  display: 'flex',
   height: '100%',
-  'align-items': 'center'
-})
-
-const PostCommunityAndDate = styled('h5')({
-  color: '#999',
-  margin: '5px 0 0 0'
+  'align-items': 'center',
+  'margin-top': '10px'
 })
 
 const Title = styled('h1')({
   margin: 0,
+  'font-size': '40px',
   '@media only screen and (max-width: 700px)': {
     'font-size': '18px'
   }
 })
 
 const TitleContainer = styled('div')({
-  display: 'flex'
+  display: 'flex',
+  'margin-bottom': '10px'
+})
+
+const SubHeader = styled('div')({
+  display: 'flex',
+  'justify-content': 'space-between'
 })
 
 const EditButton = styled(IconButton)({
@@ -78,9 +86,7 @@ const Post = ({ post }) => {
   }
 
   return (
-    <PostContainer
-      key={post}
-    >
+    <PostContainer>
       <PostHeader>
         <PostMetaData>
           <TitleContainer>
@@ -96,26 +102,26 @@ const Post = ({ post }) => {
             {post.community.name} · {time}
           </PostCommunityAndDate>
         </PostMetaData>
-        <ProfileContainer>
-          { isAuthor() &&
-            <EditButton
-              onClick={handleEdit}
-            >
-              <CreateOutlined />
-            </EditButton>
-          }
-          <Profile
-            address={post.user.did}
-            showName={true}
-            showPicture={true}
+        { isAuthor() &&
+          <EditButton
+            onClick={handleEdit}
+          >
+            <CreateOutlined />
+          </EditButton>
+        }
+        <SubHeader>
+          <PostContext
+            userDid={post.user.did}
+            communityName={post.community.name}
+            timestamp={post.timestamp}
           />
-        </ProfileContainer>
+          <Share
+            url={window.location.href}
+            title={title}
+            description={subtitle}
+          />
+        </SubHeader>
       </PostHeader>
-      <Share
-        url={window.location.href}
-        title={title}
-        description={subtitle}
-      />
       <PostContent>
         {
           unified()

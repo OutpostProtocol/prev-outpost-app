@@ -14,7 +14,10 @@ const LoadableWeb3Status = Loadable(() => import('../Web3Status'))
 
 const GridContainer = styled('div')({
   height: '100vh',
-  position: 'fixed'
+  position: 'fixed',
+  '@media only screen and (max-width: 1000px)': {
+    display: 'none'
+  }
 })
 
 const DrawerContentsContainer = styled('div')({

@@ -1,79 +1,104 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@material-ui/core/styles'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
+import { Snackbar } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import {
-  EmailShareButton,
-  EmailIcon,
-  FacebookShareButton,
-  FacebookIcon,
   TwitterShareButton,
   TwitterIcon,
   RedditShareButton,
   RedditIcon
-} from 'react-share'
+} from 'outpost-react-share'
 
-const ShareContainer = styled('div')({
-  'margin-top': '15px'
+const BUTTON_SIZE = 30
+
+const Container = styled('div')({
+  'margin-top': '15px',
+  '@media only screen and (max-width: 1000px)': {
+    display: 'none'
+  }
 })
-const ShareButtonContainer = styled('span')({
+
+const ButtonContainer = styled('span')({
   'border-radius': '50%',
-  'margin-right': '10px'
+  'margin-right': '10px',
+  outline: 'none'
+})
+
+const LinkButton = styled('button')({
+  height: `${BUTTON_SIZE - 1}px`,
+  width: `${BUTTON_SIZE - 1}px`,
+  'border-radius': '50%',
+  padding: 0,
+  'background-color': '#1a1a1a',
+  cursor: 'pointer',
+  border: 'none',
+  position: 'relative',
+  bottom: '10px'
 })
 
 const Share = ({ url, title, description }) => {
-  const BUTTON_SIZE = 30
+  const [open, setOpen] = useState(false)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(window.location)
+
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   return (
-    <ShareContainer>
-      <ShareButtonContainer>
-        <EmailShareButton
-          url={url}
-          subject={title}
-          body={description}
-          seperator='\n'
+    <Container>
+      <ButtonContainer>
+        <LinkButton
+          onClick={handleCopy}
         >
-          <EmailIcon
-            size={BUTTON_SIZE}
-            round={true}
+          <FontAwesomeIcon
+            icon={faLink}
+            color='#f7f6f3'
           />
-        </EmailShareButton>
-      </ShareButtonContainer>
-      <ShareButtonContainer>
+        </LinkButton>
+      </ButtonContainer>
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert severity='success'>
+        Link copied
+        </Alert>
+      </Snackbar>
+      <ButtonContainer>
         <TwitterShareButton
           url={url}
           title={title}
-          hashtags={['OutpostProtocol']}
+          hasBlankTarget={true}
         >
           <TwitterIcon
             size={BUTTON_SIZE}
             round={true}
+            bgStyle={{
+              fill: '#1a1a1a'
+            }}
           />
         </TwitterShareButton>
-      </ShareButtonContainer>
-      <ShareButtonContainer>
-        <FacebookShareButton
-          url={url}
-          hashtag='OutpostProtocol'
-          quote={description}
-        >
-          <FacebookIcon
-            size={BUTTON_SIZE}
-            round={true}
-          />
-        </FacebookShareButton>
-      </ShareButtonContainer>
-      <ShareButtonContainer>
+      </ButtonContainer>
+      <ButtonContainer>
         <RedditShareButton
           url={url}
           title={title}
+          hasBlankTarget={true}
         >
           <RedditIcon
             size={BUTTON_SIZE}
             round={true}
+            bgStyle={{
+              fill: '#1a1a1a'
+            }}
           />
         </RedditShareButton>
-      </ShareButtonContainer>
-    </ShareContainer>
+      </ButtonContainer>
+    </Container>
   )
 }
 
