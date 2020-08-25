@@ -14,7 +14,10 @@ import { isValidURL } from '../utils'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import SEO from '../components/seo'
 import CommunitySelector from '../components/CommunitySelector'
-import { PLACEHOLDER_COMMUNITY } from '../constants'
+import {
+  PLACEHOLDER_COMMUNITY,
+  EMPTY_POST
+} from '../constants'
 import PostActions from '../components/Editor/PostActions'
 import ContentEditor from '../components/Editor/ContentEditor'
 import EditorPreview from '../components/Editor/EditorPreview'
@@ -41,34 +44,36 @@ const WarningText = styled('div')({
 })
 
 const UPLOAD_POST = gql`
-  mutation UploadPost($post: PostUpload!) {
-    uploadPost(post: $post) {
-      success
-      post {
-        title
-        postText
-        subtitle
-        timestamp
-        canonicalLink
-        community {
-          name
-        }
-        user {
-          did
-        }
-        transaction {
-          txId
-        }
+  mutation UploadPost($id: String, $post: PostUpload!) {
+    uploadPost(id: $id, post: $post) {
+      txId
+      id
+      title
+      postText
+      subtitle
+      timestamp
+      canonicalLink
+      community {
+        name
+      }
+      user {
+        did
+      }
+      transaction {
+        txId
       }
     }
   }
 `
 
-const EditorPage = () => {
-  const [postText, setPostText] = useState('')
-  const [communityId, setCommunityId] = useState('')
-  const [title, setTitle] = useState('')
-  const [subtitle, setSubtitle] = useState('')
+const EditorPage = ({ location }) => {
+  const isEditingMode = location.state.post && location.state
+  const postTemplate = isEditingMode ? location.state.post : EMPTY_POST
+  const placeholderCommunity = isEditingMode && location.state.post.community ? location.state.post.community : PLACEHOLDER_COMMUNITY
+  const [postText, setPostText] = useState(postTemplate.postText)
+  const [communityId, setCommunityId] = useState(placeholderCommunity.txId)
+  const [title, setTitle] = useState(postTemplate.title)
+  const [subtitle, setSubtitle] = useState(postTemplate.subtitle)
   const [isWaitingForUpload, setIsWaiting] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
   const [hasCanonicalLink, setHasLink] = useState(false)
@@ -97,20 +102,33 @@ const EditorPage = () => {
       subtitle: postData.subtitle,
       postText: postData.postText,
       txId: postTx.id,
-      canonicalLink: postData.canonicalLink
+      canonicalLink: postData.canonicalLink,
+      parentTxId: postTemplate.transaction.txId
     }
 
-    const res = await uploadPostToDb({
-      variables: {
-        post: postUpload
+    // if the user is editing, include the id to update the cache
+    let options
+    if (isEditingMode) {
+      options = {
+        variables: {
+          post: postUpload,
+          id: postTemplate.id
+        }
       }
-    })
+    } else {
+      options = {
+        variables: {
+          post: postUpload
+        }
+      }
+    }
 
-    const post = res.data.uploadPost.post
+    const res = await uploadPostToDb(options)
 
     setIsWaiting(false)
 
-    navigate(`/post/${post.transaction.txId}`, { state: { post } })
+    if (isEditingMode) navigate(`/post/${postTemplate.transaction.txId}`)
+    else navigate(`/post/${res.data.uploadPost.transaction.txId}`)
   }
 
   const handlePost = async () => {
@@ -135,7 +153,8 @@ const EditorPage = () => {
       title: title,
       subtitle: subtitle !== '' ? subtitle : undefined,
       postText: postText,
-      canonicalLink: canonicalLink
+      canonicalLink: canonicalLink,
+      parentTxId: postTemplate.transaction.txId
     }
 
     const res = await uploadPost(payload, communityId)
@@ -181,7 +200,8 @@ const EditorPage = () => {
         <PreviewContainer>
           <CommunitySelector
             handleSelection={handleCommunitySelection}
-            placeHolder={PLACEHOLDER_COMMUNITY}
+            placeHolder={placeholderCommunity}
+            disabled={isEditingMode}
           />
           <PostActions
             setShowPreview={setShowPreview}

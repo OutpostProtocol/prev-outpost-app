@@ -7,12 +7,14 @@ const usePosts = (communityTxId) => {
   const GET_POSTS = gql`
     query posts($communityTxId: String) {
       posts (communityTxId: $communityTxId) {
+        id
         title
         postText
         subtitle
         timestamp
         community {
           name
+          txId
         }
         user {
           did
@@ -35,6 +37,7 @@ export const useOnePost = (txId) => {
   const GET_POST = gql`
     query posts($txId: String!) {
       posts(txId: $txId) {
+        id
         title
         postText
         subtitle
@@ -42,6 +45,7 @@ export const useOnePost = (txId) => {
         canonicalLink,
         community {
           name
+          txId
         }
         user {
           did

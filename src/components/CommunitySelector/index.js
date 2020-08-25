@@ -34,7 +34,7 @@ const GET_USER_ROLES = gql`
   }
 `
 
-const CommunitySelector = ({ handleSelection, placeHolder }) => {
+const CommunitySelector = ({ handleSelection, placeHolder, disabled }) => {
   const [activeCommunity, setActiveCommunity] = useState(placeHolder)
   const [communities, setCommunities] = useState([])
   const did = useSelector(state => state.did)
@@ -58,10 +58,10 @@ const CommunitySelector = ({ handleSelection, placeHolder }) => {
   }, [data])
 
   const switchActiveCommunity = (event) => {
-    if (event && event.target.value) {
+    if (event && event.target.value && !disabled) {
       setActiveCommunity(event.target.value)
+      handleSelection(event)
     }
-    handleSelection(event)
   }
 
   return (

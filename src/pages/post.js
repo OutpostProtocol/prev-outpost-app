@@ -2,7 +2,7 @@ import React from 'react'
 import { navigate } from '@reach/router'
 import { styled } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import { ChevronLeft } from '@material-ui/icons'
 
 import { useOnePost } from '../hooks/usePosts'
 import Post from '../components/Post'
@@ -51,7 +51,7 @@ const PostPage = ({ location }) => {
         edge="end"
         onClick={() => navigate(backPath)}
       >
-        <ChevronLeftIcon />
+        <ChevronLeft />
       </BackButton>
       <Toolbar />
       <PostContainer>

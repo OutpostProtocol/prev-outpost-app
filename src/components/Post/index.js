@@ -1,6 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { navigate } from 'gatsby'
 import moment from 'moment'
 import { styled } from '@material-ui/core/styles'
+import { IconButton } from '@material-ui/core'
+import { CreateOutlined } from '@material-ui/icons'
 import unified from 'unified'
 import parse from 'remark-parse'
 import remark2react from 'remark-react'
@@ -17,6 +21,8 @@ const PostContainer = styled('div')({
 
 const ProfileContainer = styled('div')({
   float: 'right',
+  display: 'flex',
+  justifyContent: 'center',
   'margin-left': 'auto'
 })
 
@@ -52,12 +58,24 @@ const TitleContainer = styled('div')({
   display: 'flex'
 })
 
+const EditButton = styled(IconButton)({
+  'margin-right': '10px'
+})
 const pendingDescription = 'The post has been sent to the network but has not yet been confirmed.'
 
 const Post = ({ post }) => {
   const DATE_FORMAT = 'D MMMM YYYY'
   const time = moment.unix(post.timestamp).format(DATE_FORMAT)
-  const { title, subtitle, postText } = post
+  const { title, subtitle, postText, user } = post
+  const did = useSelector(state => state.did)
+
+  const isAuthor = () => {
+    return user && user.did && post.user.did === did
+  }
+
+  const handleEdit = () => {
+    navigate('/editor', { state: { post } })
+  }
 
   return (
     <PostContainer
@@ -79,6 +97,13 @@ const Post = ({ post }) => {
           </PostCommunityAndDate>
         </PostMetaData>
         <ProfileContainer>
+          { isAuthor() &&
+            <EditButton
+              onClick={handleEdit}
+            >
+              <CreateOutlined />
+            </EditButton>
+          }
           <Profile
             address={post.user.did}
             showName={true}
