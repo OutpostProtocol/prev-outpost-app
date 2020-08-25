@@ -1,10 +1,6 @@
 import React from 'react'
-<<<<<<< HEAD
 import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
-import moment from 'moment'
-=======
->>>>>>> dfe80949e43d123cc914e51d39d603c645290b9a
 import { styled } from '@material-ui/core/styles'
 import { IconButton } from '@material-ui/core'
 import { CreateOutlined } from '@material-ui/icons'
@@ -22,20 +18,10 @@ const PostContainer = styled('div')({
   'border-radius': '4px'
 })
 
-<<<<<<< HEAD
-const ProfileContainer = styled('div')({
-  float: 'right',
-  display: 'flex',
-  justifyContent: 'center',
-  'margin-left': 'auto'
-})
-
 const PostMetaData = styled('span')({
   display: 'block'
 })
 
-=======
->>>>>>> dfe80949e43d123cc914e51d39d603c645290b9a
 const PostContent = styled('div')({
   marginTop: '5vh',
   'line-height': '1.5em',
@@ -67,13 +53,14 @@ const SubHeader = styled('div')({
 })
 
 const EditButton = styled(IconButton)({
+  float: 'right',
+  height: '48px',
+  'margin-left': 'auto',
   'margin-right': '10px'
 })
 const pendingDescription = 'The post has been sent to the network but has not yet been confirmed.'
 
 const Post = ({ post }) => {
-  const DATE_FORMAT = 'D MMMM YYYY'
-  const time = moment.unix(post.timestamp).format(DATE_FORMAT)
   const { title, subtitle, postText, user } = post
   const did = useSelector(state => state.did)
 
@@ -97,18 +84,15 @@ const Post = ({ post }) => {
               isPending={!post.transaction.blockHash}
               description={pendingDescription}
             />
+            { isAuthor() &&
+              <EditButton
+                onClick={handleEdit}
+              >
+                <CreateOutlined />
+              </EditButton>
+            }
           </TitleContainer>
-          <PostCommunityAndDate>
-            {post.community.name} · {time}
-          </PostCommunityAndDate>
         </PostMetaData>
-        { isAuthor() &&
-          <EditButton
-            onClick={handleEdit}
-          >
-            <CreateOutlined />
-          </EditButton>
-        }
         <SubHeader>
           <PostContext
             userDid={post.user.did}
