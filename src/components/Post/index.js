@@ -1,26 +1,17 @@
 import React from 'react'
-import moment from 'moment'
 import { styled } from '@material-ui/core/styles'
 import unified from 'unified'
 import parse from 'remark-parse'
 import remark2react from 'remark-react'
 
+import Share from '../Share'
 import PendingChip from '../PendingChip'
-import Profile from '../Profile'
+import PostContext from '../PostContext'
 
 const PostContainer = styled('div')({
   padding: '10px',
   marginTop: '5px',
   'border-radius': '4px'
-})
-
-const ProfileContainer = styled('div')({
-  float: 'right',
-  'margin-left': 'auto'
-})
-
-const PostMetaData = styled('span')({
-  display: 'block'
 })
 
 const PostContent = styled('div')({
@@ -30,60 +21,58 @@ const PostContent = styled('div')({
 })
 
 const PostHeader = styled('div')({
-  display: 'flex',
   height: '100%',
-  'align-items': 'center'
-})
-
-const PostCommunityAndDate = styled('h5')({
-  color: '#999',
-  margin: '5px 0 0 0'
+  'align-items': 'center',
+  'margin-top': '10px'
 })
 
 const Title = styled('h1')({
   margin: 0,
+  'font-size': '40px',
   '@media only screen and (max-width: 700px)': {
     'font-size': '18px'
   }
 })
 
 const TitleContainer = styled('div')({
-  display: 'flex'
+  display: 'flex',
+  'margin-bottom': '10px'
+})
+
+const SubHeader = styled('div')({
+  display: 'flex',
+  'justify-content': 'space-between'
 })
 
 const pendingDescription = 'The post has been sent to the network but has not yet been confirmed.'
 
 const Post = ({ post }) => {
-  const DATE_FORMAT = 'D MMMM YYYY'
-  const time = moment.unix(post.timestamp).format(DATE_FORMAT)
-  const { title, postText } = post
+  const { title, subtitle, postText } = post
 
   return (
-    <PostContainer
-      key={post}
-    >
+    <PostContainer>
       <PostHeader>
-        <PostMetaData>
-          <TitleContainer>
-            <Title color='primary'>
-              {title}
-            </Title>
-            <PendingChip
-              isPending={!post.transaction.blockHash}
-              description={pendingDescription}
-            />
-          </TitleContainer>
-          <PostCommunityAndDate>
-            {post.community.name} · {time}
-          </PostCommunityAndDate>
-        </PostMetaData>
-        <ProfileContainer>
-          <Profile
-            address={post.user.did}
-            showName={true}
-            showPicture={true}
+        <TitleContainer>
+          <Title color='primary'>
+            {title}
+          </Title>
+          <PendingChip
+            isPending={!post.transaction.blockHash}
+            description={pendingDescription}
           />
-        </ProfileContainer>
+        </TitleContainer>
+        <SubHeader>
+          <PostContext
+            userDid={post.user.did}
+            communityName={post.community.name}
+            timestamp={post.timestamp}
+          />
+          <Share
+            url={window.location.href}
+            title={title}
+            description={subtitle}
+          />
+        </SubHeader>
       </PostHeader>
       <PostContent>
         {

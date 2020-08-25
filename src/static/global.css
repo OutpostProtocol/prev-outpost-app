@@ -48,6 +48,10 @@
   background-color: #f7f6f3;
 }
 
+:focus {
+  outline: none;
+}
+
 body {
   margin: 0px;
 }
@@ -81,7 +85,7 @@ div.sc-fzoyAV {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333333;
+  background: #f4f3f0;
 }
 
 ::-webkit-scrollbar-thumb:hover {

@@ -17,7 +17,7 @@ import {
 const PostContainer = styled('div')({
   margin: '3em 0',
   '@media only screen and (min-width: 700px)': {
-    padding: '10vh 23vw'
+    padding: '0 23vw 10vh'
   }
 })
 
