@@ -195,6 +195,7 @@ const EditorPage = ({ location }) => {
             setTitle={setTitle}
             setSubtitle={setSubtitle}
             setPostText={setPostText}
+            isEditing={isEditingMode}
           />
         }
         <PreviewContainer>
