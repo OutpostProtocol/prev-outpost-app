@@ -67,9 +67,10 @@ const UPLOAD_POST = gql`
 `
 
 const EditorPage = ({ location }) => {
-  const isEditingMode = location.state.post && location.state
+  const isEditingMode = location.state.post
   const postTemplate = isEditingMode ? location.state.post : EMPTY_POST
-  const placeholderCommunity = isEditingMode && location.state.post.community ? location.state.post.community : PLACEHOLDER_COMMUNITY
+  const placeholderCommunity = (isEditingMode && location.state.post.community) ? location.state.post.community : PLACEHOLDER_COMMUNITY
+
   const [postText, setPostText] = useState(postTemplate.postText)
   const [communityId, setCommunityId] = useState(placeholderCommunity.txId)
   const [title, setTitle] = useState(postTemplate.title)

@@ -18,6 +18,8 @@ const PostContent = styled(Editor)({
 })
 
 const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPostText }) => {
+  if (!subtitle) subtitle = ''
+
   return (
     <>
       <TitleContainer>

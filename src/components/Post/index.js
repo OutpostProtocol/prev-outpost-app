@@ -2,8 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import { IconButton } from '@material-ui/core'
-import { CreateOutlined } from '@material-ui/icons'
+import { Button } from '@material-ui/core'
 import unified from 'unified'
 import parse from 'remark-parse'
 import remark2react from 'remark-react'
@@ -52,12 +51,27 @@ const SubHeader = styled('div')({
   'justify-content': 'space-between'
 })
 
-const EditButton = styled(IconButton)({
-  float: 'right',
-  height: '48px',
-  'margin-left': 'auto',
-  'margin-right': '10px'
+const EditButton = styled(Button)({
+  height: '40px',
+  margin: '10px',
+  'font-size': '1rem'
 })
+
+const EditMessage = styled('div')({
+  'font-style': 'italic',
+  margin: '10px 15px 0'
+})
+
+const AuthorActions = styled('div')({
+  border: '1px solid #ccc',
+  'border-radius': '4px',
+  'margin-top': '20px'
+})
+
+const ChipContainer = styled('div')({
+  'margin-top': '0.45em'
+})
+
 const pendingDescription = 'The post has been sent to the network but has not yet been confirmed.'
 
 const Post = ({ post }) => {
@@ -65,7 +79,8 @@ const Post = ({ post }) => {
   const did = useSelector(state => state.did)
 
   const isAuthor = () => {
-    return user && user.did && post.user.did === did
+    if (!user || !user.did) return false
+    return post.user.did === did
   }
 
   const handleEdit = () => {
@@ -74,23 +89,28 @@ const Post = ({ post }) => {
 
   return (
     <PostContainer>
+      { isAuthor() &&
+        <AuthorActions>
+          <EditMessage>Only you can see this message.</EditMessage>
+          <EditButton
+            onClick={handleEdit}
+          >
+            EDIT POST
+          </EditButton>
+        </AuthorActions>
+      }
       <PostHeader>
         <PostMetaData>
           <TitleContainer>
             <Title color='primary'>
               {title}
             </Title>
-            <PendingChip
-              isPending={!post.transaction.blockHash}
-              description={pendingDescription}
-            />
-            { isAuthor() &&
-              <EditButton
-                onClick={handleEdit}
-              >
-                <CreateOutlined />
-              </EditButton>
-            }
+            <ChipContainer>
+              <PendingChip
+                isPending={!post.transaction.blockHash}
+                description={pendingDescription}
+              />
+            </ChipContainer>
           </TitleContainer>
         </PostMetaData>
         <SubHeader>
