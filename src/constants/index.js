@@ -26,3 +26,12 @@ export const PLACEHOLDER_POST = {
     blockHash: '0x0'
   }
 }
+
+export const EMPTY_POST = {
+  title: '',
+  subtitle: '',
+  postText: '',
+  transaction: {
+    txId: undefined
+  }
+}
