@@ -1,8 +1,6 @@
-import React, {
-  useState, useEffect
-} from 'react'
+import React, { useState } from 'react'
 import {
-  gql, useQuery, useMutation
+  gql, useMutation
 } from '@apollo/client'
 import {
   Button, Chip, Tooltip, CircularProgress
@@ -11,6 +9,9 @@ import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import { ROLES } from 'outpost-protocol'
 
+import {
+  useRoles, GET_USER_ROLES
+} from '../../hooks/roles'
 import { joinCommunity } from '../../uploaders'
 
 const RoleChip = styled(Chip)({
@@ -33,22 +34,6 @@ const JoinButton = styled(Button)({
   width: '70px'
 })
 
-const GET_USER_ROLES = gql`
-  query userRoles($did: String) {
-    userRoles(did: $did) {
-      id
-      role
-      community {
-        name
-        txId
-      }
-      transaction {
-        blockHash
-      }
-    }
-  }
-`
-
 const UPLOAD_ROLE = gql`
   mutation UploadRole($role: RoleUpload!) {
     uploadRole(role: $role) {
@@ -66,21 +51,9 @@ const UPLOAD_ROLE = gql`
 const RoleStatus = ({ communityTxId, isOpen }) => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const [isRoleLoading, setIsRoleLoading] = useState(false)
-  const [roles, setRoles] = useState([])
   const [uploadRoleToDb] = useMutation(UPLOAD_ROLE)
   const did = useSelector(state => state.did)
-  const { data } = useQuery(GET_USER_ROLES, {
-    variables: {
-      did
-    },
-    skip: (typeof window === 'undefined' || !window.box)
-  })
-
-  useEffect(() => {
-    const comRoles = data && data.userRoles.filter(role => role.community.txId === communityTxId)
-
-    setRoles(comRoles)
-  }, [communityTxId, data])
+  const roles = useRoles(did, communityTxId)
 
   const join = async () => {
     if (communityTxId) {
