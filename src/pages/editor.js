@@ -10,6 +10,7 @@ import {
 import { decodeJWT } from 'did-jwt'
 
 import { uploadPost } from '../uploaders'
+import { GET_POSTS } from '../hooks/usePosts'
 import { isValidURL } from '../utils'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import SEO from '../components/seo'
@@ -113,22 +114,25 @@ const EditorPage = ({ location }) => {
         variables: {
           post: postUpload,
           id: postTemplate.id
-        }
+        },
+        refetchQueries: [{ query: GET_POSTS }]
       }
     } else {
       options = {
         variables: {
           post: postUpload
-        }
+        },
+        refetchQueries: [{ query: GET_POSTS }]
       }
     }
 
     const res = await uploadPostToDb(options)
 
-    setIsWaiting(false)
-
-    if (isEditingMode) navigate(`/post/${postTemplate.transaction.txId}`)
-    else navigate(`/post/${res.data.uploadPost.transaction.txId}`)
+    if (isEditingMode) {
+      navigate(`/post/${postTemplate.transaction.txId}`)
+    } else {
+      navigate(`/post/${res.data.uploadPost.transaction.txId}`)
+    }
   }
 
   const handlePost = async () => {
@@ -145,7 +149,6 @@ const EditorPage = ({ location }) => {
       alert('Select a community')
       return
     }
-
     setIsWaiting(true)
 
     // No subtitle is ok, the post preview will render a portion of the post instead

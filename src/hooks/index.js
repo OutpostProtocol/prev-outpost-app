@@ -5,28 +5,24 @@ import {
 
 import { ROLES } from 'outpost-protocol'
 
+export const GET_ALL_COMMUNITIES = gql`
+  query {
+    community {
+      id
+      name
+      txId
+      isOpen
+      blockHash
+    }
+  }`
+
 /**
  * Get all communities
  *
  * @returns {Object} All the communities
  */
 export const useCommunities = () => {
-  const GET_ALL_COMMUNITIES = gql`
-    query {
-      community {
-        id
-        name
-        txId
-        isOpen
-        blockHash
-      }
-    }
-  `
-  const { loading, error, data } = useQuery(GET_ALL_COMMUNITIES, {
-    pollInterval: 1000
-  })
-
-  return { data, loading, error }
+  return useQuery(GET_ALL_COMMUNITIES)
 }
 
 /**
