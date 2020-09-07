@@ -68,7 +68,7 @@ const PostPreview = ({ post }) => {
       <PostContent>
         {
           unified()
-            .use(parse)
+            .use(parse, { commonmark: true })
             .use(remark2react)
             .processSync(previewText).result
         }
