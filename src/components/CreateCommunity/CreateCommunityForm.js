@@ -12,6 +12,7 @@ import {
 
 import LoadingBackdrop from '../LoadingBackdrop'
 import { uploadNewCommunity } from '../../uploaders'
+import { GET_ALL_COMMUNITIES } from '../../hooks'
 
 const FormContainer = styled('div')({
   width: '25vw',
@@ -39,13 +40,10 @@ const FormButton = styled(Button)({
 const UPLOAD_COMMUNITY = gql`
   mutation UploadCommunity($community: CommunityUpload!) {
     uploadCommunity(community: $community) {
-      success
-      community {
-        txId
-        name
-        isOpen
-        blockHash
-      }
+      txId
+      name
+      isOpen
+      blockHash
     }
   }
 `
@@ -65,10 +63,11 @@ const CreateCommunityForm = () => {
     const res = await uploadComToDb({
       variables: {
         community: comUpload
-      }
+      },
+      refetchQueries: [{ query: GET_ALL_COMMUNITIES }]
     })
 
-    const community = res.data.uploadCommunity.community
+    const community = res.data.uploadCommunity
 
     setIsLoading(false)
 

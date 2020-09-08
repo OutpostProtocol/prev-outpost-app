@@ -10,19 +10,25 @@ const FormTextField = styled(Input)({
 })
 
 const TitleContainer = styled('div')({
-  padding: '7vh 0 0 0'
+  padding: '7vh 0 0 0',
+  'text-align': 'center'
 })
 
 const PostContent = styled(Editor)({
   'margin-top': '30px'
 })
 
-const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPostText }) => {
+const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPostText, isEditing }) => {
   if (!subtitle) subtitle = ''
 
   return (
     <>
       <TitleContainer>
+        { isEditing &&
+          <h3>
+            Edit Post
+          </h3>
+        }
         <FormTextField
           onChange={(event) => setTitle(event.target.value)}
           value={title}

@@ -35,7 +35,7 @@ const EditorPreview = ({ title, subtitle, postText }) => {
       <div>
         {
           unified()
-            .use(parse)
+            .use(parse, { commonmark: true })
             .use(remark2react)
             .processSync(postText).result
         }

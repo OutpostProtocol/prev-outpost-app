@@ -9,7 +9,10 @@ import {
   CircularProgress
 } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
-import { Close } from '@material-ui/icons'
+import {
+  Close,
+  Done
+} from '@material-ui/icons'
 import {
   gql, useMutation
 } from '@apollo/client'
@@ -19,6 +22,7 @@ import {
 
 import { joinCommunity } from '../../uploaders'
 import { isProduction } from '../../utils'
+import { useIsNameAvailable } from '../../hooks'
 
 const CONTRACT_ID = isProduction() ? PROD_CONTRACT_ID : DEV_CONTRACT_ID
 
@@ -62,6 +66,12 @@ const UploadProgress = styled(CircularProgress)({
   color: '#f1f1f1'
 })
 
+const AvailabiltyContainer = styled('div')({
+  display: 'flex',
+  justifyContent: 'center',
+  padding: '10px'
+})
+
 const UPLOAD_NEW_USER = gql`
   mutation setUsername($did: String!, $name: String!, $role: RoleUpload!) {
     setUsername(did: $did, name: $name) {
@@ -85,6 +95,17 @@ const NewUserModal = ({ open, handleClose }) => {
   const [isUploading, setIsUploading] = useState(false)
   const [uploadNewUser] = useMutation(UPLOAD_NEW_USER)
   const did = useSelector(state => state.did)
+  const { data } = useIsNameAvailable(name)
+
+  const getUnfilledRequirement = () => {
+    if (name.length < 5) {
+      return 'Username is less than 5 characters'
+    } else if (!data?.isNameAvailable) {
+      return 'Username is not available'
+    }
+    return null
+  }
+  const requirements = getUnfilledRequirement()
 
   const handleName = (event) => {
     if (event && event.target) {
@@ -93,6 +114,11 @@ const NewUserModal = ({ open, handleClose }) => {
   }
 
   const handleNewUser = async () => {
+    if (requirements !== null) {
+      alert(requirements)
+      return
+    }
+
     setIsUploading(true)
     const txId = (await joinCommunity(CONTRACT_ID)).data
 
@@ -141,6 +167,16 @@ const NewUserModal = ({ open, handleClose }) => {
         label='USERNAME'
         variant='outlined'
       />
+      { requirements === null
+        ? <AvailabiltyContainer>
+          <Done />
+          Username looks good
+        </ AvailabiltyContainer>
+        : <AvailabiltyContainer>
+          <Close />
+          { requirements }
+        </ AvailabiltyContainer>
+      }
       { isUploading
         ? <SubmitButton
           disableElevation
@@ -155,6 +191,7 @@ const NewUserModal = ({ open, handleClose }) => {
           />
         </SubmitButton>
         : <SubmitButton
+          disabled={requirements !== null}
           onClick={handleNewUser}
           disableElevation
           color='secondary'
