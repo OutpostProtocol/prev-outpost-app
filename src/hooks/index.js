@@ -160,3 +160,17 @@ export const useUser = (did) => {
 
   return { data, loading, error }
 }
+
+export const useIsNameAvailable = (name) => {
+  const IS_NAME_AVAILABLE = gql`
+    query isNameAvailable($name: String!) {
+      isNameAvailable(name: $name)
+    }
+  `
+
+  return useQuery(IS_NAME_AVAILABLE, {
+    variables: {
+      name: name
+    }
+  })
+}
