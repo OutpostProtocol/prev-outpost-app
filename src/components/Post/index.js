@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
@@ -6,10 +6,18 @@ import { Button } from '@material-ui/core'
 import unified from 'unified'
 import parse from 'remark-parse'
 import remark2react from 'remark-react'
+import {
+  gql,
+  useMutation
+} from '@apollo/client'
 
 import Share from '../Share'
 import PendingChip from '../PendingChip'
 import PostContext from '../PostContext'
+import LoadingBackdrop from '../LoadingBackdrop'
+import Comments from '../Comments'
+import { deletePost } from '../../uploaders/blog-post'
+import { GET_POSTS } from '../../hooks/usePosts'
 
 const PostContainer = styled('div')({
   padding: '10px',
@@ -51,7 +59,7 @@ const SubHeader = styled('div')({
   'justify-content': 'space-between'
 })
 
-const EditButton = styled(Button)({
+const ActionButton = styled(Button)({
   height: '40px',
   margin: '10px',
   'font-size': '1rem'
@@ -72,11 +80,22 @@ const ChipContainer = styled('div')({
   'margin-top': '0.45em'
 })
 
+const CommentsContainer = styled(Comments)({
+  'margin-top': '10px'
+})
+
 const pendingDescription = 'The post has been sent to the network but has not yet been confirmed.'
+const DELETE_POST = gql`
+    mutation deletePost($txId: String!) {
+      deletePost(txId: $txId)
+    }
+  `
 
 const Post = ({ post }) => {
-  const { title, subtitle, postText, user } = post
+  const { title, subtitle, postText, user, transaction, community, comments } = post
+  const [isDeleting, setIsDeleting] = useState(false)
   const did = useSelector(state => state.did)
+  const [deletePostFromDb] = useMutation(DELETE_POST)
 
   const isAuthor = () => {
     if (!user || !user.did) return false
@@ -87,16 +106,39 @@ const Post = ({ post }) => {
     navigate('/editor', { state: { post } })
   }
 
+  const handleDelete = async () => {
+    setIsDeleting(true)
+    const res = await deletePost(transaction.txId, community.txId)
+    if (res.status === 200 && res.data.status === 200) {
+      await deletePostFromDb({
+        variables: {
+          txId: transaction.txId
+        },
+        refetchQueries: [{ query: GET_POSTS }]
+      })
+      navigate('/')
+    } else {
+      alert('Error deleting post')
+    }
+    setIsDeleting(false)
+  }
+
   return (
     <PostContainer>
+      <LoadingBackdrop isLoading={isDeleting} />
       { isAuthor() &&
         <AuthorActions>
           <EditMessage>Only you can see this message.</EditMessage>
-          <EditButton
+          <ActionButton
             onClick={handleEdit}
           >
             EDIT POST
-          </EditButton>
+          </ActionButton>
+          <ActionButton
+            onClick={handleDelete}
+          >
+            DELETE POST
+          </ActionButton>
         </AuthorActions>
       }
       <PostHeader>
@@ -129,11 +171,17 @@ const Post = ({ post }) => {
       <PostContent>
         {
           unified()
-            .use(parse)
+            .use(parse, { commonmark: true })
             .use(remark2react)
             .processSync(postText).result
         }
       </PostContent>
+      <hr />
+      <CommentsContainer
+        comments={comments}
+        community={post.community}
+        postTxId={transaction.txId}
+      />
     </PostContainer>
   )
 }
