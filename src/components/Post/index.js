@@ -15,6 +15,7 @@ import Share from '../Share'
 import PendingChip from '../PendingChip'
 import PostContext from '../PostContext'
 import LoadingBackdrop from '../LoadingBackdrop'
+import Comments from '../Comments'
 import { deletePost } from '../../uploaders/blog-post'
 import { GET_POSTS } from '../../hooks/usePosts'
 
@@ -79,6 +80,10 @@ const ChipContainer = styled('div')({
   'margin-top': '0.45em'
 })
 
+const CommentsContainer = styled(Comments)({
+  'margin-top': '10px'
+})
+
 const pendingDescription = 'The post has been sent to the network but has not yet been confirmed.'
 const DELETE_POST = gql`
     mutation deletePost($txId: String!) {
@@ -87,7 +92,7 @@ const DELETE_POST = gql`
   `
 
 const Post = ({ post }) => {
-  const { title, subtitle, postText, user, transaction, community } = post
+  const { title, subtitle, postText, user, transaction, community, comments } = post
   const [isDeleting, setIsDeleting] = useState(false)
   const did = useSelector(state => state.did)
   const [deletePostFromDb] = useMutation(DELETE_POST)
@@ -171,6 +176,12 @@ const Post = ({ post }) => {
             .processSync(postText).result
         }
       </PostContent>
+      <hr />
+      <CommentsContainer
+        comments={comments}
+        community={post.community}
+        postTxId={transaction.txId}
+      />
     </PostContainer>
   )
 }

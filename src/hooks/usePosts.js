@@ -26,6 +26,37 @@ export const GET_POSTS = gql`
   }
   `
 
+export const GET_POST = gql`
+  query posts($txId: String!) {
+    posts(txId: $txId) {
+      id
+      title
+      postText
+      subtitle
+      timestamp,
+      canonicalLink,
+      community {
+        name
+        txId
+      },
+      user {
+        did
+      },
+      transaction {
+        txId
+        blockHash
+      },
+      comments {
+        postText
+        timestamp
+        user {
+          did
+        }
+      }
+    }
+  }
+`
+
 const usePosts = (communityTxId) => {
   return useQuery(GET_POSTS, {
     variables: { communityTxId }
@@ -33,29 +64,6 @@ const usePosts = (communityTxId) => {
 }
 
 export const useOnePost = (txId) => {
-  const GET_POST = gql`
-    query posts($txId: String!) {
-      posts(txId: $txId) {
-        id
-        title
-        postText
-        subtitle
-        timestamp,
-        canonicalLink,
-        community {
-          name
-          txId
-        }
-        user {
-          did
-        }
-        transaction {
-          txId
-          blockHash
-        }
-      }
-    }
-  `
   return useQuery(
     GET_POST,
     {

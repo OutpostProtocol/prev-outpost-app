@@ -43,3 +43,20 @@ export const deletePost = async (txId, communityTxId) => {
 
   return await axios.post(`${ARWEAVE_UPLOAD_SERVICE}/blog-post`, uploadData)
 }
+
+export const uploadComment = async (commentData, communityTxId) => {
+  const payload = {
+    commentData,
+    communityTxId
+  }
+
+  const jwt = await window.box._3id.signJWT(payload)
+
+  const uploadData = {
+    jwt,
+    communityTxId,
+    did: window.box.DID
+  }
+
+  return await axios.post(`${ARWEAVE_UPLOAD_SERVICE}/blog-post`, uploadData)
+}
