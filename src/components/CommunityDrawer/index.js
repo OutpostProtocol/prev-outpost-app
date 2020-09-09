@@ -4,13 +4,10 @@ import { styled } from '@material-ui/core/styles'
 import Img from 'gatsby-image'
 import PropTypes from 'prop-types'
 import { Drawer } from '@material-ui/core'
-import Loadable from '@loadable/component'
 
 import CreateCommunity from '../CreateCommunity'
 import CommunityView from '../CommunityView'
 import Footer from './Footer'
-
-const LoadableWeb3Status = Loadable(() => import('../Web3Status'))
 
 const GridContainer = styled('div')({
   height: '100vh',
@@ -52,7 +49,6 @@ const CommunityDrawer = ({ img }) => {
           </Logo>
         </LogoContainer>
         <ButtonContainer>
-          <LoadableWeb3Status />
           <CreateCommunity />
         </ButtonContainer>
         <CommunityView />

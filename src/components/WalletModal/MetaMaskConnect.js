@@ -6,7 +6,9 @@ import React, {
 import { styled } from '@material-ui/core/styles'
 import { useWeb3React } from '@web3-react/core'
 
-import { MetaMask } from './walletOptions'
+import {
+  MetaMask, WalletConnect
+} from './walletOptions'
 
 const Container = styled('div')({
   display: 'flex',
@@ -71,5 +73,55 @@ const MetaMaskConnect = () => {
     </Holder>
   )
 }
+
+/*
+const MetaMaskConnect = () => {
+  const options = [MetaMask, WalletConnect]
+  const [isInitializing, setIsInitializing] = useState(false)
+  const [connector, setConnector] = useState(null)
+  const { activate } = useWeb3React()
+
+  useEffect(() => {
+    const connect = async () => {
+      if (isInitializing) {
+        await activate(connector)
+        setIsInitializing(false)
+      }
+    }
+    connect()
+  }, [isInitializing, activate, connector])
+
+  const connect = (curConnector) => {
+    setConnector(curConnector)
+
+    // if not already initalizing, initialize and try activiating in useEffect hook
+    if (!isInitializing) {
+      setIsInitializing(true)
+    }
+  }
+
+  const Option = ({ wallet }) => (
+    <Container
+      onClick={() => connect(wallet.connector)}
+    >
+      <OptionName>
+        {wallet.name}
+      </OptionName>
+      <Logo
+        src={wallet.imgSrc}
+        alt={wallet.name}
+      />
+    </Container>
+  )
+
+  return (
+    <Holder>
+      {
+        options.map((opt, i) => <Option key={i} wallet={opt} />)
+      }
+    </Holder>
+  )
+}
+*/
 
 export default MetaMaskConnect

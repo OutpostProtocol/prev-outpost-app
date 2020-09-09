@@ -20,14 +20,16 @@ import WalletModal from '../WalletModal'
 import NewUserModal from '../NewUserModal'
 
 const Web3Button = styled(Button)({
-  width: '80%',
-  'margin-left': '10%',
-  'border-radius': '4px',
-  'margin-bottom': '5px'
+  width: '100%',
+  'border-radius': '4px'
 })
 
 const Web3Container = styled('div')({
-  width: '100%'
+  width: '50%',
+  'max-width': '200px',
+  position: 'absolute',
+  right: '20px',
+  top: '10px'
 })
 
 const Web3Status = () => {
@@ -53,9 +55,13 @@ const Web3Status = () => {
 
   useEffect(() => {
     const login = async () => {
-      setIsLoading(true)
+      // setIsLoading(true)
+      console.log(account, 'THE ACCOUNT')
+      console.log(window.web3.provider, 'THE WEB3 PROVIDER')
       const box = await Box.openBox(account, window.web3.provider)
       window.box = box
+
+      console.log('OPEN BOX RETURNED')
 
       dispatch({ type: SET_DID, did: window.box.DID })
       dispatch({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
