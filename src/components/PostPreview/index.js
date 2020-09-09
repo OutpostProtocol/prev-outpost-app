@@ -17,7 +17,8 @@ const PostContainer = styled('div')({
 })
 
 const PostContent = styled('div')({
-  'margin-top': '0'
+  'margin-top': '17px',
+  'margin-bottom': '17px'
 })
 
 const PostHeader = styled('div')({

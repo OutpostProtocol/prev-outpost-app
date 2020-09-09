@@ -72,6 +72,10 @@ a {
   color: black;
 }
 
+p {
+  margin: 0
+}
+
 div.sc-fzoyAV {
   background: #f7f6f3;
 }
