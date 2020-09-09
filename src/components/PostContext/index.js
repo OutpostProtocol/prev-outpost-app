@@ -14,24 +14,32 @@ const Time = styled('div')({
   color: '#999'
 })
 
+const MinWidthDiv = styled('div')({
+  'min-width': '150px'
+})
+
 const DATE_FORMAT = 'D MMMM YYYY'
 
-const PostContext = ({ userDid, communityName, timestamp }) => {
-  const time = moment.unix(timestamp).format(DATE_FORMAT)
+const PostContext = ({ userDid, communityName, timestamp, dateFormat }) => {
+  const format = dateFormat || DATE_FORMAT
+  const time = moment.unix(timestamp).format(format)
 
   return (
     <Container>
       <ProfileImage
         userDid={userDid}
       />
-      <div>
+      <MinWidthDiv>
         <div>
-          <UserName userDid={userDid} /> · {communityName}
+          <UserName userDid={userDid} />
+          { communityName &&
+           <> · {communityName} </>
+          }
         </div>
         <Time>
           {time}
         </Time>
-      </div>
+      </MinWidthDiv>
     </Container>
   )
 }
