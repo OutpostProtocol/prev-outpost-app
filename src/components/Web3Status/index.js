@@ -7,11 +7,12 @@ import {
   useDispatch
 } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
-import { Button } from '@material-ui/core'
+import {
+  Button, CircularProgress
+} from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
 import Box from '3box'
 
-import LoadingBackdrop from '../LoadingBackdrop'
 import {
   SET_DID, SET_IS_LOGGED_IN
 } from '../../redux/actionTypes'
@@ -21,6 +22,7 @@ import NewUserModal from '../NewUserModal'
 
 const Web3Button = styled(Button)({
   width: '100%',
+  height: '2.6em',
   'border-radius': '4px'
 })
 
@@ -55,13 +57,9 @@ const Web3Status = () => {
 
   useEffect(() => {
     const login = async () => {
-      // setIsLoading(true)
-      console.log(account, 'THE ACCOUNT')
-      console.log(window.web3.provider, 'THE WEB3 PROVIDER')
+      setIsLoading(true)
       const box = await Box.openBox(account, window.web3.provider)
       window.box = box
-
-      console.log('OPEN BOX RETURNED')
 
       dispatch({ type: SET_DID, did: window.box.DID })
       dispatch({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
@@ -79,23 +77,47 @@ const Web3Status = () => {
     }
   }, [isLoading])
 
-  return (
-    <Web3Container>
-      <LoadingBackdrop isLoading={isLoading} />
-      {!isLoggedIn &&
+  const SignInButton = () => {
+    if (isLoading) {
+      return (
         <Web3Button
           variant='contained'
           color='secondary'
           disableElevation
-          onClick={() => setIsWalletModalOpen(true)}
         >
-          SIGN IN
+          <CircularProgress
+            style={{
+              width: '1em',
+              height: '1em',
+              color: '#f1f1f1'
+            }}
+          />
         </Web3Button>
+      )
+    }
+
+    return (
+      <Web3Button
+        variant='contained'
+        color='secondary'
+        disableElevation
+        onClick={() => setIsWalletModalOpen(true)}
+      >
+        SIGN IN
+      </Web3Button>
+    )
+  }
+
+  return (
+    <Web3Container>
+      {!isLoggedIn &&
+        <SignInButton />
       }
       <WalletModal
         open={isWalletModalOpen}
         isLoggedIn={isLoggedIn}
         handleClose={() => setIsWalletModalOpen(false)}
+        isLoading={isLoading}
       />
       <NewUserModal
         open={isNewUserModalOpen}
