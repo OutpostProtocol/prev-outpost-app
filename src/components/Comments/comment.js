@@ -17,7 +17,8 @@ const ContextContainer = styled(PostContext)({
 
 const CommentText = styled('div')({
   width: '80%',
-  'margin-left': '40px'
+  'margin-left': '20px',
+  'margin-top': '10px'
 })
 
 const Divider = styled('hr')({

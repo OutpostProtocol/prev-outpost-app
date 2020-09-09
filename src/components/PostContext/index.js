@@ -14,6 +14,10 @@ const Time = styled('div')({
   color: '#999'
 })
 
+const MinWidthDiv = styled('div')({
+  'min-width': '150px'
+})
+
 const DATE_FORMAT = 'D MMMM YYYY'
 
 const PostContext = ({ userDid, communityName, timestamp, dateFormat }) => {
@@ -25,7 +29,7 @@ const PostContext = ({ userDid, communityName, timestamp, dateFormat }) => {
       <ProfileImage
         userDid={userDid}
       />
-      <div>
+      <MinWidthDiv>
         <div>
           <UserName userDid={userDid} />
           { communityName &&
@@ -35,7 +39,7 @@ const PostContext = ({ userDid, communityName, timestamp, dateFormat }) => {
         <Time>
           {time}
         </Time>
-      </div>
+      </MinWidthDiv>
     </Container>
   )
 }

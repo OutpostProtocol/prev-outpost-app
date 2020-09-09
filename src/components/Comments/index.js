@@ -19,7 +19,7 @@ const PostComment = styled(Button)({
 })
 
 const CommentsContainer = styled('div')({
-  'margin-top': '50px',
+  'margin-top': '30px',
   'margin-bottom': '50px'
 })
 
@@ -103,8 +103,8 @@ const Comments = ({ comments, community, postTxId }) => {
     <>
       <LoadingBackdrop isLoading={isUploadLoading} />
       <CommentsContainer>
-        { comments.map(comment =>
-          <CommentContainer>
+        { comments.map((comment, i) =>
+          <CommentContainer key={i} >
             <Comment
               comment={comment}
             />
@@ -116,7 +116,7 @@ const Comments = ({ comments, community, postTxId }) => {
         <>
           <Editor
             headingsOffset={1}
-            placeholder='Comment'
+            placeholder='COMMENT'
             defaultValue={newComment}
             onSave={options => console.log('Save triggered', options)}
             onCancel={() => console.log('Cancel triggered')}
