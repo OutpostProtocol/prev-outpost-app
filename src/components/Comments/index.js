@@ -1,23 +1,17 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/styles'
-import {
-  TextField,
-  Button
-} from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import {
   gql, useMutation
 } from '@apollo/client'
 import { decodeJWT } from 'did-jwt'
+import Editor from 'rich-markdown-editor'
 
 import { GET_POST } from '../../hooks/usePosts'
 import LoadingBackdrop from '../LoadingBackdrop'
 import Comment from './comment'
 import { uploadComment } from '../../uploaders/blog-post'
-
-const NewComment = styled(TextField)({
-  width: '100%'
-})
 
 const PostComment = styled(Button)({
   float: 'right',
@@ -25,7 +19,8 @@ const PostComment = styled(Button)({
 })
 
 const CommentsContainer = styled('div')({
-  'margin-top': '70px'
+  'margin-top': '50px',
+  'margin-bottom': '50px'
 })
 
 const CommentContainer = styled('div')({
@@ -52,13 +47,11 @@ const Comments = ({ comments, community, postTxId }) => {
 
   comments = comments || []
 
-  const handleNewComment = (event) => {
-    if (event && event.target) {
-      setNewComment(event.target.value)
-    }
-  }
-
   const handlePostComment = async () => {
+    if (!newComment || newComment === '') {
+      alert('You can\'t post an empty comment!')
+      return
+    }
     setIsLoading(true)
 
     const payload = {
@@ -109,35 +102,41 @@ const Comments = ({ comments, community, postTxId }) => {
   return (
     <>
       <LoadingBackdrop isLoading={isUploadLoading} />
-      { isLoggedIn &&
-        <>
-          <NewComment
-            variant='outlined'
-            placeholder='Comment'
-            value={newComment}
-            onChange={handleNewComment}
-          />
-          <PostComment
-            disableElevation
-            color='primary'
-            variant='contained'
-            onClick={handlePostComment}
-          >
-            COMMENT
-          </PostComment>
-        </>
-      }
       <CommentsContainer>
         { comments.map(comment =>
           <CommentContainer>
             <Comment
               comment={comment}
-              community={community}
             />
           </ CommentContainer>
         )
         }
       </CommentsContainer>
+      { isLoggedIn &&
+        <>
+          <Editor
+            headingsOffset={1}
+            placeholder='Comment'
+            defaultValue={newComment}
+            onSave={options => console.log('Save triggered', options)}
+            onCancel={() => console.log('Cancel triggered')}
+            onShowToast={message => { if (typeof window !== 'undefined') window.alert(message) }}
+            onChange={(value) => setNewComment(value)}
+            uploadImage={file => {
+              console.log('File upload triggered: ', file)
+            }}
+            autoFocus
+          />
+          <PostComment
+            disableElevation
+            color='secondary'
+            variant='contained'
+            onClick={handlePostComment}
+          >
+            POST
+          </PostComment>
+        </>
+      }
     </>
   )
 }

@@ -16,8 +16,9 @@ const Time = styled('div')({
 
 const DATE_FORMAT = 'D MMMM YYYY'
 
-const PostContext = ({ userDid, communityName, timestamp }) => {
-  const time = moment.unix(timestamp).format(DATE_FORMAT)
+const PostContext = ({ userDid, communityName, timestamp, dateFormat }) => {
+  const format = dateFormat || DATE_FORMAT
+  const time = moment.unix(timestamp).format(format)
 
   return (
     <Container>
@@ -26,7 +27,10 @@ const PostContext = ({ userDid, communityName, timestamp }) => {
       />
       <div>
         <div>
-          <UserName userDid={userDid} /> · {communityName}
+          <UserName userDid={userDid} />
+          { communityName &&
+           <> · {communityName} </>
+          }
         </div>
         <Time>
           {time}
