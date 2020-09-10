@@ -27,7 +27,7 @@ export const GET_POSTS = gql`
   `
 
 export const GET_POST = gql`
-  query posts($txId: String!) {
+  query posts($txId: String!, $did: String) {
     posts(txId: $txId) {
       id
       title
@@ -54,6 +54,7 @@ export const GET_POST = gql`
         }
       }
     }
+    userBalance(did: $did)
   }
 `
 
@@ -63,12 +64,13 @@ const usePosts = (communityTxId) => {
   })
 }
 
-export const useOnePost = (txId) => {
+export const useOnePost = (txId, did) => {
   return useQuery(
     GET_POST,
     {
       variables: {
-        txId: txId
+        txId,
+        did
       }
     }
   )
