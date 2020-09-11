@@ -33,24 +33,14 @@ const Title = styled('h1')({
 })
 
 const PostPreview = ({ post }) => {
-  const { title, subtitle, postText } = post
+  const { title, subtitle } = post
 
   const handleRedirect = () => {
     const url = '/post/' + post.transaction.txId
     navigate(url)
   }
 
-  const getPreviewText = () => {
-    const MAX_PREVIEW_CHARACTERS = 256
-
-    if (postText.length < MAX_PREVIEW_CHARACTERS) {
-      return postText
-    } else {
-      return postText.substring(0, MAX_PREVIEW_CHARACTERS) + '...'
-    }
-  }
-
-  const previewText = subtitle || getPreviewText()
+  const previewText = subtitle
 
   return (
     <PostContainer

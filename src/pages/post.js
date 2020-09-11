@@ -10,7 +10,6 @@ import { useOnePost } from '../hooks/usePosts'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
-import { PLACEHOLDER_POST } from '../constants'
 import {
   getBackPath,
   getId
@@ -69,39 +68,11 @@ const PostPage = ({ location }) => {
   const backPath = getBackPath(location)
   const txId = getId(location, '/post/')
 
-  const { data, loading, error } = useOnePost(txId, did)
-
-  if (loading) return null
-  if (error) return `Error! ${error.message}`
-
-  const post = data && data.posts && data.posts[0] ? data.posts[0] : PLACEHOLDER_POST
-
-  const MINIMUM_REQUIRED = 1000
-
-  const PostLayout = ({ children }) => (
-    <>
-      <SEO
-        title="Post"
-        canonical={post.canonicalLink}
-      />
-      <BackButton
-        color="inherit"
-        aria-label="Go back"
-        edge="end"
-        onClick={() => navigate(backPath)}
-      >
-        <ChevronLeft />
-      </BackButton>
-      <Toolbar />
-      <>
-        {children}
-      </>
-    </>
-  )
-
   if (!did) {
     return (
-      <PostLayout>
+      <PostLayout
+        backPath={backPath}
+      >
         <SignInMessage>
           <div>
             You must sign in to view this post ➚
@@ -111,24 +82,65 @@ const PostPage = ({ location }) => {
     )
   }
 
-  const isInsufficientBalance = data.userBalance < MINIMUM_REQUIRED
+  return (
+    <LoggedInPost
+      backPath={backPath}
+      txId={txId}
+    />
+  )
+}
+
+const PostLayout = ({ children, canonicalLink, backPath }) => (
+  <>
+    <SEO
+      title="Post"
+      canonical={canonicalLink}
+    />
+    <BackButton
+      color="inherit"
+      aria-label="Go back"
+      edge="end"
+      onClick={() => navigate(backPath)}
+    >
+      <ChevronLeft />
+    </BackButton>
+    <Toolbar />
+    <>
+      {children}
+    </>
+  </>
+)
+
+const LoggedInPost = ({ backPath, txId }) => {
+  const { data, loading, error } = useOnePost(txId)
+
+  if (loading) return null
+  if (error) return `Error! ${error.message}`
+
+  console.log(data, 'THE DATA')
+
+  const { userBalance, readRequirement, tokenSymbol, tokenAddress } = data.getPost
+
+  const isInsufficientBalance = data.getPost.userBalance < data.getPost.readRequirement
   if (isInsufficientBalance) {
     return (
-      <PostLayout>
+      <PostLayout
+        backPath={backPath}
+      >
         <IframeContainer>
           <MessageContainer>
             <Message>
-              You need {MINIMUM_REQUIRED} $JAMM to access this post.
+              You need {readRequirement} ${tokenSymbol} to access this post.
             </Message>
             <Message>
-              Your Balance: {data.userBalance}
+              Your Balance: {userBalance}
             </Message>
             <Message>
-              Buy $JAMM on uniswap ➔
+              Buy ${tokenSymbol} on uniswap ➔
             </Message>
           </MessageContainer>
           <StyledIFrame
-            url="https://uniswap.exchange/?outputCurrency=0x56687cf29ac9751ce2a4e764680b6ad7e668942e"
+            url={`https://uniswap.exchange/?outputCurrency=${tokenAddress}`}
             height={'600px'}
             width={'700px'}
             frameBorder="0"
@@ -141,8 +153,13 @@ const PostPage = ({ location }) => {
     )
   }
 
+  const post = data.getPost.post
+
   return (
-    <PostLayout>
+    <PostLayout
+      backPath={backPath}
+      canonicalLink={post.canonicalLink}
+    >
       <PostContainer>
         <Post
           post={post}
