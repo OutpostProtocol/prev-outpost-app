@@ -117,8 +117,6 @@ const LoggedInPost = ({ backPath, txId }) => {
   if (loading) return null
   if (error) return `Error! ${error.message}`
 
-  console.log(data, 'THE DATA')
-
   const { userBalance, readRequirement, tokenSymbol, tokenAddress } = data.getPost
 
   const isInsufficientBalance = data.getPost.userBalance < data.getPost.readRequirement
