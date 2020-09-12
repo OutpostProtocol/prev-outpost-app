@@ -32,7 +32,6 @@ const ProfileImage = ({ userDid }) => {
     const retreiveProfile = async () => {
       const imageSrc = await getImage()
       const img = imageSrc || await makeBlockie(userDid)
-      console.log()
       if (isMounted.current) {
         setImageSrc(img)
       }
