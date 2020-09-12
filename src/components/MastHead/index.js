@@ -3,6 +3,8 @@ import React, {
 } from 'react'
 import { styled } from '@material-ui/core/styles'
 import Box from '3box'
+import { Button } from '@material-ui/core'
+import Iframe from 'react-iframe'
 
 import { useCommunity } from '../../hooks'
 
@@ -47,10 +49,46 @@ const Description = styled('div')({
   margin: '30px 0'
 })
 
+const BuyContainer = styled('div')({})
+
+const FrameWrapper = styled('div')({
+  'min-width': '100vw',
+  height: '100vh',
+  left: 0,
+  top: 0,
+  'z-index': 9999,
+  'background-color': 'rgba(0, 0, 0, 0.7)',
+  position: 'fixed',
+  display: 'flex',
+  'justify-content': 'center',
+  'align-items': 'center',
+  '&:hover': {
+    cursor: 'pointer'
+  },
+  '@media screen and (max-width: 440px)': {
+    'padding-top': '20px'
+  }
+})
+
+const CloseIcon = styled('div')({
+  position: 'absolute',
+  color: 'white',
+  'font-size': '30px',
+  top: '20px',
+  right: '20px'
+})
+
+const FrameBorder = styled('div')({
+  'border-radius': '26px',
+  'margin-bottom': '20px',
+  overflow: 'hidden'
+})
+
 const MastHead = () => {
   const { data, loading, error } = useCommunity()
   const [creatorImg, setCreatorImg] = useState(null)
   const [creatorName, setCreatorName] = useState(null)
+  const [showModal, toggleModal] = useState(false)
 
   useEffect(() => {
     if (data && data.community) {
@@ -76,12 +114,33 @@ const MastHead = () => {
   if (loading) return null
   if (error) return `Error! ${error.message}`
 
-  const { image, name, description } = data.community[0]
+  const { image, name, description, tokenSymbol, tokenAddress } = data.community[0]
 
   console.log(data.community[0], 'THE COMMUNITY DATA')
 
   return (
     <Container>
+      {showModal && (
+        <FrameWrapper
+          onClick={() => {
+            toggleModal(false)
+          }}
+        >
+          <CloseIcon>✕</CloseIcon>
+          <FrameBorder>
+            <Iframe
+              url={`https://uniswap.exchange/?outputCurrency=${tokenAddress}`}
+              height={'660px'}
+              width={'400px'}
+              id="myId"
+              frameBorder="0"
+              style={{ border: 'none', outline: 'none' }}
+              display="initial"
+              position="relative"
+            />
+          </FrameBorder>
+        </FrameWrapper>
+      )}
       <Header>
         <HeaderImages>
           <CommunityImage src={image} alt={name} />
@@ -103,6 +162,13 @@ const MastHead = () => {
           </Description>
         </CommunityInfo>
       </Header>
+      <BuyContainer>
+        <Button
+          onClick={() => toggleModal(true)}
+        >
+          BUY ${tokenSymbol}
+        </Button>
+      </BuyContainer>
     </Container>
   )
 }
