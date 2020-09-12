@@ -30,15 +30,22 @@ export const useCommunities = () => {
  *
  * @returns {Object} a community
  */
-export const useCommunity = (id) => {
+export const useCommunity = () => {
+  const JAMM_ID = '2kk6Jcgh8omutBuOryLnql1GxhZvRmjJFyvhg5z5Kyo'
+
   const GET_COMMUNITY = gql`
     query community($txIds: [String]) {
       community(txIds: $txIds) {
         id
         name
         txId
-        isOpen
+        tokenAddress
+        tokenSymbol
+        description
+        image
         blockHash
+        readRequirement
+        creator
       }
     }
   `
@@ -46,7 +53,7 @@ export const useCommunity = (id) => {
     GET_COMMUNITY,
     {
       variables: {
-        txIds: [id]
+        txIds: [JAMM_ID]
       }
     })
 

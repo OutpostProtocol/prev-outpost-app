@@ -8,6 +8,7 @@ import { CreateOutlined } from '@material-ui/icons'
 import Loadable from '@loadable/component'
 
 import ProfileImage from '../Profile/ProfileImage'
+import { useCommunity } from '../../hooks'
 
 const LoadableWeb3Status = Loadable(() => import('../Web3Status'))
 
@@ -17,7 +18,7 @@ const CreateButton = styled(IconButton)({
   'margin-right': '10px'
 })
 
-const ToolbarContainer = styled('div')({
+const ProfileContainer = styled('div')({
   display: 'flex',
   position: 'absolute',
   top: 0,
@@ -26,6 +27,12 @@ const ToolbarContainer = styled('div')({
   padding: '10px 0',
   'align-items': 'center',
   'justify-content': 'space-between'
+})
+
+const ToolbarContainer = styled('div')({
+  position: 'absolute',
+  top: 0,
+  height: '60px'
 })
 
 const Toolbar = () => {
@@ -38,14 +45,14 @@ const Toolbar = () => {
 
   if (!isLoggedIn) {
     return (
-      <ToolbarContainer>
+      <CommonToolbar>
         <LoadableWeb3Status />
-      </ToolbarContainer>
+      </CommonToolbar>
     )
   }
 
   return (
-    <ToolbarContainer>
+    <CommonToolbar>
       <CreateButton
         onClick={handleOpenEditor}
       >
@@ -54,6 +61,48 @@ const Toolbar = () => {
       <ProfileImage
         userDid={did}
       />
+    </CommonToolbar>
+  )
+}
+
+const CommunityImage = styled('img')({
+  height: '45px',
+  width: '45px',
+  'margin-top': '5px'
+})
+
+const CurCommunity = styled('div')({
+  display: 'flex',
+  'align-items': 'center',
+  'margin-left': '5vw'
+})
+
+const CommunityName = styled('h1')({
+  'font-size': '1.25em',
+  'margin-left': '10px'
+})
+
+const CommonToolbar = ({ children }) => {
+  const { data, loading, error } = useCommunity()
+
+  if (loading || error) return null
+
+  const { image, name } = data.community[0]
+
+  return (
+    <ToolbarContainer>
+      <CurCommunity>
+        <CommunityImage
+          src={image}
+          alt={name}
+        />
+        <CommunityName>
+          {name}
+        </CommunityName>
+      </CurCommunity>
+      <ProfileContainer>
+        {children}
+      </ProfileContainer>
     </ToolbarContainer>
   )
 }
