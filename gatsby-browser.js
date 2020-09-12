@@ -14,6 +14,7 @@ import { ELEMENT_ID } from './src/constants'
 import { Web3ReactProvider } from '@web3-react/core'
 import { ethers } from 'ethers'
 import fetch from 'isomorphic-fetch'
+import Box from '3box'
 
 import './src/static/global.css'
 
@@ -59,6 +60,8 @@ const getLibrary = (provider, connector) => {
 }
 
 export const wrapRootElement = ({ element }) => {
+  window.threeBox = Box
+
   return (
     <React.StrictMode>
       <ApolloProvider client={client} >

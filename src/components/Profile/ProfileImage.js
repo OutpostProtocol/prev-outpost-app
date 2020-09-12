@@ -22,8 +22,17 @@ const ProfileImage = ({ userDid }) => {
   const isMounted = useRef(true)
 
   useEffect(() => {
+    const getImage = async () => {
+      const profile = await window.threeBox.getProfile(userDid)
+      const hash = profile.image ? profile.image[0].contentUrl['/'] : ''
+      if (!hash) return null
+      return `https://ipfs.infura.io/ipfs/${hash}`
+    }
+
     const retreiveProfile = async () => {
-      const img = await makeBlockie(userDid)
+      const imageSrc = await getImage()
+      const img = imageSrc || await makeBlockie(userDid)
+      console.log()
       if (isMounted.current) {
         setImageSrc(img)
       }
