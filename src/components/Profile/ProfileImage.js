@@ -3,6 +3,7 @@ import React, {
 } from 'react'
 import { styled } from '@material-ui/core/styles'
 import makeBlockie from 'ethereum-blockies-base64'
+import Box from '3box'
 
 const Avatar = styled('img')({
   'border-radius': '50%',
@@ -23,7 +24,7 @@ const ProfileImage = ({ userDid }) => {
 
   useEffect(() => {
     const getImage = async () => {
-      const profile = await window.threeBox.getProfile(userDid)
+      const profile = await Box.getProfile(userDid)
       const hash = profile.image ? profile.image[0].contentUrl['/'] : ''
       if (!hash) return null
       return `https://ipfs.infura.io/ipfs/${hash}`

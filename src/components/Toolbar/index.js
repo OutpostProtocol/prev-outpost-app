@@ -11,9 +11,10 @@ import {
 } from '@material-ui/core'
 import { CreateOutlined } from '@material-ui/icons'
 import { Autocomplete } from '@material-ui/lab'
+import Loadable from '@loadable/component'
 
 import { useCommunities } from '../../hooks'
-import ProfileImage from '../Profile/ProfileImage'
+const LoadableProfileImage = Loadable(() => import('../Profile/ProfileImage'))
 
 const CreateButton = styled(IconButton)({
   float: 'right',
@@ -84,7 +85,7 @@ const Toolbar = () => {
       >
         <CreateOutlined />
       </CreateButton>
-      <ProfileImage
+      <LoadableProfileImage
         userDid={did}
       />
     </ToolbarContainer>

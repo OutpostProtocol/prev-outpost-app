@@ -1,9 +1,10 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
 import moment from 'moment'
-
-import ProfileImage from '../Profile/ProfileImage'
+import Loadable from '@loadable/component'
 import UserName from '../Profile/UserName'
+
+const LoadableProfileImage = Loadable(() => import('../Profile/ProfileImage'))
 
 const Container = styled('div')({
   display: 'inline-flex',
@@ -26,7 +27,7 @@ const PostContext = ({ userDid, communityName, timestamp, dateFormat }) => {
 
   return (
     <Container>
-      <ProfileImage
+      <LoadableProfileImage
         userDid={userDid}
       />
       <MinWidthDiv>
