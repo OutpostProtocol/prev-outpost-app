@@ -18,7 +18,7 @@ const Avatar = styled('img')({
   }
 })
 
-const ProfileImage = ({ userDid }) => {
+const ProfileImage = ({ userDid, redirectURL }) => {
   const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
   const isMounted = useRef(true)
 
@@ -43,10 +43,24 @@ const ProfileImage = ({ userDid }) => {
   }, [userDid])
 
   return (
-    <Avatar
-      src={imageSrc}
-      alt='Profile image'
-    />
+    <>
+      { redirectURL === null
+        ? <Avatar
+          src={imageSrc}
+          alt='Profile image'
+        />
+        : <a
+          rel='noreferrer'
+          target='_blank'
+          href={redirectURL}
+        >
+          <Avatar
+            src={imageSrc}
+            alt='Profile image'
+          />
+        </a>
+      }
+    </>
   )
 }
 

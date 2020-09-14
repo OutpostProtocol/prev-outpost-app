@@ -12,6 +12,7 @@ import {
 import { CreateOutlined } from '@material-ui/icons'
 import { Autocomplete } from '@material-ui/lab'
 import Loadable from '@loadable/component'
+import { useWeb3React } from '@web3-react/core'
 
 import { useCommunities } from '../../hooks'
 const LoadableProfileImage = Loadable(() => import('../Profile/ProfileImage'))
@@ -42,6 +43,7 @@ const SearchBar = styled(Autocomplete)({
 const Toolbar = () => {
   const [selectedCommunity, setSelectedCommunity] = useState(null)
   const { data } = useCommunities()
+  const { account } = useWeb3React()
   const communities = data && data.community
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const did = useSelector(state => state.did)
@@ -87,6 +89,7 @@ const Toolbar = () => {
       </CreateButton>
       <LoadableProfileImage
         userDid={did}
+        redirectURL={`https://3box.io/${account}`}
       />
     </ToolbarContainer>
   )
