@@ -12,7 +12,9 @@ const Container = styled('div')({
   'background-color': '#F2F2F2',
   width: '70vw',
   margin: '80px auto 0',
-  padding: '25px'
+  padding: '25px',
+  display: 'flex',
+  'justify-content': 'space-between'
 })
 
 const Header = styled('div')({
@@ -164,6 +166,9 @@ const MastHead = () => {
       </Header>
       <BuyContainer>
         <Button
+          variant='contained'
+          color='secondary'
+          disableElevation
           onClick={() => toggleModal(true)}
         >
           BUY ${tokenSymbol}

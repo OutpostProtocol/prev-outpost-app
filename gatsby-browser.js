@@ -46,14 +46,14 @@ const theme = createMuiTheme({
       main: '#1a1a1a'
     },
     secondary: {
-      main: '#3D5AFE',
-      contrastText: '#f3f2f2'
+      main: '#7000FF', // '#3D5AFE',
+      contrastText: '#f1f1f1'
     },
     info: {
       main: '#c4c4c4'
     },
     background: {
-      default: '#f3f2f2'
+      default: '#f1f1f1'
     }
   },
   typography: {

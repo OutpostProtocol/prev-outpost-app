@@ -81,15 +81,15 @@ const Web3Status = () => {
     if (isLoading) {
       return (
         <Web3Button
-          variant='contained'
+          variant='outlined'
           color='secondary'
           disableElevation
         >
           <CircularProgress
+            color='secondary'
             style={{
               width: '1em',
-              height: '1em',
-              color: '#f1f1f1'
+              height: '1em'
             }}
           />
         </Web3Button>
@@ -98,7 +98,7 @@ const Web3Status = () => {
 
     return (
       <Web3Button
-        variant='contained'
+        variant='outlined'
         color='secondary'
         disableElevation
         onClick={() => setIsWalletModalOpen(true)}
