@@ -42,7 +42,7 @@ export const useCommunity = () => {
         tokenAddress
         tokenSymbol
         description
-        image
+        imageTxId
         blockHash
         readRequirement
         creator

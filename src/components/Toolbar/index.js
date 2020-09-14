@@ -87,13 +87,13 @@ const CommonToolbar = ({ children }) => {
 
   if (loading || error) return null
 
-  const { image, name } = data.community[0]
+  const { imageTxId, name } = data.community[0]
 
   return (
     <ToolbarContainer>
       <CurCommunity>
         <CommunityImage
-          src={image}
+          src={`https://arweave.net/${imageTxId}`}
           alt={name}
         />
         <CommunityName>
