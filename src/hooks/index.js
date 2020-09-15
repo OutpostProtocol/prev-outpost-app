@@ -28,7 +28,7 @@ export const useCommunities = () => {
  * @returns {Object} a community
  */
 export const useCommunity = () => {
-  const JAMM_ID = '2kk6Jcgh8omutBuOryLnql1GxhZvRmjJFyvhg5z5Kyo'
+  const JAMM_ID = 'JAMM_ID'
 
   const GET_COMMUNITY = gql`
     query community($txIds: [String]) {
@@ -54,37 +54,6 @@ export const useCommunity = () => {
     })
 
   return { data, loading, error }
-}
-
-export const usePost = (txId) => {
-  const GET_POST = gql`
-    query posts($txId: String!) {
-      posts(txId: $txId) {
-        title
-        postText
-        subtitle
-        timestamp
-        community {
-          name
-        }
-        user {
-          did
-        }
-        transaction {
-          txId
-          blockHash
-        }
-      }
-    }
-  `
-  return useQuery(
-    GET_POST,
-    {
-      variables: {
-        txId: txId
-      }
-    }
-  )
 }
 
 export const useUser = (did) => {
