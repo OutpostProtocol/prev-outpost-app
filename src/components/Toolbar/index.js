@@ -65,9 +65,13 @@ const Toolbar = () => {
   )
 }
 
+const ImageContainer = styled('div')({
+  width: '45px'
+})
+
 const CommunityImage = styled('img')({
   height: '45px',
-  width: '45px',
+  width: '100%',
   'margin-top': '5px'
 })
 
@@ -92,10 +96,12 @@ const CommonToolbar = ({ children }) => {
   return (
     <ToolbarContainer>
       <CurCommunity>
-        <CommunityImage
-          src={`https://arweave.net/${imageTxId}`}
-          alt={name}
-        />
+        <ImageContainer>
+          <CommunityImage
+            src={`https://arweave.net/${imageTxId}`}
+            alt={name}
+          />
+        </ImageContainer>
         <CommunityName>
           {name}
         </CommunityName>

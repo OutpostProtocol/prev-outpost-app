@@ -1,8 +1,9 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
-import unified from 'unified'
-import parse from 'remark-parse'
-import remark2react from 'remark-react'
+import showdown from 'showdown'
+import htmlparse from 'html-react-parser'
+
+const converter = new showdown.Converter()
 
 const PostHeader = styled('div')({
   height: '100%',
@@ -22,6 +23,8 @@ const Subtitle = styled('h4')({
 })
 
 const EditorPreview = ({ title, subtitle, postText }) => {
+  const displayText = converter.makeHtml(postText.replace(/\\/g, '<br/>'))
+
   return (
     <PreviewContainer>
       <PostHeader>
@@ -34,10 +37,7 @@ const EditorPreview = ({ title, subtitle, postText }) => {
       </PostHeader>
       <div>
         {
-          unified()
-            .use(parse, { commonmark: true })
-            .use(remark2react)
-            .processSync(postText).result
+          htmlparse(displayText)
         }
       </div>
     </PreviewContainer>

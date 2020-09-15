@@ -7,7 +7,6 @@ import {
   gql,
   useMutation
 } from '@apollo/client'
-import { decodeJWT } from 'did-jwt'
 
 import { uploadPost } from '../uploaders'
 import { GET_POSTS } from '../hooks/usePosts'
@@ -60,9 +59,6 @@ const UPLOAD_POST = gql`
       user {
         did
       }
-      transaction {
-        txId
-      }
     }
   }
 `
@@ -90,23 +86,29 @@ const EditorPage = ({ location }) => {
 
   const handleUploadToDb = async (postTx) => {
     const rawData = postTx.data
-    const jwt = Buffer.from(rawData, 'base64').toString('utf-8')
+    const stringPayload = Buffer.from(rawData, 'base64').toString('utf-8')
 
-    const payload = decodeJWT(jwt).payload
+    const payload = JSON.parse(stringPayload)
 
-    const { communityTxId, iss, iat, postData } = payload
+    const { communityTxId, author, time, postData } = payload
+
+    console.log(postData, 'THE POST DATA')
+    console.log(typeof postData.postText, 'THE TYPE OF THE POST TEXT')
 
     const postUpload = {
       communityTxId,
-      userDid: iss,
-      timestamp: iat,
+      userDid: author,
+      timestamp: time,
       title: postData.title,
       subtitle: postData.subtitle,
       postText: postData.postText,
       txId: postTx.id,
       canonicalLink: postData.canonicalLink,
-      parentTxId: postTemplate.transaction.txId
+      parentTxId: postTemplate.txId
     }
+
+    console.log(postUpload, 'THE POST UPLAOD')
+    console.log(postTemplate.txId, 'THE TEMPLATE TX ID')
 
     // if the user is editing, include the id to update the cache
     let options
@@ -132,7 +134,7 @@ const EditorPage = ({ location }) => {
     if (isEditingMode) {
       navigate(`/post/${postTemplate.transaction.txId}`)
     } else {
-      navigate(`/post/${res.data.uploadPost.transaction.txId}`)
+      navigate(`/post/${res.data.uploadPost.txId}`)
     }
   }
 

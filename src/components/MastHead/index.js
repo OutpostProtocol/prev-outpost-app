@@ -21,10 +21,13 @@ const Header = styled('div')({
   display: 'flex'
 })
 
-const HeaderImages = styled('div')({})
+const HeaderImages = styled('div')({
+  width: '100px'
+})
 
 const CommunityImage = styled('img')({
   'border-radius': '50%',
+  width: '100px',
   height: '100px'
 })
 
@@ -32,8 +35,8 @@ const ProfileImage = styled('img')({
   height: '40px',
   'border-radius': '50%',
   position: 'relative',
-  bottom: '-20px',
-  right: '70px'
+  bottom: '20px',
+  left: '30px'
 })
 
 const Name = styled('h1')({
@@ -95,7 +98,7 @@ const MastHead = () => {
   useEffect(() => {
     if (data && data.community) {
       const setProfile = async () => {
-        const profile = await Box.getProfile(creator)
+        const profile = await Box.getProfile(owner)
         const hash = profile.image ? profile.image[0].contentUrl['/'] : ''
         if (hash) {
           const imgSrc = `https://ipfs.infura.io/ipfs/${hash}`
@@ -107,7 +110,7 @@ const MastHead = () => {
         }
       }
 
-      const { creator } = data.community[0]
+      const { owner } = data.community[0]
 
       setProfile()
     }

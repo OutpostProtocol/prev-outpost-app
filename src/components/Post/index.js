@@ -3,9 +3,7 @@ import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
-import unified from 'unified'
-import parse from 'remark-parse'
-import remark2react from 'remark-react'
+import htmlparse from 'html-react-parser'
 import {
   gql,
   useMutation
@@ -159,10 +157,7 @@ const Post = ({ post }) => {
       </PostHeader>
       <PostContent>
         {
-          unified()
-            .use(parse, { commonmark: true })
-            .use(remark2react)
-            .processSync(postText).result
+          htmlparse(postText)
         }
       </PostContent>
       <hr />
