@@ -12,7 +12,6 @@ import {
 } from '@apollo/client'
 
 import Share from '../Share'
-import PendingChip from '../PendingChip'
 import PostContext from '../PostContext'
 import LoadingBackdrop from '../LoadingBackdrop'
 import Comments from '../Comments'
@@ -77,15 +76,10 @@ const AuthorActions = styled('div')({
   'margin-top': '20px'
 })
 
-const ChipContainer = styled('div')({
-  'margin-top': '0.45em'
-})
-
 const CommentsContainer = styled(Comments)({
   'margin-top': '10px'
 })
 
-const pendingDescription = 'The post has been sent to the network but has not yet been confirmed.'
 const DELETE_POST = gql`
     mutation deletePost($txId: String!) {
       deletePost(txId: $txId)
@@ -93,7 +87,7 @@ const DELETE_POST = gql`
   `
 
 const Post = ({ post }) => {
-  const { title, subtitle, postText, user, transaction, community, comments } = post
+  const { title, subtitle, postText, user, txId, community, comments } = post
   const [isDeleting, setIsDeleting] = useState(false)
   const did = useSelector(state => state.did)
   const [deletePostFromDb] = useMutation(DELETE_POST)
@@ -109,11 +103,11 @@ const Post = ({ post }) => {
 
   const handleDelete = async () => {
     setIsDeleting(true)
-    const res = await deletePost(transaction.txId, community.txId)
+    const res = await deletePost(txId, community.txId)
     if (res.status === 200 && res.data.status === 200) {
       await deletePostFromDb({
         variables: {
-          txId: transaction.txId
+          txId
         },
         refetchQueries: [{ query: GET_POSTS }]
       })
@@ -148,12 +142,6 @@ const Post = ({ post }) => {
             <Title color='primary'>
               {title}
             </Title>
-            <ChipContainer>
-              <PendingChip
-                isPending={!post.transaction.blockHash}
-                description={pendingDescription}
-              />
-            </ChipContainer>
           </TitleContainer>
         </PostMetaData>
         <SubHeader>
@@ -181,7 +169,7 @@ const Post = ({ post }) => {
       <CommentsContainer
         comments={comments}
         community={post.community}
-        postTxId={transaction.txId}
+        postTxId={txId}
       />
     </PostContainer>
   )

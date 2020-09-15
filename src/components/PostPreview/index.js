@@ -35,8 +35,10 @@ const Title = styled('h1')({
 const PostPreview = ({ post }) => {
   const { title, subtitle } = post
 
+  console.log(post, 'THE POST IN PREVIEW')
+
   const handleRedirect = () => {
-    const url = '/post/' + post.transaction.txId
+    const url = '/post/' + post.txId
     navigate(url)
   }
 

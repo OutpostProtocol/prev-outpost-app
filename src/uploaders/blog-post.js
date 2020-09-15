@@ -8,10 +8,8 @@ export const uploadPost = async (postData, communityTxId) => {
     communityTxId
   }
 
-  const jwt = await window.box._3id.signJWT(payload)
-
   const uploadData = {
-    jwt,
+    payload,
     communityTxId,
     did: window.box.DID
   }

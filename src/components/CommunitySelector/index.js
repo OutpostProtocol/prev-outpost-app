@@ -36,26 +36,6 @@ const GET_USER_ROLES = gql`
 
 const CommunitySelector = ({ handleSelection, placeHolder, disabled }) => {
   const [activeCommunity, setActiveCommunity] = useState(placeHolder)
-  const [communities, setCommunities] = useState([])
-  const did = useSelector(state => state.did)
-
-  const { data } = useQuery(GET_USER_ROLES, {
-    variables: {
-      did
-    },
-    skip: (typeof window === 'undefined' || !window.box)
-  })
-
-  useEffect(() => {
-    const coms = {}
-    const roles = data && data.userRoles ? data.userRoles : []
-    for (let i = 0; i < roles.length; i++) {
-      const current = roles[i].community
-      coms[current.txId] = current
-    }
-
-    setCommunities(Object.values(coms))
-  }, [data])
 
   const switchActiveCommunity = (event) => {
     if (event && event.target.value && !disabled) {
@@ -63,6 +43,10 @@ const CommunitySelector = ({ handleSelection, placeHolder, disabled }) => {
       handleSelection(event)
     }
   }
+
+  const communities = [{
+    name: 'fake'
+  }]
 
   return (
     <CommunitySelect

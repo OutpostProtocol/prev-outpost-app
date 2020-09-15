@@ -10,16 +10,13 @@ export const GET_POSTS = gql`
       title
       subtitle
       timestamp
+      txId
       community {
         name
         txId
       }
       user {
         did
-      }
-      transaction {
-        txId
-        blockHash
       }
     }
   }
@@ -33,18 +30,15 @@ export const GET_POST = gql`
         title
         postText
         subtitle
-        timestamp,
-        canonicalLink,
+        timestamp
+        canonicalLink
+        txId
         community {
           name
           txId
         },
         user {
           did
-        },
-        transaction {
-          txId
-          blockHash
         },
         comments {
           postText

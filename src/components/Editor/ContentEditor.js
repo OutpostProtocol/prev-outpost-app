@@ -37,7 +37,7 @@ const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPo
         <FormTextField
           onChange={(event) => setSubtitle(event.target.value)}
           value={subtitle}
-          placeholder='DESCRIPTION (optional)'
+          placeholder='SUBTITLE (optional)'
         />
       </TitleContainer>
       <PostContent
