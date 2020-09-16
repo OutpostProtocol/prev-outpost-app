@@ -1,9 +1,6 @@
 import React from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import unified from 'unified'
-import parse from 'remark-parse'
-import remark2react from 'remark-react'
 
 import PostContext from '../PostContext'
 
@@ -40,8 +37,6 @@ const PostPreview = ({ post }) => {
     navigate(url)
   }
 
-  const previewText = subtitle
-
   return (
     <PostContainer
       onClick={handleRedirect}
@@ -57,12 +52,7 @@ const PostPreview = ({ post }) => {
         </Title>
       </PostHeader>
       <PostContent>
-        {
-          unified()
-            .use(parse, { commonmark: true })
-            .use(remark2react)
-            .processSync(previewText).result
-        }
+        {subtitle}
       </PostContent>
     </PostContainer>
   )
