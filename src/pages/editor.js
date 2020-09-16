@@ -84,16 +84,8 @@ const EditorPage = ({ location }) => {
     }
   }
 
-  const handleUploadToDb = async (postTx) => {
-    const rawData = postTx.data
-    const stringPayload = Buffer.from(rawData, 'base64').toString('utf-8')
-
-    const payload = JSON.parse(stringPayload)
-
-    const { communityTxId, author, time, postData } = payload
-
-    console.log(postData, 'THE POST DATA')
-    console.log(typeof postData.postText, 'THE TYPE OF THE POST TEXT')
+  const handleUploadToDb = async (txInfo) => {
+    const { communityTxId, author, time, postData, txId } = txInfo
 
     const postUpload = {
       communityTxId,
@@ -102,13 +94,10 @@ const EditorPage = ({ location }) => {
       title: postData.title,
       subtitle: postData.subtitle,
       postText: postData.postText,
-      txId: postTx.id,
+      txId,
       canonicalLink: postData.canonicalLink,
       parentTxId: postTemplate.txId
     }
-
-    console.log(postUpload, 'THE POST UPLAOD')
-    console.log(postTemplate.txId, 'THE TEMPLATE TX ID')
 
     // if the user is editing, include the id to update the cache
     let options
