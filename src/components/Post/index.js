@@ -12,7 +12,6 @@ import {
 import Share from '../Share'
 import PostContext from '../PostContext'
 import LoadingBackdrop from '../LoadingBackdrop'
-import Comments from '../Comments'
 import { deletePost } from '../../uploaders/blog-post'
 import { GET_POSTS } from '../../hooks/usePosts'
 
@@ -74,10 +73,6 @@ const AuthorActions = styled('div')({
   'margin-top': '20px'
 })
 
-const CommentsContainer = styled(Comments)({
-  'margin-top': '10px'
-})
-
 const DELETE_POST = gql`
     mutation deletePost($txId: String!) {
       deletePost(txId: $txId)
@@ -85,7 +80,7 @@ const DELETE_POST = gql`
   `
 
 const Post = ({ post }) => {
-  const { title, subtitle, postText, user, txId, community, comments } = post
+  const { title, subtitle, postText, user, txId, community } = post
   const [isDeleting, setIsDeleting] = useState(false)
   const did = useSelector(state => state.did)
   const [deletePostFromDb] = useMutation(DELETE_POST)
@@ -160,12 +155,6 @@ const Post = ({ post }) => {
           htmlparse(postText)
         }
       </PostContent>
-      <hr />
-      <CommentsContainer
-        comments={comments}
-        community={post.community}
-        postTxId={txId}
-      />
     </PostContainer>
   )
 }
