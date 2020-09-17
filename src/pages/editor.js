@@ -85,7 +85,7 @@ const EditorPage = ({ location }) => {
   }
 
   const handleUploadToDb = async (txInfo) => {
-    const { communityTxId, author, time, postData, txId } = txInfo
+    const { communityTxId, author, time, postData, txId, featuredImg } = txInfo
 
     const postUpload = {
       communityTxId,
@@ -95,6 +95,7 @@ const EditorPage = ({ location }) => {
       subtitle: postData.subtitle,
       postText: postData.postText,
       txId,
+      featuredImg,
       canonicalLink: postData.canonicalLink,
       parentTxId: postTemplate.txId
     }

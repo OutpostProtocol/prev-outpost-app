@@ -9,11 +9,15 @@ import MastHead from '../components/MastHead'
 
 const FeedContainer = styled('div')({
   '@media only screen and (min-width: 700px)': {
-    'padding-left': '23vw',
-    'padding-right': '23vw',
-    'padding-top': '5vh',
-    'margin-top': '4em'
+    width: '70vw',
+    margin: '0 auto 15vh',
+    'padding-top': '5vh'
   }
+})
+
+const FeedHeader = styled('div')({
+  color: '#6C6C6C',
+  'margin-bottom': '10px'
 })
 
 const IndexPage = () => {
@@ -28,6 +32,9 @@ const IndexPage = () => {
       <Toolbar />
       <MastHead />
       <FeedContainer>
+        <FeedHeader>
+          READ THE LATEST
+        </FeedHeader>
         <Feed
           posts={data.posts}
         />

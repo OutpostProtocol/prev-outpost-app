@@ -43,24 +43,21 @@ const Toolbar = () => {
     navigate('/editor')
   }
 
-  if (!isLoggedIn) {
-    return (
-      <CommonToolbar>
-        <LoadableWeb3Status />
-      </CommonToolbar>
-    )
-  }
-
   return (
     <CommonToolbar>
-      <CreateButton
-        onClick={handleOpenEditor}
-      >
-        <CreateOutlined />
-      </CreateButton>
-      <ProfileImage
-        userDid={did}
-      />
+      {isLoggedIn &&
+        <>
+          <CreateButton
+            onClick={handleOpenEditor}
+          >
+            <CreateOutlined />
+          </CreateButton>
+          <ProfileImage
+            userDid={did}
+          />
+        </>
+      }
+      <LoadableWeb3Status />
     </CommonToolbar>
   )
 }

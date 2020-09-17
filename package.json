@@ -66,6 +66,7 @@
     "react-iframe": "^1.8.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
+    "remark-react": "^7.0.1",
     "rich-markdown-editor": "^10.1.0",
     "showdown": "^1.9.1"
   },

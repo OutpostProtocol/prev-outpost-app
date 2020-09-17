@@ -3,6 +3,8 @@ import { styled } from '@material-ui/core/styles'
 import Editor from 'rich-markdown-editor'
 import { Input } from '@material-ui/core'
 
+import { uploadImage } from '../../uploaders'
+
 const FormTextField = styled(Input)({
   width: '100%',
   'border-radius': '4px',
@@ -20,6 +22,16 @@ const PostContent = styled(Editor)({
 
 const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPostText, isEditing }) => {
   if (!subtitle) subtitle = ''
+
+  const imageUpload = async (photoFile) => {
+    const form = new window.FormData()
+
+    form.append('image', photoFile)
+
+    const res = await uploadImage(form)
+
+    return `https://arweave.net/${res.data.txId}`
+  }
 
   return (
     <>
@@ -48,9 +60,7 @@ const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPo
         onCancel={() => console.log('Cancel triggered')}
         onShowToast={message => { if (typeof window !== 'undefined') window.alert(message) }}
         onChange={(value) => setPostText(value)}
-        uploadImage={file => {
-          console.log('File upload triggered: ', file)
-        }}
+        uploadImage={async file => await imageUpload(file)}
         autoFocus
       />
     </>

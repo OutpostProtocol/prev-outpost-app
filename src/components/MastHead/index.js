@@ -11,7 +11,10 @@ import { useCommunity } from '../../hooks'
 const Container = styled('div')({
   'background-color': '#F2F2F2',
   width: '70vw',
-  margin: '80px auto 0',
+  margin: '80px auto 0'
+})
+
+const PaddingContainer = styled('div')({
   padding: '25px',
   display: 'flex',
   'justify-content': 'space-between'
@@ -123,58 +126,60 @@ const MastHead = () => {
 
   return (
     <Container>
-      {showModal && (
-        <FrameWrapper
-          onClick={() => {
-            toggleModal(false)
-          }}
-        >
-          <CloseIcon>✕</CloseIcon>
-          <FrameBorder>
-            <Iframe
-              url={`https://uniswap.exchange/?outputCurrency=${tokenAddress}`}
-              height={'660px'}
-              width={'400px'}
-              id="myId"
-              frameBorder="0"
-              style={{ border: 'none', outline: 'none' }}
-              display="initial"
-              position="relative"
-            />
-          </FrameBorder>
-        </FrameWrapper>
-      )}
-      <Header>
-        <HeaderImages>
-          <CommunityImage src={`https://arweave.net/${imageTxId}`} alt={name} />
-          {creatorImg &&
+      <PaddingContainer>
+        {showModal && (
+          <FrameWrapper
+            onClick={() => {
+              toggleModal(false)
+            }}
+          >
+            <CloseIcon>✕</CloseIcon>
+            <FrameBorder>
+              <Iframe
+                url={`https://uniswap.exchange/?outputCurrency=${tokenAddress}`}
+                height={'660px'}
+                width={'400px'}
+                id="myId"
+                frameBorder="0"
+                style={{ border: 'none', outline: 'none' }}
+                display="initial"
+                position="relative"
+              />
+            </FrameBorder>
+          </FrameWrapper>
+        )}
+        <Header>
+          <HeaderImages>
+            <CommunityImage src={`https://arweave.net/${imageTxId}`} alt={name} />
+            {creatorImg &&
             <ProfileImage src={creatorImg} alt={`${name} Creator`} />
-          }
-        </HeaderImages>
-        <CommunityInfo>
-          <Name>
-            {name}
-          </Name>
-          {creatorName &&
+            }
+          </HeaderImages>
+          <CommunityInfo>
+            <Name>
+              {name}
+            </Name>
+            {creatorName &&
           <Author>
             By {creatorName}
           </Author>
-          }
-          <Description>
-            {description}
-          </Description>
-        </CommunityInfo>
-      </Header>
-      <BuyContainer>
-        <Button
-          variant='contained'
-          color='secondary'
-          disableElevation
-          onClick={() => toggleModal(true)}
-        >
+            }
+            <Description>
+              {description}
+            </Description>
+          </CommunityInfo>
+        </Header>
+        <BuyContainer>
+          <Button
+            variant='contained'
+            color='secondary'
+            disableElevation
+            onClick={() => toggleModal(true)}
+          >
           BUY ${tokenSymbol}
-        </Button>
-      </BuyContainer>
+          </Button>
+        </BuyContainer>
+      </PaddingContainer>
     </Container>
   )
 }

@@ -11,6 +11,7 @@ export const GET_POSTS = gql`
       subtitle
       timestamp
       txId
+      featuredImg
       community {
         name
         txId
