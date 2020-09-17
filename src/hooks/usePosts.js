@@ -15,6 +15,8 @@ export const GET_POSTS = gql`
       community {
         name
         txId
+        readRequirement
+        tokenSymbol
       }
       user {
         did
