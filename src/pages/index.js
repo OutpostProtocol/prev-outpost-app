@@ -1,11 +1,13 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
+import Loadable from '@loadable/component'
 
 import usePosts from '../hooks/usePosts'
 import SEO from '../components/seo'
 import Feed from '../components/Feed'
 import Toolbar from '../components/Toolbar'
-import MastHead from '../components/MastHead'
+
+const MastHead = Loadable(() => import('../components/MastHead'))
 
 const FeedContainer = styled('div')({
   '@media only screen and (min-width: 700px)': {

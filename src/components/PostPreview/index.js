@@ -4,7 +4,7 @@ import { styled } from '@material-ui/core/styles'
 import moment from 'moment'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
 
-import { use3boxProf } from '../../hooks'
+import { use3boxProf } from '../../hooks/use3boxProf'
 
 const PostContainer = styled('div')({
   padding: '10px',

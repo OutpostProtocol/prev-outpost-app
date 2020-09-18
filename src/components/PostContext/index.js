@@ -4,7 +4,7 @@ import moment from 'moment'
 import Loadable from '@loadable/component'
 // import UserName from '../Profile/UserName'
 
-import { use3boxProf } from '../../hooks'
+import { use3boxProf } from '../../hooks/use3boxProf'
 
 const LoadableProfileImage = Loadable(() => import('../Profile/ProfileImage'))
 

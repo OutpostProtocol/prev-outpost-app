@@ -3,8 +3,9 @@ import { styled } from '@material-ui/styles'
 import unified from 'unified'
 import parse from 'remark-parse'
 import remark2react from 'remark-react'
+import Loadable from '@loadable/component'
 
-import PostContext from '../PostContext'
+const PostContext = Loadable(() => import('../PostContext'))
 
 const CommentContainer = styled('div')({
   display: 'flex',
