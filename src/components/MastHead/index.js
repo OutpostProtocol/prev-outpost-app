@@ -1,12 +1,11 @@
-import React, {
-  useEffect, useState
-} from 'react'
+import React, { useState } from 'react'
 import { styled } from '@material-ui/core/styles'
-import Box from '3box'
 import { Button } from '@material-ui/core'
 import Iframe from 'react-iframe'
 
-import { useCommunity } from '../../hooks'
+import {
+  useCommunity, use3boxProf
+} from '../../hooks'
 
 const Container = styled('div')({
   'background-color': '#F2F2F2',
@@ -94,30 +93,11 @@ const FrameBorder = styled('div')({
 
 const MastHead = () => {
   const { data, loading, error } = useCommunity()
-  const [creatorImg, setCreatorImg] = useState(null)
-  const [creatorName, setCreatorName] = useState(null)
   const [showModal, toggleModal] = useState(false)
+  const creatorProf = use3boxProf(data && data.community && data.community[0].owner)
 
-  useEffect(() => {
-    if (data && data.community) {
-      const setProfile = async () => {
-        const profile = await Box.getProfile(owner)
-        const hash = profile.image ? profile.image[0].contentUrl['/'] : ''
-        if (hash) {
-          const imgSrc = `https://ipfs.infura.io/ipfs/${hash}`
-          setCreatorImg(imgSrc)
-        }
-
-        if (profile.name) {
-          setCreatorName(profile.name)
-        }
-      }
-
-      const { owner } = data.community[0]
-
-      setProfile()
-    }
-  }, [data])
+  const creatorImg = creatorProf.profImage
+  const creatorName = creatorProf.name
 
   if (loading) return null
   if (error) return `Error! ${error.message}`

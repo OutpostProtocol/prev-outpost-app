@@ -2,7 +2,9 @@ import React from 'react'
 import { styled } from '@material-ui/core/styles'
 import moment from 'moment'
 import Loadable from '@loadable/component'
-import UserName from '../Profile/UserName'
+// import UserName from '../Profile/UserName'
+
+import { use3boxProf } from '../../hooks'
 
 const LoadableProfileImage = Loadable(() => import('../Profile/ProfileImage'))
 
@@ -25,6 +27,8 @@ const PostContext = ({ userDid, communityName, timestamp, dateFormat }) => {
   const format = dateFormat || DATE_FORMAT
   const time = moment.unix(timestamp).format(format)
 
+  const { name } = use3boxProf(userDid)
+
   return (
     <Container>
       <LoadableProfileImage
@@ -32,7 +36,7 @@ const PostContext = ({ userDid, communityName, timestamp, dateFormat }) => {
       />
       <MinWidthDiv>
         <div>
-          <UserName userDid={userDid} />
+          <span>{name}</span>
           { communityName &&
            <> · {communityName} </>
           }

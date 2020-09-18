@@ -1,11 +1,10 @@
-import React, {
-  useEffect, useState
-} from 'react'
+import React from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import Box from '3box'
 import moment from 'moment'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
+
+import { use3boxProf } from '../../hooks'
 
 const PostContainer = styled('div')({
   padding: '10px',
@@ -81,26 +80,12 @@ const DATE_FORMAT = 'MMMM D YYYY'
 
 const PostPreview = ({ post }) => {
   const { title, subtitle, user, featuredImg, timestamp, community } = post
-  const [creatorName, setCreatorName] = useState(null)
+  const { name } = use3boxProf(user.did)
 
   const handleRedirect = () => {
     const url = '/post/' + post.txId
     navigate(url)
   }
-
-  useEffect(() => {
-    const setProfile = async () => {
-      const profile = await Box.getProfile(did)
-
-      if (profile.name) {
-        setCreatorName(profile.name)
-      }
-    }
-
-    const did = user.did
-
-    setProfile()
-  }, [user])
 
   return (
     <PostContainer
@@ -122,7 +107,7 @@ const PostPreview = ({ post }) => {
         </Subtitle>
         <Context>
           <Author>
-            {creatorName}
+            {name}
           </Author>
           <Date>
             {moment.unix(timestamp).format(DATE_FORMAT)}

@@ -1,7 +1,11 @@
 import {
+  useState, useEffect
+} from 'react'
+import {
   gql,
   useQuery
 } from '@apollo/client'
+import Box from '3box'
 
 export const GET_ALL_COMMUNITIES = gql`
   query {
@@ -28,7 +32,7 @@ export const useCommunities = () => {
  * @returns {Object} a community
  */
 export const useCommunity = () => {
-  const JAMM_ID = 'JAMM_ID' // '8JMaFtKxfPD8IC2xBRhbdWeTVjl1FUn0F9InNa_f05I'
+  const JAMM_ID = '8vhfYMA19OnOjKq1l_zDd7sn2dmOAUL1xEbDhfgCcSo'
 
   const GET_COMMUNITY = gql`
     query community($txIds: [String]) {
@@ -86,4 +90,32 @@ export const useIsNameAvailable = (name) => {
       name: name
     }
   })
+}
+
+export const use3boxProf = (did) => {
+  const [profImage, setProfImage] = useState(null)
+  const [name, setName] = useState(null)
+
+  useEffect(() => {
+    const setProfile = async () => {
+      const profile = await Box.getProfile(did)
+
+      if (profile.name) {
+        setName(profile.name)
+      }
+
+      const hash = profile.image ? profile.image[0].contentUrl['/'] : ''
+      if (hash) {
+        const imgSrc = `https://ipfs.infura.io/ipfs/${hash}`
+        setProfImage(imgSrc)
+      }
+    }
+
+    setProfile()
+  }, [did])
+
+  return {
+    profImage,
+    name
+  }
 }
