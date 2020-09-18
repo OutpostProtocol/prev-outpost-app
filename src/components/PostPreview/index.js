@@ -17,7 +17,8 @@ const PostContainer = styled('div')({
   display: 'flex',
   border: '1px solid #F0F0F0',
   position: 'relative',
-  margin: '10px 0'
+  margin: '10px 0',
+  'min-height': '140px'
 })
 
 const FeaturedImage = styled('img')({
@@ -28,17 +29,17 @@ const FeaturedImage = styled('img')({
 const ImgContainer = styled('div')({
   height: '120px',
   'max-width': '250px',
-  'margin-right': '20px',
   overflow: 'hidden',
   'border-radius': '10px'
 })
 
 const FixedImgWidth = styled('div')({
-  width: '260px'
+  width: '250px'
 })
 
 const PostInfo = styled('div')({
-  position: 'relative'
+  position: 'relative',
+  'margin-left': '20px'
 })
 
 const Title = styled('h3')({
@@ -105,11 +106,13 @@ const PostPreview = ({ post }) => {
     <PostContainer
       onClick={handleRedirect}
     >
-      <FixedImgWidth>
-        <ImgContainer>
-          <FeaturedImage src={featuredImg} alt={`featured image for ${title}`} />
-        </ImgContainer>
-      </FixedImgWidth>
+      {featuredImg &&
+        <FixedImgWidth>
+          <ImgContainer>
+            <FeaturedImage src={featuredImg} alt={`featured image for ${title}`} />
+          </ImgContainer>
+        </FixedImgWidth>
+      }
       <PostInfo>
         <Title>
           {title}
