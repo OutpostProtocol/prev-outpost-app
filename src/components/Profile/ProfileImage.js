@@ -3,6 +3,7 @@ import React, {
 } from 'react'
 import { styled } from '@material-ui/core/styles'
 import makeBlockie from 'ethereum-blockies-base64'
+import Box from '3box'
 
 const Avatar = styled('img')({
   'border-radius': '50%',
@@ -17,13 +18,21 @@ const Avatar = styled('img')({
   }
 })
 
-const ProfileImage = ({ userDid }) => {
+const ProfileImage = ({ userDid, redirectURL }) => {
   const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
   const isMounted = useRef(true)
 
   useEffect(() => {
+    const getImage = async () => {
+      const profile = await Box.getProfile(userDid)
+      const hash = profile.image ? profile.image[0].contentUrl['/'] : ''
+      if (!hash) return null
+      return `https://ipfs.infura.io/ipfs/${hash}`
+    }
+
     const retreiveProfile = async () => {
-      const img = await makeBlockie(userDid)
+      const imageSrc = await getImage()
+      const img = imageSrc || await makeBlockie(userDid)
       if (isMounted.current) {
         setImageSrc(img)
       }
@@ -34,10 +43,24 @@ const ProfileImage = ({ userDid }) => {
   }, [userDid])
 
   return (
-    <Avatar
-      src={imageSrc}
-      alt='Profile image'
-    />
+    <>
+      { redirectURL === null
+        ? <Avatar
+          src={imageSrc}
+          alt='Profile image'
+        />
+        : <a
+          rel='noreferrer'
+          target='_blank'
+          href={redirectURL}
+        >
+          <Avatar
+            src={imageSrc}
+            alt='Profile image'
+          />
+        </a>
+      }
+    </>
   )
 }
 
