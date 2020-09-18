@@ -12,7 +12,7 @@ const PostContainer = styled('div')({
   'border-radius': '4px',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#f4f3f0'
+    'background-color': '#fafafa'
   },
   display: 'flex',
   border: '1px solid #F0F0F0',

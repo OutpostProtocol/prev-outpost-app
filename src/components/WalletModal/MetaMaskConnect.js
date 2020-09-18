@@ -14,7 +14,7 @@ const Container = styled('div')({
   padding: '0 5%',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#f4f3f0'
+    'background-color': '#fafafa'
   }
 })
 

@@ -20,7 +20,7 @@ const ContentContainer = styled('div')({
   width: '25vw',
   'background-clip': 'content-box',
   'border-radius': '4px',
-  'background-color': '#f7f6f3'
+  'background-color': '#FFFFFE'
 })
 
 const ExitButton = styled(IconButton)({
