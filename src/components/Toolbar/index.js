@@ -35,6 +35,12 @@ const ToolbarContainer = styled('div')({
   height: '60px'
 })
 
+const ImgContainer = styled('div')({
+  width: '100%',
+  display: 'flex',
+  'justify-content': 'flex-end'
+})
+
 const Toolbar = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const did = useSelector(state => state.did)
@@ -47,17 +53,19 @@ const Toolbar = () => {
   return (
     <CommonToolbar>
       {isLoggedIn &&
-        <>
-          <CreateButton
-            onClick={handleOpenEditor}
-          >
-            <CreateOutlined />
-          </CreateButton>
+        <ImgContainer>
+          {false && // temp until only backend writer can see this
+            <CreateButton
+              onClick={handleOpenEditor}
+            >
+              <CreateOutlined />
+            </CreateButton>
+          }
           <LoadableProfileImage
             userDid={did}
             redirectURL={`https://3box.io/${account}`}
           />
-        </>
+        </ImgContainer>
       }
       <LoadableWeb3Status />
     </CommonToolbar>
