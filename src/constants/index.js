@@ -13,7 +13,7 @@ export const PLACEHOLDER_COMMUNITY = {
 
 export const PLACEHOLDER_POST = {
   title: 'Placeholder',
-  subtitle: null,
+  subtitle: 'Placeholder',
   body: 'loading content ...',
   timestamp: 1596463285,
   community: {
