@@ -3,15 +3,17 @@ import axios from 'axios'
 const ARWEAVE_UPLOAD_SERVICE = process.env.ARWEAVE_UPLOAD_SERVICE
 
 export const uploadPost = async (postData, communityTxId) => {
+  const time = Math.floor(Date.now() / 1000)
+
   const payload = {
     postData,
-    communityTxId
+    communityTxId,
+    author: window.box.DID,
+    time
   }
 
-  const jwt = await window.box._3id.signJWT(payload)
-
   const uploadData = {
-    jwt,
+    payload,
     communityTxId,
     did: window.box.DID
   }

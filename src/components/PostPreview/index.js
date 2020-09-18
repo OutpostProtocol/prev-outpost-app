@@ -1,79 +1,123 @@
 import React from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import unified from 'unified'
-import parse from 'remark-parse'
-import remark2react from 'remark-react'
+import moment from 'moment'
+import LockOpenIcon from '@material-ui/icons/LockOpen'
 
-import PostContext from '../PostContext'
+import { use3boxProf } from '../../hooks'
 
 const PostContainer = styled('div')({
   padding: '10px',
   'border-radius': '4px',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#f4f3f0'
-  }
+    'background-color': '#fafafa'
+  },
+  display: 'flex',
+  border: '1px solid #F0F0F0',
+  position: 'relative',
+  margin: '10px 0',
+  'min-height': '140px'
 })
 
-const PostContent = styled('div')({
-  'margin-top': '17px',
-  'margin-bottom': '17px'
+const FeaturedImage = styled('img')({
+  height: '120px',
+  'border-radius': '10px'
 })
 
-const PostHeader = styled('div')({
-  display: 'block'
+const ImgContainer = styled('div')({
+  height: '120px',
+  'max-width': '250px',
+  overflow: 'hidden',
+  'border-radius': '10px'
 })
 
-const Title = styled('h1')({
-  margin: 0,
-  '@media only screen and (max-width: 700px)': {
-    'font-size': '18px'
-  }
+const FixedImgWidth = styled('div')({
+  width: '250px'
 })
+
+const PostInfo = styled('div')({
+  position: 'relative',
+  'margin-left': '20px'
+})
+
+const Title = styled('h3')({
+  'margin-block-end': '0.5em'
+})
+
+const Subtitle = styled('div')({})
+
+const Context = styled('div')({
+  position: 'absolute',
+  bottom: '0',
+  display: 'flex'
+})
+
+const Author = styled('div')({
+  'margin-right': '20px',
+  'min-width': '125px'
+})
+
+const Date = styled('div')({
+  'min-width': '250px'
+})
+
+const Requirement = styled('div')({
+  position: 'absolute',
+  top: '0',
+  right: '10px',
+  color: '#9A9A99',
+  'font-size': '0.75em'
+})
+
+const StyledLock = styled(LockOpenIcon)({
+  position: 'relative',
+  top: '5px',
+  'margin-right': '10px'
+})
+
+const DATE_FORMAT = 'MMMM D YYYY'
 
 const PostPreview = ({ post }) => {
-  const { title, subtitle, postText } = post
+  const { title, subtitle, user, featuredImg, timestamp, community } = post
+  const { name } = use3boxProf(user.did)
 
   const handleRedirect = () => {
-    const url = '/post/' + post.transaction.txId
+    const url = '/post/' + post.txId
     navigate(url)
   }
-
-  const getPreviewText = () => {
-    const MAX_PREVIEW_CHARACTERS = 256
-
-    if (postText.length < MAX_PREVIEW_CHARACTERS) {
-      return postText
-    } else {
-      return postText.substring(0, MAX_PREVIEW_CHARACTERS) + '...'
-    }
-  }
-
-  const previewText = subtitle || getPreviewText()
 
   return (
     <PostContainer
       onClick={handleRedirect}
     >
-      <PostHeader>
-        <PostContext
-          userDid={post.user.did}
-          communityName={post.community.name}
-          timestamp={post.timestamp}
-        />
-        <Title color='primary'>
+      {featuredImg &&
+        <FixedImgWidth>
+          <ImgContainer>
+            <FeaturedImage src={featuredImg} alt={`featured image for ${title}`} />
+          </ImgContainer>
+        </FixedImgWidth>
+      }
+      <PostInfo>
+        <Title>
           {title}
         </Title>
-      </PostHeader>
-      <PostContent>
-        {
-          unified()
-            .use(parse, { commonmark: true })
-            .use(remark2react)
-            .processSync(previewText).result
-        }
-      </PostContent>
+        <Subtitle>
+          {subtitle}
+        </Subtitle>
+        <Context>
+          <Author>
+            {name}
+          </Author>
+          <Date>
+            {moment.unix(timestamp).format(DATE_FORMAT)}
+          </Date>
+        </Context>
+      </PostInfo>
+      <Requirement>
+        <StyledLock />
+        REQUIRES {community.readRequirement} ${community.tokenSymbol}
+      </Requirement>
     </PostContainer>
   )
 }

@@ -3,7 +3,7 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { MagicConnector } from './magicConnector'
 
 const POLLING_INTERVAL = 10000
-const NETWORK_URL = process.env.GATSBY_NETWORK_URL
+const NETWORK_URL = process.env.ETH_GATEWAY
 
 export const injected = new InjectedConnector({
   supportedChainIds: [1, 3, 4, 5, 42]

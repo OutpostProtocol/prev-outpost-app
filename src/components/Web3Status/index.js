@@ -7,49 +7,39 @@ import {
   useDispatch
 } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
-import { Button } from '@material-ui/core'
+import {
+  Button, CircularProgress
+} from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
 import Box from '3box'
 
-import LoadingBackdrop from '../LoadingBackdrop'
 import {
   SET_DID, SET_IS_LOGGED_IN
 } from '../../redux/actionTypes'
-import { useUser } from '../../hooks'
 import WalletModal from '../WalletModal'
-import NewUserModal from '../NewUserModal'
 
 const Web3Button = styled(Button)({
-  width: '80%',
-  'margin-left': '10%',
-  'border-radius': '4px',
-  'margin-bottom': '5px'
+  width: '100%',
+  height: '2.6em',
+  'border-radius': '4px'
 })
 
 const Web3Container = styled('div')({
-  width: '100%'
+  width: '50%',
+  'max-width': '200px',
+  position: 'absolute',
+  right: '20px',
+  top: '10px'
 })
 
 const Web3Status = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const [isLoading, setIsLoading] = useState(false)
   const { active, account } = useWeb3React()
-  const did = useSelector(state => state.did)
 
-  const { data } = useUser(did)
-  const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
 
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    const hasUserName = data && data.user && data.user.name
-    if (isLoggedIn && !hasUserName) {
-      setIsNewUserModalOpen(true)
-    } else if (hasUserName) {
-      setIsNewUserModalOpen(false)
-    }
-  }, [data, isLoggedIn])
 
   useEffect(() => {
     const login = async () => {
@@ -73,27 +63,47 @@ const Web3Status = () => {
     }
   }, [isLoading])
 
-  return (
-    <Web3Container>
-      <LoadingBackdrop isLoading={isLoading} />
-      {!isLoggedIn &&
+  const SignInButton = () => {
+    if (isLoading) {
+      return (
         <Web3Button
-          variant='contained'
+          variant='outlined'
           color='secondary'
           disableElevation
-          onClick={() => setIsWalletModalOpen(true)}
         >
-          SIGN IN
+          <CircularProgress
+            color='secondary'
+            style={{
+              width: '1em',
+              height: '1em'
+            }}
+          />
         </Web3Button>
+      )
+    }
+
+    return (
+      <Web3Button
+        variant='outlined'
+        color='secondary'
+        disableElevation
+        onClick={() => setIsWalletModalOpen(true)}
+      >
+        SIGN IN
+      </Web3Button>
+    )
+  }
+
+  return (
+    <Web3Container>
+      {!isLoggedIn &&
+        <SignInButton />
       }
       <WalletModal
         open={isWalletModalOpen}
         isLoggedIn={isLoggedIn}
         handleClose={() => setIsWalletModalOpen(false)}
-      />
-      <NewUserModal
-        open={isNewUserModalOpen}
-        handleClose={() => setIsNewUserModalOpen(false)}
+        isLoading={isLoading}
       />
     </Web3Container>
   )

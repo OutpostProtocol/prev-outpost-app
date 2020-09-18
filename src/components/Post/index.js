@@ -3,19 +3,15 @@ import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
-import unified from 'unified'
-import parse from 'remark-parse'
-import remark2react from 'remark-react'
+import htmlparse from 'html-react-parser'
 import {
   gql,
   useMutation
 } from '@apollo/client'
 
 import Share from '../Share'
-import PendingChip from '../PendingChip'
 import PostContext from '../PostContext'
 import LoadingBackdrop from '../LoadingBackdrop'
-import Comments from '../Comments'
 import { deletePost } from '../../uploaders/blog-post'
 import { GET_POSTS } from '../../hooks/usePosts'
 
@@ -77,15 +73,6 @@ const AuthorActions = styled('div')({
   'margin-top': '20px'
 })
 
-const ChipContainer = styled('div')({
-  'margin-top': '0.45em'
-})
-
-const CommentsContainer = styled(Comments)({
-  'margin-top': '10px'
-})
-
-const pendingDescription = 'The post has been sent to the network but has not yet been confirmed.'
 const DELETE_POST = gql`
     mutation deletePost($txId: String!) {
       deletePost(txId: $txId)
@@ -93,7 +80,7 @@ const DELETE_POST = gql`
   `
 
 const Post = ({ post }) => {
-  const { title, subtitle, postText, user, transaction, community, comments } = post
+  const { title, subtitle, postText, user, txId, community } = post
   const [isDeleting, setIsDeleting] = useState(false)
   const did = useSelector(state => state.did)
   const [deletePostFromDb] = useMutation(DELETE_POST)
@@ -109,11 +96,11 @@ const Post = ({ post }) => {
 
   const handleDelete = async () => {
     setIsDeleting(true)
-    const res = await deletePost(transaction.txId, community.txId)
+    const res = await deletePost(txId, community.txId)
     if (res.status === 200 && res.data.status === 200) {
       await deletePostFromDb({
         variables: {
-          txId: transaction.txId
+          txId
         },
         refetchQueries: [{ query: GET_POSTS }]
       })
@@ -148,12 +135,6 @@ const Post = ({ post }) => {
             <Title color='primary'>
               {title}
             </Title>
-            <ChipContainer>
-              <PendingChip
-                isPending={!post.transaction.blockHash}
-                description={pendingDescription}
-              />
-            </ChipContainer>
           </TitleContainer>
         </PostMetaData>
         <SubHeader>
@@ -171,18 +152,9 @@ const Post = ({ post }) => {
       </PostHeader>
       <PostContent>
         {
-          unified()
-            .use(parse, { commonmark: true })
-            .use(remark2react)
-            .processSync(postText).result
+          htmlparse(postText)
         }
       </PostContent>
-      <hr />
-      <CommentsContainer
-        comments={comments}
-        community={post.community}
-        postTxId={transaction.txId}
-      />
     </PostContainer>
   )
 }

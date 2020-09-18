@@ -1,19 +1,20 @@
 import React, {
   useState,
-  useEffect,
-  useRef
+  useEffect
 } from 'react'
 import { styled } from '@material-ui/core/styles'
 import { useWeb3React } from '@web3-react/core'
 
-import { MetaMask } from './walletOptions'
+import {
+  MetaMask, WalletConnect
+} from './walletOptions'
 
 const Container = styled('div')({
   display: 'flex',
   padding: '0 5%',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#f4f3f0'
+    'background-color': '#fafafa'
   }
 })
 
@@ -27,47 +28,53 @@ const Logo = styled('img')({
 })
 
 const OptionName = styled('h3')({
-  'font-weight': 100
+  'font-weight': 300
 })
 
 const MetaMaskConnect = () => {
-  const { imgSrc, name, connector, prepare, setup } = MetaMask
+  const options = [MetaMask, WalletConnect]
   const [isInitializing, setIsInitializing] = useState(false)
+  const [connector, setConnector] = useState(null)
   const { activate } = useWeb3React()
-  const config = useRef({})
 
   useEffect(() => {
     const connect = async () => {
       if (isInitializing) {
-        if (prepare) prepare(connector, config.current)
         await activate(connector)
-        if (setup) setup(connector)
         setIsInitializing(false)
       }
     }
     connect()
-  }, [isInitializing, connector, prepare, setup, activate, name])
+  }, [isInitializing, activate, connector])
 
-  const connect = () => {
+  const connect = (curConnector) => {
+    setConnector(curConnector)
+
     // if not already initalizing, initialize and try activiating in useEffect hook
-    if (MetaMask.connector && !isInitializing) {
+    if (!isInitializing) {
       setIsInitializing(true)
     }
   }
 
+  const Option = ({ wallet }) => (
+    <Container
+      onClick={() => connect(wallet.connector)}
+    >
+      <OptionName>
+        {wallet.name}
+      </OptionName>
+      <Logo
+        src={wallet.imgSrc}
+        alt={wallet.name}
+      />
+    </Container>
+  )
+
   return (
     <Holder>
-      <Container
-        onClick={() => connect()}
-      >
-        <OptionName>
-          {name}
-        </OptionName>
-        <Logo
-          src={imgSrc}
-          alt={name}
-        />
-      </Container>
+      {
+        options.map((opt, i) => <Option key={i} wallet={opt} />)
+      }
     </Holder>
   )
 }

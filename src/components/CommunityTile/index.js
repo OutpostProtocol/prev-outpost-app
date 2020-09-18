@@ -15,7 +15,7 @@ const TileContainer = styled('div')({
   'align-items': 'center',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#f4f3f0'
+    'background-color': '#fafafa'
   }
 })
 

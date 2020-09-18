@@ -1,61 +1,21 @@
-import React, {
-  useState, useEffect
-} from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import { styled } from '@material-ui/core/styles'
 import {
   Select,
   MenuItem
 } from '@material-ui/core'
-import {
-  gql, useQuery
-} from '@apollo/client'
 
 import { capitalize } from '../../utils'
+import { useCommunity } from '../../hooks'
 
 const CommunitySelect = styled(Select)({
   float: 'left',
   'min-width': '150px'
 })
 
-const GET_USER_ROLES = gql`
-  query userRoles($did: String) {
-    userRoles(did: $did) {
-      id
-      role
-      community {
-        name
-        txId
-      }
-      transaction {
-        blockHash
-      }
-    }
-  }
-`
-
 const CommunitySelector = ({ handleSelection, placeHolder, disabled }) => {
   const [activeCommunity, setActiveCommunity] = useState(placeHolder)
-  const [communities, setCommunities] = useState([])
-  const did = useSelector(state => state.did)
-
-  const { data } = useQuery(GET_USER_ROLES, {
-    variables: {
-      did
-    },
-    skip: (typeof window === 'undefined' || !window.box)
-  })
-
-  useEffect(() => {
-    const coms = {}
-    const roles = data && data.userRoles ? data.userRoles : []
-    for (let i = 0; i < roles.length; i++) {
-      const current = roles[i].community
-      coms[current.txId] = current
-    }
-
-    setCommunities(Object.values(coms))
-  }, [data])
+  const { data, loading, error } = useCommunity()
 
   const switchActiveCommunity = (event) => {
     if (event && event.target.value && !disabled) {
@@ -63,6 +23,11 @@ const CommunitySelector = ({ handleSelection, placeHolder, disabled }) => {
       handleSelection(event)
     }
   }
+
+  if (loading) return null
+  if (error) return `Error! ${error.message}`
+
+  const communities = data.community
 
   return (
     <CommunitySelect

@@ -7,7 +7,6 @@ import {
   gql,
   useMutation
 } from '@apollo/client'
-import { decodeJWT } from 'did-jwt'
 
 import { uploadPost } from '../uploaders'
 import { GET_POSTS } from '../hooks/usePosts'
@@ -60,9 +59,6 @@ const UPLOAD_POST = gql`
       user {
         did
       }
-      transaction {
-        txId
-      }
     }
   }
 `
@@ -88,24 +84,20 @@ const EditorPage = ({ location }) => {
     }
   }
 
-  const handleUploadToDb = async (postTx) => {
-    const rawData = postTx.data
-    const jwt = Buffer.from(rawData, 'base64').toString('utf-8')
-
-    const payload = decodeJWT(jwt).payload
-
-    const { communityTxId, iss, iat, postData } = payload
+  const handleUploadToDb = async (txInfo) => {
+    const { communityTxId, author, time, postData, txId, featuredImg } = txInfo
 
     const postUpload = {
       communityTxId,
-      userDid: iss,
-      timestamp: iat,
+      userDid: author,
+      timestamp: time,
       title: postData.title,
       subtitle: postData.subtitle,
       postText: postData.postText,
-      txId: postTx.id,
+      txId,
+      featuredImg,
       canonicalLink: postData.canonicalLink,
-      parentTxId: postTemplate.transaction.txId
+      parentTxId: postTemplate.txId
     }
 
     // if the user is editing, include the id to update the cache
@@ -132,7 +124,7 @@ const EditorPage = ({ location }) => {
     if (isEditingMode) {
       navigate(`/post/${postTemplate.transaction.txId}`)
     } else {
-      navigate(`/post/${res.data.uploadPost.transaction.txId}`)
+      navigate(`/post/${res.data.uploadPost.txId}`)
     }
   }
 
@@ -149,13 +141,16 @@ const EditorPage = ({ location }) => {
     } else if (communityId === '' || communityId === PLACEHOLDER_COMMUNITY.txId) {
       alert('Select a community')
       return
+    } else if (subtitle === '') {
+      alert('This post has no subtitle')
+      return
     }
     setIsWaiting(true)
 
     // No subtitle is ok, the post preview will render a portion of the post instead
     const payload = {
       title: title,
-      subtitle: subtitle !== '' ? subtitle : undefined,
+      subtitle: subtitle,
       postText: postText,
       canonicalLink: canonicalLink,
       parentTxId: postTemplate.transaction.txId

@@ -8,51 +8,53 @@ export const GET_POSTS = gql`
     posts (communityTxId: $communityTxId) {
       id
       title
-      postText
       subtitle
       timestamp
+      txId
+      featuredImg
       community {
         name
         txId
+        readRequirement
+        tokenSymbol
       }
       user {
         did
-      }
-      transaction {
-        txId
-        blockHash
       }
     }
   }
   `
 
 export const GET_POST = gql`
-  query posts($txId: String!) {
-    posts(txId: $txId) {
-      id
-      title
-      postText
-      subtitle
-      timestamp,
-      canonicalLink,
-      community {
-        name
-        txId
-      },
-      user {
-        did
-      },
-      transaction {
-        txId
-        blockHash
-      },
-      comments {
+  query getPost($txId: String!) {
+    getPost(txId: $txId) {
+      post {
+        id
+        title
         postText
+        subtitle
         timestamp
+        canonicalLink
+        txId
+        community {
+          name
+          txId
+        },
         user {
           did
+        },
+        comments {
+          postText
+          timestamp
+          user {
+            did
+          }
         }
       }
+      userBalance
+      readRequirement
+      tokenSymbol
+      tokenAddress
     }
   }
 `
@@ -64,14 +66,12 @@ const usePosts = (communityTxId) => {
 }
 
 export const useOnePost = (txId) => {
-  return useQuery(
-    GET_POST,
-    {
-      variables: {
-        txId: txId
-      }
-    }
-  )
+  return useQuery(GET_POST, {
+    variables: {
+      txId
+    },
+    fetchPolicy: 'network-only'
+  })
 }
 
 export default usePosts

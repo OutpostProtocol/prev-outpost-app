@@ -59,7 +59,7 @@ const Share = ({ url, title, description }) => {
         >
           <FontAwesomeIcon
             icon={faLink}
-            color='#f7f6f3'
+            color='#FFFFFE'
           />
         </LinkButton>
       </ButtonContainer>
