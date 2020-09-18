@@ -46,7 +46,7 @@ const theme = createMuiTheme({
       main: '#1a1a1a'
     },
     secondary: {
-      main: '#7000FF', // '#3D5AFE',
+      main: '#7000FF',
       contrastText: '#f1f1f1'
     },
     info: {
@@ -57,7 +57,7 @@ const theme = createMuiTheme({
     }
   },
   typography: {
-    fontFamily: 'Favorit',
+    fontFamily: 'Roboto',
     button: {
       textTransform: 'none'
     }
