@@ -22,9 +22,19 @@ const PostContainer = styled('div')({
 
 const FeaturedImage = styled('img')({
   height: '120px',
-  width: '120px',
-  'border-radius': '50%',
-  'margin-right': '20px'
+  'border-radius': '10px'
+})
+
+const ImgContainer = styled('div')({
+  height: '120px',
+  'max-width': '250px',
+  'margin-right': '20px',
+  overflow: 'hidden',
+  'border-radius': '10px'
+})
+
+const FixedImgWidth = styled('div')({
+  width: '260px'
 })
 
 const PostInfo = styled('div')({
@@ -44,7 +54,8 @@ const Context = styled('div')({
 })
 
 const Author = styled('div')({
-  'margin-right': '20px'
+  'margin-right': '20px',
+  'min-width': '125px'
 })
 
 const Date = styled('div')({
@@ -53,9 +64,10 @@ const Date = styled('div')({
 
 const Requirement = styled('div')({
   position: 'absolute',
-  top: '10px',
-  right: '20px',
-  color: '#9A9A99'
+  top: '0',
+  right: '10px',
+  color: '#9A9A99',
+  'font-size': '0.75em'
 })
 
 const StyledLock = styled(LockOpenIcon)({
@@ -93,7 +105,11 @@ const PostPreview = ({ post }) => {
     <PostContainer
       onClick={handleRedirect}
     >
-      <FeaturedImage src={featuredImg} alt={`featured image for ${title}`} />
+      <FixedImgWidth>
+        <ImgContainer>
+          <FeaturedImage src={featuredImg} alt={`featured image for ${title}`} />
+        </ImgContainer>
+      </FixedImgWidth>
       <PostInfo>
         <Title>
           {title}

@@ -69,7 +69,8 @@ const ImageContainer = styled('div')({
 const CommunityImage = styled('img')({
   height: '45px',
   width: '100%',
-  'margin-top': '5px'
+  'margin-top': '5px',
+  'border-radius': '4px'
 })
 
 const CurCommunity = styled('div')({
