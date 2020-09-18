@@ -28,7 +28,7 @@ const Logo = styled('img')({
 })
 
 const OptionName = styled('h3')({
-  'font-weight': 100
+  'font-weight': 300
 })
 
 const MetaMaskConnect = () => {

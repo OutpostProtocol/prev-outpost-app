@@ -16,9 +16,7 @@ import Box from '3box'
 import {
   SET_DID, SET_IS_LOGGED_IN
 } from '../../redux/actionTypes'
-import { useUser } from '../../hooks'
 import WalletModal from '../WalletModal'
-import NewUserModal from '../NewUserModal'
 
 const Web3Button = styled(Button)({
   width: '100%',
@@ -38,22 +36,10 @@ const Web3Status = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const [isLoading, setIsLoading] = useState(false)
   const { active, account } = useWeb3React()
-  const did = useSelector(state => state.did)
 
-  const { data } = useUser(did)
-  const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
 
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    const hasUserName = data && data.user && data.user.name
-    if (isLoggedIn && !hasUserName) {
-      setIsNewUserModalOpen(true)
-    } else if (hasUserName) {
-      setIsNewUserModalOpen(false)
-    }
-  }, [data, isLoggedIn])
 
   useEffect(() => {
     const login = async () => {
@@ -118,10 +104,6 @@ const Web3Status = () => {
         isLoggedIn={isLoggedIn}
         handleClose={() => setIsWalletModalOpen(false)}
         isLoading={isLoading}
-      />
-      <NewUserModal
-        open={isNewUserModalOpen}
-        handleClose={() => setIsNewUserModalOpen(false)}
       />
     </Web3Container>
   )
