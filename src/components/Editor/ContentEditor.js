@@ -21,8 +21,6 @@ const PostContent = styled(Editor)({
 })
 
 const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPostText, isEditing }) => {
-  if (!subtitle) subtitle = ''
-
   const imageUpload = async (photoFile) => {
     const form = new window.FormData()
 
@@ -49,7 +47,7 @@ const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPo
         <FormTextField
           onChange={(event) => setSubtitle(event.target.value)}
           value={subtitle}
-          placeholder='SUBTITLE (optional)'
+          placeholder='SUBTITLE'
         />
       </TitleContainer>
       <PostContent

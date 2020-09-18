@@ -5,12 +5,12 @@ import { styled } from '@material-ui/core/styles'
 import { useSelector } from 'react-redux'
 import { IconButton } from '@material-ui/core'
 import { CreateOutlined } from '@material-ui/icons'
+import { useCommunity } from '../../hooks'
+import { useWeb3React } from '@web3-react/core'
 import Loadable from '@loadable/component'
 
-import ProfileImage from '../Profile/ProfileImage'
-import { useCommunity } from '../../hooks'
-
 const LoadableWeb3Status = Loadable(() => import('../Web3Status'))
+const LoadableProfileImage = Loadable(() => import('../Profile/ProfileImage'))
 
 const CreateButton = styled(IconButton)({
   float: 'right',
@@ -38,6 +38,7 @@ const ToolbarContainer = styled('div')({
 const Toolbar = () => {
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   const did = useSelector(state => state.did)
+  const { account } = useWeb3React()
 
   const handleOpenEditor = () => {
     navigate('/editor')
@@ -52,8 +53,9 @@ const Toolbar = () => {
           >
             <CreateOutlined />
           </CreateButton>
-          <ProfileImage
+          <LoadableProfileImage
             userDid={did}
+            redirectURL={`https://3box.io/${account}`}
           />
         </>
       }

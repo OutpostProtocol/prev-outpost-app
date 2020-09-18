@@ -141,13 +141,16 @@ const EditorPage = ({ location }) => {
     } else if (communityId === '' || communityId === PLACEHOLDER_COMMUNITY.txId) {
       alert('Select a community')
       return
+    } else if (subtitle === '') {
+      alert('This post has no subtitle')
+      return
     }
     setIsWaiting(true)
 
     // No subtitle is ok, the post preview will render a portion of the post instead
     const payload = {
       title: title,
-      subtitle: subtitle !== '' ? subtitle : undefined,
+      subtitle: subtitle,
       postText: postText,
       canonicalLink: canonicalLink,
       parentTxId: postTemplate.transaction.txId
