@@ -1,5 +1,5 @@
 import React, {
-  useEffect, useState, useRef
+  useEffect, useState
 } from 'react'
 import { styled } from '@material-ui/core/styles'
 import makeBlockie from 'ethereum-blockies-base64'
@@ -20,20 +20,15 @@ const Avatar = styled('img')({
 
 const ProfileImage = ({ userDid, redirectURL }) => {
   const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
-  const isMounted = useRef(true)
   const { profImage } = use3boxProf(userDid)
 
   useEffect(() => {
     const setProfileImage = async () => {
       const img = profImage || await makeBlockie(userDid)
-      if (isMounted.current) {
-        setImageSrc(img)
-      }
+      setImageSrc(img)
     }
 
     setProfileImage()
-
-    return () => { isMounted.current = false }
   }, [userDid, profImage])
 
   return (

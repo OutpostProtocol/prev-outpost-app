@@ -89,7 +89,7 @@ img.tweet-user-avatar {
 }
 
 .tweet-date {
-  margin-right: 20px;
+  margin: 0 20px 0 0;
 }
 
 .retweets {
