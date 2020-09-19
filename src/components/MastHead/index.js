@@ -9,7 +9,8 @@ import { use3boxProf } from '../../hooks/use3boxProf'
 const Container = styled('div')({
   'background-color': '#F2F2F2',
   width: '70vw',
-  margin: '80px auto 0'
+  margin: '80px auto 0',
+  'min-height': '220px'
 })
 
 const PaddingContainer = styled('div')({
@@ -23,7 +24,8 @@ const Header = styled('div')({
 })
 
 const HeaderImages = styled('div')({
-  width: '100px'
+  width: '100px',
+  'min-height': '165px'
 })
 
 const CommunityImage = styled('img')({
@@ -44,7 +46,9 @@ const Name = styled('h1')({
   'font-size': '2.5em'
 })
 
-const Author = styled('div')({})
+const Author = styled('div')({
+  'min-height': '20px'
+})
 
 const CommunityInfo = styled('div')({
   'margin-top': '20px',
@@ -138,11 +142,11 @@ const MastHead = () => {
             <Name>
               {name}
             </Name>
-            {creatorName &&
-          <Author>
-            By {creatorName}
-          </Author>
-            }
+            <Author>
+              {creatorName &&
+                `By ${creatorName}`
+              }
+            </Author>
             <Description>
               {description}
             </Description>
