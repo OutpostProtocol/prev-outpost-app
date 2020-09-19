@@ -18,7 +18,8 @@ const Container = styled('div')({
 })
 
 const ConnectButton = styled(Button)({
-  width: '100%'
+  width: '100%',
+  height: '40px'
 })
 
 const UploadProgress = styled(CircularProgress)({
@@ -71,8 +72,8 @@ const MagicConnect = () => {
         >
           <UploadProgress
             style={{
-              width: '2em',
-              height: '2em'
+              width: '1.5em',
+              height: '1.5em'
             }}
           />
         </ConnectButton>
