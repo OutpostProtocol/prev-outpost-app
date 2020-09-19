@@ -3,9 +3,8 @@ import { styled } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 import Iframe from 'react-iframe'
 
-import {
-  useCommunity, use3boxProf
-} from '../../hooks'
+import { useCommunity } from '../../hooks'
+import { use3boxProf } from '../../hooks/use3boxProf'
 
 const Container = styled('div')({
   'background-color': '#F2F2F2',
