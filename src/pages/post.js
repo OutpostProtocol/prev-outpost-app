@@ -1,9 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { navigate } from '@reach/router'
 import { styled } from '@material-ui/core/styles'
-import { IconButton } from '@material-ui/core'
-import { ChevronLeft } from '@material-ui/icons'
 import Iframe from 'react-iframe'
 
 import { useOnePost } from '../hooks/usePosts'
@@ -16,18 +13,13 @@ import {
 } from '../utils'
 
 const PostContainer = styled('div')({
-  margin: '3em 0',
+  margin: '5em 0',
+  padding: '0 20px',
   '@media only screen and (min-width: 700px)': {
-    padding: '0 23vw 10vh'
+    padding: '0 20vw 10vh',
+    margin: '10vh auto',
+    'max-width': '1000px'
   }
-})
-
-const BackButton = styled(IconButton)({
-  margin: '5px',
-  position: 'absolute',
-  top: '0',
-  left: '0',
-  'z-index': 2
 })
 
 const IframeContainer = styled('div')({
@@ -37,7 +29,11 @@ const IframeContainer = styled('div')({
   'justify-content': 'space-between',
   'align-items': 'center',
   'font-size': '30px',
-  'text-align': 'center'
+  'text-align': 'center',
+  '@media only screen and (max-width: 800px)': {
+    'flex-direction': 'column',
+    width: '95%'
+  }
 })
 
 const StyledIFrame = styled(Iframe)({
@@ -46,7 +42,10 @@ const StyledIFrame = styled(Iframe)({
 
 const MessageContainer = styled('div')({
   padding: '0.5em',
-  'max-width': '30%'
+  'max-width': '30%',
+  '@media only screen and (max-width: 800px)': {
+    'max-width': '100vw'
+  }
 })
 
 const Message = styled('div')({
@@ -96,15 +95,9 @@ const PostLayout = ({ children, canonicalLink, backPath }) => (
       title="Post"
       canonical={canonicalLink}
     />
-    <BackButton
-      color="inherit"
-      aria-label="Go back"
-      edge="end"
-      onClick={() => navigate(backPath)}
-    >
-      <ChevronLeft />
-    </BackButton>
-    <Toolbar />
+    <Toolbar
+      backPath={backPath}
+    />
     <>
       {children}
     </>
@@ -134,7 +127,7 @@ const LoggedInPost = ({ backPath, txId }) => {
               Your Balance: {userBalance}
             </Message>
             <Message>
-              Buy ${tokenSymbol} on uniswap ➔
+              Buy ${tokenSymbol} on uniswap
             </Message>
           </MessageContainer>
           <StyledIFrame

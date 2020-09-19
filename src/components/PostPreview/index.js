@@ -17,7 +17,10 @@ const PostContainer = styled('div')({
   border: '1px solid #F0F0F0',
   position: 'relative',
   margin: '10px 0',
-  'min-height': '140px'
+  'min-height': '140px',
+  '@media only screen and (max-width: 800px)': {
+    'flex-direction': 'column'
+  }
 })
 
 const FeaturedImage = styled('img')({
@@ -50,7 +53,11 @@ const Subtitle = styled('div')({})
 const Context = styled('div')({
   position: 'absolute',
   bottom: '0',
-  display: 'flex'
+  display: 'flex',
+  '@media only screen and (max-width: 800px)': {
+    position: 'static',
+    'padding-top': '15px'
+  }
 })
 
 const Author = styled('div')({

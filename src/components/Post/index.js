@@ -29,8 +29,7 @@ const PostContent = styled('div')({
   marginTop: '5vh',
   'margin-bottom': '17px',
   'line-height': '1.5em',
-  'font-size': '1.1em',
-  'font-family': 'Spectral, serif'
+  'font-size': '1.1em'
 })
 
 const PostHeader = styled('div')({
@@ -41,10 +40,7 @@ const PostHeader = styled('div')({
 
 const Title = styled('h1')({
   margin: 0,
-  'font-size': '40px',
-  '@media only screen and (max-width: 700px)': {
-    'font-size': '18px'
-  }
+  'font-size': '40px'
 })
 
 const TitleContainer = styled('div')({
@@ -151,7 +147,7 @@ const Post = ({ post }) => {
           />
         </SubHeader>
       </PostHeader>
-      <PostContent>
+      <PostContent id='blog-text'>
         {
           htmlparse(postText)
         }

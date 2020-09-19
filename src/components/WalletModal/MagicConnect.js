@@ -14,12 +14,16 @@ const EmailField = styled(TextField)({
 })
 
 const Container = styled('div')({
-  padding: '15% 10% 0 10%'
+  padding: '15% 10% 0 10%',
+  display: 'flex',
+  'flex-direction': 'column'
 })
 
 const ConnectButton = styled(Button)({
   width: '100%',
-  height: '40px'
+  height: '40px',
+  'max-width': '200px',
+  margin: 'auto'
 })
 
 const UploadProgress = styled(CircularProgress)({

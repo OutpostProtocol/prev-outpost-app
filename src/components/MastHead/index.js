@@ -10,13 +10,20 @@ const Container = styled('div')({
   'background-color': '#F2F2F2',
   width: '70vw',
   margin: '80px auto 0',
-  'min-height': '220px'
+  'min-height': '220px',
+  '@media only screen and (max-width: 800px)': {
+    width: '100%'
+  }
 })
 
 const PaddingContainer = styled('div')({
   padding: '25px',
   display: 'flex',
-  'justify-content': 'space-between'
+  'justify-content': 'space-between',
+  '@media only screen and (max-width: 800px)': {
+    'flex-direction': 'column',
+    'align-items': 'center'
+  }
 })
 
 const Header = styled('div')({

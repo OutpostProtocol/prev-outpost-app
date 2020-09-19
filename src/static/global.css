@@ -54,6 +54,18 @@ div.sc-fzoyAV {
 }
 
 /*
+  Styling for html of a blog post
+*/
+
+#blog-text > p {
+  font-family: 'Spectral', 'serif';
+}
+
+#blog-text > ul {
+  font-family: 'Spectral', 'serif';
+}
+
+/*
   Styling for twitter links in posts
 */
 

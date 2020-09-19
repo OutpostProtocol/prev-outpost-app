@@ -8,11 +8,12 @@ import Toolbar from '../components/Toolbar'
 import MastHead from '../components/MastHead'
 
 const FeedContainer = styled('div')({
-  '@media only screen and (min-width: 700px)': {
-    width: '70vw',
-    margin: '0 auto 15vh',
-    'padding-top': '5vh'
-  }
+  '@media only screen and (min-width: 800px)': {
+    width: '70vw'
+  },
+  width: '95vw',
+  margin: '0 auto 15vh',
+  'padding-top': '5vh'
 })
 
 const FeedHeader = styled('div')({
