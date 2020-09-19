@@ -8,14 +8,12 @@ import {
   gql,
   useMutation
 } from '@apollo/client'
-import Loadable from '@loadable/component'
 
 import Share from '../Share'
 import LoadingBackdrop from '../LoadingBackdrop'
 import { deletePost } from '../../uploaders/blog-post'
 import { GET_POSTS } from '../../hooks/usePosts'
-
-const PostContext = Loadable(() => import('../PostContext'))
+import PostContext from '../PostContext'
 
 const PostContainer = styled('div')({
   padding: '10px',

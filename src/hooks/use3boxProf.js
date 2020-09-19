@@ -1,4 +1,4 @@
-import Box from '3box'
+import { getProfile } from '3box/lib/api'
 import {
   useState, useEffect
 } from 'react'
@@ -9,7 +9,7 @@ export const use3boxProf = (did) => {
 
   useEffect(() => {
     const setProfile = async () => {
-      const profile = await Box.getProfile(did)
+      const profile = await getProfile(did)
 
       if (profile.name) {
         setName(profile.name)
