@@ -29,7 +29,8 @@ const PostContent = styled('div')({
   marginTop: '5vh',
   'margin-bottom': '17px',
   'line-height': '1.5em',
-  'font-size': '1.1em'
+  'font-size': '1.1em',
+  'font-family': 'Spectral, serif'
 })
 
 const PostHeader = styled('div')({
