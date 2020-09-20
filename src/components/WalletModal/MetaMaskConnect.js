@@ -41,7 +41,6 @@ const MetaMaskConnect = () => {
     const connect = async () => {
       if (isInitializing) {
         await activate(connector)
-        setIsInitializing(false)
       }
     }
     connect()

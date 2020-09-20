@@ -13,8 +13,6 @@ const LoadableWeb3Status = Loadable(() => import('../Web3Status'))
 const LoadableProfileImage = Loadable(() => import('../Profile/ProfileImage'))
 
 const CreateButton = styled(IconButton)({
-  float: 'right',
-  'margin-left': 'auto',
   'margin-right': '10px'
 })
 
@@ -26,7 +24,7 @@ const ProfileContainer = styled('div')({
   width: '29vw',
   padding: '10px 0',
   'align-items': 'center',
-  'justify-content': 'space-between'
+  'justify-content': 'flex-end'
 })
 
 const ToolbarContainer = styled('div')({
@@ -36,9 +34,8 @@ const ToolbarContainer = styled('div')({
 })
 
 const Toolbar = () => {
-  const isLoggedIn = useSelector(state => state.isLoggedIn)
   const did = useSelector(state => state.did)
-  const { account } = useWeb3React()
+  const { active, account } = useWeb3React()
 
   const handleOpenEditor = () => {
     navigate('/editor')
@@ -46,7 +43,7 @@ const Toolbar = () => {
 
   return (
     <CommonToolbar>
-      {isLoggedIn &&
+      {(active && did) &&
         <>
           <CreateButton
             onClick={handleOpenEditor}
