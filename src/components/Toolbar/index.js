@@ -16,32 +16,22 @@ import ProfileImage from '../Profile/ProfileImage'
 const LoadableWeb3Status = Loadable(() => import('../Web3Status'))
 
 const CreateButton = styled(IconButton)({
-  float: 'right',
-  'margin-left': 'auto',
   'margin-right': '10px'
 })
 
 const ProfileContainer = styled('div')({
   display: 'flex',
-  position: 'absolute',
-  top: 0,
-  left: '70vw',
-  width: '29vw',
   padding: '10px 0',
   'align-items': 'center',
-  'justify-content': 'space-between'
-})
-
-const ImgContainer = styled('div')({
-  width: '100%',
-  display: 'flex',
   'justify-content': 'flex-end'
 })
 
+const ImgContainer = styled('div')({
+})
+
 const Toolbar = ({ backPath }) => {
-  const isLoggedIn = useSelector(state => state.isLoggedIn)
   const did = useSelector(state => state.did)
-  const { account } = useWeb3React()
+  const { active, account } = useWeb3React()
 
   const handleOpenEditor = () => {
     navigate('/editor')
@@ -51,9 +41,9 @@ const Toolbar = ({ backPath }) => {
     <CommonToolbar
       backPath={backPath}
     >
-      {isLoggedIn &&
+      {(active && did) &&
         <ImgContainer>
-          {false && // temp until only backend writer can see this
+          {false && // disable until we have check that they are an editor
             <CreateButton
               onClick={handleOpenEditor}
             >
@@ -75,7 +65,9 @@ const ToolbarContainer = styled('div')({
   position: 'absolute',
   top: 0,
   height: '60px',
-  display: 'flex'
+  display: 'flex',
+  width: '99vw',
+  'justify-content': 'space-between'
 })
 
 const ImageContainer = styled('div')({
@@ -110,6 +102,10 @@ const BackButton = styled(IconButton)({
   'z-index': 2
 })
 
+const LeftToolbar = styled('div')({
+  display: 'flex'
+})
+
 const CommonToolbar = ({ children, backPath }) => {
   const { data, loading, error } = useCommunity()
 
@@ -119,27 +115,29 @@ const CommonToolbar = ({ children, backPath }) => {
 
   return (
     <ToolbarContainer>
-      {backPath &&
-        <BackButton
-          color="inherit"
-          aria-label="Go back"
-          edge="end"
-          onClick={() => navigate(backPath)}
-        >
-          <ChevronLeft />
-        </BackButton>
-      }
-      <CurCommunity>
-        <ImageContainer>
-          <CommunityImage
-            src={`https://arweave.net/${imageTxId}`}
-            alt={name}
-          />
-        </ImageContainer>
-        <CommunityName>
-          {name}
-        </CommunityName>
-      </CurCommunity>
+      <LeftToolbar>
+        {backPath &&
+          <BackButton
+            color="inherit"
+            aria-label="Go back"
+            edge="end"
+            onClick={() => navigate(backPath)}
+          >
+            <ChevronLeft />
+          </BackButton>
+        }
+        <CurCommunity>
+          <ImageContainer>
+            <CommunityImage
+              src={`https://arweave.net/${imageTxId}`}
+              alt={name}
+            />
+          </ImageContainer>
+          <CommunityName>
+            {name}
+          </CommunityName>
+        </CurCommunity>
+      </LeftToolbar>
       <ProfileContainer>
         {children}
       </ProfileContainer>

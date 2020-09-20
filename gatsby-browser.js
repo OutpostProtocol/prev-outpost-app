@@ -86,7 +86,7 @@ export const wrapRootElement = ({ element }) => {
                   width: '100%',
                   top: '0',
                   left: '0',
-                  'overflow-x': 'hidden'
+                  overflowX: 'hidden'
                 }}
               >
                 {element}

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/styles'
 import { Button } from '@material-ui/core'
 import {
@@ -7,6 +6,7 @@ import {
 } from '@apollo/client'
 import { decodeJWT } from 'did-jwt'
 import Editor from 'rich-markdown-editor'
+import { useWeb3React } from '@web3-react/core'
 
 import { GET_POST } from '../../hooks/usePosts'
 import LoadingBackdrop from '../LoadingBackdrop'
@@ -41,7 +41,7 @@ const UPLOAD_COMMENT = gql`
 
 const Comments = ({ comments, community, postTxId }) => {
   const [newComment, setNewComment] = useState('')
-  const isLoggedIn = useSelector(state => state.isLoggedIn)
+  const { active } = useWeb3React()
   const [uploadCommentToDb] = useMutation(UPLOAD_COMMENT)
   const [isUploadLoading, setIsLoading] = useState(false)
 
@@ -112,7 +112,7 @@ const Comments = ({ comments, community, postTxId }) => {
         )
         }
       </CommentsContainer>
-      { isLoggedIn &&
+      { active &&
         <>
           <Editor
             headingsOffset={1}

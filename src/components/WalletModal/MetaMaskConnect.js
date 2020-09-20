@@ -44,8 +44,6 @@ const MetaMaskConnect = () => {
   useEffect(() => {
     const connect = async () => {
       if (isInitializing) {
-        console.log(connector, 'THE CONNECTOR')
-
         // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
         if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
           console.log('resetting the connector...')
@@ -53,7 +51,6 @@ const MetaMaskConnect = () => {
         }
 
         await activate(connector)
-        setIsInitializing(false)
       }
     }
     connect()
