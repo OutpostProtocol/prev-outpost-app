@@ -29,7 +29,8 @@ const Web3Container = styled('div')({
   'max-width': '200px',
   position: 'absolute',
   right: '20px',
-  top: '10px'
+  top: '10px',
+  'min-width': '100px'
 })
 
 const Web3Status = () => {

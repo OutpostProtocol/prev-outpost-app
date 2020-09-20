@@ -13,7 +13,7 @@ import {
   graphql
 } from 'gatsby'
 
-function SEO ({ canonical, description, lang, meta, title }) {
+function SEO ({ canonical, description, lang, meta, title, image }) {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -46,6 +46,10 @@ function SEO ({ canonical, description, lang, meta, title }) {
         {
           property: 'og:title',
           content: title
+        },
+        {
+          property: 'og:image',
+          content: image
         },
         {
           property: 'og:description',
@@ -87,7 +91,7 @@ SEO.propTypes = {
   description: PropTypes.string,
   lang: PropTypes.string,
   meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string.isRequired
+  title: PropTypes.string
 }
 
 export default SEO

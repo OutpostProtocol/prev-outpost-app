@@ -1,20 +1,19 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
-import Loadable from '@loadable/component'
 
 import usePosts from '../hooks/usePosts'
 import SEO from '../components/seo'
 import Feed from '../components/Feed'
 import Toolbar from '../components/Toolbar'
-
-const MastHead = Loadable(() => import('../components/MastHead'))
+import MastHead from '../components/MastHead'
 
 const FeedContainer = styled('div')({
-  '@media only screen and (min-width: 700px)': {
-    width: '70vw',
-    margin: '0 auto 15vh',
-    'padding-top': '5vh'
-  }
+  '@media only screen and (min-width: 800px)': {
+    width: '70vw'
+  },
+  width: '95vw',
+  margin: '0 auto 15vh',
+  'padding-top': '5vh'
 })
 
 const FeedHeader = styled('div')({
@@ -30,7 +29,10 @@ const IndexPage = () => {
 
   return (
     <div>
-      <SEO title="Home" />
+      <SEO
+        title='Outpost'
+        image='https://arweave.net/YTut0yDqWiDt3-5xM0Y8Lskp68wY2OxCVBHxB4mdCd4'
+      />
       <Toolbar />
       <MastHead />
       <FeedContainer>

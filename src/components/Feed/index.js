@@ -1,7 +1,5 @@
 import React from 'react'
-import Loadable from '@loadable/component'
-
-const PostPreview = Loadable(() => import('../PostPreview'))
+import PostPreview from '../PostPreview'
 
 const Feed = ({ posts }) => {
   return (

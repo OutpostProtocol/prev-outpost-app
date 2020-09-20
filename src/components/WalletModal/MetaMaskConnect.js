@@ -15,7 +15,9 @@ const Container = styled('div')({
   '&:hover': {
     cursor: 'pointer',
     'background-color': '#fafafa'
-  }
+  },
+  'max-width': '300px',
+  margin: 'auto'
 })
 
 const Holder = styled('div')({
