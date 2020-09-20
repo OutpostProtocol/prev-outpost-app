@@ -2,10 +2,7 @@ import React, {
   useState,
   useEffect
 } from 'react'
-import {
-  useSelector,
-  useDispatch
-} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import {
   Button, CircularProgress
@@ -13,30 +10,22 @@ import {
 import { useWeb3React } from '@web3-react/core'
 import Box from '3box'
 
-import {
-  SET_DID, SET_IS_LOGGED_IN
-} from '../../redux/actionTypes'
+import { SET_DID } from '../../redux/actionTypes'
+import { shortenAddress } from '../../utils'
 import WalletModal from '../WalletModal'
 
 const Web3Button = styled(Button)({
-  width: '100%',
+  width: '150px',
   height: '2.6em',
   'border-radius': '4px'
 })
 
 const Web3Container = styled('div')({
-  width: '50%',
-  'max-width': '200px',
-  position: 'absolute',
-  right: '20px',
-  top: '10px',
-  'min-width': '100px'
 })
 
 const Web3Status = () => {
-  const isLoggedIn = useSelector(state => state.isLoggedIn)
   const [isLoading, setIsLoading] = useState(false)
-  const { active, account } = useWeb3React()
+  const { active, account/*, deactivate */ } = useWeb3React()
 
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
 
@@ -45,24 +34,34 @@ const Web3Status = () => {
   useEffect(() => {
     const login = async () => {
       setIsLoading(true)
+      console.log('is logged in', Box.isLoggedIn(account))
       const box = await Box.openBox(account, window.web3.provider)
       window.box = box
 
       dispatch({ type: SET_DID, did: window.box.DID })
-      dispatch({ type: SET_IS_LOGGED_IN, isLoggedIn: true })
       setIsLoading(false)
     }
 
-    if (active && account && !isLoggedIn) {
+    if (active && account && window.box === undefined && !isLoading) {
       login()
     }
-  }, [active, account, isLoggedIn, dispatch])
+  }, [active, account, dispatch, isLoading])
 
   useEffect(() => {
     if (isLoading) {
       setIsWalletModalOpen(false)
     }
   }, [isLoading])
+
+  /*
+  const handleWalletChange = async () => {
+    await window.box.logout()
+    console.log('just logged out', !Box.isLoggedIn(account))
+    window.box = undefined
+    deactivate()
+    setIsWalletModalOpen(true)
+  }
+  */
 
   const SignInButton = () => {
     if (isLoading) {
@@ -97,14 +96,22 @@ const Web3Status = () => {
 
   return (
     <Web3Container>
-      {!isLoggedIn &&
-        <SignInButton />
+      {(!active || window.box === undefined)
+        ? <SignInButton />
+        : <Web3Button
+          variant='outlined'
+          color='secondary'
+          disableElevation
+          style={{
+            cursor: 'default'
+          }}
+        >
+          {shortenAddress(account, 5)}
+        </Web3Button>
       }
       <WalletModal
         open={isWalletModalOpen}
-        isLoggedIn={isLoggedIn}
         handleClose={() => setIsWalletModalOpen(false)}
-        isLoading={isLoading}
       />
     </Web3Container>
   )

@@ -57,11 +57,7 @@ div.sc-fzoyAV {
   Styling for html of a blog post
 */
 
-#blog-text > p {
-  font-family: 'Spectral', 'serif';
-}
-
-#blog-text > ul {
+#blog-text > p, #blog-text > ol, #blog-text > ul  {
   font-family: 'Spectral', 'serif';
 }
 
