@@ -3,7 +3,9 @@ import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import Iframe from 'react-iframe'
 
-import { useOnePost } from '../hooks/usePosts'
+import {
+  useOnePost, usePostPreview
+} from '../hooks/usePosts'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
@@ -64,13 +66,14 @@ const SignInMessage = styled('div')({
 const PostPage = ({ location }) => {
   const did = useSelector(state => state.did)
 
-  const backPath = getBackPath(location)
   const txId = getId(location, '/post/')
+  const backPath = getBackPath(location)
 
   if (!did) {
     return (
       <PostLayout
         backPath={backPath}
+        txId={txId}
       >
         <SignInMessage>
           <div>
@@ -89,20 +92,26 @@ const PostPage = ({ location }) => {
   )
 }
 
-const PostLayout = ({ children, canonicalLink, backPath }) => (
-  <>
-    <SEO
-      title="Post"
-      canonical={canonicalLink}
-    />
-    <Toolbar
-      backPath={backPath}
-    />
+const PostLayout = ({ children, backPath, txId }) => {
+  const { title, description, image, canonicalLink } = usePostPreview(txId)
+
+  return (
     <>
-      {children}
+      <SEO
+        title={title}
+        canonical={canonicalLink}
+        description={description}
+        image={image}
+      />
+      <Toolbar
+        backPath={backPath}
+      />
+      <>
+        {children}
+      </>
     </>
-  </>
-)
+  )
+}
 
 const LoggedInPost = ({ backPath, txId }) => {
   const { data, loading, error } = useOnePost(txId)
@@ -149,7 +158,7 @@ const LoggedInPost = ({ backPath, txId }) => {
   return (
     <PostLayout
       backPath={backPath}
-      canonicalLink={post.canonicalLink}
+      txId={txId}
     >
       <PostContainer>
         <Post

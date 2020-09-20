@@ -29,7 +29,10 @@ const IndexPage = () => {
 
   return (
     <div>
-      <SEO title="Home" />
+      <SEO
+        title='Outpost'
+        image='https://arweave.net/YTut0yDqWiDt3-5xM0Y8Lskp68wY2OxCVBHxB4mdCd4'
+      />
       <Toolbar />
       <MastHead />
       <FeedContainer>
