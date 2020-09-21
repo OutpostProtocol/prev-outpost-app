@@ -6,7 +6,6 @@ import {
 } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
 import { Close } from '@material-ui/icons'
-import { isMobile } from 'react-device-detect'
 
 import MetaMaskConnect from './MetaMaskConnect'
 import MagicConnect from './MagicConnect'
@@ -40,31 +39,7 @@ const OrContainer = styled('div')({
   'justify-content': 'space-around'
 })
 
-const Mobile = styled('div')({
-  padding: '20vh 10vh'
-})
-
 const WalletModal = ({ open, handleClose }) => {
-  if (isMobile) {
-    return (
-      <ModalContainer
-        open={open}
-        onClose={handleClose}
-      >
-        <ExitButton
-          onClick={handleClose}
-        >
-          <Close />
-        </ExitButton>
-        <Mobile>
-          We do not yet support mobile login.
-          <br/>
-          Visit us in your browser.
-        </Mobile>
-      </ModalContainer>
-    )
-  }
-
   const ModalContent = (
     <ContentContainer>
       <ExitButton

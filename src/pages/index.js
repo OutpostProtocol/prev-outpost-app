@@ -21,6 +21,10 @@ const FeedHeader = styled('div')({
   'margin-bottom': '10px'
 })
 
+const Container = styled('div')({
+  'overflow-x': 'hidden'
+})
+
 const IndexPage = () => {
   const { data, loading, error } = usePosts()
 
@@ -28,7 +32,7 @@ const IndexPage = () => {
   if (error) return `Error! ${error.message}`
 
   return (
-    <div>
+    <Container>
       <SEO
         title='Outpost'
         image='https://arweave.net/YTut0yDqWiDt3-5xM0Y8Lskp68wY2OxCVBHxB4mdCd4'
@@ -43,7 +47,7 @@ const IndexPage = () => {
           posts={data.posts}
         />
       </FeedContainer>
-    </ div>
+    </ Container>
   )
 }
 
