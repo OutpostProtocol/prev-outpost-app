@@ -46,11 +46,11 @@ module.exports = {
       }
     },
     {
-      resolve: 'gatsby-plugin-matomo',
+      resolve: 'gatsby-plugin-mixpanel',
       options: {
-        siteId: '1',
-        matomoUrl: 'https://outpostprotocol.matomo.cloud/',
-        siteUrl: 'https://outpost-protocol.com'
+        apiToken: '95dbbe589111bd35460bfd1d7a35b348',
+        pageViews: 'all',
+        enableOnDevMode: true
       }
     },
     {

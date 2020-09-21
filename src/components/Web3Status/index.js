@@ -8,6 +8,7 @@ import {
   Button, CircularProgress
 } from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
+import { useMixpanel } from 'gatsby-plugin-mixpanel'
 import Box from '3box'
 
 import { SET_DID } from '../../redux/actionTypes'
@@ -28,6 +29,7 @@ const Web3Status = () => {
   const { active, account/*, deactivate */ } = useWeb3React()
 
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
+  const mixpanel = useMixpanel()
 
   const dispatch = useDispatch()
 
@@ -36,7 +38,7 @@ const Web3Status = () => {
       setIsLoading(true)
       const box = await Box.openBox(account, window.web3.provider)
       window.box = box
-
+      mixpanel.identify(account)
       dispatch({ type: SET_DID, did: window.box.DID })
       setIsLoading(false)
     }
@@ -44,7 +46,7 @@ const Web3Status = () => {
     if (active && account && window.box === undefined && !isLoading) {
       login()
     }
-  }, [active, account, dispatch, isLoading])
+  }, [active, account, dispatch, isLoading, mixpanel])
 
   useEffect(() => {
     if (isLoading) {

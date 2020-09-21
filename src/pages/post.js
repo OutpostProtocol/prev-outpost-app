@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import Iframe from 'react-iframe'
 import { useWeb3React } from '@web3-react/core'
+import { useMixpanel } from 'gatsby-plugin-mixpanel'
 
 import {
   useOnePost, usePostPreview
@@ -117,6 +118,7 @@ const PostLayout = ({ children, backPath, txId }) => {
 const LoggedInPost = ({ backPath, txId }) => {
   const { account } = useWeb3React()
   const { data, loading, error } = useOnePost(txId, account)
+  const mixpanel = useMixpanel()
 
   if (loading) return null
   if (error) return `Error! ${error.message}`
@@ -124,6 +126,7 @@ const LoggedInPost = ({ backPath, txId }) => {
   const { userBalance, readRequirement, tokenSymbol, tokenAddress } = data.getPost
 
   const isInsufficientBalance = data.getPost.userBalance < data.getPost.readRequirement
+  if (isInsufficientBalance) mixpanel.track('insufficientBalance', { balance: userBalance })
   if (isInsufficientBalance) {
     return (
       <PostLayout

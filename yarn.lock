@@ -8921,6 +8921,13 @@ gatsby-plugin-matomo@^0.8.3:
   resolved "https://registry.yarnpkg.com/gatsby-plugin-matomo/-/gatsby-plugin-matomo-0.8.3.tgz#e0e9cc9e60f7e4b157c9964dfc9d444d73bc46ee"
   integrity sha512-fv6TgD+WsxziZrtmz6sNF4m9FgSyV+8y3R1sobA5hB5OxJyhs/Y4HVo9jCPRHu5VLKQsg4i7LJhWL0ocJiqEWQ==
 
+gatsby-plugin-mixpanel@^3.1.8:
+  version "3.1.8"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-mixpanel/-/gatsby-plugin-mixpanel-3.1.8.tgz#15bee1d5d4a2a8a8b49bf8979cbf210f4ef2d6b7"
+  integrity sha512-lX1Fs51ssAktA1W4C4MIHYIr9t7vgFSDvuuDl48PbHU89/dshPaTM2DXvNxhiZnjeNhtGbPr67UyIaH6+r6yoA==
+  dependencies:
+    mixpanel-browser "^2.38.0"
+
 gatsby-plugin-offline@^3.1.2:
   version "3.2.21"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-3.2.21.tgz#c308c7eb571b98effbb134a706c7af49711fc637"
@@ -14557,6 +14564,11 @@ mixin-deep@^1.2.0:
   dependencies:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
+
+mixpanel-browser@^2.38.0:
+  version "2.39.0"
+  resolved "https://registry.yarnpkg.com/mixpanel-browser/-/mixpanel-browser-2.39.0.tgz#bf746e1ccf66fcd43a0c416b9ea8179e6945c98f"
+  integrity sha512-/h/0ed8qI8OLnqUo7GMWJRnGhnhblgGXrotz7nL4t1vrrXmINK676OI8XO8W1aYZ8gUFDHRKMkQJJUF7cQXD3w==
 
 mkdirp-classic@^0.5.2:
   version "0.5.3"
