@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import {
   Dialog,
   IconButton,
@@ -99,7 +98,6 @@ const NewUserModal = ({ open, handleClose }) => {
   const [isUploading, setIsUploading] = useState(false)
   const [uploadNewUser, { error }] = useMutation(UPLOAD_NEW_USER)
   useErrorReporting(ERROR_TYPES.mutation, error, 'UPLOAD_NEW_USER')
-  const did = useSelector(state => state.did)
   const { data } = useIsNameAvailable(name)
 
   const getUnfilledRequirement = () => {

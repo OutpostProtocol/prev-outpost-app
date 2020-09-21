@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'

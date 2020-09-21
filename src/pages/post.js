@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import Iframe from 'react-iframe'
 import { useWeb3React } from '@web3-react/core'
@@ -66,12 +65,11 @@ const SignInMessage = styled('div')({
 })
 
 const PostPage = ({ location }) => {
-  const did = useSelector(state => state.did)
-
+  const { account } = useWeb3React()
   const txId = getId(location, '/post/')
   const backPath = getBackPath(location)
 
-  if (!did) {
+  if (!account) {
     return (
       <PostLayout
         backPath={backPath}

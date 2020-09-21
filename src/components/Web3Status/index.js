@@ -2,16 +2,16 @@ import React, {
   useState,
   useEffect
 } from 'react'
-import { useDispatch } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import {
   Button, CircularProgress
 } from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
 import { useMixpanel } from 'gatsby-plugin-mixpanel'
-import Box from '3box'
+import {
+  useLazyQuery, gql
+} from '@apollo/client'
 
-import { SET_DID } from '../../redux/actionTypes'
 import { shortenAddress } from '../../utils'
 import WalletModal from '../WalletModal'
 
@@ -24,29 +24,47 @@ const Web3Button = styled(Button)({
 const Web3Container = styled('div')({
 })
 
+const SIGN_IN_TOKEN = gql`
+  query {
+    getSignInToken
+  }
+`
+
 const Web3Status = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const { active, account/*, deactivate */ } = useWeb3React()
+  const { active, account/*, deactivate */, library } = useWeb3React()
+  const [getSignInToken, { data, loading, error }] = useLazyQuery(SIGN_IN_TOKEN)
 
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
   const mixpanel = useMixpanel()
 
-  const dispatch = useDispatch()
-
   useEffect(() => {
     const login = async () => {
       setIsLoading(true)
-      const box = await Box.openBox(account, window.web3.provider)
-      window.box = box
-      mixpanel.identify(account)
-      dispatch({ type: SET_DID, did: window.box.DID })
-      setIsLoading(false)
+
+      getSignInToken()
     }
 
-    if (active && account && window.box === undefined && !isLoading) {
+    if (active && account && !isLoading) {
       login()
     }
-  }, [active, account, dispatch, isLoading, mixpanel])
+  }, [active, account, isLoading, getSignInToken])
+
+  useEffect(() => {
+    const getAuth = async () => {
+      const token = data.getSignInToken
+      console.log(library, 'THE LIBRARY')
+      const signer = library.getSigner()
+      const sig = await signer.signMessage(token)
+      console.log(sig, 'THE SIGNATURE')
+
+      // mixpanel.identify(account)
+    }
+
+    if (data) {
+      getAuth()
+    }
+  }, [data, loading, error])
 
   useEffect(() => {
     if (isLoading) {

@@ -1,7 +1,6 @@
 import React, {
 } from 'react'
 import { styled } from '@material-ui/core/styles'
-import { useSelector } from 'react-redux'
 import { IconButton } from '@material-ui/core'
 import {
   CreateOutlined, ChevronLeft
@@ -30,7 +29,6 @@ const ImgContainer = styled('div')({
 })
 
 const Toolbar = ({ backPath }) => {
-  const did = useSelector(state => state.did)
   const { active, account } = useWeb3React()
 
   const handleOpenEditor = () => {
@@ -41,7 +39,7 @@ const Toolbar = ({ backPath }) => {
     <CommonToolbar
       backPath={backPath}
     >
-      {(active && did) &&
+      {active &&
         <ImgContainer>
           {false && // disable until we have check that they are an editor
             <CreateButton
@@ -51,7 +49,7 @@ const Toolbar = ({ backPath }) => {
             </CreateButton>
           }
           <ProfileImage
-            userDid={did}
+            userDid=''
             redirectURL={`https://3box.io/${account}`}
           />
         </ImgContainer>
