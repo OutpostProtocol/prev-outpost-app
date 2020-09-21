@@ -34,7 +34,6 @@ const Web3Status = () => {
   useEffect(() => {
     const login = async () => {
       setIsLoading(true)
-      console.log('is logged in', Box.isLoggedIn(account))
       const box = await Box.openBox(account, window.web3.provider)
       window.box = box
 

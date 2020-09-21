@@ -46,7 +46,6 @@ const MetaMaskConnect = () => {
       if (isInitializing) {
         // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
         if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
-          console.log('resetting the connector...')
           connector.walletConnectProvider = undefined
         }
 

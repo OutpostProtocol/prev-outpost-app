@@ -14,21 +14,8 @@ import { ELEMENT_ID } from './src/constants'
 import { Web3ReactProvider } from '@web3-react/core'
 import { ethers } from 'ethers'
 import fetch from 'isomorphic-fetch'
-import { setContext } from '@apollo/client/link/context'
 
 import './src/static/global.css'
-
-const authLink = setContext(async (_, { headers }) => {
-  if (!window || !window.box) return headers
-
-  const jwt = await window.box._3id.signJWT('Access token')
-  return {
-    headers: {
-      ...headers,
-      authorization: jwt
-    }
-  }
-})
 
 const httpLink = new HttpLink({
   uri: process.env.OUTPOST_API,
@@ -36,7 +23,7 @@ const httpLink = new HttpLink({
 })
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: httpLink,
   cache: new InMemoryCache()
 })
 
@@ -85,8 +72,7 @@ export const wrapRootElement = ({ element }) => {
                   height: '100%',
                   width: '100%',
                   top: '0',
-                  left: '0',
-                  overflowX: 'hidden'
+                  left: '0'
                 }}
               >
                 {element}

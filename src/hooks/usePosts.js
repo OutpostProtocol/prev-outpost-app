@@ -29,8 +29,8 @@ export const GET_POSTS = gql`
   `
 
 export const GET_POST = gql`
-  query getPost($txId: String!) {
-    getPost(txId: $txId) {
+  query getPost($txId: String!, $ethAddr: String!) {
+    getPost(txId: $txId, ethAddr: $ethAddr) {
       post {
         id
         title
@@ -110,10 +110,11 @@ const usePosts = (communityTxId) => {
   })
 }
 
-export const useOnePost = (txId) => {
+export const useOnePost = (txId, ethAddr) => {
   return useQuery(GET_POST, {
     variables: {
-      txId
+      txId,
+      ethAddr
     },
     fetchPolicy: 'network-only'
   })
