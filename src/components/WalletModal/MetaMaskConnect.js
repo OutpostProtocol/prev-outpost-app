@@ -35,24 +35,25 @@ const MetaMaskConnect = () => {
   const options = [MetaMask, WalletConnect]
   const [isInitializing, setIsInitializing] = useState(false)
   const [connector, setConnector] = useState(null)
-  const { activate } = useWeb3React()
+  const { active, activate, deactivate } = useWeb3React()
 
   useEffect(() => {
     const connect = async () => {
-      if (isInitializing) {
-        await activate(connector)
-      }
+      await activate(connector)
+      setIsInitializing(false)
     }
-    connect()
-  }, [isInitializing, activate, connector])
 
-  const connect = (curConnector) => {
-    setConnector(curConnector)
-
-    // if not already initalizing, initialize and try activiating in useEffect hook
-    if (!isInitializing) {
+    if (!isInitializing && connector) {
+      connect()
       setIsInitializing(true)
     }
+  }, [isInitializing, connector, activate])
+
+  const connect = async (connector) => {
+    if (active) {
+      deactivate()
+    }
+    setConnector(connector)
   }
 
   const Option = ({ wallet }) => (

@@ -40,10 +40,14 @@ const MagicConnect = () => {
   useEffect(() => {
     const connect = async () => {
       if (isInitializing) {
+        console.log('prepare')
         if (prepare) prepare(connector, config.current)
+        console.log('connect')
         await activate(connector)
+        console.log('setup')
         if (setup) setup(connector)
         setIsInitializing(false)
+        console.log('done')
       }
     }
     connect()
@@ -52,6 +56,7 @@ const MagicConnect = () => {
   const connect = () => {
     // if not already initalizing, initialize and try activiating in useEffect hook
     if (MagicData.connector && !isInitializing) {
+      console.log('setting init to true')
       setIsInitializing(true)
     }
   }
