@@ -50,7 +50,7 @@ module.exports = {
       options: {
         apiToken: '95dbbe589111bd35460bfd1d7a35b348',
         pageViews: 'all',
-        enableOnDevMode: false
+        enableOnDevMode: true
       }
     },
     {
