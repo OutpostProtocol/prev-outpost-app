@@ -6,7 +6,7 @@
   "author": "samhatem",
   "scripts": {
     "build": "gatsby build",
-    "dev": "gatsby develop -p 3000",
+    "dev": "gatsby develop -p 3000 -H 0.0.0.0",
     "start": "yarn dev",
     "serve": "gatsby serve",
     "clean": "gatsby clean",

@@ -29,8 +29,8 @@ export const GET_POSTS = gql`
   `
 
 export const GET_POST = gql`
-  query getPost($txId: String!) {
-    getPost(txId: $txId) {
+  query getPost($txId: String!, $userDid: String!) {
+    getPost(txId: $txId, userDid: $userDid) {
       post {
         id
         title
@@ -110,7 +110,7 @@ const usePosts = (communityTxId) => {
   })
 }
 
-export const useOnePost = (txId) => {
+export const useOnePost = (txId, userDid) => {
   return useQuery(GET_POST, {
     variables: {
       txId

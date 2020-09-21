@@ -114,7 +114,7 @@ const PostLayout = ({ children, backPath, txId }) => {
 }
 
 const LoggedInPost = ({ backPath, txId }) => {
-  const { data, loading, error } = useOnePost(txId)
+  const { data, loading, error } = useOnePost(txId, window?.box?.DID)
 
   if (loading) return null
   if (error) return `Error! ${error.message}`
