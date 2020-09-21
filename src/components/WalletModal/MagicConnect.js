@@ -1,12 +1,23 @@
 import React, {
-  useEffect, useState, useRef
+  useEffect,
+  useState,
+  useRef
 } from 'react'
 import { MagicData } from './walletOptions'
 import { useWeb3React } from '@web3-react/core'
 import {
-  TextField, Button, CircularProgress
+  TextField,
+  Button,
+  CircularProgress
 } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
+
+import { storageAvailable } from '../../utils'
+import {
+  LAST_CONNECTOR,
+  LAST_EMAIL,
+  CONNECTOR_NAMES
+} from '../../constants'
 
 const EmailField = styled(TextField)({
   width: '100%',
@@ -43,16 +54,20 @@ const MagicConnect = () => {
   }
 
   useEffect(() => {
+    const setLastConnector = (connectorName, email) => {
+      if (storageAvailable('localStorage')) {
+        window.localStorage.setItem(LAST_CONNECTOR, connectorName)
+        window.localStorage.setItem(LAST_EMAIL, email)
+      }
+    }
+
     const connect = async () => {
       if (isInitializing) {
-        console.log('prepare')
         if (prepare) prepare(connector, config.current)
-        console.log('connect')
         await activate(connector)
-        console.log('setup')
         if (setup) setup(connector)
+        setLastConnector(CONNECTOR_NAMES.magic, config.current.email)
         setIsInitializing(false)
-        console.log('done')
       }
     }
     connect()
@@ -61,7 +76,6 @@ const MagicConnect = () => {
   const connect = () => {
     // if not already initalizing, initialize and try activiating in useEffect hook
     if (MagicData.connector && !isInitializing) {
-      console.log('setting init to true')
       setIsInitializing(true)
     }
   }

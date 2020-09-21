@@ -7,7 +7,7 @@ import {
 import { styled } from '@material-ui/core/styles'
 import { Close } from '@material-ui/icons'
 
-import MetaMaskConnect from './MetaMaskConnect'
+import OptionConnect from './OptionConnect'
 import MagicConnect from './MagicConnect'
 
 const ModalContainer = styled(Dialog)({
@@ -51,7 +51,7 @@ const WalletModal = ({ open, handleClose }) => {
       <OrContainer>
         <i>&mdash;OR&mdash;</i>
       </OrContainer>
-      <MetaMaskConnect />
+      <OptionConnect />
     </ContentContainer>
   )
 

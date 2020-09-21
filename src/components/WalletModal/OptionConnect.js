@@ -5,10 +5,17 @@ import React, {
 import { styled } from '@material-ui/core/styles'
 import { useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
+import { InjectedConnector } from '@web3-react/injected-connector'
 
 import {
-  MetaMask, WalletConnect
+  MetaMask,
+  WalletConnect
 } from './walletOptions'
+import { storageAvailable } from '../../utils'
+import {
+  LAST_CONNECTOR,
+  CONNECTOR_NAMES
+} from '../../constants'
 
 const Container = styled('div')({
   display: 'flex',
@@ -35,19 +42,28 @@ const OptionName = styled('h3')({
   'font-weight': 300
 })
 
-const MetaMaskConnect = () => {
+const OptionConnect = () => {
   const options = [MetaMask, WalletConnect]
   const [isInitializing, setIsInitializing] = useState(false)
   const [connector, setConnector] = useState(null)
   const { active, activate, deactivate } = useWeb3React()
 
   useEffect(() => {
+    const setLastConnector = (connectorName) => {
+      if (storageAvailable('localStorage')) window.localStorage.setItem(LAST_CONNECTOR, connectorName)
+    }
+
     const connect = async () => {
       // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
       if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
         connector.walletConnectProvider = undefined
+        setLastConnector(CONNECTOR_NAMES.walletConnect)
+      } else if (connector instanceof InjectedConnector) {
+        setLastConnector(CONNECTOR_NAMES.injected)
       }
+      console.log('connecting from option')
       await activate(connector)
+      console.log('done connecting from option')
       setIsInitializing(false)
     }
 
@@ -87,4 +103,4 @@ const MetaMaskConnect = () => {
   )
 }
 
-export default MetaMaskConnect
+export default OptionConnect

@@ -35,3 +35,11 @@ export const EMPTY_POST = {
     txId: undefined
   }
 }
+
+export const LAST_CONNECTOR = 'LAST_CONNECTOR'
+export const LAST_EMAIL = 'LAST_EMAIL'
+export const CONNECTOR_NAMES = {
+  walletConnect: 'walletConnect',
+  injected: 'injected',
+  magic: 'magic'
+}
