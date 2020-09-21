@@ -61,9 +61,7 @@ const OptionConnect = () => {
       } else if (connector instanceof InjectedConnector) {
         setLastConnector(CONNECTOR_NAMES.injected)
       }
-      console.log('connecting from option')
       await activate(connector)
-      console.log('done connecting from option')
       setIsInitializing(false)
     }
 
