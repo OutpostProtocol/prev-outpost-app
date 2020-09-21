@@ -113,7 +113,8 @@ const usePosts = (communityTxId) => {
 export const useOnePost = (txId, userDid) => {
   return useQuery(GET_POST, {
     variables: {
-      txId
+      txId,
+      userDid
     },
     fetchPolicy: 'network-only'
   })
