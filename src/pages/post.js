@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import Iframe from 'react-iframe'
+import { useWeb3React } from '@web3-react/core'
 
 import {
   useOnePost, usePostPreview
@@ -114,7 +115,8 @@ const PostLayout = ({ children, backPath, txId }) => {
 }
 
 const LoggedInPost = ({ backPath, txId }) => {
-  const { data, loading, error } = useOnePost(txId, window?.box?.DID)
+  const { account } = useWeb3React()
+  const { data, loading, error } = useOnePost(txId, account)
 
   if (loading) return null
   if (error) return `Error! ${error.message}`
