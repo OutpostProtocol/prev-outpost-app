@@ -22,7 +22,11 @@ import {
 
 import { joinCommunity } from '../../uploaders'
 import { isProduction } from '../../utils'
-import { useIsNameAvailable } from '../../hooks'
+import {
+  useIsNameAvailable,
+  useErrorReporting
+} from '../../hooks'
+import { ERROR_TYPES } from '../../constants'
 
 const CONTRACT_ID = isProduction() ? PROD_CONTRACT_ID : DEV_CONTRACT_ID
 
@@ -93,7 +97,8 @@ const UPLOAD_NEW_USER = gql`
 const NewUserModal = ({ open, handleClose }) => {
   const [name, setUsername] = useState('')
   const [isUploading, setIsUploading] = useState(false)
-  const [uploadNewUser] = useMutation(UPLOAD_NEW_USER)
+  const [uploadNewUser, { error }] = useMutation(UPLOAD_NEW_USER)
+  useErrorReporting(ERROR_TYPES.mutation, error, 'UPLOAD_NEW_USER')
   const did = useSelector(state => state.did)
   const { data } = useIsNameAvailable(name)
 

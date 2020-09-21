@@ -5,6 +5,9 @@ import React, {
 import { styled } from '@material-ui/core/styles'
 import { useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
+import { useMixpanel } from 'gatsby-plugin-mixpanel'
+
+import { ERROR_TYPES } from '../../constants'
 
 import {
   MetaMask, WalletConnect
@@ -40,8 +43,17 @@ const MetaMaskConnect = () => {
   const [isInitializing, setIsInitializing] = useState(false)
   const [connector, setConnector] = useState(null)
   const { activate } = useWeb3React()
+  const mixpanel = useMixpanel()
 
   useEffect(() => {
+    const handleError = (error) => {
+      const info = {
+        type: ERROR_TYPES.login,
+        message: error.message
+      }
+      mixpanel.track('Error', info)
+    }
+
     const connect = async () => {
       if (isInitializing) {
         // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
@@ -49,11 +61,11 @@ const MetaMaskConnect = () => {
           connector.walletConnectProvider = undefined
         }
 
-        await activate(connector)
+        await activate(connector, handleError)
       }
     }
     connect()
-  }, [isInitializing, activate, connector])
+  }, [isInitializing, activate, connector, mixpanel])
 
   const connect = (curConnector) => {
     setConnector(curConnector)

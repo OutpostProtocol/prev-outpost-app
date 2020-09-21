@@ -16,12 +16,14 @@ import SEO from '../components/seo'
 import CommunitySelector from '../components/CommunitySelector'
 import {
   PLACEHOLDER_COMMUNITY,
-  EMPTY_POST
+  EMPTY_POST,
+  ERROR_TYPES
 } from '../constants'
 import PostActions from '../components/Editor/PostActions'
 import ContentEditor from '../components/Editor/ContentEditor'
 import EditorPreview from '../components/Editor/EditorPreview'
 import CanonicalLinkOption from '../components/Editor/CanonicalLinkOption'
+import { useErrorReporting } from '../hooks'
 
 const EditorContainer = styled('div')({
   width: '50vw',
@@ -76,7 +78,8 @@ const EditorPage = ({ location }) => {
   const [showPreview, setShowPreview] = useState(false)
   const [hasCanonicalLink, setHasLink] = useState(false)
   const [canonicalLink, setCanonicalLink] = useState('')
-  const [uploadPostToDb] = useMutation(UPLOAD_POST)
+  const [uploadPostToDb, { error }] = useMutation(UPLOAD_POST)
+  useErrorReporting(ERROR_TYPES.mutation, error, 'UPLOAD_POST')
 
   const handleCommunitySelection = (event) => {
     if (event && event.target.value) {

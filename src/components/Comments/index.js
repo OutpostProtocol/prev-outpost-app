@@ -9,9 +9,11 @@ import Editor from 'rich-markdown-editor'
 import { useWeb3React } from '@web3-react/core'
 
 import { GET_POST } from '../../hooks/usePosts'
+import { useErrorReporting } from '../../hooks'
 import LoadingBackdrop from '../LoadingBackdrop'
 import Comment from './comment'
 import { uploadComment } from '../../uploaders/blog-post'
+import { ERROR_TYPES } from '../../constants'
 
 const PostComment = styled(Button)({
   float: 'right',
@@ -42,8 +44,9 @@ const UPLOAD_COMMENT = gql`
 const Comments = ({ comments, community, postTxId }) => {
   const [newComment, setNewComment] = useState('')
   const { active } = useWeb3React()
-  const [uploadCommentToDb] = useMutation(UPLOAD_COMMENT)
+  const [uploadCommentToDb, { error }] = useMutation(UPLOAD_COMMENT)
   const [isUploadLoading, setIsLoading] = useState(false)
+  useErrorReporting(ERROR_TYPES.mutation, error, 'UPLOAD_COMMENT')
 
   comments = comments || []
 

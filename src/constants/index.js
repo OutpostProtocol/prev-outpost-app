@@ -35,3 +35,9 @@ export const EMPTY_POST = {
     txId: undefined
   }
 }
+
+export const ERROR_TYPES = {
+  login: 'login',
+  query: 'query',
+  mutation: 'mutation'
+}

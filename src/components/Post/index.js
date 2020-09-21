@@ -13,6 +13,8 @@ import Share from '../Share'
 import LoadingBackdrop from '../LoadingBackdrop'
 import { deletePost } from '../../uploaders/blog-post'
 import { GET_POSTS } from '../../hooks/usePosts'
+import { useErrorReporting } from '../../hooks'
+import { ERROR_TYPES } from '../../constants'
 import PostContext from '../PostContext'
 
 const PostContainer = styled('div')({
@@ -80,7 +82,8 @@ const Post = ({ post }) => {
   const { title, subtitle, postText, user, txId, community } = post
   const [isDeleting, setIsDeleting] = useState(false)
   const did = useSelector(state => state.did)
-  const [deletePostFromDb] = useMutation(DELETE_POST)
+  const [deletePostFromDb, { error }] = useMutation(DELETE_POST)
+  useErrorReporting(ERROR_TYPES.mutation, error, 'DELETE_POST')
 
   const isAuthor = () => {
     if (!user || !user.did) return false

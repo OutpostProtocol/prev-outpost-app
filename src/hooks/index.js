@@ -2,6 +2,20 @@ import {
   gql,
   useQuery
 } from '@apollo/client'
+import { useMixpanel } from 'gatsby-plugin-mixpanel'
+import { ERROR_TYPES } from '../constants'
+
+export const useErrorReporting = (type, error, request) => {
+  const mixpanel = useMixpanel()
+  if (error?.message) {
+    const info = {
+      type,
+      message: error.message,
+      request
+    }
+    mixpanel.track('Error', info)
+  }
+}
 
 export const GET_ALL_COMMUNITIES = gql`
   query {
@@ -19,7 +33,9 @@ export const GET_ALL_COMMUNITIES = gql`
  * @returns {Object} All the communities
  */
 export const useCommunities = () => {
-  return useQuery(GET_ALL_COMMUNITIES)
+  const result = useQuery(GET_ALL_COMMUNITIES)
+  useErrorReporting(ERROR_TYPES.query, result?.error, 'GET_ALL_COMMUNITIES')
+  return result
 }
 
 /**
@@ -52,7 +68,7 @@ export const useCommunity = () => {
         txIds: [JAMM_ID]
       }
     })
-
+  useErrorReporting(ERROR_TYPES.query, error, 'GET_COMMUNITY')
   return { data, loading, error }
 }
 
@@ -70,7 +86,7 @@ export const useUser = (did) => {
       did: did
     }
   })
-
+  useErrorReporting(ERROR_TYPES.query, error, 'GET_USER')
   return { data, loading, error }
 }
 
@@ -81,9 +97,11 @@ export const useIsNameAvailable = (name) => {
     }
   `
 
-  return useQuery(IS_NAME_AVAILABLE, {
+  const result = useQuery(IS_NAME_AVAILABLE, {
     variables: {
       name: name
     }
   })
+  useErrorReporting(ERROR_TYPES.query, result?.error, 'IS_NAME_AVAILABLE')
+  return result
 }

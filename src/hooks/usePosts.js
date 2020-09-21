@@ -5,6 +5,8 @@ import {
   gql,
   useQuery
 } from '@apollo/client'
+import { useErrorReporting } from './index'
+import { ERROR_TYPES } from '../constants'
 
 export const GET_POSTS = gql`
   query posts($communityTxId: String) {
@@ -85,7 +87,7 @@ export const usePostPreview = (txId) => {
   const { data, error, loading } = useQuery(GET_PREVIEW, {
     variables: { txId }
   })
-
+  useErrorReporting(ERROR_TYPES.query, data?.error, 'GET_PREVIEW')
   useEffect(() => {
     if (!loading && !error) {
       const preview = data.postPreview
@@ -105,19 +107,23 @@ export const usePostPreview = (txId) => {
 }
 
 const usePosts = (communityTxId) => {
-  return useQuery(GET_POSTS, {
+  const result = useQuery(GET_POSTS, {
     variables: { communityTxId }
   })
+  useErrorReporting(ERROR_TYPES.query, result?.error, 'GET_POSTS')
+  return result
 }
 
 export const useOnePost = (txId, ethAddr) => {
-  return useQuery(GET_POST, {
+  const result = useQuery(GET_POST, {
     variables: {
       txId,
       ethAddr
     },
     fetchPolicy: 'network-only'
   })
+  useErrorReporting(ERROR_TYPES.query, result?.error, 'GET_ALL_COMMUNITIES')
+  return result
 }
 
 export default usePosts

@@ -7,6 +7,9 @@ import {
   TextField, Button, CircularProgress
 } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
+import { useMixpanel } from 'gatsby-plugin-mixpanel'
+
+import { ERROR_TYPES } from '../../constants'
 
 const EmailField = styled(TextField)({
   width: '100%',
@@ -31,10 +34,11 @@ const UploadProgress = styled(CircularProgress)({
 })
 
 const MagicConnect = () => {
-  const { name, connector, prepare, setup } = MagicData
+  const { connector, prepare, setup } = MagicData
   const [isInitializing, setIsInitializing] = useState(false)
   const { activate } = useWeb3React()
   const config = useRef({})
+  const mixpanel = useMixpanel()
 
   const handleEmail = (event) => {
     if (event && event.target && event.target.value) {
@@ -43,16 +47,24 @@ const MagicConnect = () => {
   }
 
   useEffect(() => {
+    const handleError = (error) => {
+      const info = {
+        type: ERROR_TYPES.login,
+        message: error.message
+      }
+      mixpanel.track('Error', info)
+    }
+
     const connect = async () => {
       if (isInitializing) {
         if (prepare) prepare(connector, config.current)
-        await activate(connector)
+        await activate(connector, handleError)
         if (setup) setup(connector)
         setIsInitializing(false)
       }
     }
     connect()
-  }, [isInitializing, connector, prepare, setup, activate, name])
+  }, [isInitializing, connector, prepare, setup, activate, mixpanel])
 
   const connect = () => {
     // if not already initalizing, initialize and try activiating in useEffect hook
