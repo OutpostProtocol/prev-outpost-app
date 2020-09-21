@@ -4,6 +4,7 @@ import React, {
 } from 'react'
 import { styled } from '@material-ui/core/styles'
 import { useWeb3React } from '@web3-react/core'
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
 import {
   MetaMask, WalletConnect
@@ -14,8 +15,10 @@ const Container = styled('div')({
   padding: '0 5%',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#f4f3f0'
-  }
+    'background-color': '#fafafa'
+  },
+  'max-width': '300px',
+  margin: 'auto'
 })
 
 const Holder = styled('div')({
@@ -24,11 +27,12 @@ const Holder = styled('div')({
 
 const Logo = styled('img')({
   width: '50px',
-  'margin-left': 'auto'
+  'margin-left': 'auto',
+  height: '50px'
 })
 
 const OptionName = styled('h3')({
-  'font-weight': 100
+  'font-weight': 300
 })
 
 const MetaMaskConnect = () => {
@@ -39,6 +43,10 @@ const MetaMaskConnect = () => {
 
   useEffect(() => {
     const connect = async () => {
+      // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
+      if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
+        connector.walletConnectProvider = undefined
+      }
       await activate(connector)
       setIsInitializing(false)
     }

@@ -17,10 +17,11 @@ const ModalContainer = styled(Dialog)({
 })
 
 const ContentContainer = styled('div')({
-  width: '25vw',
+  width: '75vw',
   'background-clip': 'content-box',
   'border-radius': '4px',
-  'background-color': '#f7f6f3'
+  'background-color': '#FFFFFE',
+  'max-width': '400px'
 })
 
 const ExitButton = styled(IconButton)({

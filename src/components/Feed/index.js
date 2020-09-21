@@ -1,5 +1,4 @@
 import React from 'react'
-
 import PostPreview from '../PostPreview'
 
 const Feed = ({ posts }) => {

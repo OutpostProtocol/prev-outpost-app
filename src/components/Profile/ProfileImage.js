@@ -1,9 +1,9 @@
 import React, {
-  useEffect, useState, useRef
+  useEffect, useState
 } from 'react'
 import { styled } from '@material-ui/core/styles'
 import makeBlockie from 'ethereum-blockies-base64'
-import Box from '3box'
+import { use3boxProf } from '../../hooks/use3boxProf'
 
 const Avatar = styled('img')({
   'border-radius': '50%',
@@ -20,27 +20,16 @@ const Avatar = styled('img')({
 
 const ProfileImage = ({ userDid, redirectURL }) => {
   const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
-  const isMounted = useRef(true)
+  const { profImage } = use3boxProf(userDid)
 
   useEffect(() => {
-    const getImage = async () => {
-      const profile = await Box.getProfile(userDid)
-      const hash = profile.image ? profile.image[0].contentUrl['/'] : ''
-      if (!hash) return null
-      return `https://ipfs.infura.io/ipfs/${hash}`
+    const setProfileImage = async () => {
+      const img = profImage || await makeBlockie(userDid)
+      setImageSrc(img)
     }
 
-    const retreiveProfile = async () => {
-      const imageSrc = await getImage()
-      const img = imageSrc || await makeBlockie(userDid)
-      if (isMounted.current) {
-        setImageSrc(img)
-      }
-    }
-    retreiveProfile()
-
-    return () => { isMounted.current = false }
-  }, [userDid])
+    setProfileImage()
+  }, [userDid, profImage])
 
   return (
     <>

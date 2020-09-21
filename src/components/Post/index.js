@@ -10,10 +10,10 @@ import {
 } from '@apollo/client'
 
 import Share from '../Share'
-import PostContext from '../PostContext'
 import LoadingBackdrop from '../LoadingBackdrop'
 import { deletePost } from '../../uploaders/blog-post'
 import { GET_POSTS } from '../../hooks/usePosts'
+import PostContext from '../PostContext'
 
 const PostContainer = styled('div')({
   padding: '10px',
@@ -40,10 +40,7 @@ const PostHeader = styled('div')({
 
 const Title = styled('h1')({
   margin: 0,
-  'font-size': '40px',
-  '@media only screen and (max-width: 700px)': {
-    'font-size': '18px'
-  }
+  'font-size': '40px'
 })
 
 const TitleContainer = styled('div')({
@@ -150,7 +147,7 @@ const Post = ({ post }) => {
           />
         </SubHeader>
       </PostHeader>
-      <PostContent>
+      <PostContent id='blog-text'>
         {
           htmlparse(postText)
         }

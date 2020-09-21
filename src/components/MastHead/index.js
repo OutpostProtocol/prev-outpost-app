@@ -1,23 +1,29 @@
-import React, {
-  useEffect, useState
-} from 'react'
+import React, { useState } from 'react'
 import { styled } from '@material-ui/core/styles'
-import Box from '3box'
 import { Button } from '@material-ui/core'
 import Iframe from 'react-iframe'
 
 import { useCommunity } from '../../hooks'
+import { use3boxProf } from '../../hooks/use3boxProf'
 
 const Container = styled('div')({
   'background-color': '#F2F2F2',
   width: '70vw',
-  margin: '80px auto 0'
+  margin: '80px auto 0',
+  'min-height': '220px',
+  '@media only screen and (max-width: 800px)': {
+    width: '100%'
+  }
 })
 
 const PaddingContainer = styled('div')({
   padding: '25px',
   display: 'flex',
-  'justify-content': 'space-between'
+  'justify-content': 'space-between',
+  '@media only screen and (max-width: 800px)': {
+    'flex-direction': 'column',
+    'align-items': 'center'
+  }
 })
 
 const Header = styled('div')({
@@ -25,7 +31,8 @@ const Header = styled('div')({
 })
 
 const HeaderImages = styled('div')({
-  width: '100px'
+  width: '100px',
+  'min-height': '165px'
 })
 
 const CommunityImage = styled('img')({
@@ -46,7 +53,9 @@ const Name = styled('h1')({
   'font-size': '2.5em'
 })
 
-const Author = styled('div')({})
+const Author = styled('div')({
+  'min-height': '20px'
+})
 
 const CommunityInfo = styled('div')({
   'margin-top': '20px',
@@ -94,30 +103,11 @@ const FrameBorder = styled('div')({
 
 const MastHead = () => {
   const { data, loading, error } = useCommunity()
-  const [creatorImg, setCreatorImg] = useState(null)
-  const [creatorName, setCreatorName] = useState(null)
   const [showModal, toggleModal] = useState(false)
+  const creatorProf = use3boxProf(data && data.community && data.community[0].owner)
 
-  useEffect(() => {
-    if (data && data.community) {
-      const setProfile = async () => {
-        const profile = await Box.getProfile(owner)
-        const hash = profile.image ? profile.image[0].contentUrl['/'] : ''
-        if (hash) {
-          const imgSrc = `https://ipfs.infura.io/ipfs/${hash}`
-          setCreatorImg(imgSrc)
-        }
-
-        if (profile.name) {
-          setCreatorName(profile.name)
-        }
-      }
-
-      const { owner } = data.community[0]
-
-      setProfile()
-    }
-  }, [data])
+  const creatorImg = creatorProf.profImage
+  const creatorName = creatorProf.name
 
   if (loading) return null
   if (error) return `Error! ${error.message}`
@@ -159,11 +149,11 @@ const MastHead = () => {
             <Name>
               {name}
             </Name>
-            {creatorName &&
-          <Author>
-            By {creatorName}
-          </Author>
-            }
+            <Author>
+              {creatorName &&
+                `By ${creatorName}`
+              }
+            </Author>
             <Description>
               {description}
             </Description>

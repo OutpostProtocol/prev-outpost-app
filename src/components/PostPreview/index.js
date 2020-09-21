@@ -1,34 +1,47 @@
-import React, {
-  useEffect, useState
-} from 'react'
+import React from 'react'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
-import Box from '3box'
 import moment from 'moment'
 import LockOpenIcon from '@material-ui/icons/LockOpen'
+
+import { use3boxProf } from '../../hooks/use3boxProf'
 
 const PostContainer = styled('div')({
   padding: '10px',
   'border-radius': '4px',
   '&:hover': {
     cursor: 'pointer',
-    'background-color': '#f4f3f0'
+    'background-color': '#fafafa'
   },
   display: 'flex',
   border: '1px solid #F0F0F0',
   position: 'relative',
-  margin: '10px 0'
+  margin: '10px 0',
+  'min-height': '140px',
+  '@media only screen and (max-width: 800px)': {
+    'flex-direction': 'column'
+  }
 })
 
 const FeaturedImage = styled('img')({
   height: '120px',
-  width: '120px',
-  'border-radius': '50%',
-  'margin-right': '20px'
+  'border-radius': '10px'
+})
+
+const ImgContainer = styled('div')({
+  height: '120px',
+  'max-width': '250px',
+  overflow: 'hidden',
+  'border-radius': '10px'
+})
+
+const FixedImgWidth = styled('div')({
+  width: '250px'
 })
 
 const PostInfo = styled('div')({
-  position: 'relative'
+  position: 'relative',
+  'margin-left': '20px'
 })
 
 const Title = styled('h3')({
@@ -40,11 +53,16 @@ const Subtitle = styled('div')({})
 const Context = styled('div')({
   position: 'absolute',
   bottom: '0',
-  display: 'flex'
+  display: 'flex',
+  '@media only screen and (max-width: 800px)': {
+    position: 'static',
+    'padding-top': '15px'
+  }
 })
 
 const Author = styled('div')({
-  'margin-right': '20px'
+  'margin-right': '20px',
+  'min-width': '125px'
 })
 
 const Date = styled('div')({
@@ -53,9 +71,10 @@ const Date = styled('div')({
 
 const Requirement = styled('div')({
   position: 'absolute',
-  top: '10px',
-  right: '20px',
-  color: '#9A9A99'
+  top: '0',
+  right: '10px',
+  color: '#9A9A99',
+  'font-size': '0.75em'
 })
 
 const StyledLock = styled(LockOpenIcon)({
@@ -68,32 +87,24 @@ const DATE_FORMAT = 'MMMM D YYYY'
 
 const PostPreview = ({ post }) => {
   const { title, subtitle, user, featuredImg, timestamp, community } = post
-  const [creatorName, setCreatorName] = useState(null)
+  const { name } = use3boxProf(user.did)
 
   const handleRedirect = () => {
     const url = '/post/' + post.txId
     navigate(url)
   }
 
-  useEffect(() => {
-    const setProfile = async () => {
-      const profile = await Box.getProfile(did)
-
-      if (profile.name) {
-        setCreatorName(profile.name)
-      }
-    }
-
-    const did = user.did
-
-    setProfile()
-  }, [user])
-
   return (
     <PostContainer
       onClick={handleRedirect}
     >
-      <FeaturedImage src={featuredImg} alt={`featured image for ${title}`} />
+      {featuredImg &&
+        <FixedImgWidth>
+          <ImgContainer>
+            <FeaturedImage src={featuredImg} alt={`featured image for ${title}`} />
+          </ImgContainer>
+        </FixedImgWidth>
+      }
       <PostInfo>
         <Title>
           {title}
@@ -103,7 +114,7 @@ const PostPreview = ({ post }) => {
         </Subtitle>
         <Context>
           <Author>
-            {creatorName}
+            {name}
           </Author>
           <Date>
             {moment.unix(timestamp).format(DATE_FORMAT)}
