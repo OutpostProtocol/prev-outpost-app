@@ -78,15 +78,13 @@ const DELETE_POST = gql`
   `
 
 const Post = ({ post }) => {
-  const { title, subtitle, postText, user, txId, community } = post
+  const { title, subtitle, postText, /* user, */ txId, community } = post
   const [isDeleting, setIsDeleting] = useState(false)
-  const did = useSelector(state => state.did)
   const [deletePostFromDb, { error }] = useMutation(DELETE_POST)
   useErrorReporting(ERROR_TYPES.mutation, error, 'DELETE_POST')
 
   const isAuthor = () => {
-    if (!user || !user.did) return false
-    return post.user.did === did
+    alert('Need to upload set is Author function')
   }
 
   const handleEdit = () => {

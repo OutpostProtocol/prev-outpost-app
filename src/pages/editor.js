@@ -16,7 +16,6 @@ import SEO from '../components/seo'
 import CommunitySelector from '../components/CommunitySelector'
 import {
   PLACEHOLDER_COMMUNITY,
-  EMPTY_POST,
   ERROR_TYPES
 } from '../constants'
 import PostActions from '../components/Editor/PostActions'
@@ -67,7 +66,7 @@ const UPLOAD_POST = gql`
 
 const EditorPage = ({ location }) => {
   const isEditingMode = location.state && location.state.post
-  const postTemplate = isEditingMode ? location.state.post : EMPTY_POST
+  const postTemplate = isEditingMode && location.state.post
   const placeholderCommunity = (isEditingMode && location.state.post.community) ? location.state.post.community : PLACEHOLDER_COMMUNITY
 
   const [postText, setPostText] = useState(postTemplate.postText)

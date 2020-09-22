@@ -4,30 +4,15 @@ import {
   IconButton,
   TextField,
   Button,
-  Fade,
-  CircularProgress
+  Fade
 } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
 import {
   Close,
   Done
 } from '@material-ui/icons'
-import {
-  gql, useMutation
-} from '@apollo/client'
-import {
-  DEV_CONTRACT_ID, PROD_CONTRACT_ID, ROLES
-} from 'outpost-protocol'
 
-import { joinCommunity } from '../../uploaders'
-import { isProduction } from '../../utils'
-import {
-  useIsNameAvailable,
-  useErrorReporting
-} from '../../hooks'
-import { ERROR_TYPES } from '../../constants'
-
-const CONTRACT_ID = isProduction() ? PROD_CONTRACT_ID : DEV_CONTRACT_ID
+import { useIsNameAvailable } from '../../hooks'
 
 const ModalContainer = styled(Dialog)({
   display: 'flex',
@@ -65,39 +50,14 @@ const SubmitButton = styled(Button)({
   'margin-top': '10px'
 })
 
-const UploadProgress = styled(CircularProgress)({
-  color: '#f1f1f1'
-})
-
 const AvailabiltyContainer = styled('div')({
   display: 'flex',
   justifyContent: 'center',
   padding: '10px'
 })
 
-const UPLOAD_NEW_USER = gql`
-  mutation setUsername($did: String!, $name: String!, $role: RoleUpload!) {
-    setUsername(did: $did, name: $name) {
-      id,
-      name
-    }
-    uploadRole(role: $role) {
-      success
-      role {
-        role
-        transaction {
-          blockHash
-        }
-      }
-    }
-  }
-`
-
 const NewUserModal = ({ open, handleClose }) => {
   const [name, setUsername] = useState('')
-  const [isUploading, setIsUploading] = useState(false)
-  const [uploadNewUser, { error }] = useMutation(UPLOAD_NEW_USER)
-  useErrorReporting(ERROR_TYPES.mutation, error, 'UPLOAD_NEW_USER')
   const { data } = useIsNameAvailable(name)
 
   const getUnfilledRequirement = () => {
@@ -116,45 +76,6 @@ const NewUserModal = ({ open, handleClose }) => {
     }
   }
 
-  const handleNewUser = async () => {
-    if (requirements !== null) {
-      alert(requirements)
-      return
-    }
-
-    setIsUploading(true)
-    const txId = (await joinCommunity(CONTRACT_ID)).data
-
-    const roleUpload = {
-      txId: txId,
-      communityTxId: CONTRACT_ID,
-      userDid: did,
-      role: ROLES.MEMBER
-    }
-
-    await uploadNewUser({
-      variables: {
-        role: roleUpload,
-        name,
-        did
-      },
-      refetchQueries: [
-        {
-          query: gql`
-            query user($did: String) {
-              user(did: $did) {
-                name,
-                id
-              }
-            }
-          `,
-          variables: { did }
-        }
-      ]
-    })
-
-    handleClose()
-  }
   const ModalContent = (
     <ContentContainer>
       <Heading>
@@ -180,29 +101,15 @@ const NewUserModal = ({ open, handleClose }) => {
           { requirements }
         </ AvailabiltyContainer>
       }
-      { isUploading
-        ? <SubmitButton
-          disableElevation
-          color='secondary'
-          variant='contained'
-        >
-          <UploadProgress
-            style={{
-              width: '2em',
-              height: '2em'
-            }}
-          />
-        </SubmitButton>
-        : <SubmitButton
-          disabled={requirements !== null}
-          onClick={handleNewUser}
-          disableElevation
-          color='secondary'
-          variant='contained'
-        >
-          SAVE
-        </SubmitButton>
-      }
+      <SubmitButton
+        disabled={requirements !== null}
+        onClick={() => alert('need to set up new user modal')}
+        disableElevation
+        color='secondary'
+        variant='contained'
+      >
+        SAVE
+      </SubmitButton>
     </ContentContainer>
   )
 
