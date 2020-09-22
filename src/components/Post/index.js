@@ -11,6 +11,7 @@ import {
 
 import Share from '../Share'
 import LoadingBackdrop from '../LoadingBackdrop'
+import Comments from '../Comments'
 import { deletePost } from '../../uploaders/blog-post'
 import { GET_POSTS } from '../../hooks/usePosts'
 import { useErrorReporting } from '../../hooks'
@@ -78,7 +79,7 @@ const DELETE_POST = gql`
     }
   `
 
-const Post = ({ post }) => {
+const Post = ({ post, comments }) => {
   const { title, subtitle, postText, user, txId, community } = post
   const [isDeleting, setIsDeleting] = useState(false)
   const did = useSelector(state => state.did)
@@ -155,6 +156,11 @@ const Post = ({ post }) => {
           htmlparse(postText)
         }
       </PostContent>
+      <Comments
+        comments={comments}
+        communityTxId={community.txId}
+        postTxId={txId}
+      />
     </PostContainer>
   )
 }

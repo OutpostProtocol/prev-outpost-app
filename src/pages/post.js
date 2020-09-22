@@ -6,7 +6,8 @@ import { useWeb3React } from '@web3-react/core'
 import { useMixpanel } from 'gatsby-plugin-mixpanel'
 
 import {
-  useOnePost, usePostPreview
+  useOnePost,
+  usePostPreview
 } from '../hooks/usePosts'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
@@ -168,6 +169,7 @@ const LoggedInPost = ({ backPath, txId }) => {
       <PostContainer>
         <Post
           post={post}
+          comments={post.comments}
         />
       </PostContainer>
     </PostLayout>

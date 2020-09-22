@@ -47,13 +47,13 @@ export const GET_POST = gql`
         },
         user {
           did
-        },
-        comments {
-          postText
-          timestamp
-          user {
-            did
-          }
+        }
+      },
+      comments {
+        postText
+        timestamp
+        user {
+          did
         }
       }
       userBalance
@@ -122,7 +122,7 @@ export const useOnePost = (txId, ethAddr) => {
     },
     fetchPolicy: 'network-only'
   })
-  useErrorReporting(ERROR_TYPES.query, result?.error, 'GET_ALL_COMMUNITIES')
+  useErrorReporting(ERROR_TYPES.query, result?.error, 'GET_POST')
   return result
 }
 

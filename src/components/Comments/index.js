@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { styled } from '@material-ui/styles'
 import { Button } from '@material-ui/core'
 import {
-  gql, useMutation
+  gql,
+  useMutation
 } from '@apollo/client'
-import { decodeJWT } from 'did-jwt'
 import Editor from 'rich-markdown-editor'
 import { useWeb3React } from '@web3-react/core'
 
@@ -12,7 +12,6 @@ import { GET_POST } from '../../hooks/usePosts'
 import { useErrorReporting } from '../../hooks'
 import LoadingBackdrop from '../LoadingBackdrop'
 import Comment from './comment'
-import { uploadComment } from '../../uploaders/blog-post'
 import { ERROR_TYPES } from '../../constants'
 
 const PostComment = styled(Button)({
@@ -30,8 +29,8 @@ const CommentContainer = styled('div')({
 })
 
 const UPLOAD_COMMENT = gql`
-  mutation uploadComment($comment: CommentUpload!) {
-    uploadComment(comment: $comment) {
+  mutation uploadComment($commentText: String!, $postTxId: String!, $communityTxId: String!, $did: String!, $timestamp: Int!) {
+    uploadComment(commentText: $commentText, postTxId: $postTxId, communityTxId: $communityTxId, did: $did, timestamp: $timestamp) {
       postText
       timestamp
       user {
@@ -41,7 +40,7 @@ const UPLOAD_COMMENT = gql`
   }
 `
 
-const Comments = ({ comments, community, postTxId }) => {
+const Comments = ({ comments, communityTxId, postTxId }) => {
   const [newComment, setNewComment] = useState('')
   const { active } = useWeb3React()
   const [uploadCommentToDb, { error }] = useMutation(UPLOAD_COMMENT)
@@ -55,41 +54,17 @@ const Comments = ({ comments, community, postTxId }) => {
       alert('You can\'t post an empty comment!')
       return
     }
+
     setIsLoading(true)
 
-    const payload = {
-      postText: newComment,
-      postTxId: postTxId
-    }
-    const res = await uploadComment(payload, community.txId)
-    if (res.status === 200 && res.data.status === 200) {
-      await handleUploadToDb(res.data.tx)
-    } else {
-      alert('The comment upload failed. Try again')
-    }
-    setIsLoading(false)
-    setNewComment('')
-  }
-
-  const handleUploadToDb = async (postTx) => {
-    const rawData = postTx.data
-    const jwt = Buffer.from(rawData, 'base64').toString('utf-8')
-
-    const payload = decodeJWT(jwt).payload
-
-    const { iss, iat, commentData } = payload
-
-    const commentUpload = {
-      userDid: iss,
-      timestamp: iat,
-      postText: commentData.postText,
-      postTxId: postTxId,
-      txId: postTx.id
-    }
-
+    const timestamp = Math.floor(Date.now() / 1000)
     const options = {
       variables: {
-        comment: commentUpload
+        postTxId: postTxId,
+        communityTxId: communityTxId,
+        timestamp: timestamp,
+        commentText: newComment,
+        did: window.box.DID
       },
       refetchQueries: [{
         query: GET_POST,
@@ -100,6 +75,7 @@ const Comments = ({ comments, community, postTxId }) => {
     await uploadCommentToDb(options)
 
     setIsLoading(false)
+    setNewComment('')
   }
 
   return (
