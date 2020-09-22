@@ -20,7 +20,8 @@ const Avatar = styled('img')({
 
 const ProfileImage = ({ userDid, redirectURL }) => {
   const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
-  const { profImage } = use3boxProf(userDid)
+  // const { profImage } = use3boxProf(userDid)
+  const profImage = null
 
   useEffect(() => {
     const setProfileImage = async () => {

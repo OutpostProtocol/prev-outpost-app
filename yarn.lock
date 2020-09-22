@@ -8916,11 +8916,6 @@ gatsby-plugin-material-ui@^2.1.6:
     clean-css "^4.2.1"
     postcss "^7.0.17"
 
-gatsby-plugin-matomo@^0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-matomo/-/gatsby-plugin-matomo-0.8.3.tgz#e0e9cc9e60f7e4b157c9964dfc9d444d73bc46ee"
-  integrity sha512-fv6TgD+WsxziZrtmz6sNF4m9FgSyV+8y3R1sobA5hB5OxJyhs/Y4HVo9jCPRHu5VLKQsg4i7LJhWL0ocJiqEWQ==
-
 gatsby-plugin-mixpanel@^3.1.8:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-mixpanel/-/gatsby-plugin-mixpanel-3.1.8.tgz#15bee1d5d4a2a8a8b49bf8979cbf210f4ef2d6b7"
@@ -8981,13 +8976,6 @@ gatsby-plugin-react-helmet@^3.2.1:
   integrity sha512-AcXYwmS3r298JWs6iQ3OLNxIe8L8i5a2iSdLr/SDMpHqumYm7q/vB9kCX0et5wM7DIuZ7aPXDrdi5yDCAvU5lg==
   dependencies:
     "@babel/runtime" "^7.10.3"
-
-gatsby-plugin-react-redux@^1.1.0-0:
-  version "1.1.0-0"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-react-redux/-/gatsby-plugin-react-redux-1.1.0-0.tgz#5c76776a4ecd093b876dd527058091fb4e3ab2fb"
-  integrity sha512-xuwF35hS0aaBzDj7gRk67SYzlT0egdp0giyf/DOuAQTCzioje7RCZt/k3WOO3K6/OoaakgfrwfVOSTTcqYiPMw==
-  dependencies:
-    serialize-javascript "^2.1.0"
 
 gatsby-plugin-sharp@^2.5.4:
   version "2.6.24"
@@ -17622,7 +17610,7 @@ react-iframe@^1.8.0:
   dependencies:
     object-assign "^4.1.1"
 
-react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1, react-is@^16.9.0:
+react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -17668,17 +17656,6 @@ react-reconciler@^0.25.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.19.1"
-
-react-redux@^7.2.0:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.1.tgz#8dedf784901014db2feca1ab633864dee68ad985"
-  integrity sha512-T+VfD/bvgGTUA74iW9d2i5THrDQWbweXP0AVNI8tNd1Rk5ch1rnMiJkDD67ejw7YBKM4+REvcvqRuWJb7BLuEg==
-  dependencies:
-    "@babel/runtime" "^7.5.5"
-    hoist-non-react-statics "^3.3.0"
-    loose-envify "^1.4.0"
-    prop-types "^15.7.2"
-    react-is "^16.9.0"
 
 react-refresh@^0.7.0:
   version "0.7.2"
@@ -18667,11 +18644,6 @@ send@0.17.1:
     on-finished "~2.3.0"
     range-parser "~1.2.1"
     statuses "~1.5.0"
-
-serialize-javascript@^2.1.0:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-2.1.2.tgz#ecec53b0e0317bdc95ef76ab7074b7384785fa61"
-  integrity sha512-rs9OggEUF0V4jUSecXazOYsLfu7OGK2qIn3c7IPBiffz32XniEp/TX9Xmc9LQfK2nQ2QKHvZ2oygKUGU0lG4jQ==
 
 serialize-javascript@^3.1.0:
   version "3.1.0"

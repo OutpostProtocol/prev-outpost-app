@@ -53,13 +53,6 @@ module.exports = {
         enableOnDevMode: false
       }
     },
-    {
-      resolve: 'gatsby-plugin-react-redux',
-      options: {
-        // [required] - path to your createStore module
-        pathToCreateStoreModule: './src/redux/store'
-      }
-    },
     'gatsby-plugin-fontawesome-css'
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
