@@ -1,19 +1,23 @@
 import React, {
   useState,
-  useEffect
+  useEffect,
+  useCallback
 } from 'react'
 import { styled } from '@material-ui/core/styles'
-import {
-  Button, CircularProgress
-} from '@material-ui/core'
+import store from 'store'
+import { Button } from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
 import { useMixpanel } from 'gatsby-plugin-mixpanel'
 import {
-  useLazyQuery, gql
+  useMutation, gql
 } from '@apollo/client'
 
+import {
+  LOGIN_TOKEN, ERROR_TYPES
+} from '../../constants'
 import { shortenAddress } from '../../utils'
 import WalletModal from '../WalletModal'
+import usePrevWallet from '../../hooks/usePrevWallet'
 
 const Web3Button = styled(Button)({
   width: '150px',
@@ -25,82 +29,80 @@ const Web3Container = styled('div')({
 })
 
 const SIGN_IN_TOKEN = gql`
-  query {
-    getSignInToken
+  mutation getToken($addr: String!) {
+    getSignInToken(addr: $addr)
+  }
+`
+
+const AUTHENTICATE = gql`
+  mutation auth($sig: String!, $addr: String!) {
+    authAccount(signature: $sig, addr: $addr)
   }
 `
 
 const Web3Status = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const { active, account/*, deactivate */, library } = useWeb3React()
-  const [getSignInToken, { data, loading, error }] = useLazyQuery(SIGN_IN_TOKEN)
+  const { active, account, library } = useWeb3React()
+  const [getToken] = useMutation(SIGN_IN_TOKEN)
+  const [authAccount] = useMutation(AUTHENTICATE)
+  const [curAccount, setCurAccount] = useState()
+  usePrevWallet()
 
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false)
   const mixpanel = useMixpanel()
 
+  const checkError = useCallback(
+    (loginRes) => {
+      const { error } = loginRes
+      if (error) {
+        const info = {
+          type: ERROR_TYPES.login,
+          message: error.message
+        }
+        mixpanel.track('ERROR', info)
+        return true
+      }
+      return false
+    },
+    [mixpanel]
+  )
+
   useEffect(() => {
-    const login = async () => {
-      setIsLoading(true)
+    const fetchToken = async () => {
+      const tokenRes = await getToken({
+        variables: {
+          addr: account
+        }
+      })
 
-      getSignInToken()
-    }
-
-    if (active && account && !isLoading) {
-      login()
-    }
-  }, [active, account, isLoading, getSignInToken])
-
-  useEffect(() => {
-    const getAuth = async () => {
-      const token = data.getSignInToken
-      console.log(library, 'THE LIBRARY')
+      checkError(tokenRes)
+      const token = tokenRes.data.getSignInToken
       const signer = library.getSigner()
       const sig = await signer.signMessage(token)
-      console.log(sig, 'THE SIGNATURE')
 
-      // mixpanel.identify(account)
+      const authRes = await authAccount({
+        variables: {
+          sig,
+          addr: account
+        }
+      })
+
+      checkError(authRes)
+      store.set(`${LOGIN_TOKEN}.${account}`, authRes.data.authAccount)
+      mixpanel.identify(account)
     }
 
-    if (data) {
-      getAuth()
-    }
-  }, [data, loading, error])
+    // if the account changes check if we have an auth token for the account
+    if (account !== curAccount) {
+      setCurAccount(account)
 
-  useEffect(() => {
-    if (isLoading) {
-      setIsWalletModalOpen(false)
+      const curToken = store.get(`${LOGIN_TOKEN}.${account}`)
+      if (!curToken) {
+        fetchToken()
+      }
     }
-  }, [isLoading])
-
-  /*
-  const handleWalletChange = async () => {
-    await window.box.logout()
-    console.log('just logged out', !Box.isLoggedIn(account))
-    window.box = undefined
-    deactivate()
-    setIsWalletModalOpen(true)
-  }
-  */
+  }, [account, curAccount, setCurAccount, getToken, authAccount, library, checkError, mixpanel])
 
   const SignInButton = () => {
-    if (isLoading) {
-      return (
-        <Web3Button
-          variant='outlined'
-          color='secondary'
-          disableElevation
-        >
-          <CircularProgress
-            color='secondary'
-            style={{
-              width: '1em',
-              height: '1em'
-            }}
-          />
-        </Web3Button>
-      )
-    }
-
     return (
       <Web3Button
         variant='outlined'
@@ -115,7 +117,7 @@ const Web3Status = () => {
 
   return (
     <Web3Container>
-      {(!active || window.box === undefined)
+      {(!active || !account)
         ? <SignInButton />
         : <Web3Button
           variant='outlined'

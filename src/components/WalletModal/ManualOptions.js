@@ -5,10 +5,15 @@ import React, {
 import { styled } from '@material-ui/core/styles'
 import { useWeb3React } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
+import { InjectedConnector } from '@web3-react/injected-connector'
 import { useMixpanel } from 'gatsby-plugin-mixpanel'
+import store from 'store'
 
-import { ERROR_TYPES } from '../../constants'
-
+import {
+  ERROR_TYPES,
+  LAST_CONNECTOR,
+  CONNECTOR_NAMES
+} from '../../constants'
 import {
   MetaMask, WalletConnect
 } from './walletOptions'
@@ -38,11 +43,11 @@ const OptionName = styled('h3')({
   'font-weight': 300
 })
 
-const MetaMaskConnect = () => {
+const ManualOptions = ({ closeModal }) => {
   const options = [MetaMask, WalletConnect]
   const [isInitializing, setIsInitializing] = useState(false)
   const [connector, setConnector] = useState(null)
-  const { activate } = useWeb3React()
+  const { active, activate, deactivate } = useWeb3React()
   const mixpanel = useMixpanel()
 
   useEffect(() => {
@@ -54,26 +59,35 @@ const MetaMaskConnect = () => {
       mixpanel.track('Error', info)
     }
 
-    const connect = async () => {
-      if (isInitializing) {
-        // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
-        if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
-          connector.walletConnectProvider = undefined
-        }
-
-        await activate(connector, handleError)
-      }
+    const setLastConnector = (connectorName) => {
+      store.set(LAST_CONNECTOR, connectorName)
     }
-    connect()
-  }, [isInitializing, activate, connector, mixpanel])
+
+    const handleConnect = async () => {
+      // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
+      if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
+        connector.walletConnectProvider = undefined
+        setLastConnector(CONNECTOR_NAMES.walletConnect)
+      } else if (connector instanceof InjectedConnector) {
+        setLastConnector(CONNECTOR_NAMES.injected)
+      }
+
+      await activate(connector, handleError)
+      setIsInitializing(false)
+      closeModal()
+    }
+
+    if (!isInitializing && connector && !active) {
+      setIsInitializing(true)
+      handleConnect()
+    }
+  }, [isInitializing, activate, connector, mixpanel, closeModal, active])
 
   const connect = (curConnector) => {
-    setConnector(curConnector)
-
-    // if not already initalizing, initialize and try activiating in useEffect hook
-    if (!isInitializing) {
-      setIsInitializing(true)
+    if (active) {
+      deactivate()
     }
+    setConnector(curConnector)
   }
 
   const Option = ({ wallet }) => (
@@ -99,4 +113,4 @@ const MetaMaskConnect = () => {
   )
 }
 
-export default MetaMaskConnect
+export default ManualOptions

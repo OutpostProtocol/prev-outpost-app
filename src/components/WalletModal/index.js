@@ -7,7 +7,7 @@ import {
 import { styled } from '@material-ui/core/styles'
 import { Close } from '@material-ui/icons'
 
-import MetaMaskConnect from './MetaMaskConnect'
+import ManualOptions from './ManualOptions'
 import MagicConnect from './MagicConnect'
 
 const ModalContainer = styled(Dialog)({
@@ -39,7 +39,7 @@ const OrContainer = styled('div')({
   'justify-content': 'space-around'
 })
 
-const WalletModal = ({ open, handleClose }) => {
+const WalletModal = ({ open, handleClose, handleLogin }) => {
   const ModalContent = (
     <ContentContainer>
       <ExitButton
@@ -47,11 +47,14 @@ const WalletModal = ({ open, handleClose }) => {
       >
         <Close />
       </ExitButton>
-      <MagicConnect />
+      <MagicConnect
+      />
       <OrContainer>
         <i>&mdash;OR&mdash;</i>
       </OrContainer>
-      <MetaMaskConnect />
+      <ManualOptions
+        closeModal={handleClose}
+      />
     </ContentContainer>
   )
 

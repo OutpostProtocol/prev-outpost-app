@@ -8,8 +8,14 @@ import {
 } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
 import { useMixpanel } from 'gatsby-plugin-mixpanel'
+import store from 'store'
 
-import { ERROR_TYPES } from '../../constants'
+import {
+  ERROR_TYPES,
+  LAST_CONNECTOR,
+  LAST_EMAIL,
+  CONNECTOR_NAMES
+} from '../../constants'
 
 const EmailField = styled(TextField)({
   width: '100%',
@@ -55,11 +61,17 @@ const MagicConnect = () => {
       mixpanel.track('Error', info)
     }
 
+    const setLastConnector = (connectorName, email) => {
+      store.set(LAST_CONNECTOR, connectorName)
+      store.set(LAST_EMAIL, email)
+    }
+
     const connect = async () => {
       if (isInitializing) {
         if (prepare) prepare(connector, config.current)
         await activate(connector, handleError)
         if (setup) setup(connector)
+        setLastConnector(CONNECTOR_NAMES.magic, config.current.email)
         setIsInitializing(false)
       }
     }
