@@ -1,11 +1,10 @@
 import {
-  useEffect, useRef
+  useEffect, useRef, useState
 } from 'react'
 import store from 'store'
 import { useWeb3React } from '@web3-react/core'
 
 import {
-  WalletConnect,
   MagicData,
   MetaMask
 } from '../components/WalletModal/walletOptions'
@@ -14,6 +13,7 @@ import {
 } from '../constants'
 
 const usePrevWallet = () => {
+  const [isPrevLoading, setPrevLoading] = useState(false)
   const { active, activate } = useWeb3React()
   const initial = useRef(true)
 
@@ -22,26 +22,31 @@ const usePrevWallet = () => {
       return store.get(LAST_CONNECTOR)
     }
 
+    // no autoconnect for WC because it just creates the wc popup
     const autoConnect = async (connector) => {
-      if (connector === CONNECTOR_NAMES.walletConnect) {
-        await activate(WalletConnect.connector)
-      } else if (connector === CONNECTOR_NAMES.injected) {
+      console.log('autoconnect called...')
+      if (connector === CONNECTOR_NAMES.injected) {
         await activate(MetaMask.connector)
       } else if (connector === CONNECTOR_NAMES.magic) {
-        const email = window.localStorage.getItem(LAST_EMAIL)
+        const email = store.get(LAST_EMAIL)
         if (email) {
+          setPrevLoading(true)
           MagicData.connector.setEmail(email)
           await activate(MagicData.connector)
+          setPrevLoading(false)
         }
       }
     }
 
     const prevWallet = loadLastWallet()
-    if (prevWallet && initial.current && !active) { // if there's a prev wallet, activate it.
+    // if there's a prev wallet, activate it.
+    if (prevWallet && initial.current && !active) {
       autoConnect(prevWallet)
       initial.current = false
     }
   }, [activate, active])
+
+  return { isPrevLoading }
 }
 
 export default usePrevWallet

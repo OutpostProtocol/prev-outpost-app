@@ -7,12 +7,10 @@ import {
 } from '@material-ui/icons'
 import { useCommunity } from '../../hooks'
 import { useWeb3React } from '@web3-react/core'
-import Loadable from '@loadable/component'
 import { navigate } from '@reach/router'
 
 import ProfileImage from '../Profile/ProfileImage'
-
-const LoadableWeb3Status = Loadable(() => import('../Web3Status'))
+import Web3Status from '../Web3Status'
 
 const CreateButton = styled(IconButton)({
   'margin-right': '10px'
@@ -54,7 +52,7 @@ const Toolbar = ({ backPath }) => {
           />
         </ImgContainer>
       }
-      <LoadableWeb3Status />
+      <Web3Status />
     </CommonToolbar>
   )
 }
