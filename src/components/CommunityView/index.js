@@ -19,7 +19,7 @@ const CommunityView = () => {
   const { data, loading, error } = useCommunities()
 
   if (loading) return null
-  if (error) return `Error! ${error.message}`
+  if (error) return `Error! 2 ${error.message}`
 
   const communities = data.community
 

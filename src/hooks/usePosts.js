@@ -24,7 +24,7 @@ export const GET_POSTS = gql`
         tokenSymbol
       }
       user {
-        did
+        address
       }
     }
   }
@@ -46,14 +46,14 @@ export const GET_POST = gql`
           txId
         },
         user {
-          did
+          address
         }
       },
       comments {
         postText
         timestamp
         user {
-          did
+          address
         }
       }
       userBalance

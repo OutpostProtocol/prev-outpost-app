@@ -3,9 +3,9 @@ import React from 'react'
 import { useUser } from '../../hooks'
 import { shortenAddress } from '../../utils'
 
-const UserName = ({ userDid }) => {
-  const { data } = useUser(userDid)
-  const name = (data && data.user && data.user.name) ? data.user.name : shortenAddress(userDid)
+const UserName = ({ ethAddr }) => {
+  const { data } = useUser(ethAddr)
+  const name = (data && data.user && data.user.name) ? data.user.name : shortenAddress(ethAddr)
 
   return (
     <span>

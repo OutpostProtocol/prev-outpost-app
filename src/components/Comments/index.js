@@ -29,8 +29,8 @@ const CommentContainer = styled('div')({
 })
 
 const UPLOAD_COMMENT = gql`
-  mutation uploadComment($commentText: String!, $postTxId: String!, $communityTxId: String!, $did: String!, $timestamp: Int!) {
-    uploadComment(commentText: $commentText, postTxId: $postTxId, communityTxId: $communityTxId, did: $did, timestamp: $timestamp) {
+  mutation uploadComment($commentText: String!, $postTxId: String!, $communityTxId: String!, $ethAddr: String!, $timestamp: Int!) {
+    uploadComment(commentText: $commentText, postTxId: $postTxId, communityTxId: $communityTxId, ethAddr: $did, timestamp: $timestamp) {
       postText
       timestamp
       user {
@@ -42,7 +42,7 @@ const UPLOAD_COMMENT = gql`
 
 const Comments = ({ comments, communityTxId, postTxId }) => {
   const [newComment, setNewComment] = useState('')
-  const { active } = useWeb3React()
+  const { active, account } = useWeb3React()
   const [uploadCommentToDb, { error }] = useMutation(UPLOAD_COMMENT)
   const [isUploadLoading, setIsLoading] = useState(false)
   useErrorReporting(ERROR_TYPES.mutation, error, 'UPLOAD_COMMENT')
@@ -64,7 +64,7 @@ const Comments = ({ comments, communityTxId, postTxId }) => {
         communityTxId: communityTxId,
         timestamp: timestamp,
         commentText: newComment,
-        did: window.box.DID
+        ethAddr: account
       },
       refetchQueries: [{
         query: GET_POST,

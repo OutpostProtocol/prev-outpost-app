@@ -118,7 +118,7 @@ const LoggedInPost = ({ backPath, txId }) => {
   const { data, loading, error } = useOnePost(txId, account)
 
   if (loading) return null
-  if (error) return `Error! ${error.message}`
+  if (error) return `Error! 5${error.message}`
 
   const { userBalance, readRequirement, tokenSymbol, tokenAddress } = data.getPost
 

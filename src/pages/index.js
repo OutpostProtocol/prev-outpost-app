@@ -29,7 +29,7 @@ const IndexPage = () => {
   const { data, loading, error } = usePosts()
 
   if (loading) return null
-  if (error) return `Error! ${error.message}`
+  if (error) return `Error! 4${error.message}`
 
   return (
     <Container>
