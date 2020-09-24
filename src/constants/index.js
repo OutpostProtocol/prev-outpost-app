@@ -18,3 +18,5 @@ export const CONNECTOR_NAMES = {
   injected: 'injected',
   magic: 'magic'
 }
+
+export const WC_PROBLEM_WALLETS = ['Argent']
