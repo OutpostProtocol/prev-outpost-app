@@ -30,11 +30,11 @@ const CommentContainer = styled('div')({
 
 const UPLOAD_COMMENT = gql`
   mutation uploadComment($commentText: String!, $postTxId: String!, $communityTxId: String!, $ethAddr: String!, $timestamp: Int!) {
-    uploadComment(commentText: $commentText, postTxId: $postTxId, communityTxId: $communityTxId, ethAddr: $did, timestamp: $timestamp) {
+    uploadComment(commentText: $commentText, postTxId: $postTxId, communityTxId: $communityTxId, ethAddr: $ethAddr, timestamp: $timestamp) {
       postText
       timestamp
       user {
-        did
+        address
       }
     }
   }
@@ -68,14 +68,16 @@ const Comments = ({ comments, communityTxId, postTxId }) => {
       },
       refetchQueries: [{
         query: GET_POST,
-        variables: { txId: postTxId }
+        variables: {
+          txId: postTxId,
+          ethAddr: account
+        }
       }]
     }
-
     await uploadCommentToDb(options)
 
-    setIsLoading(false)
     setNewComment('')
+    setIsLoading(false)
   }
 
   return (
