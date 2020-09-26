@@ -139,9 +139,6 @@ export const useOnePost = (txId) => {
   })
 
   useEffect(() => {
-    console.log(isGettingToken, 'WHETHER WE ARE GETTING THE TOKEN')
-    console.log(account, 'THE ACCOUNT')
-    console.log(curAccount, 'THE CURRENT ACCOUNT')
     if (account && (account !== curAccount) && !isGettingToken) {
       setCurAccount(account)
       getPost()
@@ -149,7 +146,6 @@ export const useOnePost = (txId) => {
   }, [account, curAccount, setCurAccount, getPost, isGettingToken])
 
   useEffect(() => {
-    console.log(data, 'THE DATA OF THE REQUEST')
     if (data) {
       setPostData(data.getPost)
       setLoading(false)

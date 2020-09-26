@@ -115,13 +115,9 @@ const PostLayout = ({ children, backPath, txId }) => {
 const LoggedInPost = ({ backPath, txId }) => {
   const { postData, loading } = useOnePost(txId)
 
-  console.log(loading, 'WHETHER THE POST IS LOADING')
-
   if (loading) {
     return null
   }
-
-  console.log(postData, 'THE POST DATA IN POST')
 
   const { userBalance, readRequirement, tokenSymbol, tokenAddress } = postData
 
