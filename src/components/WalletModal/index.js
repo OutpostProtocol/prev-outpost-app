@@ -110,9 +110,8 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
   const [showError, setShowError] = useState(false)
   const [errorMessage, setErrorMessage] = useState()
   const [isMagic, setIsMagic] = useState(false)
-  // const { isPrevLoading } = usePrevWallet()
+  const { isPrevLoading } = usePrevWallet()
   const { isGettingToken, checkToken, fetchToken } = useAuth()
-  const isPrevLoading = false
 
   const handleEmail = (event) => {
     if (event && event.target && event.target.value) {

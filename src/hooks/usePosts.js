@@ -3,10 +3,16 @@ import {
 } from 'react'
 import {
   gql,
+  useLazyQuery,
   useQuery
 } from '@apollo/client'
 import { useErrorReporting } from './index'
-import { ERROR_TYPES } from '../constants'
+import {
+  ERROR_TYPES, LOGIN_TOKEN
+} from '../constants'
+import useAuth from './useAuth'
+import { useWeb3React } from '@web3-react/core'
+import store from 'store'
 
 export const GET_POSTS = gql`
   query posts($communityTxId: String) {
@@ -31,8 +37,8 @@ export const GET_POSTS = gql`
   `
 
 export const GET_POST = gql`
-  query getPost($txId: String!, $ethAddr: String!) {
-    getPost(txId: $txId, ethAddr: $ethAddr) {
+  query getPost($txId: String!) {
+    getPost(txId: $txId) {
       post {
         id
         title
@@ -114,16 +120,44 @@ const usePosts = (communityTxId) => {
   return result
 }
 
-export const useOnePost = (txId, ethAddr) => {
-  const result = useQuery(GET_POST, {
+export const useOnePost = (txId) => {
+  const { isGettingToken } = useAuth()
+  const { account } = useWeb3React()
+  const [postData, setPostData] = useState()
+  const [curAccount, setCurAccount] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [getPost, { data, error }] = useLazyQuery(GET_POST, {
     variables: {
-      txId,
-      ethAddr
+      txId
     },
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'network-only',
+    context: {
+      headers: {
+        authorization: store.get(`${LOGIN_TOKEN}.${account}`) || null
+      }
+    }
   })
-  useErrorReporting(ERROR_TYPES.query, result?.error, 'GET_ALL_COMMUNITIES')
-  return result
+
+  useEffect(() => {
+    console.log(isGettingToken, 'WHETHER WE ARE GETTING THE TOKEN')
+    console.log(account, 'THE ACCOUNT')
+    console.log(curAccount, 'THE CURRENT ACCOUNT')
+    if (account && (account !== curAccount) && !isGettingToken) {
+      setCurAccount(account)
+      getPost()
+    }
+  }, [account, curAccount, setCurAccount, getPost, isGettingToken])
+
+  useEffect(() => {
+    console.log(data, 'THE DATA OF THE REQUEST')
+    if (data) {
+      setPostData(data.getPost)
+      setLoading(false)
+    }
+  }, [data])
+
+  useErrorReporting(ERROR_TYPES.query, error, 'GET_ONE_POST')
+  return { postData, loading }
 }
 
 export default usePosts

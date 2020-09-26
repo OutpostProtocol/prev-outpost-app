@@ -113,16 +113,20 @@ const PostLayout = ({ children, backPath, txId }) => {
 }
 
 const LoggedInPost = ({ backPath, txId }) => {
-  const { account } = useWeb3React()
-  const { data, loading, error } = useOnePost(txId, account)
+  const { postData, loading } = useOnePost(txId)
 
-  if (loading) return null
-  if (error) return `Error! ${error.message}`
+  console.log(loading, 'WHETHER THE POST IS LOADING')
 
-  const { userBalance, readRequirement, tokenSymbol, tokenAddress } = data.getPost
+  if (loading) {
+    return null
+  }
 
-  const isInsufficientBalance = data.getPost.userBalance < data.getPost.readRequirement
-  if (isInsufficientBalance) {
+  console.log(postData, 'THE POST DATA IN POST')
+
+  const { userBalance, readRequirement, tokenSymbol, tokenAddress } = postData
+
+  const hasInsufficientBalance = userBalance < readRequirement
+  if (hasInsufficientBalance) {
     return (
       <PostLayout
         backPath={backPath}
@@ -153,7 +157,7 @@ const LoggedInPost = ({ backPath, txId }) => {
     )
   }
 
-  const post = data.getPost.post
+  const post = postData.post
 
   return (
     <PostLayout
