@@ -3,16 +3,11 @@ import {
 } from 'react'
 import {
   gql,
-  useLazyQuery,
   useQuery
 } from '@apollo/client'
 import { useErrorReporting } from './index'
-import {
-  ERROR_TYPES, LOGIN_TOKEN
-} from '../constants'
-import useAuth from './useAuth'
+import { ERROR_TYPES } from '../constants'
 import { useWeb3React } from '@web3-react/core'
-import store from 'store'
 
 export const GET_POSTS = gql`
   query posts($communityTxId: String) {
@@ -37,8 +32,8 @@ export const GET_POSTS = gql`
   `
 
 export const GET_POST = gql`
-  query getPost($txId: String!) {
-    getPost(txId: $txId) {
+  query getPost($txId: String!, $ethAddr: String!) {
+    getPost(txId: $txId, ethAddr: $ethAddr) {
       post {
         id
         title
@@ -52,13 +47,13 @@ export const GET_POST = gql`
           txId
         },
         user {
-          did
+          address
         },
         comments {
           postText
           timestamp
           user {
-            did
+            address
           }
         }
       }
@@ -121,29 +116,16 @@ const usePosts = (communityTxId) => {
 }
 
 export const useOnePost = (txId) => {
-  const { isGettingToken } = useAuth()
   const { account } = useWeb3React()
   const [postData, setPostData] = useState()
-  const [curAccount, setCurAccount] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [getPost, { data, error }] = useLazyQuery(GET_POST, {
+  const { data, error } = useQuery(GET_POST, {
     variables: {
-      txId
+      txId,
+      ethAddr: account
     },
-    fetchPolicy: 'network-only',
-    context: {
-      headers: {
-        authorization: store.get(`${LOGIN_TOKEN}.${account}`) || null
-      }
-    }
+    fetchPolicy: 'network-only'
   })
-
-  useEffect(() => {
-    if (account && (account !== curAccount) && !isGettingToken) {
-      setCurAccount(account)
-      getPost()
-    }
-  }, [account, curAccount, setCurAccount, getPost, isGettingToken])
 
   useEffect(() => {
     if (data) {
