@@ -9,7 +9,7 @@ import {
   Snackbar,
   LinearProgress
 } from '@material-ui/core'
-import Alert from '@material-ui/lab/alert'
+import { Alert } from '@material-ui/lab'
 import { styled } from '@material-ui/core/styles'
 import { Close } from '@material-ui/icons'
 import { useWeb3React } from '@web3-react/core'
