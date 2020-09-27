@@ -176,9 +176,12 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
       if (setup) setup(connector)
 
       setPendingWallet(false)
+
+      handleClose()
     }
   }
 
+  /**
   useEffect(() => {
     const handleTokenCheck = async (token) => {
       const hasValidToken = await checkToken(token)
@@ -211,16 +214,16 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
       setCurAccount(account)
 
       const token = store.get(`${LOGIN_TOKEN}.${account}`)
-      /*
+      console.log(token, 'THE TOKEN FROM LOCAL STORAGE')
       if (token) {
         handleTokenCheck(token)
       }
-      */
       if (!token) {
         handleFetchToken()
       }
     }
   }, [account, curAccount, setCurAccount, library, mixpanel, deactivate, handleClose, checkToken, fetchToken])
+  */
 
   const closeError = (event, reason) => {
     if (reason === 'clickaway') {
