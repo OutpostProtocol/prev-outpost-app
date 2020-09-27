@@ -44,7 +44,7 @@ export const useCommunities = () => {
  * @returns {Object} a community
  */
 export const useCommunity = () => {
-  const JAMM_ID = 'JAMM_ID' // '8vhfYMA19OnOjKq1l_zDd7sn2dmOAUL1xEbDhfgCcSo'
+  const JAMM_ID = '8vhfYMA19OnOjKq1l_zDd7sn2dmOAUL1xEbDhfgCcSo'
 
   const GET_COMMUNITY = gql`
     query community($txIds: [String]) {
