@@ -47,7 +47,7 @@ const Toolbar = ({ backPath }) => {
             </CreateButton>
           }
           <ProfileImage
-            userDid=''
+            profAddress={account}
             redirectURL={`https://3box.io/${account}`}
           />
         </ImgContainer>
