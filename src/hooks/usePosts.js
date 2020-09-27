@@ -91,10 +91,10 @@ export const usePostPreview = (txId) => {
   useEffect(() => {
     if (!loading && !error) {
       const preview = data.postPreview
-      setCanonicalLink(preview.canonicalLink)
+      setCanonicalLink(preview?.canonicalLink)
       setTitle(preview.title)
       setDescription(preview.subtitle)
-      setImage(preview.featuredImg)
+      setImage(preview?.featuredImg)
     }
   }, [data, loading, error])
 

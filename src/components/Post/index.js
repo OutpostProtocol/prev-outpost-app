@@ -83,7 +83,6 @@ const Post = ({ post, comments }) => {
   const [isDeleting, setIsDeleting] = useState(false)
   const [deletePostFromDb, { error }] = useMutation(DELETE_POST)
   useErrorReporting(ERROR_TYPES.mutation, error, 'DELETE_POST')
-
   const isAuthor = () => {
     alert('Need to upload set is Author function')
   }
@@ -137,7 +136,7 @@ const Post = ({ post, comments }) => {
         </PostMetaData>
         <SubHeader>
           <PostContext
-            userDid={post.user.did}
+            userAddress={post.user.address}
             communityName={post.community.name}
             timestamp={post.timestamp}
           />

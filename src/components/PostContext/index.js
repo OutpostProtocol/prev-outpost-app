@@ -5,6 +5,7 @@ import moment from 'moment'
 
 import { use3boxProf } from '../../hooks/use3boxProf'
 import ProfileImage from '../Profile/ProfileImage'
+import { shortenAddress } from '../../utils'
 
 const Container = styled('div')({
   display: 'inline-flex',
@@ -21,22 +22,20 @@ const MinWidthDiv = styled('div')({
 
 const DATE_FORMAT = 'D MMMM YYYY'
 
-const PostContext = ({ userDid, communityName, timestamp, dateFormat }) => {
+const PostContext = ({ userAddress, communityName, timestamp, dateFormat }) => {
   const format = dateFormat || DATE_FORMAT
   const time = moment.unix(timestamp).format(format)
 
-  const { name } = use3boxProf(userDid)
+  const { name } = use3boxProf(userAddress)
 
   return (
     <Container>
-      <ProfileImage
-        userDid={userDid}
-      />
+      <ProfileImage />
       <MinWidthDiv>
         <div>
           <span>{name}</span>
           { communityName &&
-           <> · {communityName} </>
+           <>{name || shortenAddress(userAddress) } · {communityName} </>
           }
         </div>
         <Time>

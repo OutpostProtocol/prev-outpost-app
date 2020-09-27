@@ -39,7 +39,7 @@ const Toolbar = ({ backPath }) => {
     >
       {active &&
         <ImgContainer>
-          {false && // disable until we have check that they are an editor
+          {true && // disable until we have check that they are an editor
             <CreateButton
               onClick={handleOpenEditor}
             >

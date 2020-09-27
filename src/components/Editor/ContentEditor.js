@@ -2,8 +2,11 @@ import React from 'react'
 import { styled } from '@material-ui/core/styles'
 import Editor from 'rich-markdown-editor'
 import { Input } from '@material-ui/core'
-
-import { uploadImage } from '../../uploaders'
+import { useWeb3React } from '@web3-react/core'
+import {
+  gql,
+  useMutation
+} from '@apollo/client'
 
 const FormTextField = styled(Input)({
   width: '100%',
@@ -20,15 +23,52 @@ const PostContent = styled(Editor)({
   'margin-top': '30px'
 })
 
-const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPostText, isEditing }) => {
+const UPLOAD_IMAGE = gql`
+  mutation uploadImage($image: Image!, $address: String!) {
+    uploadImage(image: $image, address: $address) {
+      txId
+    }
+  }
+`
+
+const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPostText, setFeaturedImage, isEditing }) => {
+  const { account } = useWeb3React()
+  const [uploadImageToAR] = useMutation(UPLOAD_IMAGE)
+
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => {
+        let encoded = reader.result.toString().replace(/^data:(.*,)?/, '')
+        if ((encoded.length % 4) > 0) {
+          encoded += '='.repeat(4 - (encoded.length % 4))
+        }
+        resolve(encoded)
+      }
+      reader.onerror = error => reject(error)
+    })
+  }
+
   const imageUpload = async (photoFile) => {
-    const form = new window.FormData()
+    const rawImage = await getBase64(photoFile)
+    const image = {
+      data: rawImage,
+      mimeType: photoFile.type
+    }
+    const options = {
+      variables: {
+        image: image,
+        address: account
+      }
+    }
+    console.log('uploading', options)
+    const res = await uploadImageToAR(options)
+    console.log(res)
 
-    form.append('image', photoFile)
-
-    const res = await uploadImage(form)
-
-    return `https://arweave.net/${res.data.txId}`
+    const featuredImgSrc = `https://arweave.net/${res.data.uploadImage.txId}`
+    setFeaturedImage(featuredImgSrc)
+    return featuredImgSrc
   }
 
   return (
