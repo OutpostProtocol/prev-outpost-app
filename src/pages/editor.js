@@ -69,10 +69,10 @@ const EditorPage = ({ location }) => {
   const postTemplate = isEditingMode && location.state.post
   const placeholderCommunity = (isEditingMode && location.state.post.community) ? location.state.post.community : PLACEHOLDER_COMMUNITY
 
-  const [postText, setPostText] = useState(postTemplate.postText)
+  const [postText, setPostText] = useState(postTemplate?.postText || '')
   const [communityId, setCommunityId] = useState(placeholderCommunity.txId)
-  const [title, setTitle] = useState(postTemplate.title)
-  const [subtitle, setSubtitle] = useState(postTemplate.subtitle)
+  const [title, setTitle] = useState(postTemplate?.title || '')
+  const [subtitle, setSubtitle] = useState(postTemplate?.subtitle || '')
   const [isWaitingForUpload, setIsWaiting] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
   const [hasCanonicalLink, setHasLink] = useState(false)
@@ -108,7 +108,7 @@ const EditorPage = ({ location }) => {
       options = {
         variables: {
           post: postUpload,
-          id: postTemplate.id
+          id: postTemplate?.id
         },
         refetchQueries: [{ query: GET_POSTS }]
       }
