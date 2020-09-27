@@ -1,19 +1,16 @@
 import React, {
 } from 'react'
 import { styled } from '@material-ui/core/styles'
-import { useSelector } from 'react-redux'
 import { IconButton } from '@material-ui/core'
 import {
   CreateOutlined, ChevronLeft
 } from '@material-ui/icons'
 import { useCommunity } from '../../hooks'
 import { useWeb3React } from '@web3-react/core'
-import Loadable from '@loadable/component'
 import { navigate } from '@reach/router'
 
 import ProfileImage from '../Profile/ProfileImage'
-
-const LoadableWeb3Status = Loadable(() => import('../Web3Status'))
+import Web3Status from '../Web3Status'
 
 const CreateButton = styled(IconButton)({
   'margin-right': '10px'
@@ -30,7 +27,6 @@ const ImgContainer = styled('div')({
 })
 
 const Toolbar = ({ backPath }) => {
-  const did = useSelector(state => state.did)
   const { active, account } = useWeb3React()
 
   const handleOpenEditor = () => {
@@ -41,7 +37,7 @@ const Toolbar = ({ backPath }) => {
     <CommonToolbar
       backPath={backPath}
     >
-      {(active && did) &&
+      {active &&
         <ImgContainer>
           {false && // disable until we have check that they are an editor
             <CreateButton
@@ -51,12 +47,12 @@ const Toolbar = ({ backPath }) => {
             </CreateButton>
           }
           <ProfileImage
-            userDid={did}
+            profAddress={account}
             redirectURL={`https://3box.io/${account}`}
           />
         </ImgContainer>
       }
-      <LoadableWeb3Status />
+      <Web3Status />
     </CommonToolbar>
   )
 }

@@ -21,16 +21,16 @@ const MinWidthDiv = styled('div')({
 
 const DATE_FORMAT = 'D MMMM YYYY'
 
-const PostContext = ({ userDid, communityName, timestamp, dateFormat }) => {
+const PostContext = ({ profAddress, communityName, timestamp, dateFormat }) => {
   const format = dateFormat || DATE_FORMAT
   const time = moment.unix(timestamp).format(format)
 
-  const { name } = use3boxProf(userDid)
+  const { name } = use3boxProf(profAddress)
 
   return (
     <Container>
       <ProfileImage
-        userDid={userDid}
+        profAddress={profAddress}
       />
       <MinWidthDiv>
         <div>

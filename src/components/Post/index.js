@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
@@ -79,15 +78,13 @@ const DELETE_POST = gql`
   `
 
 const Post = ({ post }) => {
-  const { title, subtitle, postText, user, txId, community } = post
+  const { title, subtitle, postText, txId, community } = post
   const [isDeleting, setIsDeleting] = useState(false)
-  const did = useSelector(state => state.did)
   const [deletePostFromDb, { error }] = useMutation(DELETE_POST)
   useErrorReporting(ERROR_TYPES.mutation, error, 'DELETE_POST')
 
   const isAuthor = () => {
-    if (!user || !user.did) return false
-    return post.user.did === did
+    return false
   }
 
   const handleEdit = () => {
@@ -139,7 +136,7 @@ const Post = ({ post }) => {
         </PostMetaData>
         <SubHeader>
           <PostContext
-            userDid={post.user.did}
+            profAddress={post.user.address}
             communityName={post.community.name}
             timestamp={post.timestamp}
           />
