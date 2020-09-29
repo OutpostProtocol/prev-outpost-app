@@ -34,8 +34,9 @@ const PostContext = ({ userAddress, communityName, timestamp, dateFormat }) => {
       <MinWidthDiv>
         <div>
           <span>{name}</span>
-          { communityName &&
-           <>{name || shortenAddress(userAddress) } · {communityName} </>
+          { communityName
+            ? (<>{name || shortenAddress(userAddress) } · {communityName} </>)
+            : (<>{name || shortenAddress(userAddress) }</>)
           }
         </div>
         <Time>
