@@ -25,7 +25,7 @@ export const GET_POSTS = gql`
         tokenSymbol
       }
       user {
-        did
+        address
       }
     }
   }
