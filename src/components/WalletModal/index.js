@@ -214,10 +214,9 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
       setCurAccount(account)
 
       const token = store.get(`${LOGIN_TOKEN}.${account}`)
-      console.log(token, 'THE TOKEN FROM LOCAL STORAGE')
-      if (token) {
-        handleTokenCheck(token)
-      }
+  //    if (token) {
+  //      handleTokenCheck(token)
+  //    }
       if (!token) {
         handleFetchToken()
       }

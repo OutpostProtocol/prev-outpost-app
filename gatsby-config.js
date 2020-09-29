@@ -1,8 +1,12 @@
 module.exports = {
   siteMetadata: {
     title: 'Outpost',
-    description: 'Communities controlled by users, not big tech',
-    author: 'https://outpost-protocol.com/'
+    titleTemplate: '%s',
+    description: 'Web3 newsletters owned by their creators.',
+    author: 'https://www.outpost-protocol.com',
+    url: 'https://www.outpost-protocol.com',
+    image: 'src/images/logo/Outpost_black.png',
+    twitterUsername: '@OutpostProtocol'
   },
   plugins: [
     'gatsby-plugin-react-helmet',
