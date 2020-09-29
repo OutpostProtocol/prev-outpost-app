@@ -4,6 +4,7 @@ import { styled } from '@material-ui/core/styles'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { IconButton } from '@material-ui/core'
 import { useWeb3React } from '@web3-react/core'
+import showdown from 'showdown'
 import {
   gql,
   useMutation
@@ -23,6 +24,8 @@ import ContentEditor from '../components/Editor/ContentEditor'
 import EditorPreview from '../components/Editor/EditorPreview'
 import CanonicalLinkOption from '../components/Editor/CanonicalLinkOption'
 import { useErrorReporting } from '../hooks'
+
+const converter = new showdown.Converter()
 
 const EditorContainer = styled('div')({
   width: '50vw',
@@ -90,12 +93,12 @@ const EditorPage = ({ location }) => {
   const handlePost = async () => {
     if (!isValidPost) return
     setIsWaiting(true)
-
+    const parsedPost = converter.makeHtml(postText.replace(/\\/g, '<br/>'))
     const timestamp = Math.floor(Date.now() / 1000)
     const postUpload = {
       title: title,
       subtitle: subtitle,
-      postText: postText,
+      postText: parsedPost,
       canonicalLink: canonicalLink,
       parentTxId: postTemplate?.transaction.txId,
       timestamp: timestamp,
@@ -142,10 +145,6 @@ const EditorPage = ({ location }) => {
     return true
   }
 
-  const handleNewFeaturedImage = (imgSrc) => {
-    setFeaturedImage(imgSrc)
-  }
-
   return (
     <>
       <SEO
@@ -175,7 +174,7 @@ const EditorPage = ({ location }) => {
             setTitle={setTitle}
             setSubtitle={setSubtitle}
             setPostText={setPostText}
-            setFeaturedImage={handleNewFeaturedImage}
+            setFeaturedImage={setFeaturedImage}
             isEditing={isEditingMode}
           />
         }

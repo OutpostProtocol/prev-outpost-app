@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from '@material-ui/core/styles'
 import Editor from 'rich-markdown-editor'
 import { Input } from '@material-ui/core'
@@ -7,6 +7,8 @@ import {
   gql,
   useMutation
 } from '@apollo/client'
+
+import LoadingBackdrop from '../LoadingBackdrop'
 
 const FormTextField = styled(Input)({
   width: '100%',
@@ -32,6 +34,7 @@ const UPLOAD_IMAGE = gql`
 `
 
 const ContentEditor = ({ title, subtitle, postText, featuredImg, setTitle, setSubtitle, setPostText, setFeaturedImage, isEditing }) => {
+  const [isUploading, setIsUploading] = useState(false)
   const { account } = useWeb3React()
   const [uploadImageToAR] = useMutation(UPLOAD_IMAGE)
 
@@ -72,6 +75,9 @@ const ContentEditor = ({ title, subtitle, postText, featuredImg, setTitle, setSu
 
   return (
     <>
+      <LoadingBackdrop
+        isLoading={isUploading}
+      />
       <TitleContainer>
         { isEditing &&
           <h3>
@@ -97,7 +103,9 @@ const ContentEditor = ({ title, subtitle, postText, featuredImg, setTitle, setSu
         onCancel={() => console.log('Cancel triggered')}
         onShowToast={message => { if (typeof window !== 'undefined') window.alert(message) }}
         onChange={(value) => setPostText(value)}
+        onImageUploadStart={() => setIsUploading(true)}
         uploadImage={async file => await imageUpload(file)}
+        onImageUploadStop={() => setIsUploading(false)}
         autoFocus
       />
     </>
