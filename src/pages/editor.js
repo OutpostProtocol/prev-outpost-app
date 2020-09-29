@@ -80,7 +80,6 @@ const EditorPage = ({ location }) => {
   const [canonicalLink, setCanonicalLink] = useState('')
   const [uploadPostToDb, { error }] = useMutation(UPLOAD_POST)
   useErrorReporting(ERROR_TYPES.mutation, error, 'UPLOAD_POST')
-  console.log('the error is', error)
 
   const handleCommunitySelection = (event) => {
     if (event && event.target.value) {
@@ -143,6 +142,10 @@ const EditorPage = ({ location }) => {
     return true
   }
 
+  const handleNewFeaturedImage = (imgSrc) => {
+    setFeaturedImage(imgSrc)
+  }
+
   return (
     <>
       <SEO
@@ -168,10 +171,11 @@ const EditorPage = ({ location }) => {
             title={title}
             subtitle={subtitle}
             postText={postText}
+            featuredImg={featuredImage}
             setTitle={setTitle}
             setSubtitle={setSubtitle}
             setPostText={setPostText}
-            setFeaturedImage={setFeaturedImage}
+            setFeaturedImage={handleNewFeaturedImage}
             isEditing={isEditingMode}
           />
         }

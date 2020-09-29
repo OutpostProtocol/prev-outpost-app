@@ -25,7 +25,7 @@ const CommunitySelector = ({ handleSelection, placeHolder, disabled }) => {
   }
 
   if (loading) return null
-  if (error) return `Error! 1 ${error.message}`
+  if (error) return `Error! ${error.message}`
 
   const communities = data.community
 

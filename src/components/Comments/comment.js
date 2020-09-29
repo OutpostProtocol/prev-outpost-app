@@ -28,7 +28,6 @@ const Divider = styled('hr')({
 
 const Comment = ({ comment }) => {
   const { user, postText, timestamp } = comment
-  console.log('got comment', postText)
   return (
     <CommentContainer>
       <ContextContainer

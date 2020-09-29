@@ -92,8 +92,8 @@ export const usePostPreview = (txId) => {
     if (!loading && !error) {
       const preview = data.postPreview
       setCanonicalLink(preview?.canonicalLink)
-      setTitle(preview.title)
-      setDescription(preview.subtitle)
+      setTitle(preview?.title)
+      setDescription(preview?.subtitle)
       setImage(preview?.featuredImg)
     }
   }, [data, loading, error])

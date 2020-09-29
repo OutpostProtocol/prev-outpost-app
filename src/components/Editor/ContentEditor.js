@@ -31,7 +31,7 @@ const UPLOAD_IMAGE = gql`
   }
 `
 
-const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPostText, setFeaturedImage, isEditing }) => {
+const ContentEditor = ({ title, subtitle, postText, featuredImg, setTitle, setSubtitle, setPostText, setFeaturedImage, isEditing }) => {
   const { account } = useWeb3React()
   const [uploadImageToAR] = useMutation(UPLOAD_IMAGE)
 
@@ -63,12 +63,10 @@ const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPo
         address: account
       }
     }
-    console.log('uploading', options)
     const res = await uploadImageToAR(options)
-    console.log(res)
 
     const featuredImgSrc = `https://arweave.net/${res.data.uploadImage.txId}`
-    if (!featuredImgSrc) setFeaturedImage(featuredImgSrc)
+    if (!featuredImg) setFeaturedImage(featuredImgSrc)
     return featuredImgSrc
   }
 

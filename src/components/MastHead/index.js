@@ -110,7 +110,7 @@ const MastHead = () => {
   const creatorName = creatorProf.name
 
   if (loading) return null
-  if (error) return `Error! 3 ${error.message}`
+  if (error) return `Error! ${error.message}`
 
   const { imageTxId, name, description, tokenSymbol, tokenAddress } = data.community[0]
 

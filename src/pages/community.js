@@ -67,7 +67,7 @@ const CommunuityPage = ({ location }) => {
 
   if (postReq.loading || loading) return null
   if (postReq.error) return `Error! ${postReq.error.message}`
-  if (error) return `Error! 3${error.message}`
+  if (error) return `Error! ${error.message}`
 
   return (
     <>
