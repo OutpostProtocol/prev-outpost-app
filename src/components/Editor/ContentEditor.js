@@ -52,6 +52,7 @@ const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPo
 
   const imageUpload = async (photoFile) => {
     const rawImage = await getBase64(photoFile)
+
     const image = {
       data: rawImage,
       mimeType: photoFile.type
@@ -67,7 +68,7 @@ const ContentEditor = ({ title, subtitle, postText, setTitle, setSubtitle, setPo
     console.log(res)
 
     const featuredImgSrc = `https://arweave.net/${res.data.uploadImage.txId}`
-    setFeaturedImage(featuredImgSrc)
+    if (!featuredImgSrc) setFeaturedImage(featuredImgSrc)
     return featuredImgSrc
   }
 

@@ -100,7 +100,7 @@ const EditorPage = ({ location }) => {
       canonicalLink: canonicalLink,
       parentTxId: postTemplate?.transaction.txId,
       timestamp: timestamp,
-      featuredImage: featuredImage
+      featuredImg: featuredImage
     }
 
     await handleUpload(postUpload)
