@@ -9,7 +9,7 @@ import {
   Snackbar,
   LinearProgress
 } from '@material-ui/core'
-import Alert from '@material-ui/lab/alert'
+import { Alert } from '@material-ui/lab'
 import { styled } from '@material-ui/core/styles'
 import { Close } from '@material-ui/icons'
 import { useWeb3React } from '@web3-react/core'
@@ -176,9 +176,12 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
       if (setup) setup(connector)
 
       setPendingWallet(false)
+
+      handleClose()
     }
   }
 
+  /*
   useEffect(() => {
     const handleTokenCheck = async (token) => {
       const hasValidToken = await checkToken(token)
@@ -211,16 +214,15 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
       setCurAccount(account)
 
       const token = store.get(`${LOGIN_TOKEN}.${account}`)
-      /*
-      if (token) {
-        handleTokenCheck(token)
-      }
-      */
+  //    if (token) {
+  //      handleTokenCheck(token)
+  //    }
       if (!token) {
         handleFetchToken()
       }
     }
   }, [account, curAccount, setCurAccount, library, mixpanel, deactivate, handleClose, checkToken, fetchToken])
+  */
 
   const closeError = (event, reason) => {
     if (reason === 'clickaway') {
