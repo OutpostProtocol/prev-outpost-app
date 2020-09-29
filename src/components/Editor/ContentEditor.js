@@ -68,7 +68,7 @@ const ContentEditor = ({ title, subtitle, postText, featuredImg, setTitle, setSu
     }
     const res = await uploadImageToAR(options)
 
-    const featuredImgSrc = `https://arweave.net/${res.data.uploadImage.txId}`
+    const featuredImgSrc = `https://arweave.dev/${res.data.uploadImage.txId}`
     if (!featuredImg) setFeaturedImage(featuredImgSrc)
     return featuredImgSrc
   }
