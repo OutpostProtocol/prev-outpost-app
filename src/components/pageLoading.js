@@ -15,7 +15,7 @@ const PageLoading = ({ title, description, image, canonicalLink }) => {
   return (
     <div>
       <SEO
-        title={title}
+        image={image}
       />
       <ProgressContainer>
         <CircularProgress />

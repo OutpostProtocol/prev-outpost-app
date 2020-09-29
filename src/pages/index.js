@@ -29,12 +29,20 @@ const Container = styled('div')({
 const IndexPage = () => {
   const { data, loading, error } = usePosts()
 
-  if (loading) return (<PageLoading />)
+  if (loading) {
+    return (
+      <PageLoading
+        image='https://arweave.net/YTut0yDqWiDt3-5xM0Y8Lskp68wY2OxCVBHxB4mdCd4'
+      />
+    )
+  }
   if (error) return `Error! ${error.message}`
 
   return (
     <Container>
-      <SEO />
+      <SEO
+        image='https://arweave.net/YTut0yDqWiDt3-5xM0Y8Lskp68wY2OxCVBHxB4mdCd4'
+      />
       <Toolbar />
       <MastHead />
       <FeedContainer>
