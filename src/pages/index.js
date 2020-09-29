@@ -34,9 +34,7 @@ const IndexPage = () => {
 
   return (
     <Container>
-      <SEO
-        title='Home'
-      />
+      <SEO />
       <Toolbar />
       <MastHead />
       <FeedContainer>

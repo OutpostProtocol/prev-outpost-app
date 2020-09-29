@@ -24,7 +24,6 @@ const usePrevWallet = () => {
 
     // no autoconnect for WC because it just creates the wc popup
     const autoConnect = async (connector) => {
-      console.log('autoconnect called...')
       if (connector === CONNECTOR_NAMES.injected) {
         await activate(MetaMask.connector)
       } else if (connector === CONNECTOR_NAMES.magic) {
