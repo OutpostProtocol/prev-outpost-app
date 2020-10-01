@@ -2,7 +2,7 @@
   "name": "outpost-app",
   "private": false,
   "description": "A blog for self-governed online communities",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "samhatem",
   "scripts": {
     "build": "gatsby build",

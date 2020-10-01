@@ -1,8 +1,6 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
 
-import usePosts from '../hooks/usePosts'
-import PageLoading from '../components/pageLoading'
 import SEO from '../components/seo'
 import Feed from '../components/Feed'
 import Toolbar from '../components/Toolbar'
@@ -27,15 +25,10 @@ const Container = styled('div')({
 })
 
 const IndexPage = () => {
-  const { data, loading, error } = usePosts()
-
-  if (loading) return (<PageLoading />)
-  if (error) return `Error! ${error.message}`
-
   return (
     <Container>
       <SEO
-        title='Home'
+        image='https://arweave.net/YTut0yDqWiDt3-5xM0Y8Lskp68wY2OxCVBHxB4mdCd4'
       />
       <Toolbar />
       <MastHead />
@@ -43,9 +36,7 @@ const IndexPage = () => {
         <FeedHeader>
           READ THE LATEST
         </FeedHeader>
-        <Feed
-          posts={data.posts}
-        />
+        <Feed />
       </FeedContainer>
     </ Container>
   )

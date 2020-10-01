@@ -181,7 +181,7 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
     }
   }
 
-  /*
+  /**
   useEffect(() => {
     const handleTokenCheck = async (token) => {
       const hasValidToken = await checkToken(token)
