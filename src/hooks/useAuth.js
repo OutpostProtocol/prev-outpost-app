@@ -1,5 +1,5 @@
 import {
-  useCallback, useState, useEffect
+  useCallback, useState, useContext
 } from 'react'
 import store from 'store'
 import {
@@ -11,6 +11,7 @@ import {
 } from '@apollo/client'
 import { ethers } from 'ethers'
 import { useMixpanel } from 'gatsby-plugin-mixpanel'
+import { AuthContext } from '../context/Auth'
 
 const SIGN_IN_TOKEN = gql`
   mutation getToken($addr: String!) {
@@ -32,13 +33,13 @@ const VALIDATE_TOKEN = gql`
 `
 
 const useAuth = () => {
+  const { setAuthToken, authToken } = useContext(AuthContext)
   const { account, library } = useWeb3React()
-  const [getToken] = useMutation(SIGN_IN_TOKEN)
+  const [getAuthToken] = useMutation(SIGN_IN_TOKEN)
   const [authAccount] = useMutation(AUTHENTICATE)
   const [validateToken] = useMutation(VALIDATE_TOKEN)
   const mixpanel = useMixpanel()
   const [isGettingToken, setGettingToken] = useState(false)
-  const [hasValidToken, setHasValidToken] = useState(false)
 
   const checkError = useCallback(
     (loginRes) => {
@@ -76,7 +77,7 @@ const useAuth = () => {
 
   const fetchToken = async () => {
     setGettingToken(true)
-    const tokenRes = await getToken({
+    const tokenRes = await getAuthToken({
       variables: {
         addr: account
       }
@@ -105,31 +106,18 @@ const useAuth = () => {
 
     checkError(authRes)
     store.set(`${LOGIN_TOKEN}.${account}`, authRes.data.authAccount)
+    setAuthToken(authRes.data.authAccount)
     mixpanel.identify(account)
     setGettingToken(false)
+    return authRes.data.authAccount
   }
-
-  useEffect(() => {
-    const handleValidate = async (token) => {
-      const isValid = await validate(token)
-      setHasValidToken(isValid)
-    }
-
-    if (account) {
-      const curToken = store.get(`${LOGIN_TOKEN}.${account}`)
-      if (!curToken) {
-        setHasValidToken(false)
-      } else {
-        handleValidate(curToken)
-      }
-    }
-  }, [setHasValidToken, account, validate])
 
   return {
     fetchToken,
     isGettingToken,
-    hasValidToken,
-    checkToken: validate
+    checkToken: validate,
+    authToken,
+    setAuthToken
   }
 }
 

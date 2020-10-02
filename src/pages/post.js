@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {
+  useState, useEffect
+} from 'react'
 import { styled } from '@material-ui/core/styles'
 import Iframe from 'react-iframe'
 import { useWeb3React } from '@web3-react/core'
@@ -6,6 +8,7 @@ import { useWeb3React } from '@web3-react/core'
 import {
   useOnePost, usePostPreview
 } from '../hooks/usePosts'
+import useAuth from '../hooks/useAuth'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
@@ -67,8 +70,11 @@ const PostPage = ({ location }) => {
   const { account } = useWeb3React()
   const txId = getId(location, '/post/')
   const backPath = getBackPath(location)
+  const { authToken } = useAuth()
 
-  if (!account) {
+  console.log(authToken, 'THE AUTH TOKEN')
+
+  if (!account || !authToken) {
     return (
       <PostLayout
         backPath={backPath}
@@ -113,7 +119,23 @@ const PostLayout = ({ children, backPath, txId }) => {
 }
 
 const LoggedInPost = ({ backPath, txId }) => {
-  const { postData, loading } = useOnePost(txId)
+  const { authToken, fetchToken } = useAuth()
+  const [refetchedCalled, setRefetchCalled] = useState(false)
+  const { postData, loading, error, refetch } = useOnePost(txId, authToken)
+
+  useEffect(() => {
+    const handleRefetch = async () => {
+      await fetchToken()
+      await refetch()
+      setRefetchCalled(false)
+    }
+
+    if (error && !refetchedCalled) {
+      console.log(refetchedCalled, 'VAL OF REFETCH CALLED')
+      setRefetchCalled(true)
+      handleRefetch()
+    }
+  }, [error, fetchToken, refetchedCalled, refetch])
 
   if (loading) {
     return null

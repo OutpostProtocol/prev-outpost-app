@@ -45,7 +45,7 @@ function SEO ({ canonical, description, lang, meta, title, image }) {
         lang
       }}
       title={metaData.title}
-      titleTemplate={siteData.title === metaData.title ? siteData.title : `%s - ${metaData.title}`}
+      titleTemplate={siteData.title === metaData.title ? siteData.title : `${siteData.title} - %s`}
       link={ canonical ? [{ rel: 'canonical', key: canonical, href: canonical }] : [] }
       meta={[
         {
