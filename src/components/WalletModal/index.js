@@ -220,7 +220,7 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
         handleClose()
       }
     }
-  }, [account, curAccount, setCurAccount, library, mixpanel, deactivate, handleClose, checkToken, fetchToken, setAuthToken])
+  }, [account, curAccount, setCurAccount, library, mixpanel, deactivate, handleClose, checkToken, fetchToken, setAuthToken, isGettingToken])
 
   const closeError = (event, reason) => {
     if (reason === 'clickaway') {
