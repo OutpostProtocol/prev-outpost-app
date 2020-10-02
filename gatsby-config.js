@@ -1,8 +1,12 @@
 module.exports = {
   siteMetadata: {
     title: 'Outpost',
-    description: 'Communities controlled by users, not big tech',
-    author: 'https://outpost-protocol.com/'
+    titleTemplate: '%s',
+    description: 'Web3 newsletters owned by their creators.',
+    author: 'https://www.outpost-protocol.com',
+    url: 'https://www.outpost-protocol.com',
+    image: 'src/images/logo/Outpost_black.png',
+    twitterUsername: '@OutpostProtocol'
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -50,14 +54,7 @@ module.exports = {
       options: {
         apiToken: '95dbbe589111bd35460bfd1d7a35b348',
         pageViews: 'all',
-        enableOnDevMode: false
-      }
-    },
-    {
-      resolve: 'gatsby-plugin-react-redux',
-      options: {
-        // [required] - path to your createStore module
-        pathToCreateStoreModule: './src/redux/store'
+        enableOnDevMode: true
       }
     },
     'gatsby-plugin-fontawesome-css'

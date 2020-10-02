@@ -1,9 +1,7 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { styled } from '@material-ui/core/styles'
 import Iframe from 'react-iframe'
 import { useWeb3React } from '@web3-react/core'
-import { useMixpanel } from 'gatsby-plugin-mixpanel'
 
 import {
   useOnePost, usePostPreview
@@ -66,12 +64,11 @@ const SignInMessage = styled('div')({
 })
 
 const PostPage = ({ location }) => {
-  const did = useSelector(state => state.did)
-
+  const { account } = useWeb3React()
   const txId = getId(location, '/post/')
   const backPath = getBackPath(location)
 
-  if (!did) {
+  if (!account) {
     return (
       <PostLayout
         backPath={backPath}
@@ -116,18 +113,16 @@ const PostLayout = ({ children, backPath, txId }) => {
 }
 
 const LoggedInPost = ({ backPath, txId }) => {
-  const { account } = useWeb3React()
-  const { data, loading, error } = useOnePost(txId, account)
-  const mixpanel = useMixpanel()
+  const { postData, loading } = useOnePost(txId)
 
-  if (loading) return null
-  if (error) return `Error! ${error.message}`
+  if (loading) {
+    return null
+  }
 
-  const { userBalance, readRequirement, tokenSymbol, tokenAddress } = data.getPost
+  const { userBalance, readRequirement, tokenSymbol, tokenAddress } = postData
 
-  const isInsufficientBalance = data.getPost.userBalance < data.getPost.readRequirement
-  if (isInsufficientBalance) mixpanel.track('insufficientBalance', { balance: userBalance })
-  if (isInsufficientBalance) {
+  const hasInsufficientBalance = userBalance < readRequirement
+  if (hasInsufficientBalance) {
     return (
       <PostLayout
         backPath={backPath}
@@ -158,7 +153,7 @@ const LoggedInPost = ({ backPath, txId }) => {
     )
   }
 
-  const post = data.getPost.post
+  const post = postData.post
 
   return (
     <PostLayout

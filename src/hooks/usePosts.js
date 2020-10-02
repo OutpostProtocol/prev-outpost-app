@@ -7,6 +7,7 @@ import {
 } from '@apollo/client'
 import { useErrorReporting } from './index'
 import { ERROR_TYPES } from '../constants'
+import { useWeb3React } from '@web3-react/core'
 
 export const GET_POSTS = gql`
   query posts($communityTxId: String) {
@@ -24,7 +25,7 @@ export const GET_POSTS = gql`
         tokenSymbol
       }
       user {
-        did
+        address
       }
     }
   }
@@ -46,13 +47,13 @@ export const GET_POST = gql`
           txId
         },
         user {
-          did
+          address
         },
         comments {
           postText
           timestamp
           user {
-            did
+            address
           }
         }
       }
@@ -114,16 +115,27 @@ const usePosts = (communityTxId) => {
   return result
 }
 
-export const useOnePost = (txId, ethAddr) => {
-  const result = useQuery(GET_POST, {
+export const useOnePost = (txId) => {
+  const { account } = useWeb3React()
+  const [postData, setPostData] = useState()
+  const [loading, setLoading] = useState(true)
+  const { data, error } = useQuery(GET_POST, {
     variables: {
       txId,
-      ethAddr
+      ethAddr: account
     },
     fetchPolicy: 'network-only'
   })
-  useErrorReporting(ERROR_TYPES.query, result?.error, 'GET_ALL_COMMUNITIES')
-  return result
+
+  useEffect(() => {
+    if (data) {
+      setPostData(data.getPost)
+      setLoading(false)
+    }
+  }, [data])
+
+  useErrorReporting(ERROR_TYPES.query, error, 'GET_ONE_POST')
+  return { postData, loading }
 }
 
 export default usePosts

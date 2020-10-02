@@ -18,18 +18,19 @@ const Avatar = styled('img')({
   }
 })
 
-const ProfileImage = ({ userDid, redirectURL }) => {
+const ProfileImage = ({ redirectURL, profAddress }) => {
   const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
-  const { profImage } = use3boxProf(userDid)
+  const { profImage } = use3boxProf(profAddress)
 
   useEffect(() => {
     const setProfileImage = async () => {
-      const img = profImage || await makeBlockie(userDid)
+      if (!profAddress) return
+      const img = profImage || await makeBlockie(profAddress)
       setImageSrc(img)
     }
 
     setProfileImage()
-  }, [userDid, profImage])
+  }, [profAddress, profImage])
 
   return (
     <>

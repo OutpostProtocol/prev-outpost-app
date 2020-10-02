@@ -10,7 +10,6 @@ import {
   ApolloProvider,
   HttpLink
 } from '@apollo/client'
-import { ELEMENT_ID } from './src/constants'
 import { Web3ReactProvider } from '@web3-react/core'
 import { ethers } from 'ethers'
 import fetch from 'isomorphic-fetch'
@@ -83,16 +82,4 @@ export const wrapRootElement = ({ element }) => {
       </ApolloProvider>
     </React.StrictMode>
   )
-}
-
-export const onInitialClientRender = () => {
-  if (process.env.BUILD_STAGE !== 'build-javascript') {
-    return
-  }
-
-  // Remove the server-side injected state.
-  const preloadedStateEl = document.getElementById(ELEMENT_ID)
-  if (preloadedStateEl) {
-    preloadedStateEl.parentNode.removeChild(preloadedStateEl)
-  }
 }
