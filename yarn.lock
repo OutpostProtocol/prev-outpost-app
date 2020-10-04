@@ -3192,9 +3192,9 @@
   integrity sha512-S9q47ByT2pPvD65IvrWp7qppVMpk9WGMbVq9wbWZOHg6tnXSD4vyhao6nOSBwwfDdV2p3Kx9evA9vI+XWTfDvw==
 
 "@types/zen-observable@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.0.tgz#8b63ab7f1aa5321248aad5ac890a485656dcea4d"
-  integrity sha512-te5lMAWii1uEJ4FwLjzdlbw3+n0FZNOvFXHxQDKeT0dilh7HOzdMzV2TrJVUzq8ep7J4Na8OUYPRLSQkJHAlrg==
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.1.tgz#5668c0bce55a91f2b9566b1d8a4c0a8dbbc79764"
+  integrity sha512-wmk0xQI6Yy7Fs/il4EpOcflG4uonUpYGqvZARESLc2oy4u69fkatFLbJOeW4Q6awO15P4rduAe6xkwHevpXcUQ==
 
 "@typescript-eslint/eslint-plugin@2.x", "@typescript-eslint/eslint-plugin@^2.24.0":
   version "2.34.0"
@@ -15681,9 +15681,9 @@ opn@^5.5.0:
     is-wsl "^1.1.0"
 
 optimism@^0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/optimism/-/optimism-0.12.1.tgz#933f9467b9aef0e601655adb9638f893e486ad02"
-  integrity sha512-t8I7HM1dw0SECitBYAqFOVHoBAHEQBTeKjIL9y9ImHzAVkdyPK4ifTgM4VJRDtTUY4r/u5Eqxs4XcGPHaoPkeQ==
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/optimism/-/optimism-0.12.2.tgz#de9dc3d2c914d7b34e08957a768967c0605beda9"
+  integrity sha512-k7hFhlmfLl6HNThIuuvYMQodC1c+q6Uc6V9cLVsMWyW514QuaxVJH/khPu2vLRIoDTpFdJ5sojlARhg1rzyGbg==
   dependencies:
     "@wry/context" "^0.5.2"
 
