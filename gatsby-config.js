@@ -1,3 +1,6 @@
+const { HttpLink } = require('@apollo/client')
+const fetch = require('isomorphic-fetch')
+
 module.exports = {
   siteMetadata: {
     title: 'Outpost',
@@ -57,7 +60,20 @@ module.exports = {
         enableOnDevMode: true
       }
     },
-    'gatsby-plugin-fontawesome-css'
+    'gatsby-plugin-fontawesome-css',
+    {
+      resolve: 'gatsby-source-graphql',
+      options: {
+        typeName: 'outpost',
+        fieldName: 'outpost',
+        createLink: () => {
+          return new HttpLink({
+            uri: 'https://outpost-api.herokuapp.com',
+            fetch
+          })
+        }
+      }
+    }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
