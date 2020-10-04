@@ -26,8 +26,6 @@ exports.createPages = async ({ graphql, actions }) => {
     }
   `)
 
-  console.log(result, 'THE RESULT FROM GRAPHQL')
-
   result.data.outpost.posts.forEach(post => {
     createPage({
       path: `/post/${post.txId}`,
