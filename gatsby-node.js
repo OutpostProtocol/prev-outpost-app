@@ -1,5 +1,10 @@
-require('dotenv').config()
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`
+})
 const path = require('path')
+const axios = require('axios')
+
+const OUTPOST_API = process.env.OUTPOST_API
 
 exports.onCreatePage = async ({ page, actions }) => {
   const { createPage } = actions
@@ -11,22 +16,22 @@ exports.onCreatePage = async ({ page, actions }) => {
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
-  const result = await graphql(`
-    query {
-      outpost {
-        posts {
-          id
-          title
-          subtitle
-          timestamp
-          txId
-          featuredImg
-        }
-      }
+  const query = `
+  query {
+    posts {
+      id
+      title
+      subtitle
+      timestamp
+      txId
+      featuredImg
     }
-  `)
+  }
+  `
 
-  result.data.outpost.posts.forEach(post => {
+  const result = await axios.post(OUTPOST_API, { query })
+
+  result.data.data.posts.forEach(post => {
     createPage({
       path: `/post/${post.txId}`,
       component: path.resolve('./src/pages/post.js'),
