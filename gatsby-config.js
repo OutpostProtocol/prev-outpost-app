@@ -1,6 +1,12 @@
 const { HttpLink } = require('@apollo/client')
 const fetch = require('isomorphic-fetch')
 
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`
+})
+
+const OUTPOST_API = process.env.OUTPOST_API
+
 module.exports = {
   siteMetadata: {
     title: 'Outpost',
@@ -68,7 +74,7 @@ module.exports = {
         fieldName: 'outpost',
         createLink: () => {
           return new HttpLink({
-            uri: 'https://outpost-api.herokuapp.com',
+            uri: OUTPOST_API,
             fetch
           })
         }
