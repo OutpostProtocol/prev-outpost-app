@@ -3,9 +3,7 @@ import { styled } from '@material-ui/core/styles'
 import Iframe from 'react-iframe'
 import { useWeb3React } from '@web3-react/core'
 
-import {
-  useOnePost, usePostPreview
-} from '../hooks/usePosts'
+import { useOnePost } from '../hooks/usePosts'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
@@ -63,7 +61,7 @@ const SignInMessage = styled('div')({
   'justify-content': 'center'
 })
 
-const PostPage = ({ location }) => {
+const PostPage = ({ location, pageContext }) => {
   const { account } = useWeb3React()
   const txId = getId(location, '/post/')
   const backPath = getBackPath(location)
@@ -73,6 +71,7 @@ const PostPage = ({ location }) => {
       <PostLayout
         backPath={backPath}
         txId={txId}
+        context={pageContext}
       >
         <SignInMessage>
           <div>
@@ -91,15 +90,14 @@ const PostPage = ({ location }) => {
   )
 }
 
-const PostLayout = ({ children, backPath, txId }) => {
-  const { title, description, image, canonicalLink } = usePostPreview(txId)
+const PostLayout = ({ children, backPath, txId, context }) => {
+  const { title, subtitle, image } = context || {}
 
   return (
     <>
       <SEO
         title={title}
-        canonical={canonicalLink}
-        description={description}
+        description={subtitle}
         image={image}
       />
       <Toolbar
