@@ -101,5 +101,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/samhatem/micro-rain"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
