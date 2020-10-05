@@ -52,6 +52,7 @@
     "gatsby-plugin-sharp": "^2.5.4",
     "gatsby-source-filesystem": "^2.2.2",
     "gatsby-transformer-sharp": "^2.4.4",
+    "graphql": "^15.3.0",
     "html-react-parser": "^0.14.0",
     "isomorphic-fetch": "^2.2.1",
     "magic-sdk": "^2.4.7",
