@@ -12,7 +12,9 @@ import {
 import { Alert } from '@material-ui/lab'
 import { styled } from '@material-ui/core/styles'
 import { Close } from '@material-ui/icons'
-import { useWeb3React } from '@web3-react/core'
+import {
+  useWeb3React, UnsupportedChainIdError
+} from '@web3-react/core'
 import {
   WalletConnectConnector, UserRejectedRequestError
 } from '@web3-react/walletconnect-connector'
@@ -109,9 +111,10 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
   const config = useRef({})
   const [showError, setShowError] = useState(false)
   const [errorMessage, setErrorMessage] = useState()
+  const [showMsg, setShowMsg] = useState(false)
   const [isMagic, setIsMagic] = useState(false)
   const { isPrevLoading } = usePrevWallet()
-  const { isGettingToken, checkToken, fetchToken } = useAuth()
+  const { isGettingToken, checkToken, fetchToken, setAuthToken } = useAuth()
 
   const handleEmail = (event) => {
     if (event && event.target && event.target.value) {
@@ -121,6 +124,12 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
 
   const handleError = (error) => {
     if (error instanceof UserRejectedRequestError) {
+      return
+    }
+
+    if (error instanceof UnsupportedChainIdError) {
+      setErrorMessage('Please connect your wallet to mainnet and try again.')
+      setShowError(true)
       return
     }
 
@@ -176,23 +185,31 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
       if (setup) setup(connector)
 
       setPendingWallet(false)
-
-      handleClose()
     }
   }
 
-  /**
   useEffect(() => {
-    const handleTokenCheck = async (token) => {
-      const hasValidToken = await checkToken(token)
-      if (!hasValidToken) {
-        await fetchToken()
-      }
-
-      handleClose()
+    const isWc = () => {
+      return library?.provider?.wc?.protocol === 'wc'
     }
 
+    console.log(isGettingToken, 'WHETHER GETTING TOKEN')
+    console.log(isWc(), 'WHETHER IS WC')
+
+    if (isGettingToken && isWc()) {
+      setShowMsg(true)
+    }
+
+    if (!isGettingToken) {
+      setShowMsg(false)
+    }
+  }, [isGettingToken, library])
+
+  useEffect(() => {
     const handleFetchToken = async () => {
+      console.log('handle fetch called')
+      console.log(isGettingToken, 'WHETHER ALREADY GETTING THE TOKEN')
+      if (isGettingToken) return
       await fetchToken()
       handleClose()
     }
@@ -214,15 +231,15 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
       setCurAccount(account)
 
       const token = store.get(`${LOGIN_TOKEN}.${account}`)
-  //    if (token) {
-  //      handleTokenCheck(token)
-  //    }
+      console.log(token, 'THE LOGIN TOKEN')
       if (!token) {
         handleFetchToken()
+      } else {
+        setAuthToken(token)
+        handleClose()
       }
     }
-  }, [account, curAccount, setCurAccount, library, mixpanel, deactivate, handleClose, checkToken, fetchToken])
-  */
+  }, [account, curAccount, setCurAccount, library, mixpanel, deactivate, handleClose, checkToken, fetchToken, setAuthToken, isGettingToken])
 
   const closeError = (event, reason) => {
     if (reason === 'clickaway') {
@@ -230,6 +247,14 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
     }
 
     setShowError(false)
+  }
+
+  const closeMsg = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setShowMsg(false)
   }
 
   const AccountInfo = () => {
@@ -311,9 +336,14 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
           </ContentContainer>
         </Fade>
       </ModalContainer>
-      <Snackbar open={showError} autoHideDuration={5000} onClose={closeError}>
+      <Snackbar open={showError} autoHideDuration={4000} onClose={closeError}>
         <Alert onClose={closeError} severity="error">
           {errorMessage}
+        </Alert>
+      </Snackbar>
+      <Snackbar open={showMsg} onClose={closeMsg}>
+        <Alert onClose={closeMsg} severity="info">
+          Sign the message in your wallet to continue
         </Alert>
       </Snackbar>
     </>

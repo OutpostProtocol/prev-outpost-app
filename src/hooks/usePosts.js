@@ -7,7 +7,6 @@ import {
 } from '@apollo/client'
 import { useErrorReporting } from './index'
 import { ERROR_TYPES } from '../constants'
-import { useWeb3React } from '@web3-react/core'
 
 export const GET_POSTS = gql`
   query posts($communityTxId: String) {
@@ -32,8 +31,8 @@ export const GET_POSTS = gql`
   `
 
 export const GET_POST = gql`
-  query getPost($txId: String!, $ethAddr: String!) {
-    getPost(txId: $txId, ethAddr: $ethAddr) {
+  query getPost($txId: String!, $userToken: String!) {
+    getPost(txId: $txId, userToken: $userToken) {
       post {
         id
         title
@@ -115,14 +114,13 @@ const usePosts = (communityTxId) => {
   return result
 }
 
-export const useOnePost = (txId) => {
-  const { account } = useWeb3React()
+export const useOnePost = (txId, userToken) => {
   const [postData, setPostData] = useState()
   const [loading, setLoading] = useState(true)
-  const { data, error } = useQuery(GET_POST, {
+  const { data, error, refetch } = useQuery(GET_POST, {
     variables: {
       txId,
-      ethAddr: account
+      userToken
     },
     fetchPolicy: 'network-only'
   })
@@ -135,7 +133,7 @@ export const useOnePost = (txId) => {
   }, [data])
 
   useErrorReporting(ERROR_TYPES.query, error, 'GET_ONE_POST')
-  return { postData, loading }
+  return { postData, loading, error, refetch }
 }
 
 export default usePosts

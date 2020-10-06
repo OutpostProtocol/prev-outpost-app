@@ -1,8 +1,12 @@
-import React from 'react'
+import React, {
+  useState, useEffect
+} from 'react'
 import { styled } from '@material-ui/core/styles'
+import { CircularProgress } from '@material-ui/core'
 import Iframe from 'react-iframe'
 import { useWeb3React } from '@web3-react/core'
 
+import useAuth from '../hooks/useAuth'
 import { useOnePost } from '../hooks/usePosts'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
@@ -61,12 +65,21 @@ const SignInMessage = styled('div')({
   'justify-content': 'center'
 })
 
+const LoginProgressContainer = styled('div')({
+  margin: '15vh 15vw',
+  display: 'flex',
+  'align-items': 'center',
+  height: '70vh',
+  'justify-content': 'center'
+})
+
 const PostPage = ({ location, pageContext }) => {
   const { account } = useWeb3React()
   const txId = getId(location, '/post/')
   const backPath = getBackPath(location)
+  const { authToken } = useAuth()
 
-  if (!account) {
+  if (!account || !authToken) {
     return (
       <PostLayout
         backPath={backPath}
@@ -111,10 +124,33 @@ const PostLayout = ({ children, backPath, txId, context }) => {
 }
 
 const LoggedInPost = ({ backPath, txId }) => {
-  const { postData, loading } = useOnePost(txId)
+  const { authToken, fetchToken } = useAuth()
+  const [refetchedCalled, setRefetchCalled] = useState(false)
+  const { postData, loading, error, refetch } = useOnePost(txId, authToken)
+
+  useEffect(() => {
+    const handleRefetch = async () => {
+      await fetchToken()
+      await refetch()
+      setRefetchCalled(false)
+    }
+
+    if (error && !refetchedCalled) {
+      setRefetchCalled(true)
+      handleRefetch()
+    }
+  }, [error, fetchToken, refetchedCalled, refetch])
 
   if (loading) {
-    return null
+    return (
+      <PostLayout
+        backPath={backPath}
+      >
+        <LoginProgressContainer>
+          <CircularProgress />
+        </LoginProgressContainer>
+      </PostLayout>
+    )
   }
 
   const { userBalance, readRequirement, tokenSymbol, tokenAddress } = postData
