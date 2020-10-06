@@ -111,6 +111,7 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
   const config = useRef({})
   const [showError, setShowError] = useState(false)
   const [errorMessage, setErrorMessage] = useState()
+  const [showMsg, setShowMsg] = useState(false)
   const [isMagic, setIsMagic] = useState(false)
   const { isPrevLoading } = usePrevWallet()
   const { isGettingToken, checkToken, fetchToken, setAuthToken } = useAuth()
@@ -188,6 +189,23 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
   }
 
   useEffect(() => {
+    const isWc = () => {
+      return library?.provider?.wc?.protocol === 'wc'
+    }
+
+    console.log(isGettingToken, 'WHETHER GETTING TOKEN')
+    console.log(isWc(), 'WHETHER IS WC')
+
+    if (isGettingToken && isWc()) {
+      setShowMsg(true)
+    }
+
+    if (!isGettingToken) {
+      setShowMsg(false)
+    }
+  }, [isGettingToken, library])
+
+  useEffect(() => {
     const handleFetchToken = async () => {
       console.log('handle fetch called')
       console.log(isGettingToken, 'WHETHER ALREADY GETTING THE TOKEN')
@@ -213,6 +231,7 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
       setCurAccount(account)
 
       const token = store.get(`${LOGIN_TOKEN}.${account}`)
+      console.log(token, 'THE LOGIN TOKEN')
       if (!token) {
         handleFetchToken()
       } else {
@@ -228,6 +247,14 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
     }
 
     setShowError(false)
+  }
+
+  const closeMsg = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setShowMsg(false)
   }
 
   const AccountInfo = () => {
@@ -312,6 +339,11 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
       <Snackbar open={showError} autoHideDuration={4000} onClose={closeError}>
         <Alert onClose={closeError} severity="error">
           {errorMessage}
+        </Alert>
+      </Snackbar>
+      <Snackbar open={showMsg} onClose={closeMsg}>
+        <Alert onClose={closeMsg} severity="info">
+          Sign the message in your wallet to continue
         </Alert>
       </Snackbar>
     </>

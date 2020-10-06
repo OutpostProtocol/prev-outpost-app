@@ -2,6 +2,7 @@ import React, {
   useState, useEffect
 } from 'react'
 import { styled } from '@material-ui/core/styles'
+import { CircularProgress } from '@material-ui/core'
 import Iframe from 'react-iframe'
 import { useWeb3React } from '@web3-react/core'
 
@@ -64,13 +65,19 @@ const SignInMessage = styled('div')({
   'justify-content': 'center'
 })
 
+const LoginProgressContainer = styled('div')({
+  margin: '15vh 15vw',
+  display: 'flex',
+  'align-items': 'center',
+  height: '70vh',
+  'justify-content': 'center'
+})
+
 const PostPage = ({ location, pageContext }) => {
   const { account } = useWeb3React()
   const txId = getId(location, '/post/')
   const backPath = getBackPath(location)
   const { authToken } = useAuth()
-
-  console.log(authToken, 'THE AUTH TOKEN')
 
   if (!account || !authToken) {
     return (
@@ -129,14 +136,21 @@ const LoggedInPost = ({ backPath, txId }) => {
     }
 
     if (error && !refetchedCalled) {
-      console.log(refetchedCalled, 'VAL OF REFETCH CALLED')
       setRefetchCalled(true)
       handleRefetch()
     }
   }, [error, fetchToken, refetchedCalled, refetch])
 
   if (loading) {
-    return null
+    return (
+      <PostLayout
+        backPath={backPath}
+      >
+        <LoginProgressContainer>
+          <CircularProgress />
+        </LoginProgressContainer>
+      </PostLayout>
+    )
   }
 
   const { userBalance, readRequirement, tokenSymbol, tokenAddress } = postData

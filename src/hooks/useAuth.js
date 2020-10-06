@@ -1,5 +1,5 @@
 import {
-  useCallback, useState, useContext
+  useCallback, useContext
 } from 'react'
 import store from 'store'
 import {
@@ -33,13 +33,12 @@ const VALIDATE_TOKEN = gql`
 `
 
 const useAuth = () => {
-  const { setAuthToken, authToken } = useContext(AuthContext)
+  const { setAuthToken, authToken, setGettingToken, isGettingToken } = useContext(AuthContext)
   const { account, library } = useWeb3React()
   const [getAuthToken] = useMutation(SIGN_IN_TOKEN)
   const [authAccount] = useMutation(AUTHENTICATE)
   const [validateToken] = useMutation(VALIDATE_TOKEN)
   const mixpanel = useMixpanel()
-  const [isGettingToken, setGettingToken] = useState(false)
 
   const checkError = useCallback(
     (loginRes) => {
@@ -88,13 +87,18 @@ const useAuth = () => {
     const signer = library.getSigner()
 
     let sig
-    // signMessage with wc causes issues -.-
-    if (library.provider.wc?.protocol === 'wc') {
-      // convert token to hex to send
-      token = ethers.utils.hexlify(Buffer.from(token, 'utf8'))
-      sig = await library.provider.send('personal_sign', [token, account])
-    } else {
-      sig = await signer.signMessage(token)
+    try {
+      // signMessage with wc causes issues -.-
+      if (library.provider.wc?.protocol === 'wc') {
+        // convert token to hex to send
+        token = ethers.utils.hexlify(Buffer.from(token, 'utf8'))
+        sig = await library.provider.send('personal_sign', [token, account])
+      } else {
+        sig = await signer.signMessage(token)
+      }
+    } catch (e) {
+      setGettingToken(false)
+      return
     }
 
     const authRes = await authAccount({
