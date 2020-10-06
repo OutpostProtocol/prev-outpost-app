@@ -72,10 +72,10 @@ export const useCommunity = () => {
   return { data, loading, error }
 }
 
-export const useUser = (did) => {
+export const useUser = (ethAddr) => {
   const GET_USER = gql`
-    query user($did: String) {
-      user(did: $did) {
+    query user($ethAddr: String) {
+      user(ethAddr: $ethAddr) {
         name,
         id
       }
@@ -83,7 +83,7 @@ export const useUser = (did) => {
     `
   const { data, loading, error } = useQuery(GET_USER, {
     variables: {
-      did: did
+      ethAddr: ethAddr
     }
   })
   useErrorReporting(ERROR_TYPES.query, error, 'GET_USER')

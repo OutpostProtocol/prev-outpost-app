@@ -44,16 +44,16 @@ export const GET_POST = gql`
         community {
           name
           txId
-        },
+        }
         user {
           address
-        },
-        comments {
-          postText
-          timestamp
-          user {
-            address
-          }
+        }
+      }
+      comments {
+        postText
+        timestamp
+        user {
+          address
         }
       }
       userBalance
@@ -91,10 +91,10 @@ export const usePostPreview = (txId) => {
   useEffect(() => {
     if (!loading && !error) {
       const preview = data.postPreview
-      setCanonicalLink(preview.canonicalLink)
-      setTitle(preview.title)
-      setDescription(preview.subtitle)
-      setImage(preview.featuredImg)
+      setCanonicalLink(preview?.canonicalLink)
+      setTitle(preview?.title)
+      setDescription(preview?.subtitle)
+      setImage(preview?.featuredImg)
     }
   }, [data, loading, error])
 

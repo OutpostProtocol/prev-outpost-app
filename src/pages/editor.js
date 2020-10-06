@@ -3,12 +3,13 @@ import { navigate } from 'gatsby'
 import { styled } from '@material-ui/core/styles'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import { IconButton } from '@material-ui/core'
+import { useWeb3React } from '@web3-react/core'
+import showdown from 'showdown'
 import {
   gql,
   useMutation
 } from '@apollo/client'
 
-import { uploadPost } from '../uploaders'
 import { GET_POSTS } from '../hooks/usePosts'
 import { isValidURL } from '../utils'
 import LoadingBackdrop from '../components/LoadingBackdrop'
@@ -23,6 +24,8 @@ import ContentEditor from '../components/Editor/ContentEditor'
 import EditorPreview from '../components/Editor/EditorPreview'
 import CanonicalLinkOption from '../components/Editor/CanonicalLinkOption'
 import { useErrorReporting } from '../hooks'
+
+const converter = new showdown.Converter()
 
 const EditorContainer = styled('div')({
   width: '50vw',
@@ -45,10 +48,9 @@ const WarningText = styled('div')({
 })
 
 const UPLOAD_POST = gql`
-  mutation UploadPost($id: String, $post: PostUpload!) {
-    uploadPost(id: $id, post: $post) {
+  mutation UploadPost($postUpload: PostUpload!, $ethAddr: String!, $communityTxId: String!) {
+    uploadPost(postUpload: $postUpload, ethAddr: $ethAddr, communityTxId: $communityTxId) {
       txId
-      id
       title
       postText
       subtitle
@@ -58,7 +60,7 @@ const UPLOAD_POST = gql`
         name
       }
       user {
-        did
+        address
       }
     }
   }
@@ -69,10 +71,12 @@ const EditorPage = ({ location }) => {
   const postTemplate = isEditingMode && location.state.post
   const placeholderCommunity = (isEditingMode && location.state.post.community) ? location.state.post.community : PLACEHOLDER_COMMUNITY
 
-  const [postText, setPostText] = useState(postTemplate?.postText || '')
+  const { account } = useWeb3React()
+  const [postText, setPostText] = useState(postTemplate?.postText)
   const [communityId, setCommunityId] = useState(placeholderCommunity.txId)
-  const [title, setTitle] = useState(postTemplate?.title || '')
-  const [subtitle, setSubtitle] = useState(postTemplate?.subtitle || '')
+  const [title, setTitle] = useState(postTemplate?.title)
+  const [subtitle, setSubtitle] = useState(postTemplate?.subtitle)
+  const [featuredImage, setFeaturedImage] = useState(postTemplate?.featuredImage)
   const [isWaitingForUpload, setIsWaiting] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
   const [hasCanonicalLink, setHasLink] = useState(false)
@@ -86,86 +90,59 @@ const EditorPage = ({ location }) => {
     }
   }
 
-  const handleUploadToDb = async (txInfo) => {
-    const { communityTxId, author, time, postData, txId, featuredImg } = txInfo
-
+  const handlePost = async () => {
+    if (!isValidPost) return
+    setIsWaiting(true)
+    const parsedPost = converter.makeHtml(postText.replace(/\\/g, '<br/>'))
+    const timestamp = Math.floor(Date.now() / 1000)
     const postUpload = {
-      communityTxId,
-      userDid: author,
-      timestamp: time,
-      title: postData.title,
-      subtitle: postData.subtitle,
-      postText: postData.postText,
-      txId,
-      featuredImg,
-      canonicalLink: postData.canonicalLink,
-      parentTxId: postTemplate.txId
+      title: title,
+      subtitle: subtitle,
+      postText: parsedPost,
+      canonicalLink: canonicalLink,
+      parentTxId: postTemplate?.transaction.txId,
+      timestamp: timestamp,
+      featuredImg: featuredImage
     }
 
-    // if the user is editing, include the id to update the cache
-    let options
-    if (isEditingMode) {
-      options = {
-        variables: {
-          post: postUpload,
-          id: postTemplate?.id
-        },
-        refetchQueries: [{ query: GET_POSTS }]
-      }
-    } else {
-      options = {
-        variables: {
-          post: postUpload
-        },
-        refetchQueries: [{ query: GET_POSTS }]
-      }
+    await handleUpload(postUpload)
+
+    setIsWaiting(false)
+  }
+
+  const handleUpload = async (postUpload) => {
+    const options = {
+      variables: {
+        postUpload: postUpload,
+        ethAddr: account,
+        communityTxId: communityId
+      },
+      refetchQueries: [{ query: GET_POSTS }]
     }
 
     const res = await uploadPostToDb(options)
-
-    if (isEditingMode) {
-      navigate(`/post/${postTemplate.transaction.txId}`)
-    } else {
-      navigate(`/post/${res.data.uploadPost.txId}`)
-    }
+    navigate(`/post/${res.data.uploadPost.txId}`)
   }
 
-  const handlePost = async () => {
+  const isValidPost = () => {
     if (postText === '') {
       alert('This post has no text.')
-      return
+      return false
     } else if (title === '') {
       alert('You must create a title for your post')
-      return
+      return false
     } else if (hasCanonicalLink && !isValidURL(canonicalLink)) {
       alert('Either disable the canonical link or enter a valid URL [https://www.example.com]')
-      return
+      return false
     } else if (communityId === '' || communityId === PLACEHOLDER_COMMUNITY.txId) {
       alert('Select a community')
-      return
+      return false
     } else if (subtitle === '') {
       alert('This post has no subtitle')
-      return
-    }
-    setIsWaiting(true)
-
-    // No subtitle is ok, the post preview will render a portion of the post instead
-    const payload = {
-      title: title,
-      subtitle: subtitle,
-      postText: postText,
-      canonicalLink: canonicalLink,
-      parentTxId: postTemplate.transaction.txId
+      return false
     }
 
-    const res = await uploadPost(payload, communityId)
-
-    if (res.status === 200 && res.data.status === 200) {
-      return await handleUploadToDb(res.data.tx)
-    }
-
-    setIsWaiting(false)
-    alert('The post upload failed. Try again.')
+    return true
   }
 
   return (
@@ -193,9 +170,11 @@ const EditorPage = ({ location }) => {
             title={title}
             subtitle={subtitle}
             postText={postText}
+            featuredImg={featuredImage}
             setTitle={setTitle}
             setSubtitle={setSubtitle}
             setPostText={setPostText}
+            setFeaturedImage={setFeaturedImage}
             isEditing={isEditingMode}
           />
         }

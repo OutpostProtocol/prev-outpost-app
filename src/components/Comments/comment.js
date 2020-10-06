@@ -1,8 +1,6 @@
 import React from 'react'
 import { styled } from '@material-ui/styles'
-import unified from 'unified'
-import parse from 'remark-parse'
-import remark2react from 'remark-react'
+import htmlparse from 'html-react-parser'
 import PostContext from '../PostContext'
 
 const CommentContainer = styled('div')({
@@ -33,16 +31,13 @@ const Comment = ({ comment }) => {
   return (
     <CommentContainer>
       <ContextContainer
-        userDid={user.did}
+        userAddress={user.address}
         timestamp={timestamp}
         dateFormat={'DD MMMM'}
       />
       <CommentText>
         {
-          unified()
-            .use(parse, { commonmark: true })
-            .use(remark2react)
-            .processSync(postText).result
+          htmlparse(postText)
         }
         <Divider />
       </CommentText>

@@ -188,7 +188,7 @@ const LoggedInPost = ({ backPath, txId }) => {
   }
 
   const post = postData.post
-
+  const comments = postData.comments
   return (
     <PostLayout
       backPath={backPath}
@@ -197,6 +197,7 @@ const LoggedInPost = ({ backPath, txId }) => {
       <PostContainer>
         <Post
           post={post}
+          comments={comments}
         />
       </PostContainer>
     </PostLayout>

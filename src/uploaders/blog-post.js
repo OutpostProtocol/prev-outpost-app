@@ -2,25 +2,6 @@ import axios from 'axios'
 
 const ARWEAVE_UPLOAD_SERVICE = process.env.ARWEAVE_UPLOAD_SERVICE
 
-export const uploadPost = async (postData, communityTxId) => {
-  const time = Math.floor(Date.now() / 1000)
-
-  const payload = {
-    postData,
-    communityTxId,
-    author: window.box.DID,
-    time
-  }
-
-  const uploadData = {
-    payload,
-    communityTxId,
-    did: window.box.DID
-  }
-
-  return await axios.post(`${ARWEAVE_UPLOAD_SERVICE}/blog-post`, uploadData)
-}
-
 export const deletePost = async (txId, communityTxId) => {
   const postData = {
     title: '',
@@ -32,23 +13,6 @@ export const deletePost = async (txId, communityTxId) => {
 
   const payload = {
     postData,
-    communityTxId
-  }
-
-  const jwt = await window.box._3id.signJWT(payload)
-
-  const uploadData = {
-    jwt,
-    communityTxId,
-    did: window.box.DID
-  }
-
-  return await axios.post(`${ARWEAVE_UPLOAD_SERVICE}/blog-post`, uploadData)
-}
-
-export const uploadComment = async (commentData, communityTxId) => {
-  const payload = {
-    commentData,
     communityTxId
   }
 

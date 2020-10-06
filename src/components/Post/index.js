@@ -10,6 +10,7 @@ import {
 
 import Share from '../Share'
 import LoadingBackdrop from '../LoadingBackdrop'
+import Comments from '../Comments'
 import { deletePost } from '../../uploaders/blog-post'
 import { GET_POSTS } from '../../hooks/usePosts'
 import { useErrorReporting } from '../../hooks'
@@ -71,18 +72,25 @@ const AuthorActions = styled('div')({
   'margin-top': '20px'
 })
 
+const StyledHr = styled('hr')({
+  width: '100%',
+  border: 'none',
+  height: '1px',
+  'margin-top': '20px',
+  'background-color': '#c4c4c4'
+})
+
 const DELETE_POST = gql`
     mutation deletePost($txId: String!) {
       deletePost(txId: $txId)
     }
   `
 
-const Post = ({ post }) => {
-  const { title, subtitle, postText, txId, community } = post
+const Post = ({ post, comments }) => {
+  const { title, subtitle, postText, /* user, */ txId, community } = post
   const [isDeleting, setIsDeleting] = useState(false)
   const [deletePostFromDb, { error }] = useMutation(DELETE_POST)
   useErrorReporting(ERROR_TYPES.mutation, error, 'DELETE_POST')
-
   const isAuthor = () => {
     return false
   }
@@ -136,7 +144,7 @@ const Post = ({ post }) => {
         </PostMetaData>
         <SubHeader>
           <PostContext
-            profAddress={post.user.address}
+            userAddress={post.user.address}
             communityName={post.community.name}
             timestamp={post.timestamp}
           />
@@ -152,6 +160,12 @@ const Post = ({ post }) => {
           htmlparse(postText)
         }
       </PostContent>
+      <StyledHr />
+      <Comments
+        comments={comments}
+        communityTxId={community.txId}
+        postTxId={txId}
+      />
     </PostContainer>
   )
 }

@@ -24,6 +24,8 @@ const ProfileContainer = styled('div')({
 })
 
 const ImgContainer = styled('div')({
+  display: 'flex',
+  'align-items': 'center'
 })
 
 const Toolbar = ({ backPath }) => {
@@ -47,7 +49,7 @@ const Toolbar = ({ backPath }) => {
             </CreateButton>
           }
           <ProfileImage
-            profAddress={account}
+            userAddress={account}
             redirectURL={`https://3box.io/${account}`}
           />
         </ImgContainer>
@@ -106,6 +108,8 @@ const CommonToolbar = ({ children, backPath }) => {
   const { data, loading, error } = useCommunity()
 
   if (loading || error) return null
+
+  console.log(data, 'THE DATA')
 
   const { imageTxId, name } = data.community[0]
 
