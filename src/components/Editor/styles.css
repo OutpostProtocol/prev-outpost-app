@@ -1,0 +1,17 @@
+.ql-editor > p, .ql-editor > ul, .ql-editor > ol, .ql-editor > blockquote, .ql-editor.ql-blank::before {
+    font-family: 'Spectral', 'serif';
+    font-size: 18px;
+}
+
+.ql-editor > p,.ql-editor.ql-blank::before {
+    margin-top: 0.86em
+}
+
+.ql-editor {
+    white-space: pre-wrap !important;
+}
+
+.ql-video {
+    margin-left: auto;
+    margin-right: auto;
+}

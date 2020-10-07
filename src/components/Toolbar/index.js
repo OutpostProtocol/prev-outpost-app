@@ -106,8 +106,7 @@ const CommonToolbar = ({ children, backPath }) => {
   const { data, loading, error } = useCommunity()
 
   if (loading || error) return null
-
-  const { imageTxId, name } = data.community[0]
+  const { imageTxId, name } = data?.community[0]
 
   return (
     <ToolbarContainer>
@@ -124,10 +123,12 @@ const CommonToolbar = ({ children, backPath }) => {
         }
         <CurCommunity>
           <ImageContainer>
+            { imageTxId &&
             <CommunityImage
               src={`https://arweave.net/${imageTxId}`}
               alt={name}
             />
+            }
           </ImageContainer>
           <CommunityName>
             {name}

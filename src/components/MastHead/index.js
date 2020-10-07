@@ -112,7 +112,7 @@ const MastHead = () => {
   if (loading) return null
   if (error) return `Error! ${error.message}`
 
-  const { imageTxId, name, description, tokenSymbol, tokenAddress } = data.community[0]
+  const { imageTxId, name, description, tokenSymbol, tokenAddress } = data?.community[0]
 
   return (
     <Container>
@@ -139,12 +139,14 @@ const MastHead = () => {
           </FrameWrapper>
         )}
         <Header>
+          { imageTxId &&
           <HeaderImages>
             <CommunityImage src={`https://arweave.net/${imageTxId}`} alt={name} />
             {creatorImg &&
             <ProfileImage src={creatorImg} alt={`${name} Creator`} />
             }
           </HeaderImages>
+          }
           <CommunityInfo>
             <Name>
               {name}

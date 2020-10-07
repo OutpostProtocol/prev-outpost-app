@@ -1,9 +1,7 @@
 import React from 'react'
 import { styled } from '@material-ui/core/styles'
-import showdown from 'showdown'
 import htmlparse from 'html-react-parser'
-
-const converter = new showdown.Converter()
+import 'react-quill/dist/quill.bubble.css'
 
 const PostHeader = styled('div')({
   height: '100%',
@@ -11,7 +9,8 @@ const PostHeader = styled('div')({
 })
 
 const Title = styled('h1')({
-  margin: '5vh 0'
+  margin: '5vh 0',
+  'font-size': '40px'
 })
 
 const PreviewContainer = styled('div')({
@@ -19,12 +18,11 @@ const PreviewContainer = styled('div')({
 })
 
 const Subtitle = styled('h4')({
-  'margin-bottom': '5vh'
+  'margin-bottom': '5vh',
+  'font-size': '20px'
 })
 
 const EditorPreview = ({ title, subtitle, postText }) => {
-  const displayText = converter.makeHtml(postText.replace(/\\/g, '<br/>'))
-
   return (
     <PreviewContainer>
       <PostHeader>
@@ -35,9 +33,9 @@ const EditorPreview = ({ title, subtitle, postText }) => {
           {subtitle}
         </Subtitle>
       </PostHeader>
-      <div>
+      <div id='blog-text'>
         {
-          htmlparse(displayText)
+          htmlparse(postText)
         }
       </div>
     </PreviewContainer>

@@ -57,8 +57,18 @@ div.sc-fzoyAV {
   Styling for html of a blog post
 */
 
-#blog-text > p, #blog-text > ol, #blog-text > ul  {
+#blog-text > p, #blog-text > ol, #blog-text > ul, #blog-text > blockquote  {
   font-family: 'Spectral', 'serif';
+}
+
+#blog-text > p {
+  margin-top: 0.86em
+}
+
+.ql-video {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 
 /*
