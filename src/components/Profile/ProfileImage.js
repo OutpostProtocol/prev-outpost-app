@@ -4,7 +4,6 @@ import React, {
 import { styled } from '@material-ui/core/styles'
 import makeBlockie from 'ethereum-blockies-base64'
 import { use3boxProf } from '../../hooks/use3boxProf'
-import { useWeb3React } from '@web3-react/core'
 
 const Avatar = styled('img')({
   'border-radius': '50%',
@@ -19,19 +18,19 @@ const Avatar = styled('img')({
   }
 })
 
-const ProfileImage = ({ redirectURL }) => {
-  const { account } = useWeb3React()
+const ProfileImage = ({ redirectURL, userAddress }) => {
   const [imageSrc, setImageSrc] = useState('https://picsum.photos/40/40/?blur')
-  const { profImage } = use3boxProf(account)
+  const { profImage } = use3boxProf(userAddress)
 
   useEffect(() => {
     const setProfileImage = async () => {
-      const img = profImage || await makeBlockie(account)
+      if (!userAddress) return
+      const img = profImage || await makeBlockie(userAddress)
       setImageSrc(img)
     }
 
     setProfileImage()
-  }, [account, profImage])
+  }, [userAddress, profImage])
 
   return (
     <>

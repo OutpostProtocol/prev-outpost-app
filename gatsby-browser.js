@@ -13,6 +13,7 @@ import {
 import { Web3ReactProvider } from '@web3-react/core'
 import { ethers } from 'ethers'
 import fetch from 'isomorphic-fetch'
+import { AuthProvider } from './src/context/Auth'
 
 import './src/static/global.css'
 
@@ -70,16 +71,18 @@ export const wrapRootElement = ({ element }) => {
         <StylesProvider injectFirst >
           <ThemeProvider theme={theme}>
             <Web3ReactProvider getLibrary={getLibrary}>
-              <main
-                style={{
-                  height: '100%',
-                  width: '100%',
-                  top: '0',
-                  left: '0'
-                }}
-              >
-                {element}
-              </main>
+              <AuthProvider >
+                <main
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    top: '0',
+                    left: '0'
+                  }}
+                >
+                  {element}
+                </main>
+              </AuthProvider>
             </Web3ReactProvider>
           </ThemeProvider>
         </StylesProvider>

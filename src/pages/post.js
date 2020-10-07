@@ -1,12 +1,13 @@
-import React from 'react'
+import React, {
+  useState, useEffect
+} from 'react'
 import { styled } from '@material-ui/core/styles'
+import { CircularProgress } from '@material-ui/core'
 import Iframe from 'react-iframe'
 import { useWeb3React } from '@web3-react/core'
 
-import {
-  useOnePost,
-  usePostPreview
-} from '../hooks/usePosts'
+import useAuth from '../hooks/useAuth'
+import { useOnePost } from '../hooks/usePosts'
 import Post from '../components/Post'
 import Toolbar from '../components/Toolbar'
 import SEO from '../components/seo'
@@ -64,16 +65,26 @@ const SignInMessage = styled('div')({
   'justify-content': 'center'
 })
 
-const PostPage = ({ location }) => {
+const LoginProgressContainer = styled('div')({
+  margin: '15vh 15vw',
+  display: 'flex',
+  'align-items': 'center',
+  height: '70vh',
+  'justify-content': 'center'
+})
+
+const PostPage = ({ location, pageContext }) => {
   const { account } = useWeb3React()
   const txId = getId(location, '/post/')
   const backPath = getBackPath(location)
+  const { authToken } = useAuth()
 
-  if (!account) {
+  if (!account || !authToken) {
     return (
       <PostLayout
         backPath={backPath}
         txId={txId}
+        context={pageContext}
       >
         <SignInMessage>
           <div>
@@ -92,15 +103,14 @@ const PostPage = ({ location }) => {
   )
 }
 
-const PostLayout = ({ children, backPath, txId }) => {
-  const { title, description, image, canonicalLink } = usePostPreview(txId)
+const PostLayout = ({ children, backPath, txId, context }) => {
+  const { title, subtitle, image } = context || {}
 
   return (
     <>
       <SEO
         title={title}
-        canonical={canonicalLink}
-        description={description}
+        description={subtitle}
         image={image}
       />
       <Toolbar
@@ -114,16 +124,39 @@ const PostLayout = ({ children, backPath, txId }) => {
 }
 
 const LoggedInPost = ({ backPath, txId }) => {
-  const { account } = useWeb3React()
-  const { data, loading, error } = useOnePost(txId, account)
+  const { authToken, fetchToken } = useAuth()
+  const [refetchedCalled, setRefetchCalled] = useState(false)
+  const { postData, loading, error, refetch } = useOnePost(txId, authToken)
 
-  if (loading) return null
-  if (error) return `Error! ${error.message}`
+  useEffect(() => {
+    const handleRefetch = async () => {
+      await fetchToken()
+      await refetch()
+      setRefetchCalled(false)
+    }
 
-  const { userBalance, readRequirement, tokenSymbol, tokenAddress } = data.getPost
+    if (error && !refetchedCalled) {
+      setRefetchCalled(true)
+      handleRefetch()
+    }
+  }, [error, fetchToken, refetchedCalled, refetch])
 
-  const isInsufficientBalance = data.getPost.userBalance < data.getPost.readRequirement
-  if (isInsufficientBalance) {
+  if (loading) {
+    return (
+      <PostLayout
+        backPath={backPath}
+      >
+        <LoginProgressContainer>
+          <CircularProgress />
+        </LoginProgressContainer>
+      </PostLayout>
+    )
+  }
+
+  const { userBalance, readRequirement, tokenSymbol, tokenAddress } = postData
+
+  const hasInsufficientBalance = userBalance < readRequirement
+  if (hasInsufficientBalance) {
     return (
       <PostLayout
         backPath={backPath}
@@ -154,8 +187,8 @@ const LoggedInPost = ({ backPath, txId }) => {
     )
   }
 
-  const post = data.getPost.post
-  const comments = data.getPost.comments
+  const post = postData.post
+  const comments = postData.comments
   return (
     <PostLayout
       backPath={backPath}

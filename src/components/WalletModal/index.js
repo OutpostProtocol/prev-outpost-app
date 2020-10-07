@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useRef, useCallback
+  useState, useEffect, useRef
 } from 'react'
 import {
   Dialog,
@@ -9,20 +9,18 @@ import {
   Snackbar,
   LinearProgress
 } from '@material-ui/core'
-import Alert from '@material-ui/lab/alert'
+import { Alert } from '@material-ui/lab'
 import { styled } from '@material-ui/core/styles'
 import { Close } from '@material-ui/icons'
-import { useWeb3React } from '@web3-react/core'
+import {
+  useWeb3React, UnsupportedChainIdError
+} from '@web3-react/core'
 import {
   WalletConnectConnector, UserRejectedRequestError
 } from '@web3-react/walletconnect-connector'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { useMixpanel } from 'gatsby-plugin-mixpanel'
 import store from 'store'
-import {
-  useMutation, gql
-} from '@apollo/client'
-import { ethers } from 'ethers'
 
 import { MagicConnector } from '../../connectors/magicConnector'
 import ManualOption from './ManualOption'
@@ -36,10 +34,11 @@ import {
   LAST_CONNECTOR,
   CONNECTOR_NAMES,
   LAST_EMAIL,
-  LOGIN_TOKEN,
-  WC_PROBLEM_WALLETS
+  WC_PROBLEM_WALLETS,
+  LOGIN_TOKEN
 } from '../../constants'
 import usePrevWallet from '../../hooks/usePrevWallet'
+import useAuth from '../../hooks/useAuth'
 
 const manualOptions = [MetaMask, WalletConnect]
 
@@ -99,32 +98,23 @@ const Holder = styled('div')({
   padding: '0 10% 10%'
 })
 
-const SIGN_IN_TOKEN = gql`
-  mutation getToken($addr: String!) {
-    getSignInToken(addr: $addr)
-  }
-`
-
-const AUTHENTICATE = gql`
-  mutation auth($sig: String!, $addr: String!, $wcWallet: String) {
-    authAccount(signature: $sig, addr: $addr, wcWallet: $wcWallet)
-  }
-`
+const ProgressContainer = styled('div')({
+  height: '4px'
+})
 
 const WalletModal = ({ open, handleClose, setPrevLoading }) => {
   const [showWallets, setShowWallets] = useState(false)
   const [pendingWallet, setPendingWallet] = useState(false)
   const { account, active, deactivate, activate, library } = useWeb3React()
   const mixpanel = useMixpanel()
-  const [getToken] = useMutation(SIGN_IN_TOKEN)
-  const [authAccount] = useMutation(AUTHENTICATE)
   const [curAccount, setCurAccount] = useState()
   const config = useRef({})
   const [showError, setShowError] = useState(false)
   const [errorMessage, setErrorMessage] = useState()
+  const [showMsg, setShowMsg] = useState(false)
   const [isMagic, setIsMagic] = useState(false)
-  const [isGettingToken, setGettingToken] = useState(false)
   const { isPrevLoading } = usePrevWallet()
+  const { isGettingToken, checkToken, fetchToken, setAuthToken } = useAuth()
 
   const handleEmail = (event) => {
     if (event && event.target && event.target.value) {
@@ -134,6 +124,12 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
 
   const handleError = (error) => {
     if (error instanceof UserRejectedRequestError) {
+      return
+    }
+
+    if (error instanceof UnsupportedChainIdError) {
+      setErrorMessage('Please connect your wallet to mainnet and try again.')
+      setShowError(true)
       return
     }
 
@@ -159,9 +155,8 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
       setShowWallets(false)
       setPendingWallet(false)
       setIsMagic(false)
-      setGettingToken(false)
     }
-  }, [open, setShowWallets])
+  }, [open])
 
   const connect = async (option) => {
     const { prepare, setup, connector } = option
@@ -193,57 +188,29 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
     }
   }
 
-  const checkError = useCallback(
-    (loginRes) => {
-      const { error } = loginRes
-      if (error) {
-        const info = {
-          type: ERROR_TYPES.login,
-          message: error.message
-        }
-        console.log(error.message, 'THE ERROR MESSAGE IN CHECK ERROR WEB3 STATUS')
-        mixpanel.track('ERROR', info)
-        return true
-      }
-      return false
-    },
-    [mixpanel]
-  )
+  useEffect(() => {
+    const isWc = () => {
+      return library?.provider?.wc?.protocol === 'wc'
+    }
+
+    console.log(isGettingToken, 'WHETHER GETTING TOKEN')
+    console.log(isWc(), 'WHETHER IS WC')
+
+    if (isGettingToken && isWc()) {
+      setShowMsg(true)
+    }
+
+    if (!isGettingToken) {
+      setShowMsg(false)
+    }
+  }, [isGettingToken, library])
 
   useEffect(() => {
-    const fetchToken = async () => {
-      setGettingToken(true)
-      const tokenRes = await getToken({
-        variables: {
-          addr: account
-        }
-      })
-
-      checkError(tokenRes)
-      let token = tokenRes.data.getSignInToken
-      const signer = library.getSigner()
-
-      let sig
-      // signMessage with wc causes issues -.-
-      if (library.provider.wc?.protocol === 'wc') {
-        // convert token to hex to send
-        token = ethers.utils.hexlify(Buffer.from(token, 'utf8'))
-        sig = await library.provider.send('personal_sign', [token, account])
-      } else {
-        sig = await signer.signMessage(token)
-      }
-
-      const authRes = await authAccount({
-        variables: {
-          sig,
-          addr: account
-        }
-      })
-
-      checkError(authRes)
-      store.set(`${LOGIN_TOKEN}.${account}`, authRes.data.authAccount)
-      mixpanel.identify(account)
-      setGettingToken(false)
+    const handleFetchToken = async () => {
+      console.log('handle fetch called')
+      console.log(isGettingToken, 'WHETHER ALREADY GETTING THE TOKEN')
+      if (isGettingToken) return
+      await fetchToken()
       handleClose()
     }
 
@@ -263,14 +230,16 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
 
       setCurAccount(account)
 
-      const curToken = store.get(`${LOGIN_TOKEN}.${account}`)
-      if (!curToken) {
-        fetchToken()
+      const token = store.get(`${LOGIN_TOKEN}.${account}`)
+      console.log(token, 'THE LOGIN TOKEN')
+      if (!token) {
+        handleFetchToken()
       } else {
+        setAuthToken(token)
         handleClose()
       }
     }
-  }, [account, curAccount, setCurAccount, getToken, authAccount, library, checkError, mixpanel, deactivate, handleClose])
+  }, [account, curAccount, setCurAccount, library, mixpanel, deactivate, handleClose, checkToken, fetchToken, setAuthToken, isGettingToken])
 
   const closeError = (event, reason) => {
     if (reason === 'clickaway') {
@@ -280,36 +249,17 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
     setShowError(false)
   }
 
-  const Container = ({ children }) => (
-    <>
-      <ModalContainer
-        open={open}
-        onClose={handleClose}
-      >
-        <Fade
-          in={open}
-        >
-          <ContentContainer>
-            <ExitButton
-              onClick={handleClose}
-            >
-              <Close />
-            </ExitButton>
-            {children}
-          </ContentContainer>
-        </Fade>
-      </ModalContainer>
-      <Snackbar open={showError} autoHideDuration={5000} onClose={closeError}>
-        <Alert onClose={closeError} severity="error">
-          {errorMessage}
-        </Alert>
-      </Snackbar>
-    </>
-  )
+  const closeMsg = (event, reason) => {
+    if (reason === 'clickaway') {
+      return
+    }
 
-  if (active && !showWallets && !pendingWallet) {
+    setShowMsg(false)
+  }
+
+  const AccountInfo = () => {
     return (
-      <Container>
+      <>
         <AcctHeader>
           ACCOUNT
         </AcctHeader>
@@ -326,38 +276,77 @@ const WalletModal = ({ open, handleClose, setPrevLoading }) => {
             </ActionButton>
           </div>
         </AcctBody>
-      </Container>
+      </>
+    )
+  }
+
+  const WalletOptions = () => {
+    return (
+      <>
+        <ProgressContainer>
+          {isGettingToken &&
+            <LinearProgress color='secondary' />
+          }
+        </ProgressContainer>
+        <MagicConnect
+          handleConnect={() => {
+            connect(MagicData)
+            setIsMagic(true)
+          }}
+          isInitializing={isMagic && pendingWallet}
+          handleEmail={handleEmail}
+        />
+        <OrContainer>
+          <i>&mdash;OR&mdash;</i>
+        </OrContainer>
+        <Holder>
+          {
+            manualOptions.map((opt, i) => (
+              <ManualOption
+                key={i}
+                wallet={opt}
+                connectWallet={() => connect(opt)}
+              />
+            ))
+          }
+        </Holder>
+      </>
     )
   }
 
   return (
-    <Container>
-      {isGettingToken &&
-        <LinearProgress color='secondary' />
-      }
-      <MagicConnect
-        handleConnect={() => {
-          connect(MagicData)
-          setIsMagic(true)
-        }}
-        isInitializing={isMagic && pendingWallet}
-        handleEmail={handleEmail}
-      />
-      <OrContainer>
-        <i>&mdash;OR&mdash;</i>
-      </OrContainer>
-      <Holder>
-        {
-          manualOptions.map((opt, i) => (
-            <ManualOption
-              key={i}
-              wallet={opt}
-              connectWallet={() => connect(opt)}
-            />
-          ))
-        }
-      </Holder>
-    </Container>
+    <>
+      <ModalContainer
+        open={open}
+        onClose={handleClose}
+      >
+        <Fade
+          in={open}
+        >
+          <ContentContainer>
+            <ExitButton
+              onClick={handleClose}
+            >
+              <Close />
+            </ExitButton>
+            {(active && !showWallets && !pendingWallet && !isGettingToken)
+              ? <AccountInfo />
+              : <WalletOptions />
+            }
+          </ContentContainer>
+        </Fade>
+      </ModalContainer>
+      <Snackbar open={showError} autoHideDuration={4000} onClose={closeError}>
+        <Alert onClose={closeError} severity="error">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+      <Snackbar open={showMsg} onClose={closeMsg}>
+        <Alert onClose={closeMsg} severity="info">
+          Sign the message in your wallet to continue
+        </Alert>
+      </Snackbar>
+    </>
   )
 }
 

@@ -24,6 +24,8 @@ const ProfileContainer = styled('div')({
 })
 
 const ImgContainer = styled('div')({
+  display: 'flex',
+  'align-items': 'center'
 })
 
 const Toolbar = ({ backPath }) => {
@@ -39,7 +41,7 @@ const Toolbar = ({ backPath }) => {
     >
       {active &&
         <ImgContainer>
-          {true && // disable until we have check that they are an editor
+          {false && // disable until we have check that they are an editor
             <CreateButton
               onClick={handleOpenEditor}
             >
@@ -47,7 +49,7 @@ const Toolbar = ({ backPath }) => {
             </CreateButton>
           }
           <ProfileImage
-            userDid=''
+            userAddress={account}
             redirectURL={`https://3box.io/${account}`}
           />
         </ImgContainer>

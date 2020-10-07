@@ -72,6 +72,14 @@ const AuthorActions = styled('div')({
   'margin-top': '20px'
 })
 
+const StyledHr = styled('hr')({
+  width: '100%',
+  border: 'none',
+  height: '1px',
+  'margin-top': '20px',
+  'background-color': '#c4c4c4'
+})
+
 const DELETE_POST = gql`
     mutation deletePost($txId: String!) {
       deletePost(txId: $txId)
@@ -84,7 +92,7 @@ const Post = ({ post, comments }) => {
   const [deletePostFromDb, { error }] = useMutation(DELETE_POST)
   useErrorReporting(ERROR_TYPES.mutation, error, 'DELETE_POST')
   const isAuthor = () => {
-    alert('Need to upload set is Author function')
+    return false
   }
 
   const handleEdit = () => {
@@ -152,6 +160,7 @@ const Post = ({ post, comments }) => {
           htmlparse(postText)
         }
       </PostContent>
+      <StyledHr />
       <Comments
         comments={comments}
         communityTxId={community.txId}

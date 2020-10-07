@@ -22,38 +22,47 @@ function SEO ({ canonical, description, lang, meta, title, image }) {
             title
             description
             author
+            image
+            twitterUsername
+            url
           }
         }
       }
     `
   )
 
-  const metaDescription = description || site.siteMetadata.description
+  const siteData = site.siteMetadata
+
+  const metaData = {
+    description: description || siteData.description,
+    title: title || siteData.title,
+    image: image || siteData.image
+  }
 
   return (
     <Helmet
       htmlAttributes={{
         lang
       }}
-      title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
+      title={metaData.title}
+      titleTemplate={siteData.title === metaData.title ? siteData.title : `${metaData.title} - ${siteData.title}`}
       link={ canonical ? [{ rel: 'canonical', key: canonical, href: canonical }] : [] }
       meta={[
         {
           name: 'description',
-          content: metaDescription
+          content: metaData.description
         },
         {
           property: 'og:title',
-          content: title
+          content: metaData.title
         },
         {
           property: 'og:image',
-          content: image
+          content: metaData.image
         },
         {
           property: 'og:description',
-          content: metaDescription
+          content: metaData.description
         },
         {
           property: 'og:type',
@@ -65,15 +74,15 @@ function SEO ({ canonical, description, lang, meta, title, image }) {
         },
         {
           name: 'twitter:creator',
-          content: site.siteMetadata.author
+          content: site.siteMetadata.twitterUsername
         },
         {
           name: 'twitter:title',
-          content: title
+          content: metaData.title
         },
         {
           name: 'twitter:description',
-          content: metaDescription
+          content: metaData.description
         }
       ].concat(meta)}
     />

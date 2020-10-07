@@ -31,8 +31,8 @@ export const GET_POSTS = gql`
   `
 
 export const GET_POST = gql`
-  query getPost($txId: String!, $ethAddr: String!) {
-    getPost(txId: $txId, ethAddr: $ethAddr) {
+  query getPost($txId: String!, $userToken: String!) {
+    getPost(txId: $txId, userToken: $userToken) {
       post {
         id
         title
@@ -44,11 +44,11 @@ export const GET_POST = gql`
         community {
           name
           txId
-        },
+        }
         user {
           address
         }
-      },
+      }
       comments {
         postText
         timestamp
@@ -114,16 +114,26 @@ const usePosts = (communityTxId) => {
   return result
 }
 
-export const useOnePost = (txId, ethAddr) => {
-  const result = useQuery(GET_POST, {
+export const useOnePost = (txId, userToken) => {
+  const [postData, setPostData] = useState()
+  const [loading, setLoading] = useState(true)
+  const { data, error, refetch } = useQuery(GET_POST, {
     variables: {
       txId,
-      ethAddr
+      userToken
     },
     fetchPolicy: 'network-only'
   })
-  useErrorReporting(ERROR_TYPES.query, result?.error, 'GET_POST')
-  return result
+
+  useEffect(() => {
+    if (data) {
+      setPostData(data.getPost)
+      setLoading(false)
+    }
+  }, [data])
+
+  useErrorReporting(ERROR_TYPES.query, error, 'GET_ONE_POST')
+  return { postData, loading, error, refetch }
 }
 
 export default usePosts

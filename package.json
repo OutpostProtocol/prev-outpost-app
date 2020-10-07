@@ -2,7 +2,7 @@
   "name": "outpost-app",
   "private": false,
   "description": "A blog for self-governed online communities",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "samhatem",
   "scripts": {
     "build": "gatsby build",
@@ -53,6 +53,7 @@
     "gatsby-plugin-sharp": "^2.5.4",
     "gatsby-source-filesystem": "^2.2.2",
     "gatsby-transformer-sharp": "^2.4.4",
+    "graphql": "^15.3.0",
     "html-react-parser": "^0.14.0",
     "isomorphic-fetch": "^2.2.1",
     "magic-sdk": "^2.4.7",

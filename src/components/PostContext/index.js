@@ -30,10 +30,11 @@ const PostContext = ({ userAddress, communityName, timestamp, dateFormat }) => {
 
   return (
     <Container>
-      <ProfileImage />
+      <ProfileImage
+        userAddress={userAddress}
+      />
       <MinWidthDiv>
         <div>
-          <span>{name}</span>
           { communityName
             ? (<>{name || shortenAddress(userAddress) } · {communityName} </>)
             : (<>{name || shortenAddress(userAddress) }</>)
