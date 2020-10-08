@@ -9,6 +9,7 @@ import {
 } from '@apollo/client'
 import 'react-quill/dist/quill.bubble.css'
 import './styles.css'
+import Placeholder from '../../images/placeholder.png'
 
 import EditorToolbar, {
   modules,
@@ -43,6 +44,33 @@ const PostContent = styled('div')({
 const Editor = styled(ReactQuill)({
   'margin-left': '-12px',
   'margin-right': '-12px'
+})
+
+const ImageContainer = styled('div')({
+  position: 'relative',
+  color: '#a6a6a6',
+  'text-align': 'center'
+})
+
+const CenteredText = styled('div')({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  'font-family': 'Spectral, serif',
+  'font-style': 'italic'
+})
+
+const FeaturedImage = styled('img')({
+  width: '100%',
+  height: 'auto',
+  maxHeight: '200px',
+  marginTop: '10px',
+  'object-fit': 'cover',
+  '&:hover': {
+    'background-color': '#000',
+    opacity: 0.7
+  }
 })
 
 const UPLOAD_IMAGE = gql`
@@ -93,32 +121,31 @@ const ContentEditor = ({ title, subtitle, postText, featuredImg, setTitle, setSu
     const res = await uploadImageToAR(options)
 
     const featuredImgSrc = `https://arweave.dev/${res.data.uploadImage.txId}`
-    if (!featuredImg) setFeaturedImage(featuredImgSrc)
     return featuredImgSrc
   }
 
-  function handleImage () {
+  const handleImage = (isFeaturedImage) => {
     const input = document.createElement('input')
     input.setAttribute('type', 'file')
     input.setAttribute('accept', 'image/*')
     input.click()
     input.onchange = async () => {
       const file = input.files[0]
-      const formData = new FormData()
-      formData.append('image', file)
-      const range = this.quill.getSelection(true)
-      this.quill.insertEmbed(range.index, 'image', '../../images/loading.gif')
-      this.quill.setSelection(range.index + 1)
-      const res = await imageUpload(file)
-      this.quill.deleteText(range.index, 1)
-      this.quill.insertEmbed(range.index, 'image', res)
+      const imgSrc = await imageUpload(file)
+      restoreFocus()
+      const range = window.editor.getSelection(true)
+
+      if (isFeaturedImage) setFeaturedImage(imgSrc)
+      else window.editor.insertEmbed(range?.index || 0, 'image', imgSrc)
     }
   }
 
   const restoreFocus = () => {
     window.editor.focus()
-    const selectionEl = window.getSelection().focusNode.parentElement
-    selectionEl.scrollIntoView({ block: 'center', inline: 'center' })
+    if (window?.getSelection?.focusNode?.parentElement) {
+      const selectionEl = window.getSelection().focusNode.parentElement
+      selectionEl.scrollIntoView({ block: 'center', inline: 'center' })
+    }
   }
 
   const getYoutubeId = (url) => {
@@ -159,7 +186,7 @@ const ContentEditor = ({ title, subtitle, postText, featuredImg, setTitle, setSu
     setPostText(value)
   }
 
-  modules.toolbar.handlers.image = handleImage
+  modules.toolbar.handlers.image = () => handleImage(false)
 
   return (
     <>
@@ -181,6 +208,19 @@ const ContentEditor = ({ title, subtitle, postText, featuredImg, setTitle, setSu
           placeholder='Subtitle'
           disableUnderline={true}
         />
+        <ImageContainer
+          onClick={() => handleImage(true)}
+        >
+          { featuredImg ? (
+            <FeaturedImage src={featuredImg} alt='Placeholder ft img' />
+          ) : (
+            <>
+              <FeaturedImage src={Placeholder} alt='Placeholder ft img' />
+              <CenteredText>Add a featured image to your post</CenteredText>
+            </>
+          )
+          }
+        </ImageContainer>
       </TitleContainer>
       <PostContent>
         <EditorToolbar />

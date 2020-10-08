@@ -7,6 +7,10 @@
     margin-top: 0.86em
 }
 
+.ql-editor > img {
+    max-width: '100%'
+  }
+
 .ql-editor {
     white-space: pre-wrap !important;
 }
